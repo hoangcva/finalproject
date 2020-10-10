@@ -1,0 +1,65 @@
+USERS:
+	user_id (primary key)
+	user_name
+	password
+	user_role:
+		admin
+		customer
+		vendor
+	
+CUSTOMER
+	customer_id (primary key)
+	customer_name
+	
+CUSTOMER_INFO
+	user_id (foreign key to USERS.user_id)
+	address
+	phonenumber
+
+VENDORS:
+	vendor_id (primary key)
+	vendor_name
+	vendor_phone
+	vendor_email
+
+PRODUCTS
+	product_id (primary key)
+	product_name
+	product_category
+	product_description
+
+VENDOR_PRODUCTS
+    vendor_id (primary key, foreign key to VENDORS.vendor_id)
+	product_id (primary key, foreign key to PRODUCTS.product_id)
+	quantity
+	price
+	
+CART
+	cart_id (primary key)
+	user_id (primary key, foreign key to USERS.user_id)
+	vendor_id 
+	
+CART_PRODUCTS
+	cart_id (primary key, foreign key to CART.cart_id)
+	product_id (primary key, foreign key to VENDOR_PRODUCTS.product_id)
+	vendor_id
+	quantity
+
+ORDERS
+	order_id (primary key)
+	customer_id (foreign key to CUSTOMER.customer_id)
+	vendor_id (foreign key to VENDORS.vendor_id)
+	Total money 
+	order_date
+	send_date
+	order_status
+	address
+
+ORDER_PRODUCTS
+	order_id (primary key, foreign key to ORDERS.order_id)
+	product_id  (primary key, foreign key to VENDOR_PRODUCTS.product_id)
+	quantity
+	price
+	discount
+	address_id
+

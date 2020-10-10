@@ -1,0 +1,40 @@
+chức năng:
+	customer
+		register
+		login, logout
+		search
+		comment sản phẩm
+		rate
+		view 
+			list product
+			product detail
+			order list
+			order detail
+			add, remove, update quantity of product in cart
+		create order
+		pay
+			online
+			cash
+		cancel order
+		edit profile
+		view order history
+	admin:
+		login, logout
+		view list user
+		search user
+		add, edit, remove user
+		approve vender regis request
+	vender:
+		login, logout
+		register
+		feedback comment kh
+		add, edit, remove category
+		add, edit, remove product
+		view order list
+		view order detail
+		update, cancel order
+		statistic order, product
+	guest:
+		view
+		add product to cart
+		thanh toán -> nhập thông tin người nhận, phương thức thanh toán, giao hàng
