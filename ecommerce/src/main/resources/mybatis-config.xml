@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="logImpl" value="SLF4J" />
+        <setting name="callSettersOnNulls" value="true"/>
+        <setting name="returnInstanceForEmptyRow" value="true" />
+        <setting name="jdbcTypeForNull" value="NULL" />
+    </settings>
+    <typeAliases>
+        <package name="com.project.ecommerce.dto" />
+    </typeAliases>
+<!--    <mappers>-->
+<!--        <mapper resource = "com.project.ecommerce.dao"/>-->
+<!--    </mappers>-->
+</configuration>
