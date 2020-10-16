@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register page</title>
+</head>
+<body>
+<!-- Include _menu.html -->
+<th:block th:include="/common/_menu"></th:block>
+<h2>Create Account</h2>
+<div th:if="${errorMessage != null}"
+     th:utext="${errorMessage}" class="error">...</div>
+<form name="register" th:object="${user_form}" action="@{/saveRegister}" method="post">
+    <div>
+        <label th:text="#{userName}">username</label>
+        <input th:field="*{userName}"/>
+        <span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">..</span>
+    </div>
+    <div>
+        <label th:text="#{fullName}">fullname</label>
+        <input th:field="*{fullName}"/>
+        <span th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">..</span>
+    </div>
+    <div>
+        <label th:text="#{email}">email</label>
+        <input type="email" th:field="*{email}"/>
+        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">..</span>
+    </div>
+    <div>
+        <label th:text="#{password}">password</label>
+        <input type="password" th:field="*{password}"/>
+        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">..</span>
+    </div>
+    <div>
+        <label th:text="#{confirmPassword}">confirm</label>
+        <input type="password" th:field="*{confirmPassword}"/>
+        <span th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">..</span>
+    </div>
+    <div>
+        <label th:text="#{province}">province</label>
+        <select th:field="*{province}">
+            <option value=""> -- </option>
+            <option th:each="province : ${provice_list}"
+                    th:value="${province.code}"
+                    th:utext="${province.name}"/>
+        </select>
+        <td><span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">..</span></td>
+    </div>
+    <button type="submit" th:text="#{label.form.submit}">submit</button>
+</form>
+</body>
+</html>
