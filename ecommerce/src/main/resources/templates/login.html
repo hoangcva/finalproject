@@ -4,6 +4,8 @@
     <title>Spring Boot Security Hello</title>
 </head>
 <body>
+<!-- Include _menu.html -->
+<th:block th:include="/common/_menu"></th:block>
 <h2>Spring Boot Security Hello</h2>
 <h3><p th:text="${message}"></p></h3>
 <form name='login-form' th:action="@{/j_spring_security_login}" method='POST'>

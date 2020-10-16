@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.ecommerce.dao.UserMapper">
+    <select id="findAllUser" resultType="com.project.ecommerce.dto.UserDto" fetchSize="200">
+        SELECT * FROM users
+    </select>
+
+    <select id="findUserByUserName" resultType="com.project.ecommerce.dto.UserDto" fetchSize="200">
+        SELECT * FROM users WHERE username = #{user_name}
+    </select>
+
+    <select id="findUserByEmail" resultType="com.project.ecommerce.dto.UserDto" fetchSize="200">
+        SELECT * FROM users WHERE email = #{email}
+    </select>
+    <insert id=""
+</mapper>
+

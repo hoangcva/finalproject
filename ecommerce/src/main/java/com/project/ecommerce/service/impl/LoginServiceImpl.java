@@ -1,8 +1,8 @@
 package com.project.ecommerce.service.impl;
 
-import com.project.ecommerce.dao.LoginMapper;
-import com.project.ecommerce.dto.UsersDto;
-import com.project.ecommerce.service.LoginService;
+import com.project.ecommerce.dao.UserMapper;
+import com.project.ecommerce.dto.UserDto;
+import com.project.ecommerce.service.ILoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,17 +12,17 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service("loginService")
-public class LoginServiceImpl implements LoginService {
+public class LoginServiceImpl implements ILoginService {
     @Autowired
-    public LoginMapper loginMapper;
+    public UserMapper userMapper;
 
-    public List<UsersDto> init() {
-        return loginMapper.findAllUser();
+    public List<UserDto> init() {
+        return userMapper.findAllUser();
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UsersDto user = loginMapper.findUserByName(username);
+        UserDto user = userMapper.findUserByUserName(username);
         if (user == null) {
             throw new UsernameNotFoundException("Username Not Found");
         }
@@ -32,6 +32,5 @@ public class LoginServiceImpl implements LoginService {
         boolean accountNonLocked = true;
         return new User(username, user.getPassword(), enabled, accountNonExpired, credentialsNonExpired,
                 accountNonLocked, user.getAuthorities());
-
     }
 }
