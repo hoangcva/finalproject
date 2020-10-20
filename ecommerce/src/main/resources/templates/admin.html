@@ -4,6 +4,8 @@
     <title>Spring Boot Security Hello</title>
 </head>
 <body>
+<!-- Include _menu.html -->
+<th:block th:include="/common/_menu"></th:block>
 <h2>Admin Page</h2>
 <h3>
     Hello : <span th:utext="${#request.userPrincipal.name}"></span>

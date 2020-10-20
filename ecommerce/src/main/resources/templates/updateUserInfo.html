@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Personal Infomation</title>
+</head>
+<body>
+<!-- Include _menu.html -->
+<th:block th:include="/common/_menu"></th:block>
+
+<h2>Update Personal Information</h2>
+<div th:if="${errorMessage != null}"
+     th:utext="${errorMessage}" class="error">...</div>
+<div th:if="${message != null}"
+     th:utext="${message}" class="message">...</div>
+
+<form name="update_user" th:object="${user_update_form}" th:action="@{/updateUser}" method="post">
+    <table>
+        <tr>
+            <td>Username</td>
+            <td><div th:text="*{userName}"></div></td>
+            <td><input type="hidden" th:field="*{userName}" th:value="*{userName}"></td>
+        </tr>
+        <tr>
+            <td>Fullname</td>
+            <td><input type='text' th:field="*{fullName}" th:value="*{fullName}"></td>
+            <td th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input th:field="*{email}" type='text' th:value="*{email}"></td>
+            <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></td>
+        </tr>
+        <tr>
+            <td>Gender</td>
+            <td>
+                <select th:field="*{gender}">
+                    <option th:value="'M'" th:text="Male" th:selected="*{gender == 'M'}"></option>
+                    <option th:value="'F'" th:text="Female" th:selected="*{gender == 'F'}"></option>
+                    <option th:value="'O'" th:text="Other" th:selected="*{gender == 'O'}"></option>
+                </select>
+            </td>
+            <td th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></td>
+        </tr>
+        <tr>
+            <td>City</td>
+            <td>
+                <select th:field="*{province}" name="province">
+                    <option th:each="province : ${province_list}"
+                            th:value="${province.code}"
+                            th:text="${province.name}"
+                            th:selected="${user_update_form.isSelected(province.code)}">
+                    </option>
+                </select>
+            </td>
+            <td th:if="${#fields.hasErrors('province')}" th:errors="*{province}"></td>
+        </tr>
+    </table>
+    <button type="submit" th:text="Update"></button>
+</form>
+</body>
+</html>

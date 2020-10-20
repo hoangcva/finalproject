@@ -10,10 +10,10 @@
 <!-- Include _menu.html -->
 <th:block th:include="/common/_menu"></th:block>
 <h2>You have successfully registered!</h2>
-<div th:if="${flashUser != null}">
+<div th:if="${user != null}">
     <ul>
-        <li>User Name: <span th:utext="${flashUser.userName}">..</span></li>
-        <li>Email: <span th:utext="${flashUser.email}">..</span></li>
+        <li>User Name: <span th:utext="${user.userName}">..</span></li>
+        <li>Email: <span th:utext="${user.email}">..</span></li>
     </ul>
 </div>
 </body>

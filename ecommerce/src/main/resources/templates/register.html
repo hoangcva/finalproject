@@ -10,43 +10,99 @@
 <h2>Create Account</h2>
 <div th:if="${errorMessage != null}"
      th:utext="${errorMessage}" class="error">...</div>
-<form name="register" th:object="${user_form}" action="@{/saveRegister}" method="post">
-    <div>
-        <label th:text="#{userName}">username</label>
-        <input th:field="*{userName}"/>
-        <span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">..</span>
-    </div>
-    <div>
-        <label th:text="#{fullName}">fullname</label>
-        <input th:field="*{fullName}"/>
-        <span th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">..</span>
-    </div>
-    <div>
-        <label th:text="#{email}">email</label>
-        <input type="email" th:field="*{email}"/>
-        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">..</span>
-    </div>
-    <div>
-        <label th:text="#{password}">password</label>
-        <input type="password" th:field="*{password}"/>
-        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">..</span>
-    </div>
-    <div>
-        <label th:text="#{confirmPassword}">confirm</label>
-        <input type="password" th:field="*{confirmPassword}"/>
-        <span th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">..</span>
-    </div>
-    <div>
-        <label th:text="#{province}">province</label>
-        <select th:field="*{province}">
-            <option value=""> -- </option>
-            <option th:each="province : ${provice_list}"
-                    th:value="${province.code}"
-                    th:utext="${province.name}"/>
-        </select>
-        <td><span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">..</span></td>
-    </div>
-    <button type="submit" th:text="#{label.form.submit}">submit</button>
+<form name="register" th:object="${user_form}" th:action="@{/saveRegister}" method="post">
+    <table>
+        <tr>
+            <td>Username</td>
+            <td><input th:field="*{userName}" type='text'></td>
+            <td th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></td>
+        </tr>
+        <tr>
+            <td>Fullname</td>
+            <td><input th:field="*{fullName}" type='text'></td>
+            <td th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input th:field="*{email}" type='text'></td>
+            <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td><input th:field="*{password}" type='password'></td>
+            <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></td>
+        </tr>
+        <tr>
+            <td>Confirm password</td>
+            <td><input th:field="*{confirmPassword}" type='password'></td>
+            <td th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></td>
+        </tr>
+        <tr>
+            <td>Gender</td>
+            <td>
+                <select th:field="*{gender}">
+                    <option th:value="'M'" th:text="Male"></option>
+                    <option th:value="'F'" th:text="Female"></option>
+                    <option th:value="'O'" th:text="Other"></option>
+                </select>
+            </td>
+            <td th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></td>
+        </tr>
+        <tr>
+            <td>City</td>
+            <td>
+                <select th:field="*{province}">
+                    <option th:each="province : ${province_list}" th:value="${province.code}" th:text="${province.name}"></option>
+                </select>
+            </td>
+            <td th:if="${#fields.hasErrors('province')}" th:errors="*{province}"></td>
+        </tr>
+    </table>
+    <button type="submit" th:text="Submit"></button>
+
+<!--    <div>-->
+<!--        <label>username</label>-->
+<!--        <input th:field="*{userName}"/>-->
+<!--        <span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">..</span>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <label>fullname</label>-->
+<!--        <input th:field="*{fullName}"/>-->
+<!--        <span th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">..</span>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <label>email</label>-->
+<!--        <input type="email" th:field="*{email}"/>-->
+<!--        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">..</span>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <label>password</label>-->
+<!--        <input type="password" th:field="*{password}"/>-->
+<!--        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">..</span>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <label>confirm</label>-->
+<!--        <input type="password" th:field="*{confirmPassword}"/>-->
+<!--        <span th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">..</span>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <label>gender</label>-->
+<!--        <select th:field="*{gender}">-->
+<!--            <option value=""> &#45;&#45; </option>-->
+<!--            <option value="M">Male</option>-->
+<!--            <option value="F">Female</option>-->
+<!--        </select>-->
+<!--        <span th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">..</span>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <label>province</label>-->
+<!--        <select th:field="*{province}">-->
+<!--            <option value=""> &#45;&#45; </option>-->
+
+<!--        </select>-->
+<!--        <td><span th:if="${#fields.hasErrors('province')}" th:errors="*{province}">..</span></td>-->
+<!--    </div>-->
+<!--    <button type="submit" th:text="#{label.form.submit}">Submit</button>-->
 </form>
 </body>
 </html>

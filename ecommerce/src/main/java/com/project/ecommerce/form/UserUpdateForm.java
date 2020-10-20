@@ -1,8 +1,7 @@
 package com.project.ecommerce.form;
 
-public class UserForm {
+public class UserUpdateForm {
     private Long id;
-
     private String userName;
     private String password;
     private String fullName;
@@ -10,22 +9,9 @@ public class UserForm {
     private String gender;
     private String email;
     private String confirmPassword;
-    private String city;
+    private String province;
 
-    public UserForm() {
-    }
-
-    public UserForm(Long id, String userName, String password, String fullName, Boolean enable,
-                    String gender, String email, String confirmPassword, String city) {
-        this.id = id;
-        this.userName = userName;
-        this.password = password;
-        this.fullName = fullName;
-        this.enable = enable;
-        this.gender = gender;
-        this.email = email;
-        this.confirmPassword = confirmPassword;
-        this.city = city;
+    public UserUpdateForm() {
     }
 
     public String getFullName() {
@@ -68,12 +54,12 @@ public class UserForm {
         this.confirmPassword = confirmPassword;
     }
 
-    public String getCity() {
-        return city;
+    public String getProvince() {
+        return province;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setProvince(String province) {
+        this.province = province;
     }
 
     public Long getId() {
@@ -98,6 +84,17 @@ public class UserForm {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void nullToEmpty() {
+        this.fullName = this.fullName == null ? "" : this.fullName;
+        this.gender = this.fullName == null ? "" : this.fullName;
+        this.email = this.email == null ? "" : this.email;
+        this.province = this.province == null ? "" : this.province;
+    }
+
+    public boolean isSelected(String province) {
+        return this.province.equals(province);
     }
 }
 

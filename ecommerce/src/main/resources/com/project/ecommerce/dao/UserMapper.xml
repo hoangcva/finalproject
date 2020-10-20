@@ -15,6 +15,25 @@
     <select id="findUserByEmail" resultType="com.project.ecommerce.dto.UserDto" fetchSize="200">
         SELECT * FROM users WHERE email = #{email}
     </select>
-    <insert id=""
+    <insert id="createUser" parameterType="com.project.ecommerce.dto.UserDto" useGeneratedKeys="true" keyColumn="id">
+        INSERT INTO users
+        (username, password, fullname, role, email, province)
+        VALUES
+        (#{userName,jdbcType=VARCHAR},
+         #{password,jdbcType=VARCHAR},
+         #{fullName,jdbcType=VARCHAR},
+         #{role,jdbcType=VARCHAR},
+         #{email,jdbcType=VARCHAR},
+         #{province,jdbcType=VARCHAR});
+    </insert>
+    <update id="updateUser" parameterType="com.project.ecommerce.dto.UserDto">
+        UPDATE users
+        SET
+            fullname = #{fullName},
+            email = #{email},
+            province = #{province},
+            gender = #{gender}
+        WHERE username = #{userName}
+    </update>
 </mapper>
 

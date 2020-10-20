@@ -1,16 +1,17 @@
 package com.project.ecommerce.controller;
 
+import com.project.ecommerce.Validator.UserValidator;
 import com.project.ecommerce.dao.ProvinceMapper;
-import com.project.ecommerce.dao.UserMapper;
 import com.project.ecommerce.dto.ProvinceDto;
 import com.project.ecommerce.dto.UserDto;
-import com.project.ecommerce.form.UserForm;
-import com.project.ecommerce.service.IRegisterService;
+import com.project.ecommerce.form.RegisterForm;
+import com.project.ecommerce.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -19,19 +20,33 @@ import java.util.List;
 @Controller
 public class RegisterController {
     @Autowired
-    private UserMapper userMapper;
-    @Autowired
     private ProvinceMapper provinceMapper;
     @Autowired
-    private IRegisterService registerService;
+    private IUserService userService;
+    @Autowired
+    private UserValidator userValidator;
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String init(Model model) {
-        UserForm userForm = new UserForm();
+        RegisterForm registerForm = new RegisterForm();
         List<ProvinceDto> provinceDtoList = provinceMapper.getAllProvince();
-        model.addAttribute("provice_list", provinceDtoList);
-        model.addAttribute("user_form", userForm);
+        model.addAttribute("province_list", provinceDtoList);
+        model.addAttribute("user_form", registerForm);
         return "register";
+    }
+
+    // Set a form validator
+    @InitBinder
+    protected void initBinder(WebDataBinder dataBinder) {
+        Object target = dataBinder.getTarget();
+        if(target == null) {
+            return;
+        }
+
+        System.out.println("Target = " + target);
+        if(target.getClass() == RegisterForm.class) {
+            dataBinder.setValidator(userValidator);
+        }
     }
 
     @RequestMapping("/registerSuccessful")
@@ -39,35 +54,36 @@ public class RegisterController {
         return "registerSuccessful";
     }
 
-    @PostMapping(value = "/saveRegister")
+    @RequestMapping(value = "/saveRegister", method = RequestMethod.POST)
     public String saveRegister(Model model,
-                               @ModelAttribute("userForm") @Validated UserForm userForm,
+                               @ModelAttribute("user_form") @Validated RegisterForm registerForm,
                                BindingResult result,
                                final RedirectAttributes redirectAttributes) {
-        UserDto existing = registerService.findUserByEmail(userForm.getEmail());
-        if(existing != null) {
-            result.rejectValue("email", null, "This email address is already used by");
-        }
+
+//        UserDto existing = userService.findUserByEmail(registerForm.getEmail());
+//        if(existing != null) {
+//            result.rejectValue("email", null, "This email address is already used by");
+//        }
 
         // Validate result
         if (result.hasErrors()) {
             List<ProvinceDto> provinceDtoList = provinceMapper.getAllProvince();
-            model.addAttribute("provice_list", provinceDtoList);
+            model.addAttribute("province_list", provinceDtoList);
             return "register";
         }
         try {
-            registerService.createUser(userForm);
+            userService.createUser(registerForm);
         }
         // Other error!!
         catch (Exception e) {
             List<ProvinceDto> provinceDtoList = provinceMapper.getAllProvince();
-            model.addAttribute("provice_list", provinceDtoList);
+            model.addAttribute("province_list", provinceDtoList);
             model.addAttribute("errorMessage", "Error: " + e.getMessage());
             return "register";
         }
 
-//        redirectAttributes.addFlashAttribute("flashUser", newUser);
+        redirectAttributes.addFlashAttribute("user", registerForm);
 
-        return "redirect:/register?success";
+        return "redirect:/registerSuccessful";
     }
 }

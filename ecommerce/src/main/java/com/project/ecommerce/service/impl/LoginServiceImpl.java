@@ -20,7 +20,6 @@ public class LoginServiceImpl implements ILoginService {
         return userMapper.findAllUser();
     }
 
-    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserDto user = userMapper.findUserByUserName(username);
         if (user == null) {

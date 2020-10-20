@@ -11,24 +11,15 @@ public class UserDto {
     private Integer id;
     private String userName;
     private String password;
-    private String confirmPassword;
-    private String userRole;
+    private String role;
     private String fullName;
     private String email;
-    private String phoneNumber;
-    private LocalDate dateOfBirth;
+    private String province;
+    private String gender;
+//    private String phoneNumber;
+//    private LocalDate dateOfBirth;
 
-    public UserDto(int id, String userName, String password, String userRole, String fullName,
-                   String email, String phoneNumber, LocalDate dateOfBirth, String confirmPassword) {
-        this.id = id;
-        this.userName = userName;
-        this.password = password;
-        this.userRole = userRole;
-        this.fullName = fullName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.dateOfBirth = dateOfBirth;
-        this.confirmPassword = confirmPassword;
+    public UserDto() {
     }
 
     public String getFullName() {
@@ -47,29 +38,21 @@ public class UserDto {
         this.email = email;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
+//    public String getPhoneNumber() {
+//        return phoneNumber;
+//    }
+//
+//    public void setPhoneNumber(String phoneNumber) {
+//        this.phoneNumber = phoneNumber;
+//    }
+//
+//    public LocalDate getDateOfBirth() {
+//        return dateOfBirth;
+//    }
+//
+//    public void setDateOfBirth(LocalDate dateOfBirth) {
+//        this.dateOfBirth = dateOfBirth;
+//    }
 
     public Integer getId() {
         return id;
@@ -95,17 +78,33 @@ public class UserDto {
         this.password = password;
     }
 
-    public String getUserRole() {
-        return userRole;
+    public String getRole() {
+        return role;
     }
 
-    public void setUserRole(String userRole) {
-        this.userRole = userRole;
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
     }
 
     public List<GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-            authorities.add(new SimpleGrantedAuthority(this.getUserRole()));
+            authorities.add(new SimpleGrantedAuthority(this.getRole()));
         return authorities;
     }
 }
