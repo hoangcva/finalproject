@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <title>Spring Boot Security Hello</title>
+</head>
+<body>
+<!-- Include _header.html -->
+<th:block th:include="/common/_header"></th:block>
+<h2>Admin Page</h2>
+<h3>
+    Hello : <span th:utext="${#request.userPrincipal.name}"></span>
+</h3>
+
+<div id="message"></div>
+<script type="text/javascript" th:inline="javascript">
+    let userName;
+</script>
+<table>
+    <thead>
+        <tr>
+            <th th:text="No"></th>
+            <th th:text="UserName"></th>
+            <th th:text="FullNam"></th>
+            <th th:text="Email"></th>
+            <th th:text="Action"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="user,iterationStatus : ${user_list}">
+            <td th:text="${iterationStatus.count}"></td>
+            <td><span th:text="${user.userName}"></span></td>
+            <td><span th:text="${user.fullName}"></span></td>
+            <td><span th:text="${user.email}"></span></td>
+            <td><button th:class="btn_delete" type="button" th:text="Remove" th:attr="data-userName=${user.userName}" th:value="${user.userName}" th:onclick="'javascript:deleteUser(' + ${user.userName} + ')'"></button></td>
+        </tr>
+    </tbody>
+</table>
+
+<!--<a th:href="@{/user}">User Page</a>-->
+<br/><br/>
+<form th:action="@{/j_spring_security_logout}" method="post">
+<!--    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+    <input type="submit" value="Logout" />
+</form>
+</body>
+<script type="text/javascript" th:src="@{/js/admin/index.js}"></script>
+</html>

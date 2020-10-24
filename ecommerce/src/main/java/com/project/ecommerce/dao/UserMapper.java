@@ -11,9 +11,10 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
 //    @Select("SELECT * FROM users")
-    List<UserDto> findAllUser();
+    List<UserDto> getAllUser();
     UserDto findUserByEmail(@Param("email") String email);
     UserDto findUserByUserName(@Param("user_name") String userName);
     void createUser(UserDto userDto);
     void updateUser(UserDto userDto);
+    boolean deleteUser(@Param("userName") String userName);
 }

@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements IUserService {
     @Autowired
@@ -79,5 +81,21 @@ public class UserServiceImpl implements IUserService {
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
         }
+    }
+
+    public List<UserDto> getAllUser() {
+        return userMapper.getAllUser();
+    }
+
+    public boolean deleteUser(String userName) {
+        TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        try {
+            userMapper.deleteUser(userName);
+            transactionManager.commit(txStatus);
+        } catch (Exception ex) {
+            transactionManager.rollback(txStatus);
+            return false;
+        }
+        return true;
     }
 }

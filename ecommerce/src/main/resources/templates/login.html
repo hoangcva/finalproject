@@ -4,8 +4,8 @@
     <title>Spring Boot Security Hello</title>
 </head>
 <body>
-<!-- Include _menu.html -->
-<th:block th:include="/common/_menu"></th:block>
+<!-- Include _header.html -->
+<th:block th:include="/common/_header"></th:block>
 <h2>Spring Boot Security Hello</h2>
 <h3><p th:text="${message}"></p></h3>
 <form name='login-form' th:action="@{/j_spring_security_login}" method='POST'>
@@ -27,7 +27,7 @@
             <td><input name="submit" type="submit" value="submit" /></td>
         </tr>
     </table>
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+<!--    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />-->
 </form>
 </body>
 </html>

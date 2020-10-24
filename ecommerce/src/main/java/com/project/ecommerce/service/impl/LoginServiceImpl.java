@@ -17,7 +17,7 @@ public class LoginServiceImpl implements ILoginService {
     public UserMapper userMapper;
 
     public List<UserDto> init() {
-        return userMapper.findAllUser();
+        return userMapper.getAllUser();
     }
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

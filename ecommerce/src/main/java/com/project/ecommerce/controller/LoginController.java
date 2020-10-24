@@ -25,10 +25,10 @@ public class LoginController {
     public String user() {
         return "user";
     }
-    @RequestMapping("/admin")
-    public String admin() {
-        return "admin";
-    }
+//    @RequestMapping("/admin")
+//    public String admin() {
+//        return "admin";
+//    }
     @RequestMapping("/403")
     public String accessDenied() {
         return "403";

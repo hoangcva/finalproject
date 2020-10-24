@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.ecommerce.dao.UserMapper">
-    <select id="findAllUser" resultType="com.project.ecommerce.dto.UserDto" fetchSize="200">
+    <select id="getAllUser" resultType="com.project.ecommerce.dto.UserDto" fetchSize="200">
         SELECT * FROM users
     </select>
 
@@ -35,5 +35,8 @@
             gender = #{gender}
         WHERE username = #{userName}
     </update>
+    <delete id="deleteUser" parameterType="String">
+        DELETE FROM users WHERE username = #{userName}
+    </delete>
 </mapper>
 

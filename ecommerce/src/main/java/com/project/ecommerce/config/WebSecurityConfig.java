@@ -80,6 +80,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // Khi người dùng đã login, với vai trò USER, Nhưng truy cập vào trang yêu cầu vai trò ADMIN, sẽ chuyển hướng tới trang /403
                 .and()
             .exceptionHandling()
-                .accessDeniedPage("/403");
+                .accessDeniedPage("/403")
+                .and()
+            .csrf().disable().cors();
     }
 }
