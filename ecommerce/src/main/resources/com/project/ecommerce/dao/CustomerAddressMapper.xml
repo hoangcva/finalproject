@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.ecommerce.dao.CustomerAddressMapper">
+    <select id="getAllAddressByCustomer" resultType="com.project.ecommerce.dto.CustomerAddressDto" fetchSize="200">
+        SELECT * FROM customer_info WHERE customer_name = #{customerName}
+    </select>
+
+    <select id="getAddressById" resultType="com.project.ecommerce.dto.CustomerAddressDto" fetchSize="200">
+        SELECT * FROM customer_info WHERE id = #{id}
+    </select>
+
+    <insert id="insertAddress" parameterType="com.project.ecommerce.dto.CustomerAddressDto" useGeneratedKeys="true" keyColumn="id">
+        INSERT INTO customer_info
+        (customer_name, phone_number, province, district, ward, address_detail)
+        VALUES
+        (#{customerName,jdbcType=VARCHAR},
+         #{phoneNumber,jdbcType=VARCHAR},
+         #{province,jdbcType=VARCHAR},
+         #{district,jdbcType=VARCHAR},
+         #{ward,jdbcType=VARCHAR},
+         #{addressDetail,jdbcType=VARCHAR});
+    </insert>
+
+    <update id="updateAddress" parameterType="com.project.ecommerce.dto.CustomerAddressDto">
+        UPDATE customer_info
+        SET
+            customer_name = #{fullName},
+            phone_number = #{email},
+            province = #{province},
+            district = #{district},
+            ward = #{ward},
+            address_detail = #{addressDetail}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteAddress" parameterType="String">
+        DELETE FROM customer_info WHERE id = #{id}
+    </delete>
+</mapper>
