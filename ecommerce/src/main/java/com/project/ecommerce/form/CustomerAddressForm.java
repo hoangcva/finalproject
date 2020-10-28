@@ -1,6 +1,6 @@
-package com.project.ecommerce.dto;
+package com.project.ecommerce.form;
 
-public class CustomerAddressDto {
+public class CustomerAddressForm {
     private Long id;
     private String customerName;
     private String phoneNumber;

@@ -24,7 +24,7 @@
          #{fullName,jdbcType=VARCHAR},
          #{role,jdbcType=VARCHAR},
          #{email,jdbcType=VARCHAR},
-         #{province,jdbcType=VARCHAR});
+         #{province,jdbcType=VARCHAR})
     </insert>
     <update id="updateUser" parameterType="com.project.ecommerce.dto.UserDto">
         UPDATE users

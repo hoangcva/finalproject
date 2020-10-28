@@ -21,13 +21,12 @@
          #{province,jdbcType=VARCHAR},
          #{district,jdbcType=VARCHAR},
          #{ward,jdbcType=VARCHAR},
-         #{addressDetail,jdbcType=VARCHAR});
+         #{addressDetail,jdbcType=VARCHAR})
     </insert>
 
     <update id="updateAddress" parameterType="com.project.ecommerce.dto.CustomerAddressDto">
         UPDATE customer_info
         SET
-            customer_name = #{fullName},
             phone_number = #{email},
             province = #{province},
             district = #{district},

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Manager address page</title>
+</head>
+<body>
+<!-- Include _header.html -->
+<th:block th:include="/common/_header"></th:block>
+<h2>Create Address</h2>
+<div th:if="${errorMessage != null}"
+     th:utext="${errorMessage}" class="error">...</div>
+
+<form name="register" th:object="${address_form}" th:action="@{/saveRegister}" method="post">
+    <table>
+        <tr>
+            <td>Fullname</td>
+            <td><input th:field="*{fullName}" type='text'></td>
+            <td th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></td>
+        </tr>
+        <tr>
+            <td>Company</td>
+            <td><input th:field="*{company}" type='text'></td>
+            <td th:if="${#fields.hasErrors('company')}" th:errors="*{company}"></td>
+        </tr>
+        <tr>
+            <td>City</td>
+            <td>
+                <select th:field="*{province}">
+                    <option th:each="province : ${province_list}" th:value="${province.code}" th:text="${province.name}"></option>
+                </select>
+            </td>
+            <td th:if="${#fields.hasErrors('province')}" th:errors="*{province}"></td>
+        </tr>
+        <tr>
+            <td>District</td>
+            <td>
+                <select th:field="*{district}">
+                    <option th:each="district : ${district_list}" th:value="${district.id}" th:text="${district.prefix + ' ' + district.name}"></option>
+                </select>
+            </td>
+            <td th:if="${#fields.hasErrors('district')}" th:errors="*{district}"></td>
+        </tr>
+        <tr>
+            <td>Wards</td>
+            <td>
+                <select th:field="*{wards}">
+                    <option th:each="wards : ${wards_list}" th:value="${wards.id}" th:text="${wards.prefix + ' ' + wards.name}"></option>
+                </select>
+            </td>
+            <td th:if="${#fields.hasErrors('wards')}" th:errors="*{wards}"></td>
+        </tr>
+        <tr>
+            <td>Wards</td>
+            <td>
+                <textarea th:field="*{detail}"></textarea>
+            </td>
+            <td th:if="${#fields.hasErrors('detail')}" th:errors="*{detail}"></td>
+        </tr>
+        <tr>
+            <td>Address Type</td>
+            <td>
+                <input type="radio" id="option1" name="option1" value="1" th:field="*{addressType}">
+                <label for="option1">Home/Apartment</label>
+            </td>
+            <td>
+                <input type="radio" id="option2" name="option2" value="2" th:field="*{addressType}">
+                <label for="option1">Company</label>
+            </td>
+        </tr>
+    </table>
+    <button type="submit" th:text="Submit"></button>
+</form>
+</body>
+</html>

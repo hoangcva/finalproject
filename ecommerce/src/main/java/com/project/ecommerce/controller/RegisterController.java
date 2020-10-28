@@ -1,9 +1,8 @@
 package com.project.ecommerce.controller;
 
 import com.project.ecommerce.Validator.UserValidator;
-import com.project.ecommerce.dao.ProvinceMapper;
+import com.project.ecommerce.dao.AddressMapper;
 import com.project.ecommerce.dto.ProvinceDto;
-import com.project.ecommerce.dto.UserDto;
 import com.project.ecommerce.form.RegisterForm;
 import com.project.ecommerce.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ import java.util.List;
 @Controller
 public class RegisterController {
     @Autowired
-    private ProvinceMapper provinceMapper;
+    private AddressMapper addressMapper;
     @Autowired
     private IUserService userService;
     @Autowired
@@ -29,7 +28,7 @@ public class RegisterController {
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String init(Model model) {
         RegisterForm registerForm = new RegisterForm();
-        List<ProvinceDto> provinceDtoList = provinceMapper.getAllProvince();
+        List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
         model.addAttribute("province_list", provinceDtoList);
         model.addAttribute("user_form", registerForm);
         return "register";
@@ -67,7 +66,7 @@ public class RegisterController {
 
         // Validate result
         if (result.hasErrors()) {
-            List<ProvinceDto> provinceDtoList = provinceMapper.getAllProvince();
+            List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
             model.addAttribute("province_list", provinceDtoList);
             return "register";
         }
@@ -76,7 +75,7 @@ public class RegisterController {
         }
         // Other error!!
         catch (Exception e) {
-            List<ProvinceDto> provinceDtoList = provinceMapper.getAllProvince();
+            List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
             model.addAttribute("province_list", provinceDtoList);
             model.addAttribute("errorMessage", "Error: " + e.getMessage());
             return "register";

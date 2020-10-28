@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.ecommerce.dao.AddressMapper">
+    <select id="getAllProvince" resultType="com.project.ecommerce.dto.ProvinceDto" fetchSize="200">
+        SELECT * FROM province
+    </select>
+
+    <select id="getAllDistrict" resultType="com.project.ecommerce.dto.DistrictDto" fetchSize="200">
+        SELECT * FROM district where _province_id = #{provinceId}
+    </select>
+
+    <select id="getAllWard" resultType="com.project.ecommerce.dto.WardDto" fetchSize="200">
+        SELECT * FROM ward where _province_id = #{provinceId} and _district_id = #{districtId}
+    </select>
+
+</mapper>

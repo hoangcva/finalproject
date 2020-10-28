@@ -1,10 +1,9 @@
 package com.project.ecommerce.controller;
 
 import com.project.ecommerce.Validator.UserUpdateValidator;
-import com.project.ecommerce.dao.ProvinceMapper;
+import com.project.ecommerce.dao.AddressMapper;
 import com.project.ecommerce.dto.ProvinceDto;
 import com.project.ecommerce.dto.UserDto;
-import com.project.ecommerce.form.RegisterForm;
 import com.project.ecommerce.form.UserUpdateForm;
 import com.project.ecommerce.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -30,7 +28,7 @@ public class UpdateUserController {
     @Autowired
     private UserUpdateValidator validator;
     @Autowired
-    private ProvinceMapper provinceMapper;
+    private AddressMapper addressMapper;
 
     @RequestMapping(value = "/updateUserPage", method = RequestMethod.GET)
     public String init(Model model, HttpSession session) {
@@ -45,7 +43,7 @@ public class UpdateUserController {
         user.setEmail(userDto.getEmail());
         user.setProvince(userDto.getProvince());
         user.nullToEmpty();
-        List<ProvinceDto> provinceDtoList = provinceMapper.getAllProvince();
+        List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
         model.addAttribute("user_update_form", user);
         model.addAttribute("province_list", provinceDtoList);
 //        session.setAttribute("user_update_form", user);
