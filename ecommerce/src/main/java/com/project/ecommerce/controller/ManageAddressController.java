@@ -26,8 +26,6 @@ public class ManageAddressController {
     private ICustomerAddressService customerAddressService;
     @Autowired
     private UserUpdateValidator validator;
-    @Autowired
-    private
 
     // Set a form validator
     @InitBinder
@@ -53,11 +51,27 @@ public class ManageAddressController {
         return "customer/address/manageAddress";
     }
 
+    @GetMapping(value = "/getProvince")
+    public List<ProvinceDto> getProvince() {
+        return customerAddressService.getProvinceList();
+    }
+
+    @GetMapping(value = "/getDistrict")
+    public List<DistrictDto> getDistrict(Long provinceId) {
+        return customerAddressService.getDistrictList(provinceId);
+    }
+
+    @GetMapping(value = "/getWard")
+    public List<WardDto> getWard(Long provinceId, Long districtId) {
+        return customerAddressService.getWardList(provinceId, districtId);
+    }
+
     @GetMapping(value = "/addAddress")
     public String addAddress(Model model) {
 //        AddressDto =
 //        ProvinceDto provinceDto = new ProvinceDto();
 //        DistrictDto districtDto = new DistrictDto();
 //        WardDto wardDto = new WardDto();
+        return null;
     }
 }
