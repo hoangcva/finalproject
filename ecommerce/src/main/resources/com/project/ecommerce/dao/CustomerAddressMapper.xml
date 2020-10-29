@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.ecommerce.dao.CustomerAddressMapper">
-    <select id="getAllAddressByCustomer" resultType="com.project.ecommerce.dto.CustomerAddressDto" fetchSize="200">
-        SELECT * FROM customer_info WHERE customer_name = #{customerName}
+    <select id="getAllAddressByCustomerId" resultType="com.project.ecommerce.dto.CustomerAddressDto" fetchSize="200">
+        SELECT * FROM customer_info WHERE customer_id = #{customerId}
     </select>
 
     <select id="getAddressById" resultType="com.project.ecommerce.dto.CustomerAddressDto" fetchSize="200">
@@ -14,9 +14,10 @@
 
     <insert id="insertAddress" parameterType="com.project.ecommerce.dto.CustomerAddressDto" useGeneratedKeys="true" keyColumn="id">
         INSERT INTO customer_info
-        (customer_name, phone_number, province, district, ward, address_detail)
+        (customer_id, fullname, phone_number, province, district, ward, address_detail)
         VALUES
-        (#{customerName,jdbcType=VARCHAR},
+        (#{customerId, jdbcType=VARCHAR},
+         #{fullName,jdbcType=VARCHAR},
          #{phoneNumber,jdbcType=VARCHAR},
          #{province,jdbcType=VARCHAR},
          #{district,jdbcType=VARCHAR},
@@ -27,6 +28,7 @@
     <update id="updateAddress" parameterType="com.project.ecommerce.dto.CustomerAddressDto">
         UPDATE customer_info
         SET
+            fullname = #{fullName},
             phone_number = #{email},
             province = #{province},
             district = #{district},

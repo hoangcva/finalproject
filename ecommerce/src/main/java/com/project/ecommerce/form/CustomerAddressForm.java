@@ -2,12 +2,13 @@ package com.project.ecommerce.form;
 
 public class CustomerAddressForm {
     private Long id;
-    private String customerName;
+    private String fullName;
     private String phoneNumber;
     private String addressDetail;
     private String province;
     private String district;
     private String ward;
+    private Long customerId;
 
     public Long getId() {
         return id;
@@ -17,12 +18,12 @@ public class CustomerAddressForm {
         this.id = id;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getPhoneNumber() {
@@ -63,5 +64,13 @@ public class CustomerAddressForm {
 
     public void setWard(String ward) {
         this.ward = ward;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 }

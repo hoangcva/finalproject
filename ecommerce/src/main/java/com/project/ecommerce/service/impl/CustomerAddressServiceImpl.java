@@ -1,18 +1,21 @@
 package com.project.ecommerce.service.impl;
 
+import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.dao.AddressMapper;
 import com.project.ecommerce.dao.CustomerAddressMapper;
 import com.project.ecommerce.dto.*;
 import com.project.ecommerce.form.CustomerAddressForm;
 import com.project.ecommerce.service.ICustomerAddressService;
+import org.apache.tomcat.util.bcel.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service("CustomerAddressService")
 public class CustomerAddressServiceImpl implements ICustomerAddressService {
@@ -24,8 +27,8 @@ public class CustomerAddressServiceImpl implements ICustomerAddressService {
     private AddressMapper addressMapper;
 
     @Override
-    public List<CustomerAddressDto> getAllAddressByCustomer(String customerName) {
-        return customerAddressMapper.getAllAddressByCustomer(customerName);
+    public List<CustomerAddressDto> getAllAddressByCustomer(Long customerId) {
+        return customerAddressMapper.getAllAddressByCustomerId(customerId);
     }
 
     @Override
@@ -38,7 +41,7 @@ public class CustomerAddressServiceImpl implements ICustomerAddressService {
         try {
             CustomerAddressDto customerAddressDto = new CustomerAddressDto();
             customerAddressDto.setAddressDetail(customerAddressForm.getAddressDetail());
-            customerAddressDto.setCustomerName(customerAddressForm.getCustomerName());
+            customerAddressDto.setFullName(customerAddressForm.getFullName());
             customerAddressDto.setId(customerAddressForm.getId());
             customerAddressDto.setProvince(customerAddressForm.getProvince());
             customerAddressDto.setDistrict(customerAddressForm.getDistrict());
@@ -50,12 +53,12 @@ public class CustomerAddressServiceImpl implements ICustomerAddressService {
         }
     }
 
-    public void insertAddress(CustomerAddressForm customerAddressForm) {
+    public void createAddress(CustomerAddressForm customerAddressForm) {
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
             CustomerAddressDto customerAddressDto = new CustomerAddressDto();
             customerAddressDto.setAddressDetail(customerAddressForm.getAddressDetail());
-            customerAddressDto.setCustomerName(customerAddressForm.getCustomerName());
+            customerAddressDto.setFullName(customerAddressForm.getFullName());
             customerAddressDto.setId(customerAddressForm.getId());
             customerAddressDto.setProvince(customerAddressForm.getProvince());
             customerAddressDto.setDistrict(customerAddressForm.getDistrict());
@@ -75,11 +78,14 @@ public class CustomerAddressServiceImpl implements ICustomerAddressService {
         return addressMapper.getAllProvince();
     }
 
-    public List<DistrictDto> getDistrictList(Long provinceId) {
+    public List<DistrictDto> getDistrictList(@Nullable Long provinceId) {
+        provinceId = Objects.isNull(provinceId) ? Consts.PROVINCE_CODE_HANOI : provinceId;
         return addressMapper.getAllDistrict(provinceId);
     }
 
-    public List<WardDto> getWardList(Long provinceId, Long districtId) {
+    public List<WardDto> getWardList(@Nullable Long provinceId,@Nullable Long districtId) {
+        provinceId = Objects.isNull(provinceId) ? Consts.PROVINCE_CODE_HANOI : provinceId;
+        districtId = Objects.isNull(districtId) ? Consts.DISTRICT_CODE_BADINH : districtId;
         return addressMapper.getAllWard(provinceId, districtId);
     }
 }

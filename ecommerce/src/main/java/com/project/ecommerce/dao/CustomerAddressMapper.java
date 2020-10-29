@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 @Mapper
 public interface CustomerAddressMapper {
-    List<CustomerAddressDto> getAllAddressByCustomer(@Param("userName") String userName);
+    List<CustomerAddressDto> getAllAddressByCustomerId(@Param("customerId") Long customerId);
     CustomerAddressDto getAddressById(@Param("id") Long id);
     boolean insertAddress(CustomerAddressDto customerAddressDto);
     boolean updateAddress(CustomerAddressDto customerAddressDto);

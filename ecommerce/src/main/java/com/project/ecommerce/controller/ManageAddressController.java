@@ -3,7 +3,6 @@ package com.project.ecommerce.controller;
 import com.project.ecommerce.Validator.UserUpdateValidator;
 import com.project.ecommerce.dto.*;
 import com.project.ecommerce.form.CustomerAddressForm;
-import com.project.ecommerce.form.UserUpdateForm;
 import com.project.ecommerce.service.ICustomerAddressService;
 import com.project.ecommerce.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +11,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class ManageAddressController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) auth.getPrincipal();
         UserDto userDto = userService.getUserByUserName(userDetails.getUsername());
-        List<CustomerAddressDto> customerAddressDtoList = customerAddressService.getAllAddressByCustomer(userDto.getUserName());
+        List<CustomerAddressDto> customerAddressDtoList = customerAddressService.getAllAddressByCustomer(userDto.getId());
         model.addAttribute("address_list", customerAddressDtoList);
         return "customer/address/manageAddress";
     }
@@ -66,12 +67,79 @@ public class ManageAddressController {
         return customerAddressService.getWardList(provinceId, districtId);
     }
 
-    @GetMapping(value = "/addAddress")
-    public String addAddress(Model model) {
-//        AddressDto =
-//        ProvinceDto provinceDto = new ProvinceDto();
-//        DistrictDto districtDto = new DistrictDto();
-//        WardDto wardDto = new WardDto();
-        return null;
+    @PostMapping(value = "/addAddress")
+    public String createAddress(Model model,
+                                @ModelAttribute("user_form") @Validated CustomerAddressForm customerAddressForm,
+                                BindingResult result,
+                                final RedirectAttributes redirectAttributes) {
+        // Validate result
+        if (result.hasErrors()) {
+            List<ProvinceDto> provinceDtoList = customerAddressService.getProvinceList();
+            List<DistrictDto> districtDtoList = customerAddressService.getDistrictList(null);
+            List<WardDto> wardDtoList = customerAddressService.getWardList(null, null);
+            model.addAttribute("province_list", provinceDtoList);
+            model.addAttribute("district_list", districtDtoList);
+            model.addAttribute("ward_list", wardDtoList);
+            return "/customer/address/addAddress";
+        }
+        try {
+            customerAddressService.createAddress(customerAddressForm);
+        }
+        // Other error!!
+        catch (Exception e) {
+            List<ProvinceDto> provinceDtoList = customerAddressService.getProvinceList();
+            List<DistrictDto> districtDtoList = customerAddressService.getDistrictList(null);
+            List<WardDto> wardDtoList = customerAddressService.getWardList(null, null);
+            model.addAttribute("province_list", provinceDtoList);
+            model.addAttribute("district_list", districtDtoList);
+            model.addAttribute("ward_list", wardDtoList);
+            model.addAttribute("errorMessage", "Error: " + e.getMessage());
+            return "/customer/address/addAddress";
+        }
+
+        redirectAttributes.addFlashAttribute("message", "Create address successful");
+
+        return "redirect:/manageAddress";
+    }
+
+    @DeleteMapping(value = "/deleteAddress")
+    public String deleteAddress(Model model, @PathVariable("address_id") Long addressId) {
+        customerAddressService.deleteAddress(addressId);
+        return "redirect:/manageAddress";
+    }
+
+    @PostMapping(value = "updateAddress")
+    public String updateAddress(Model model,
+                                @ModelAttribute("user_form") @Validated CustomerAddressForm customerAddressForm,
+                                BindingResult result,
+                                final RedirectAttributes redirectAttributes) {
+        // Validate result
+        if (result.hasErrors()) {
+            List<ProvinceDto> provinceDtoList = customerAddressService.getProvinceList();
+            List<DistrictDto> districtDtoList = customerAddressService.getDistrictList(null);
+            List<WardDto> wardDtoList = customerAddressService.getWardList(null, null);
+            model.addAttribute("province_list", provinceDtoList);
+            model.addAttribute("district_list", districtDtoList);
+            model.addAttribute("ward_list", wardDtoList);
+            return "/customer/address/addAddress";
+        }
+        try {
+            customerAddressService.updateAddress(customerAddressForm);
+        }
+        // Other error!!
+        catch (Exception e) {
+            List<ProvinceDto> provinceDtoList = customerAddressService.getProvinceList();
+            List<DistrictDto> districtDtoList = customerAddressService.getDistrictList(null);
+            List<WardDto> wardDtoList = customerAddressService.getWardList(null, null);
+            model.addAttribute("province_list", provinceDtoList);
+            model.addAttribute("district_list", districtDtoList);
+            model.addAttribute("ward_list", wardDtoList);
+            model.addAttribute("errorMessage", "Error: " + e.getMessage());
+            return "/customer/address/addAddress";
+        }
+
+        redirectAttributes.addFlashAttribute("message", "Create address successful");
+
+        return "redirect:/manageAddress";
     }
 }

@@ -3,12 +3,11 @@ package com.project.ecommerce.dto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDto {
-    private Integer id;
+    private Long id;
     private String userName;
     private String password;
     private String role;
@@ -54,11 +53,11 @@ public class UserDto {
 //        this.dateOfBirth = dateOfBirth;
 //    }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

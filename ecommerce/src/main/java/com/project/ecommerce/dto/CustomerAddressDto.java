@@ -2,12 +2,13 @@ package com.project.ecommerce.dto;
 
 public class CustomerAddressDto {
     private Long id;
-    private String customerName;
+    private String fullName;
     private String phoneNumber;
     private String addressDetail;
     private String province;
     private String district;
     private String ward;
+    private String customerId;
 
     public Long getId() {
         return id;
@@ -17,12 +18,12 @@ public class CustomerAddressDto {
         this.id = id;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getPhoneNumber() {
@@ -63,5 +64,13 @@ public class CustomerAddressDto {
 
     public void setWard(String ward) {
         this.ward = ward;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 }
