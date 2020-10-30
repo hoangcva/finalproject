@@ -4,11 +4,41 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.ecommerce.dao.ProductMapper">
-    <select id="getAllCategory" resultType="com.project.ecommerce.dto.ProvinceDto" fetchSize="200">
+    <select id="getAllCategory" resultType="com.project.ecommerce.dto.ProductDto" fetchSize="200">
         SELECT * FROM category
     </select>
 
-    <select id="getALLSubCategory" resultType="com.project.ecommerce.dto.ProvinceDto" fetchSize="200">
+    <select id="getALLSubCategory" resultType="com.project.ecommerce.dto.ProductDto" fetchSize="200">
         SELECT * FROM sub_category
     </select>
+
+    <insert id="insertProduct" parameterType="com.project.ecommerce.dto.ProductDto" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO product
+        ( product_name, product_description, category_id, sub_category_id, brand, sku, product_size, product_color, product_subject_age, product_material)
+        VALUES
+        (#{productName,jdbcType=VARCHAR},
+         #{description,jdbcType=VARCHAR},
+         #{categoryId,jdbcType=int},
+         #{subCategoryId,jdbcType=int},
+         #{brand,jdbcType=VARCHAR},
+         #{SKU,jdbcType=VARCHAR},
+         #{size,jdbcType=VARCHAR},
+         #{color,jdbcType=VARCHAR},
+         #{subjectAge,jdbcType=VARCHAR},
+         #{material,jdbcType=VARCHAR});
+        <selectKey keyProperty="id" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <insert id="insertVendorProduct" parameterType="com.project.ecommerce.dto.VendorProductDto">
+        INSERT INTO vendor_product
+        ( vendor_id, product_id, product_quantity, product_price, rating)
+        VALUES
+        (#{vendorId,jdbcType=bigint},
+         #{productId,jdbcType=int},
+         #{quantity,jdbcType=bigint},
+         #{price,jdbcType=bigint},
+         #{rating,jdbcType=int});
+    </insert>
 </mapper>

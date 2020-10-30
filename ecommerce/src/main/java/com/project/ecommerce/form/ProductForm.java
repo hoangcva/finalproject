@@ -1,43 +1,21 @@
-package com.project.ecommerce.dto;
+package com.project.ecommerce.form;
 
-public class ProductDto {
-    private Integer id;
+public class ProductForm {
     private String productName;
-    private String description;
     private Integer categoryId;
     private Integer subCategoryId;
+    private String description;
     private String brand;
     private String SKU;
     private String size;
     private String color;
     private String subjectAge;
     private String material;
-
-    public ProductDto() {
-    }
-
-    public ProductDto(Integer id, String productName, String description, Integer categoryId, Integer subCategoryId,
-                      String brand, String SKU, String size, String color, String subjectAge, String material) {
-        this.id = id;
-        this.productName = productName;
-        this.description = description;
-        this.categoryId = categoryId;
-        this.subCategoryId = subCategoryId;
-        this.brand = brand;
-        this.SKU = SKU;
-        this.size = size;
-        this.color = color;
-        this.subjectAge = subjectAge;
-        this.material = material;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private Long quantity;
+    private Long price;
+    private Integer rating;
+    private Integer vendorId;
+    private Integer productID;
 
     public String getProductName() {
         return productName;
@@ -45,14 +23,6 @@ public class ProductDto {
 
     public void setProductName(String productName) {
         this.productName = productName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public Integer getCategoryId() {
@@ -69,6 +39,14 @@ public class ProductDto {
 
     public void setSubCategoryId(Integer subCategoryId) {
         this.subCategoryId = subCategoryId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getBrand() {
@@ -117,5 +95,45 @@ public class ProductDto {
 
     public void setMaterial(String material) {
         this.material = material;
+    }
+
+    public Long getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Long quantity) {
+        this.quantity = quantity;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
+    public Integer getVendorId() {
+        return vendorId;
+    }
+
+    public void setVendorId(Integer vendorId) {
+        this.vendorId = vendorId;
+    }
+
+    public Integer getProductID() {
+        return productID;
+    }
+
+    public void setProductID(Integer productID) {
+        this.productID = productID;
     }
 }
