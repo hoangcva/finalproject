@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ALL product</title>
+</head>
+<body>
+<th:block th:include="/common/_header"></th:block>
+
+<table>
+    <tbody>
+        <tr th:each="product,iterationStatus : ${productForms}">
+            <td th:text="${iterationStatus.count}"></td>
+            <td><a th:href="@{/editProduct(productId = ${product.productId})}" th:text="${product.productName}"></a></td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>

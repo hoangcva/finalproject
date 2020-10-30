@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:include="/common/_header"></th:block>
+<h2>Add Detail</h2>
+
+<form th:action="@{/editProduct}" th:object="${productForm}" th:method="POST">
+    <label>Category:</label>
+    <input th:type="text" th:readonly="true" th:field="*{categoryId}" th:text="*{categoryId}"><br>
+    <label>SubCategory:</label>
+    <input th:type="text" th:readonly="true" th:field="*{subCategoryId}" th:text="*{subCategoryId}"><br>
+    <label>Product name:</label>
+    <input type="text" name="productName" th:field="*{productName}"><br>
+    <label>Brand:</label>
+    <input type="text" name="brand" th:field="*{brand}"><br>
+    <label>SKU:</label>
+    <input type="text" name="SKU" th:field="*{SKU}"><br>
+    <label>Size:</label>
+    <input type="text" name="size" th:field="*{size}"><br>
+    <label>Color:</label>
+    <input type="text" name="color" th:field="*{color}"><br>
+    <label>Age:</label>
+    <input type="text" name="subjectAge" th:field="*{subjectAge}"><br>
+    <label>Material:</label>
+    <input type="text" name="material" th:field="*{material}"><br>
+    <label>price:</label>
+    <input type="text" name="price" th:field="*{price}"><br>
+    <label>quantity:</label>
+    <input type="text" name="quantity" th:field="*{quantity}"><br>
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>

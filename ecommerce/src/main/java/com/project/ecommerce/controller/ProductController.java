@@ -1,5 +1,6 @@
 package com.project.ecommerce.controller;
 
+import com.project.ecommerce.Validator.ProductValidator;
 import com.project.ecommerce.dto.CategoryDto;
 import com.project.ecommerce.dto.SubCategoryDto;
 import com.project.ecommerce.dto.UserDto;
@@ -12,7 +13,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -22,6 +27,8 @@ public class ProductController {
     private IProductService productService;
     @Autowired
     private IUserService userService;
+    @Autowired
+    private ProductValidator productValidator;
 
     @GetMapping(value = "/showCategory")
     public String showCategory(Model model) {
@@ -61,12 +68,55 @@ public class ProductController {
         return "addProductDetail";
     }
 
+    // Set a form validator
+    @InitBinder
+    protected void initBinder(WebDataBinder dataBinder) {
+        Object target = dataBinder.getTarget();
+        if(target == null) {
+            return;
+        }
+
+        System.out.println("Target = " + target);
+        if(target.getClass() == ProductForm.class) {
+            dataBinder.setValidator(productValidator);
+        }
+    }
+
     @PostMapping(value = "/addProduct/addDetail")
-    public String addProduct(@ModelAttribute("productForm") ProductForm productForm, Model model) {
+    public String addProduct(@ModelAttribute("productForm") @Validated ProductForm productForm,
+                             Model model,
+                             BindingResult result,
+                             final RedirectAttributes redirectAttributes) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) auth.getPrincipal();
         UserDto userDto = userService.getUserByUserName(((UserDetails) auth.getPrincipal()).getUsername());
         productService.addProduct(productForm, userDto.getId());
-        return null;
+        return "redirect:/listProduct";
+    }
+
+    @GetMapping(value = "/listProduct")
+    public String getAllProductByVendorId(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto userDto = userService.getUserByUserName(((UserDetails) auth.getPrincipal()).getUsername());
+        List<ProductForm> productFormList = productService.getAllProductByVendorId(userDto.getId());
+        model.addAttribute("productForms", productFormList);
+        return "listVendorProduct";
+    }
+
+    @GetMapping(value = "/editProduct")
+    public String getEditProduct(@ModelAttribute("productId") Integer productId, Model model) {
+        ProductForm productForm = productService.getVendorProduct(productId);
+        model.addAttribute("productForm", productForm);
+        return "editProduct";
+    }
+
+    @PostMapping(value = "/editProduct")
+    public String editProduct(@ModelAttribute("productForm") @Validated ProductForm productForm,
+                              Model model,
+                              BindingResult result,
+                              final RedirectAttributes redirectAttributes) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto userDto = userService.getUserByUserName(((UserDetails) auth.getPrincipal()).getUsername());
+        productService.updateProduct(productForm);
+        return "redirect:/listProduct";
     }
 }

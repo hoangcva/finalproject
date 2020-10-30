@@ -4,22 +4,22 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.ecommerce.dao.ProductMapper">
-    <select id="getAllCategory" resultType="com.project.ecommerce.dto.ProductDto" fetchSize="200">
+    <select id="getAllCategory" resultType="com.project.ecommerce.dto.CategoryDto" fetchSize="200">
         SELECT * FROM category
     </select>
 
-    <select id="getALLSubCategory" resultType="com.project.ecommerce.dto.ProductDto" fetchSize="200">
+    <select id="getALLSubCategory" resultType="com.project.ecommerce.dto.SubCategoryDto" fetchSize="200">
         SELECT * FROM sub_category
     </select>
 
     <insert id="insertProduct" parameterType="com.project.ecommerce.dto.ProductDto" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO product
-        ( product_name, product_description, category_id, sub_category_id, brand, sku, product_size, product_color, product_subject_age, product_material)
+        ( product_name, product_description, categoryId, subCategoryId, product_brand, product_SKU, product_size, product_color, product_subjectAge, product_material)
         VALUES
         (#{productName,jdbcType=VARCHAR},
          #{description,jdbcType=VARCHAR},
-         #{categoryId,jdbcType=int},
-         #{subCategoryId,jdbcType=int},
+         #{categoryId,jdbcType=INTEGER},
+         #{subCategoryId,jdbcType=INTEGER},
          #{brand,jdbcType=VARCHAR},
          #{SKU,jdbcType=VARCHAR},
          #{size,jdbcType=VARCHAR},
@@ -33,12 +33,63 @@
 
     <insert id="insertVendorProduct" parameterType="com.project.ecommerce.dto.VendorProductDto">
         INSERT INTO vendor_product
-        ( vendor_id, product_id, product_quantity, product_price, rating)
+        ( vendorId, productId, product_quantity, product_price, product_rating)
         VALUES
-        (#{vendorId,jdbcType=bigint},
-         #{productId,jdbcType=int},
-         #{quantity,jdbcType=bigint},
-         #{price,jdbcType=bigint},
-         #{rating,jdbcType=int});
+        (#{vendorId,jdbcType=BIGINT},
+         #{productId,jdbcType=INTEGER},
+         #{quantity,jdbcType=BIGINT},
+         #{price,jdbcType=BIGINT},
+         #{rating,jdbcType=INTEGER});
     </insert>
+
+    <resultMap id="ProductResultMap" type="com.project.ecommerce.form.ProductForm">
+        <id property="productId" column="id" />
+        <result property="productName" column="product_name"/>
+        <result property="description" column="product_description"/>
+        <result property="brand" column="product_brand"/>
+        <result property="SKU" column="product_SKU"/>
+        <result property="size" column="product_size"/>
+        <result property="color" column="product_color"/>
+        <result property="subjectAge" column="product_subjectAge"/>
+        <result property="material" column="product_material"/>
+        <result property="categoryId" column="categoryId"/>
+        <result property="subCategoryId" column="subCategoryId"/>
+        <result property="vendorId" column="vendorId"/>
+        <result property="quantity" column="product_quantity"/>
+        <result property="price" column="product_price"/>
+        <result property="rating" column="product_rating"/>
+    </resultMap>
+
+    <select id="getAllProductByVendorId" resultMap="ProductResultMap" fetchSize="200">
+        SELECT * FROM vendor_product
+        LEFT JOIN product p on vendor_product.productId = p.id
+        WHERE vendorId = #{vendorId}
+    </select>
+
+    <select id="getVendorProduct" resultMap="ProductResultMap" fetchSize="200">
+        SELECT * FROM vendor_product
+        LEFT JOIN product p on vendor_product.productId = p.id
+        WHERE productId = #{productId}
+    </select>
+
+    <update id="updateProduct" parameterType="com.project.ecommerce.form.ProductForm">
+        UPDATE product
+        SET product_name = #{productName},
+            product_description = #{description},
+            product_brand = #{brand},
+            product_SKU = #{SKU},
+            product_size = #{size},
+            product_color = #{color},
+            product_subjectAge = #{subjectAge},
+            product_material = #{material}
+        WHERE id = #{productId}
+    </update>
+
+    <update id="updateVendorProduct" parameterType="com.project.ecommerce.form.ProductForm">
+        UPDATE vendor_product
+        SET product_quantity = #{quantity},
+            product_price = #{price}
+        Where productId = #{productId};
+
+    </update>
 </mapper>

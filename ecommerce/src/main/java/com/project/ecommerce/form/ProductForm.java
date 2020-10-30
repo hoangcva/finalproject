@@ -15,7 +15,7 @@ public class ProductForm {
     private Long price;
     private Integer rating;
     private Integer vendorId;
-    private Integer productID;
+    private Integer productId;
 
     public String getProductName() {
         return productName;
@@ -129,11 +129,11 @@ public class ProductForm {
         this.vendorId = vendorId;
     }
 
-    public Integer getProductID() {
-        return productID;
+    public Integer getProductId() {
+        return productId;
     }
 
-    public void setProductID(Integer productID) {
-        this.productID = productID;
+    public void setProductId(Integer productId) {
+        this.productId = productId;
     }
 }

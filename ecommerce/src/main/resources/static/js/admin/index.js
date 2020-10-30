@@ -9,8 +9,8 @@ function deleteUser(userName) {
             type:'DELETE',
             url: '/admin/delete',
             // headers: { 'X-CSRF-TOKEN': $("input[name='_csrf']").val()},
-            // contentType: 'application/json',
-            // dataType : 'json',
+            contentType: 'application/json',
+            dataType : 'json',
             data: {"userName" : userName},
             success : function (result) {
                 console.log(result);

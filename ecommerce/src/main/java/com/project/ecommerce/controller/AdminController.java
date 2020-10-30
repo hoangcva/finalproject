@@ -24,9 +24,10 @@ public class AdminController {
         return "/admin/index";
     }
 
-//    @DeleteMapping(value = "/delete/{userName}")
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public ResponseEntity<String> deleteUser(@RequestParam("userName") String userName) {
+    @PostMapping(value = "/delete")
+//    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    public ResponseEntity<String> deleteUser(@RequestParam String userName) {
+//    public ResponseEntity<String> deleteUser(@PathVariable String userName) {
         boolean isRemoved = userService.deleteUser(userName);
         if(!isRemoved) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

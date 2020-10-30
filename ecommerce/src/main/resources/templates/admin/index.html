@@ -34,10 +34,19 @@
             <td><span th:text="${user.userName}"></span></td>
             <td><span th:text="${user.fullName}"></span></td>
             <td><span th:text="${user.email}"></span></td>
-            <td><button th:class="btn_delete" type="button" th:text="Remove" th:attr="data-userName=${user.userName}" th:value="${user.userName}" th:onclick="'javascript:deleteUser(' + ${user.userName} + ')'"></button></td>
+<!--            <td><button th:class="btn_delete" type="button" th:text="Remove" th:attr="data-userName=${user.userName}" th:value="${user.userName}"-->
+<!--                        th:onclick="|deleteUser( ${user.userName} )|"></button></td>-->
+            <td><form th:action="@{/admin/delete}" method="post">
+                <input type="hidden" name="userName" th:value="${user.userName}" />
+                <input type="submit" value="Delete" />
+                </form>
+            </td>
         </tr>
     </tbody>
 </table>
+
+<a th:href="@{/showCategory}">Add product</a>
+<a th:href="@{/listProduct}">Show all product</a>
 
 <!--<a th:href="@{/user}">User Page</a>-->
 <br/><br/>

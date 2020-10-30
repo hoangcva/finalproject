@@ -63,12 +63,32 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public void updateProduct(Integer productId) {
-
+    public void updateProduct(ProductForm productForm) {
+        TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        try {
+            productMapper.updateProduct(productForm);
+            productMapper.updateVendorProduct(productForm);
+            transactionManager.commit(txStatus);
+        } catch (Exception ex) {
+            transactionManager.rollback(txStatus);
+        }
     }
 
     @Override
     public void deleteProduct(Integer productId) {
 
+    }
+
+    @Override
+    public List<ProductForm> getAllProductByVendorId(Long vendorId) {
+        List<ProductForm> productFormList = productMapper.getAllProductByVendorId(vendorId);
+
+        return productFormList;
+    }
+
+    @Override
+    public ProductForm getVendorProduct(Integer productId) {
+        ProductForm productForm = productMapper.getVendorProduct(productId);
+        return productForm;
     }
 }
