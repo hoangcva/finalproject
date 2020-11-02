@@ -15,8 +15,6 @@ public class UserDto {
     private String email;
     private String province;
     private String gender;
-//    private String phoneNumber;
-//    private LocalDate dateOfBirth;
 
     public UserDto() {
     }
@@ -36,22 +34,6 @@ public class UserDto {
     public void setEmail(String email) {
         this.email = email;
     }
-
-//    public String getPhoneNumber() {
-//        return phoneNumber;
-//    }
-//
-//    public void setPhoneNumber(String phoneNumber) {
-//        this.phoneNumber = phoneNumber;
-//    }
-//
-//    public LocalDate getDateOfBirth() {
-//        return dateOfBirth;
-//    }
-//
-//    public void setDateOfBirth(LocalDate dateOfBirth) {
-//        this.dateOfBirth = dateOfBirth;
-//    }
 
     public Long getId() {
         return id;

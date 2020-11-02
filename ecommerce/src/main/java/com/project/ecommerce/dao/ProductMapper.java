@@ -19,9 +19,9 @@ public interface ProductMapper {
     List<SubCategoryDto> getALLSubCategory();
     void updateProduct(ProductForm productForm);
     void updateVendorProduct(ProductForm productForm);
-    void deleteProduct(@Param("productId") Integer productId);
+    void deleteProduct(@Param("productId") Long productId);
     void insertVendorProduct(VendorProductDto vendorProductDto);
     List<ProductForm> getAllProductByVendorId(@Param("vendorId") Long vendorId);
 //    List<VendorProductDto> getAllVendorProductByVendorId(@Param("vendorId") Long vendorId);
-    ProductForm getVendorProduct(@Param("productId") Integer productId);
+    ProductForm getVendorProduct(@Param("productId") Long productId);
 }

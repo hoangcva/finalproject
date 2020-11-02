@@ -3,6 +3,7 @@ package com.project.ecommerce.controller;
 import com.project.ecommerce.Validator.UserUpdateValidator;
 import com.project.ecommerce.dao.AddressMapper;
 import com.project.ecommerce.dto.ProvinceDto;
+import com.project.ecommerce.dto.UserDetailsDto;
 import com.project.ecommerce.dto.UserDto;
 import com.project.ecommerce.form.UserUpdateForm;
 import com.project.ecommerce.service.IUserService;
@@ -31,17 +32,17 @@ public class UpdateUserController {
     private AddressMapper addressMapper;
 
     @RequestMapping(value = "/updateUserPage", method = RequestMethod.GET)
-    public String init(Model model, HttpSession session) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) auth.getPrincipal();
-        UserDto userDto = userService.getUserByUserName(userDetails.getUsername());
+    public String init(Model model, HttpSession session, Authentication auth) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsDto userDetails = (UserDetailsDto) auth.getPrincipal();
+//        UserDto userDto = userService.getUserByUserName(userDetails.getUsername());
         UserUpdateForm user = new UserUpdateForm();
-        user.setUserName(userDto.getUserName());
-        user.setFullName(userDto.getFullName());
-        user.setGender(userDto.getGender());
-        user.setPassword(userDto.getPassword());
-        user.setEmail(userDto.getEmail());
-        user.setProvince(userDto.getProvince());
+        user.setUserName(userDetails.getUsername());
+        user.setFullName(userDetails.getUserDto().getFullName());
+        user.setGender(userDetails.getUserDto().getGender());
+        user.setPassword(userDetails.getPassword());
+        user.setEmail(userDetails.getUserDto().getEmail());
+        user.setProvince(userDetails.getUserDto().getProvince());
         user.nullToEmpty();
         List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
         model.addAttribute("user_update_form", user);

@@ -66,7 +66,7 @@ public class ProductServiceImpl implements IProductService {
     public void updateProduct(ProductForm productForm) {
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
-            productMapper.updateProduct(productForm);
+             productMapper.updateProduct(productForm);
             productMapper.updateVendorProduct(productForm);
             transactionManager.commit(txStatus);
         } catch (Exception ex) {
@@ -75,8 +75,8 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public void deleteProduct(Integer productId) {
-
+    public void deleteProduct(Long productId) {
+        productMapper.deleteProduct(productId);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public ProductForm getVendorProduct(Integer productId) {
+    public ProductForm getVendorProduct(Long productId) {
         ProductForm productForm = productMapper.getVendorProduct(productId);
         return productForm;
     }

@@ -14,8 +14,8 @@ public class ProductForm {
     private Long quantity;
     private Long price;
     private Integer rating;
-    private Integer vendorId;
-    private Integer productId;
+    private Long vendorId;
+    private Long productId;
 
     public String getProductName() {
         return productName;
@@ -121,19 +121,19 @@ public class ProductForm {
         this.rating = rating;
     }
 
-    public Integer getVendorId() {
+    public Long getVendorId() {
         return vendorId;
     }
 
-    public void setVendorId(Integer vendorId) {
+    public void setVendorId(Long vendorId) {
         this.vendorId = vendorId;
     }
 
-    public Integer getProductId() {
+    public Long getProductId() {
         return productId;
     }
 
-    public void setProductId(Integer productId) {
+    public void setProductId(Long productId) {
         this.productId = productId;
     }
 }

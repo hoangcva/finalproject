@@ -1,6 +1,7 @@
 package com.project.ecommerce.service.impl;
 
 import com.project.ecommerce.dao.UserMapper;
+import com.project.ecommerce.dto.UserDetailsDto;
 import com.project.ecommerce.dto.UserDto;
 import com.project.ecommerce.form.RegisterForm;
 import com.project.ecommerce.form.UserUpdateForm;
@@ -32,12 +33,7 @@ public class UserServiceImpl implements IUserService {
         if (user == null) {
             throw new UsernameNotFoundException("Username Not Found");
         }
-        boolean enabled = true;
-        boolean accountNonExpired = true;
-        boolean credentialsNonExpired = true;
-        boolean accountNonLocked = true;
-        return new User(username, user.getPassword(), enabled, accountNonExpired, credentialsNonExpired,
-                accountNonLocked, user.getAuthorities());
+        return new UserDetailsDto(user);
     }
 
     @Override

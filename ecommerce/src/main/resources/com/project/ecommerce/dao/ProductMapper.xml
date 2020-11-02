@@ -36,7 +36,7 @@
         ( vendorId, productId, product_quantity, product_price, product_rating)
         VALUES
         (#{vendorId,jdbcType=BIGINT},
-         #{productId,jdbcType=INTEGER},
+         #{productId,jdbcType=BIGINT},
          #{quantity,jdbcType=BIGINT},
          #{price,jdbcType=BIGINT},
          #{rating,jdbcType=INTEGER});
@@ -82,7 +82,7 @@
             product_color = #{color},
             product_subjectAge = #{subjectAge},
             product_material = #{material}
-        WHERE id = #{productId}
+        WHERE id = #{productId} and createdBy = #{vendorId}
     </update>
 
     <update id="updateVendorProduct" parameterType="com.project.ecommerce.form.ProductForm">
@@ -90,6 +90,5 @@
         SET product_quantity = #{quantity},
             product_price = #{price}
         Where productId = #{productId};
-
     </update>
 </mapper>

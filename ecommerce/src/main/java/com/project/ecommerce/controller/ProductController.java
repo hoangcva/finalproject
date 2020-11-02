@@ -3,13 +3,13 @@ package com.project.ecommerce.controller;
 import com.project.ecommerce.Validator.ProductValidator;
 import com.project.ecommerce.dto.CategoryDto;
 import com.project.ecommerce.dto.SubCategoryDto;
+import com.project.ecommerce.dto.UserDetailsDto;
 import com.project.ecommerce.dto.UserDto;
 import com.project.ecommerce.form.ProductForm;
 import com.project.ecommerce.service.IProductService;
 import com.project.ecommerce.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -86,24 +86,27 @@ public class ProductController {
     public String addProduct(@ModelAttribute("productForm") @Validated ProductForm productForm,
                              Model model,
                              BindingResult result,
-                             final RedirectAttributes redirectAttributes) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDto userDto = userService.getUserByUserName(((UserDetails) auth.getPrincipal()).getUsername());
-        productService.addProduct(productForm, userDto.getId());
+                             final RedirectAttributes redirectAttributes,
+                             Authentication auth) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        UserDto userDto = userService.getUserByUserName(((UserDetails) auth.getPrincipal()).getUsername());
+        Long id = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
+        productService.addProduct(productForm, id);
         return "redirect:/listProduct";
     }
 
     @GetMapping(value = "/listProduct")
-    public String getAllProductByVendorId(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDto userDto = userService.getUserByUserName(((UserDetails) auth.getPrincipal()).getUsername());
-        List<ProductForm> productFormList = productService.getAllProductByVendorId(userDto.getId());
+    public String getAllProductByVendorId(Model model, Authentication auth) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        UserDto userDto = userService.getUserByUserName(((UserDetails) auth.getPrincipal()).getUsername());
+        Long id = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
+        List<ProductForm> productFormList = productService.getAllProductByVendorId(id);
         model.addAttribute("productForms", productFormList);
         return "listVendorProduct";
     }
 
     @GetMapping(value = "/editProduct")
-    public String getEditProduct(@ModelAttribute("productId") Integer productId, Model model) {
+    public String getEditProduct(@ModelAttribute("productId") Long productId, Model model) {
         ProductForm productForm = productService.getVendorProduct(productId);
         model.addAttribute("productForm", productForm);
         return "editProduct";
@@ -113,10 +116,17 @@ public class ProductController {
     public String editProduct(@ModelAttribute("productForm") @Validated ProductForm productForm,
                               Model model,
                               BindingResult result,
-                              final RedirectAttributes redirectAttributes) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                              final RedirectAttributes redirectAttributes,
+                              Authentication auth) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.getUserByUserName(((UserDetails) auth.getPrincipal()).getUsername());
         productService.updateProduct(productForm);
         return "redirect:/listProduct";
+    }
+
+    @PostMapping(value = "/deleteProduct")
+    public String deleteProduct(@RequestParam Long productId) {
+        productService.deleteProduct(productId);
+        return null;
     }
 }
