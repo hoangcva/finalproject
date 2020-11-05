@@ -1,11 +1,10 @@
-package com.project.ecommerce.dto;
+package com.project.ecommerce.form;
 
-import java.util.List;
-
-public class CategoryDto {
+public class SubCategoryForm {
     private Integer id;
     private String name;
     private String description;
+    private Integer categoryId;
 
     public Integer getId() {
         return id;
@@ -29,5 +28,13 @@ public class CategoryDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 }

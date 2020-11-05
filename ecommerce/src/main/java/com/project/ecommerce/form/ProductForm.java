@@ -16,6 +16,7 @@ public class ProductForm {
     private Integer rating;
     private Long vendorId;
     private Long productId;
+    private Long createdBy;
 
     public String getProductName() {
         return productName;
@@ -135,5 +136,13 @@ public class ProductForm {
 
     public void setProductId(Long productId) {
         this.productId = productId;
+    }
+
+    public Long getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Long createdBy) {
+        this.createdBy = createdBy;
     }
 }

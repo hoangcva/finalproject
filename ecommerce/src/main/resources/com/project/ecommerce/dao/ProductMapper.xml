@@ -58,6 +58,7 @@
         <result property="quantity" column="product_quantity"/>
         <result property="price" column="product_price"/>
         <result property="rating" column="product_rating"/>
+        <result property="createdBy" column="createdBy"/>
     </resultMap>
 
     <select id="getAllProductByVendorId" resultMap="ProductResultMap" fetchSize="200">
@@ -81,7 +82,9 @@
             product_size = #{size},
             product_color = #{color},
             product_subjectAge = #{subjectAge},
-            product_material = #{material}
+            product_material = #{material},
+            categoryId = #{categoryId},
+            subCategoryId = #{subCategoryId}
         WHERE id = #{productId} and createdBy = #{vendorId}
     </update>
 
@@ -91,4 +94,23 @@
             product_price = #{price}
         Where productId = #{productId};
     </update>
+
+    <select id="getAllProduct" parameterType="int" resultMap="ProductResultMap" fetchSize="200">
+        SELECT * FROM product p
+        INNER JOIN
+            ( SELECT *
+              FROM vendor_product
+              ORDER BY product_rating DESC, product_price ASC
+              LIMIT 1
+            ) vp ON p.id = vp.productId
+        <where>
+            <if test="categoryId != null">
+                AND categoryId = #{categoryId}
+            </if>
+            <if test="subCategoryId != null">
+                AND subCategoryId = #{subCategoryId}
+            </if>
+        </where>
+        ORDER BY RAND()
+    </select>
 </mapper>

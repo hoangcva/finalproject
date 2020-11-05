@@ -1,11 +1,11 @@
-package com.project.ecommerce.dto;
+package com.project.ecommerce.form;
 
 import java.util.List;
 
-public class CategoryDto {
+public class CategoryForm {
     private Integer id;
     private String name;
-    private String description;
+    private List<SubCategoryForm> subCategoryForms;
 
     public Integer getId() {
         return id;
@@ -23,11 +23,11 @@ public class CategoryDto {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public List<SubCategoryForm> getSubCategoryForms() {
+        return subCategoryForms;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setSubCategoryForms(List<SubCategoryForm> subCategoryForms) {
+        this.subCategoryForms = subCategoryForms;
     }
 }

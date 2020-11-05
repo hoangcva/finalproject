@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ALL product</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <link th:rel="stylesheet" th:href="@{assets/bootstrap4-toggle/bootstrap4-toggle.min.css}"/>
+    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <script type="text/javascript" th:src="@{/js/viewProductList.js}"></script>
+<!--    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/viewProductList.css}" href="../../css/viewProductList.css">-->
+</head>
+<body>
+<th:block th:include="/common/_header"></th:block>
+
+<ul class="dropdown list-group">
+<!--    <div th:each="category,iterationStatus : ${categories}">-->
+    <li class="dropbtn list-group-item" th:each="category,iterationStatus : ${categories}" th:id="'dropbtn'+${iterationStatus.count}">
+        <a th:href="@{/showProductsByCategory(categoryId = ${category.id}, subCategoryId = 0)}" th:text="${category.name}"></a>
+<!--        <script th:inline="javascript">-->
+<!--            /*<![CDATA[*/-->
+<!--            $('#dropbtn'+id).hover(function() {-->
+<!--                showSubCategoryMenu(/*[[${iterationStatus.count}]]*/'');-->
+<!--            },-->
+<!--            function() {-->
+<!--                $('.show-content'+/*[[${iterationStatus.count}]]*/'').removeClass("show");-->
+<!--                // $('.dropdown-content '+/*[[${iterationStatus.count}]]*/'').style.display = 'none';-->
+<!--            });-->
+
+<!--            $('#show-content'+id).hover(function() {-->
+<!--                    $('.show-content'+/*[[${iterationStatus.count}]]*/'').addClass("show");-->
+<!--            },-->
+<!--            function() {-->
+<!--                $('.show-content'+/*[[${iterationStatus.count}]]*/'').removeClass("show");-->
+<!--                // $('.dropdown-content '+/*[[${iterationStatus.count}]]*/'').style.display = 'none';-->
+<!--            });-->
+
+<!--            /*]]>*/-->
+<!--        </script>-->
+        <ul class="dropdown-content list-group">
+            <li class="dropdown-content-btn list-group-item" th:classappend="'show-content'+${iterationStatus.count}" th:each="subCategory : ${category.subCategoryForms}">
+                <a th:href="@{/showProductsByCategory(categoryId = ${category.id}, subCategoryId = ${subCategory.id})}" th:text="${subCategory.name}"></a>
+            </li>
+        </ul>
+</li>
+<!--    </div>-->
+</ul>
+
+<table>
+    <tbody>
+    <tr th:each="product,iterationStatus : ${productFormList}">
+        <td th:text="${iterationStatus.count}"></td>
+        <td><a th:href="@{/editProduct(productId = ${product.productId})}" th:text="${product.productName}"></a></td>
+        <td th:text="${product.price}"></td>
+        <td th:text="${product.rating}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

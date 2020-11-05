@@ -1,13 +1,17 @@
 package com.project.ecommerce.controller;
 
+import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.Validator.ProductValidator;
 import com.project.ecommerce.dto.CategoryDto;
 import com.project.ecommerce.dto.SubCategoryDto;
 import com.project.ecommerce.dto.UserDetailsDto;
 import com.project.ecommerce.dto.UserDto;
+import com.project.ecommerce.form.CategoryForm;
 import com.project.ecommerce.form.ProductForm;
+import com.project.ecommerce.form.SubCategoryForm;
 import com.project.ecommerce.service.IProductService;
 import com.project.ecommerce.service.IUserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -92,10 +97,10 @@ public class ProductController {
 //        UserDto userDto = userService.getUserByUserName(((UserDetails) auth.getPrincipal()).getUsername());
         Long id = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
         productService.addProduct(productForm, id);
-        return "redirect:/listProduct";
+        return "redirect:/listVendorProduct";
     }
 
-    @GetMapping(value = "/listProduct")
+    @GetMapping(value = "/listVendorProduct")
     public String getAllProductByVendorId(Model model, Authentication auth) {
 //        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //        UserDto userDto = userService.getUserByUserName(((UserDetails) auth.getPrincipal()).getUsername());
@@ -106,9 +111,13 @@ public class ProductController {
     }
 
     @GetMapping(value = "/editProduct")
-    public String getEditProduct(@ModelAttribute("productId") Long productId, Model model) {
+    public String getEditProduct(@ModelAttribute("productId") Long productId, Model model, Authentication auth) {
+        UserDetailsDto userDetailsDto = (UserDetailsDto) auth.getPrincipal();
+        List<CategoryForm> categoryForms = getCategory();
         ProductForm productForm = productService.getVendorProduct(productId);
         model.addAttribute("productForm", productForm);
+        model.addAttribute("categories", categoryForms);
+        model.addAttribute("vendorId", userDetailsDto.getUserDto().getId());
         return "editProduct";
     }
 
@@ -118,15 +127,72 @@ public class ProductController {
                               BindingResult result,
                               final RedirectAttributes redirectAttributes,
                               Authentication auth) {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.getUserByUserName(((UserDetails) auth.getPrincipal()).getUsername());
         productService.updateProduct(productForm);
-        return "redirect:/listProduct";
+        return "redirect:/listVendorProduct";
     }
 
     @PostMapping(value = "/deleteProduct")
     public String deleteProduct(@RequestParam Long productId) {
         productService.deleteProduct(productId);
         return null;
+    }
+
+    @GetMapping(value = "/showProductsByCategory")
+    public String showAllProduct(Model model, @ModelAttribute("categoryId") int categoryId, @ModelAttribute("subCategoryId") int subCategoryId) {
+        List<CategoryForm> categoryForms = getCategory();
+
+        List<ProductForm> productFormList = getProduct(categoryId, subCategoryId);
+        model.addAttribute("productFormList", productFormList);
+        model.addAttribute("categories", categoryForms);
+        return "viewProductList";
+    }
+
+    @GetMapping(value = "/showProducts")
+    public String showAllProduct(Model model) {
+        List<CategoryForm> categoryForms = getCategory();
+
+        List<ProductForm> productFormList = getProduct(null, null);
+        model.addAttribute("productFormList", productFormList);
+        model.addAttribute("categories", categoryForms);
+        return "viewProductList";
+    }
+
+    private List<CategoryForm> getCategory() {
+        List<CategoryDto> categoryDtoList= productService.getAllCategory();
+        List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
+
+        List<CategoryForm> categoryForms = new ArrayList<>();
+        List<SubCategoryForm> subCategoryForms = new ArrayList<>();
+
+        for (CategoryDto categoryDto : categoryDtoList) {
+            CategoryForm categoryForm = new CategoryForm();
+            BeanUtils.copyProperties(categoryDto, categoryForm);
+            categoryForms.add(categoryForm);
+        }
+
+        for (SubCategoryDto subCategoryDto : subCategoryDtoList) {
+            SubCategoryForm subCategoryForm = new SubCategoryForm();
+            BeanUtils.copyProperties(subCategoryDto, subCategoryForm);
+            subCategoryForms.add(subCategoryForm);
+        }
+
+        for (CategoryForm categoryForm : categoryForms) {
+            List<SubCategoryForm> tmpSubCategories = new ArrayList<>();
+            for (SubCategoryForm subCategoryForm : subCategoryForms) {
+                if (subCategoryForm.getCategoryId().equals(categoryForm.getId())) {
+                    tmpSubCategories.add(subCategoryForm);
+                }
+            }
+            categoryForm.setSubCategoryForms(tmpSubCategories);
+        }
+
+        return categoryForms;
+    }
+
+    private List<ProductForm> getProduct(Integer categoryId, Integer supCategoryId) {
+        categoryId = Consts.DEFAULT_VALUE_0.equals(categoryId) ? null : categoryId;
+        supCategoryId = Consts.DEFAULT_VALUE_0.equals(supCategoryId) ? null : supCategoryId;
+        return productService.getALlProduct(categoryId, supCategoryId);
     }
 }

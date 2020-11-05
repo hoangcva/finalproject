@@ -24,4 +24,6 @@ public interface ProductMapper {
     List<ProductForm> getAllProductByVendorId(@Param("vendorId") Long vendorId);
 //    List<VendorProductDto> getAllVendorProductByVendorId(@Param("vendorId") Long vendorId);
     ProductForm getVendorProduct(@Param("productId") Long productId);
+
+    List<ProductForm> getAllProduct(@Param("categoryId") Integer categoryId, @Param("subCategoryId") Integer subCategoryId);
 }

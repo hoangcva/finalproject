@@ -5,24 +5,44 @@
 <h2>Add Detail</h2>
 
 <form th:action="@{/editProduct}" th:object="${productForm}" th:method="POST">
-    <label>Category:</label>
-    <input th:type="text" th:readonly="true" th:field="*{categoryId}"><br>
-    <label>SubCategory:</label>
-    <input th:type="text" th:readonly="true" th:field="*{subCategoryId}"><br>
-    <label>Product name:</label>
-    <input type="text" name="productName" th:field="*{productName}"><br>
-    <label>Brand:</label>
-    <input type="text" name="brand" th:field="*{brand}"><br>
-    <label>SKU:</label>
-    <input type="text" name="SKU" th:field="*{SKU}"><br>
-    <label>Size:</label>
-    <input type="text" name="size" th:field="*{size}"><br>
-    <label>Color:</label>
-    <input type="text" name="color" th:field="*{color}"><br>
-    <label>Age:</label>
-    <input type="text" name="subjectAge" th:field="*{subjectAge}"><br>
-    <label>Material:</label>
-    <input type="text" name="material" th:field="*{material}"><br>
+    <div th:if="${productForm.createdBy eq vendorId}">
+        <label>Category:</label>
+    <!--    <input th:type="text" th:readonly="true" th:field="*{categoryId}"><br>-->
+        <select name="categoryId" id="categoryId">
+            <option value="0" selected disabled ></option>
+            <option th:each="category : ${categories}"
+                    th:value="${category.id}"
+                    th:text="${category.name}"
+                    th:selected="${productForm.categoryId == category.id}">
+            </option>
+        </select><br>
+        <label>SubCategory:</label>
+    <!--    <input th:type="text" th:readonly="true" th:field="*{subCategoryId}"><br>-->
+        <select name="subCategoryId" id="subCategoryId">
+            <option value="0" selected disabled ></option>
+            <div th:each="category : ${categories}">
+                <option th:each="subCategory : ${category.subCategoryForms}"
+                        th:value="${subCategory.id}"
+                        th:text="${subCategory.name}"
+                        th:selected="${productForm.subCategoryId == subCategory.id}">
+                </option>
+            </div>
+        </select><br>
+        <label>Product name:</label>
+        <input type="text" name="productName" th:field="*{productName}"><br>
+        <label>Brand:</label>
+        <input type="text" name="brand" th:field="*{brand}"><br>
+        <label>SKU:</label>
+        <input type="text" name="SKU" th:field="*{SKU}"><br>
+        <label>Size:</label>
+        <input type="text" name="size" th:field="*{size}"><br>
+        <label>Color:</label>
+        <input type="text" name="color" th:field="*{color}"><br>
+        <label>Age:</label>
+        <input type="text" name="subjectAge" th:field="*{subjectAge}"><br>
+        <label>Material:</label>
+        <input type="text" name="material" th:field="*{material}"><br>
+    </div>
     <label>price:</label>
     <input type="text" name="price" th:field="*{price}"><br>
     <label>quantity:</label>
