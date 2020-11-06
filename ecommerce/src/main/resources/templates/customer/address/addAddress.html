@@ -11,7 +11,7 @@
 <div th:if="${errorMessage != null}"
      th:utext="${errorMessage}" class="error">...</div>
 
-<form name="register" th:object="${address_form}" th:action="@{/saveRegister}" method="post">
+<form name="register" th:object="${address_form}" th:action="@{/saveAddress}" method="post">
     <table>
         <tr>
             <td>Fullname</td>

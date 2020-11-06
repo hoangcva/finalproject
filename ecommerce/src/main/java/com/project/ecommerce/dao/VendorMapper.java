@@ -1,28 +1,16 @@
 package com.project.ecommerce.dao;
 
-import com.project.ecommerce.dto.UserDto;
 import com.project.ecommerce.dto.VendorDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 @Mapper
-public interface UserMapper {
-    List<UserDto> getAllUser();
-    UserDto findUserById(@Param("userId") Long userId);
-    UserDto findUserByEmail(@Param("email") String email);
-    UserDto findUserByUserName(@Param("user_name") String userName);
-    void createUser(UserDto userDto);
-    void updateUser(UserDto userDto);
-    boolean deleteUser(@Param("userId") Long userId);
-
+public interface VendorMapper {
     VendorDto findVendorByEmail(@Param("email") String email);
     int findVendorByUserName(@Param("userName") String userName);
     int findVendorExist(@Param("userName") @Nullable String userName, @Param("email") @Nullable String email, @Param("businessCode") @Nullable String businessCode);
     void createVendor(VendorDto vendorDto);
-    boolean deleteVendor(@Param("vendorId") Long vendorId);
 }

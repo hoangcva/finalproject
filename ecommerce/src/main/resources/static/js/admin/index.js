@@ -1,26 +1,23 @@
 $(document).ready(function(){
 });
 
-function deleteUser(userName) {
+function deleteUser(userId) {
     let result = confirm("Do you want to delete this user?");
-    // var userName = $(this).attr('data-userName');
+    var userId = {"userId" : userId};
     if (result) {
         $.ajax({
-            type:'DELETE',
+            type:'POST',
             url: '/admin/delete',
             // headers: { 'X-CSRF-TOKEN': $("input[name='_csrf']").val()},
             contentType: 'application/json',
             dataType : 'json',
-            data: {"userName" : userName},
+            data: JSON.stringify(userId),
             success : function (result) {
-                console.log(result);
+                $('#AdminReload').submit();
             },
             error: function (result) {
                 console.log(result);
             },
-            complete: function () {
-
-            }
         });
     } else {
 

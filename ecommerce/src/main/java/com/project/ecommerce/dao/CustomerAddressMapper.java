@@ -15,4 +15,5 @@ public interface CustomerAddressMapper {
     boolean insertAddress(CustomerAddressDto customerAddressDto);
     boolean updateAddress(CustomerAddressDto customerAddressDto);
     boolean deleteAddress(@Param("id") Long id);
+    boolean deleteALLAddressByUser(@Param("customerId") Long customerId);
 }

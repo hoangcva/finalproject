@@ -42,19 +42,6 @@
             </td>
             <td th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></td>
         </tr>
-        <tr>
-            <td>City</td>
-            <td>
-                <select th:field="*{province}" name="province">
-                    <option th:each="province : ${province_list}"
-                            th:value="${province.code}"
-                            th:text="${province.name}"
-                            th:selected="${user_update_form.isSelected(province.code)}">
-                    </option>
-                </select>
-            </td>
-            <td th:if="${#fields.hasErrors('province')}" th:errors="*{province}"></td>
-        </tr>
     </table>
     <button type="submit" th:text="Update"></button>
 </form>

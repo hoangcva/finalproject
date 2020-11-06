@@ -42,7 +42,6 @@ public class UpdateUserController {
         user.setGender(userDetails.getUserDto().getGender());
         user.setPassword(userDetails.getPassword());
         user.setEmail(userDetails.getUserDto().getEmail());
-        user.setProvince(userDetails.getUserDto().getProvince());
         user.nullToEmpty();
         List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
         model.addAttribute("user_update_form", user);
@@ -50,7 +49,7 @@ public class UpdateUserController {
 //        session.setAttribute("user_update_form", user);
         session.setAttribute("province_list", provinceDtoList);
 //        model.addAttribute("session", session);
-        return "updateUserInfo";
+        return "customer/updateUserInfo";
     }
 
     // Set a form validator
@@ -77,7 +76,7 @@ public class UpdateUserController {
         model.addAttribute("province_list",  provinceList);
 
         if (result.hasErrors()) {
-            return "updateUserInfo";
+            return "customer/updateUserInfo";
         }
 
         try {
@@ -86,11 +85,11 @@ public class UpdateUserController {
         // Other error!!
         catch (Exception e) {
             model.addAttribute("errorMessage", "Error: " + e.getMessage());
-            return "updateUserInfo";
+            return "customer/updateUserInfo";
         }
 
         model.addAttribute("message", "update successfully");
-        return "updateUserInfo";
+        return "customer/updateUserInfo";
 
     }
 }

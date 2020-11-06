@@ -1,14 +1,19 @@
 package com.project.ecommerce.service.impl;
 
+import com.project.ecommerce.Consts.Consts;
+import com.project.ecommerce.dao.CustomerAddressMapper;
 import com.project.ecommerce.dao.UserMapper;
 import com.project.ecommerce.dto.UserDetailsDto;
 import com.project.ecommerce.dto.UserDto;
-import com.project.ecommerce.form.RegisterForm;
+import com.project.ecommerce.dto.VendorDto;
+import com.project.ecommerce.form.UserRegisterForm;
 import com.project.ecommerce.form.UserUpdateForm;
+import com.project.ecommerce.form.VendorForm;
 import com.project.ecommerce.service.IUserService;
+import org.apache.tomcat.util.bcel.Const;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,6 +31,8 @@ public class UserServiceImpl implements IUserService {
     private UserMapper userMapper;
     @Autowired
     private DataSourceTransactionManager transactionManager;
+    @Autowired
+    private CustomerAddressMapper customerAddressMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) {
@@ -42,15 +49,14 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void createUser(RegisterForm registerForm) {
+    public void createUser(UserRegisterForm userRegisterForm) {
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
             UserDto userDto = new UserDto();
-            userDto.setUserName(registerForm.getUserName());
-            userDto.setPassword(encoder.encode(registerForm.getPassword()));
-            userDto.setEmail(registerForm.getEmail());
-            userDto.setFullName(registerForm.getFullName());
-            userDto.setProvince(registerForm.getProvince());
+            userDto.setUserName(userRegisterForm.getUserName());
+            userDto.setPassword(encoder.encode(userRegisterForm.getPassword()));
+            userDto.setEmail(userRegisterForm.getEmail());
+            userDto.setFullName(userRegisterForm.getFullName());
             userDto.setRole("ROLE_USER");
             userMapper.createUser(userDto);
             transactionManager.commit(txStatus);
@@ -70,7 +76,6 @@ public class UserServiceImpl implements IUserService {
             userDto.setUserName(userUpdateForm.getUserName());
             userDto.setEmail(userUpdateForm.getEmail());
             userDto.setFullName(userUpdateForm.getFullName());
-            userDto.setProvince(userUpdateForm.getProvince());
             userDto.setGender(userUpdateForm.getGender());
             userMapper.updateUser(userDto);
             transactionManager.commit(txStatus);
@@ -83,15 +88,41 @@ public class UserServiceImpl implements IUserService {
         return userMapper.getAllUser();
     }
 
-    public boolean deleteUser(String userName) {
+    public boolean deleteUser(Long userId) {
+        UserDto userDto = userMapper.findUserById(userId);
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
-            userMapper.deleteUser(userName);
+            if (Consts.ROLE_USER.equals(userDto.getRole())) {
+                customerAddressMapper.deleteALLAddressByUser(userId);
+                userMapper.deleteUser(userId);
+            } else if (Consts.ROLE_VENDOR.equals(userDto.getRole())) {
+                userMapper.deleteVendor(userId);
+                userMapper.deleteUser(userId);
+            } else {
+                return false;
+            }
             transactionManager.commit(txStatus);
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void createVendor(VendorForm vendorForm) {
+        TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        try {
+            VendorDto vendorDto = new VendorDto();
+            BeanUtils.copyProperties(vendorForm, vendorDto);
+            vendorDto.setRole(Consts.ROLE_VENDOR);
+            vendorDto.setPassword(encoder.encode(vendorForm.getPassword()));
+            userMapper.createUser(vendorDto);
+            userMapper.createVendor(vendorDto);
+            transactionManager.commit(txStatus);
+        } catch (Exception ex) {
+            transactionManager.rollback(txStatus);
+            throw ex;
+        }
     }
 }

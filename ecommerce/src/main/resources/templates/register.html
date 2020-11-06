@@ -10,7 +10,7 @@
 <h2>Create Account</h2>
 <div th:if="${errorMessage != null}"
      th:utext="${errorMessage}" class="error">...</div>
-<form name="register" th:object="${user_form}" th:action="@{/saveRegister}" method="post">
+<form name="register" th:object="${user_form}" th:action="@{/saveUser}" method="post">
     <table>
         <tr>
             <td>Username</td>
@@ -47,15 +47,6 @@
                 </select>
             </td>
             <td th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></td>
-        </tr>
-        <tr>
-            <td>City</td>
-            <td>
-                <select th:field="*{province}">
-                    <option th:each="province : ${province_list}" th:value="${province.code}" th:text="${province.name}"></option>
-                </select>
-            </td>
-            <td th:if="${#fields.hasErrors('province')}" th:errors="*{province}"></td>
         </tr>
     </table>
     <button type="submit" th:text="Submit"></button>

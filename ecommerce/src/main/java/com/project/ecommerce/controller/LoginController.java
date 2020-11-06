@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LoginController {
 
-    @RequestMapping(value={"/","/login"})
+    @RequestMapping(value="/login")
     public String login(@RequestParam(required = false) String message, Model model) throws Exception {
         if (message != null && !message.isEmpty()) {
             if (message.equals("logout")) {
@@ -23,7 +23,7 @@ public class LoginController {
     }
     @RequestMapping("/user")
     public String user() {
-        return "user";
+        return "customer/user";
     }
 //    @RequestMapping("/admin")
 //    public String admin() {

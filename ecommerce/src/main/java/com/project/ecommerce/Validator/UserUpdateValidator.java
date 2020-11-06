@@ -2,7 +2,6 @@ package com.project.ecommerce.Validator;
 
 import com.project.ecommerce.dao.UserMapper;
 import com.project.ecommerce.dto.UserDto;
-import com.project.ecommerce.form.RegisterForm;
 import com.project.ecommerce.form.UserUpdateForm;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,6 @@ public class UserUpdateValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fullName", "NotEmpty.UserForm.fullname");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty.UserForm.email");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "gender", "NotEmpty.UserForm.gender");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "province", "NotEmpty.UserForm.province");
 
         if (!this.emailValidator.isValid(userUpdateForm.getEmail())) {
             // Email không hợp lệ.

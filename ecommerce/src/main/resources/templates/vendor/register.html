@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register page</title>
+</head>
+<body>
+<!-- Include _header.html -->
+<th:block th:include="/common/_header"></th:block>
+<h2>Create Account</h2>
+<div th:if="${errorMessage != null}"
+     th:utext="${errorMessage}" class="error">...</div>
+<form name="register" th:object="${vendor_form}" th:action="@{/saveVendor}" method="post">
+    <table>
+        <tr>
+            <td>Username</td>
+            <td><input th:field="*{userName}" type='text'></td>
+            <td th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></td>
+        </tr>
+        <tr>
+            <td>Fullname</td>
+            <td><input th:field="*{fullName}" type='text'></td>
+            <td th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></td>
+        </tr>
+        <tr>
+            <td>Phone number</td>
+            <td><input th:field="*{phoneNumber}" type='text'></td>
+            <td th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input th:field="*{email}" type='text'></td>
+            <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td><input th:field="*{password}" type='password' autocomplete="off"></td>
+            <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></td>
+        </tr>
+        <tr>
+            <td>Confirm password</td>
+            <td><input th:field="*{confirmPassword}" type='password' autocomplete="off"></td>
+            <td th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></td>
+        </tr>
+        <tr>
+            <td>Business code</td>
+            <td><input th:field="*{businessCode}" type='text'></td>
+            <td th:if="${#fields.hasErrors('businessCode')}" th:errors="*{businessCode}"></td>
+        </tr>
+        <tr>
+            <td>Category</td>
+            <td>
+                <select th:field="*{category}">
+                    <option th:each="category : ${category_list}" th:text="${category.name}" th:value="${category.id}"></option>
+                </select>
+            </td>
+            <td th:if="${#fields.hasErrors('category')}" th:errors="*{gender}"></td>
+        </tr>
+        <tr>
+            <td>City</td>
+            <td>
+                <select th:field="*{province}">
+<!--                    <option value="0" selected="true" text="&#45;&#45;"></option>-->
+                    <option th:each="province : ${province_list}" th:value="${province.id}" th:text="${province.name}"></option>
+                </select>
+            </td>
+            <td th:if="${#fields.hasErrors('province')}" th:errors="*{province}"></td>
+        </tr>
+    </table>
+    <button type="submit" th:text="Submit"></button>
+</form>
+</body>
+</html>

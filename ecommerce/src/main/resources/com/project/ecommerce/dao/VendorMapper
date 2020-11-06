@@ -3,63 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.project.ecommerce.dao.UserMapper">
-    <select id="getAllUser" resultType="com.project.ecommerce.dto.UserDto" fetchSize="200">
-        SELECT * FROM users
-    </select>
-
-    <select id="findUserByUserName" resultType="com.project.ecommerce.dto.UserDto" fetchSize="200">
-        SELECT * FROM users WHERE username = #{user_name}
-    </select>
-
-    <select id="findUserById" resultType="com.project.ecommerce.dto.UserDto" fetchSize="200">
-        SELECT * FROM users WHERE id = #{userId}
-    </select>
-
-    <select id="findUserByEmail" resultType="com.project.ecommerce.dto.UserDto" fetchSize="200">
-        SELECT * FROM users WHERE email = #{email} AND role = 'ROLE_USER'
-    </select>
-    <insert id="createUser" parameterType="com.project.ecommerce.dto.UserDto" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        INSERT INTO users
-            (
-            <if test="gender != null">
-             gender,
-            </if>
-            username,
-            password,
-            fullname,
-            role,
-            email
-            )
-        VALUES
-            (
-            <if test="gender != null">
-             #{gender,jdbcType=VARCHAR},
-            </if>
-             #{userName,jdbcType=VARCHAR},
-             #{password,jdbcType=VARCHAR},
-             #{fullName,jdbcType=VARCHAR},
-             #{role,jdbcType=VARCHAR},
-             #{email,jdbcType=VARCHAR}
-            )
-        <selectKey keyProperty="id" resultType="long" order="AFTER">
-            SELECT LAST_INSERT_ID();
-        </selectKey>
-    </insert>
-    <update id="updateUser" parameterType="com.project.ecommerce.dto.UserDto">
-        UPDATE users
-        SET
-            fullname = #{fullName},
-            email = #{email},
-            gender = #{gender}
-        WHERE username = #{userName}
-    </update>
-    <delete id="deleteUser" parameterType="long">
-        DELETE FROM users WHERE id = #{userId}
-    </delete>
-
-<!--=======================================================================================================================================-->
-
+<mapper namespace="com.project.ecommerce.dao.VendorMapper">
     <resultMap id="VendorResultMap" type="com.project.ecommerce.dto.VendorDto">
         <id property="id" column="id" />
         <result property="userName" column="username"/>
@@ -67,9 +11,11 @@
         <result property="phoneNumber" column="vendor_phone"/>
         <result property="addressDetail" column="vendor_address_detail"/>
         <result property="province" column="province"/>
+        <result property="district" column="district"/>
+        <result property="ward" column="ward"/>
         <result property="description" column="vendor_description"/>
         <result property="businessCode" column="business_code"/>
-        <!--        <result property="categoryId" column="categoryId"/>-->
+<!--        <result property="categoryId" column="categoryId"/>-->
     </resultMap>
 
     <select id="findVendorByUserName" resultType="int" fetchSize="200">
@@ -109,6 +55,8 @@
             province,
             business_code,
             category,
+            district,
+            ward,
             vendor_address_detail
         )
         VALUES
@@ -118,8 +66,10 @@
             #{phoneNumber,jdbcType=VARCHAR},
             #{province,jdbcType=INTEGER},
             #{businessCode,jdbcType=VARCHAR},
-            #{categoryId,jdbcType=INTEGER},
-            #{addressDetail,jdbcType=VARCHAR}
+            #{category,jdbcType=INTEGER},
+            #{district,jdbcType=INTEGER},
+            #{ward,jdbcType=INTEGER},
+            #{vendor_address_detail,jdbcType=VARCHAR}
         )
     </insert>
 
@@ -133,9 +83,5 @@
             category = #{gender}
         WHERE id = #{id}
     </update>
-
-    <delete id="deleteVendor" parameterType="long">
-        DELETE FROM vendor_info WHERE id = #{vendorId}
-    </delete>
 </mapper>
 

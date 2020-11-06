@@ -2,7 +2,7 @@ package com.project.ecommerce.service.impl;
 
 import com.project.ecommerce.dao.UserMapper;
 import com.project.ecommerce.dto.UserDto;
-import com.project.ecommerce.form.RegisterForm;
+import com.project.ecommerce.form.UserRegisterForm;
 import com.project.ecommerce.service.IRegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -20,14 +20,14 @@ public class RegisterServiceImpl implements IRegisterService {
     @Autowired
     private DataSourceTransactionManager transactionManager;
 
-    public void createUser(RegisterForm registerForm) {
+    public void createUser(UserRegisterForm userRegisterForm) {
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
             UserDto userDto = new UserDto();
-            userDto.setUserName(registerForm.getUserName());
-            userDto.setPassword(encoder.encode(registerForm.getPassword()));
-            userDto.setEmail(registerForm.getEmail());
-            userDto.setFullName(registerForm.getFullName());
+            userDto.setUserName(userRegisterForm.getUserName());
+            userDto.setPassword(encoder.encode(userRegisterForm.getPassword()));
+            userDto.setEmail(userRegisterForm.getEmail());
+            userDto.setFullName(userRegisterForm.getFullName());
             userDto.setRole("ROLE_USER");
             userMapper.createUser(userDto);
             transactionManager.commit(txStatus);

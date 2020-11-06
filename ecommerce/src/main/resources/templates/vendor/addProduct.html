@@ -9,14 +9,14 @@
         <div>Category</div>
         <select id="category-select" th:field="*{categoryId}">
             <option value="0" selected disabled ></option>
-            <option th:each="category : ${categorys}" th:value="${category.id}" th:text="${category.name}"></option>
+            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
         </select>
     </div>
     <div>
         <div>Sub category</div>
         <select id="sub-category-select" th:field="*{subCategoryId}">
             <option value="0" selected disabled ></option>
-            <option th:each="subCategory : ${subCategorys}" th:value="${subCategory.id}" th:text="${subCategory.name}"></option>
+            <option th:each="subCategory : ${subCategories}" th:value="${subCategory.id}" th:text="${subCategory.name}"></option>
         </select>
     </div>
     <button th:type="submit" th:text="Submit"></button>

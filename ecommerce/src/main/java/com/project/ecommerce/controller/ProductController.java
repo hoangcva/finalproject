@@ -43,9 +43,9 @@ public class ProductController {
         List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
         ProductForm productForm = new ProductForm();
         model.addAttribute("productForm", productForm);
-        model.addAttribute("categorys", categoryDtoList);
-        model.addAttribute("subCategorys", subCategoryDtoList);
-        return "/addProduct";
+        model.addAttribute("categories", categoryDtoList);
+        model.addAttribute("subCategories", subCategoryDtoList);
+        return "vendor/addProduct";
     }
 
 //    @GetMapping(value = "/showCategory")
@@ -70,7 +70,7 @@ public class ProductController {
     @PostMapping(value = "/addProduct/detail")
     public String showDetail(@ModelAttribute("productForm") ProductForm productForm, Model model) {
         model.addAttribute("productForm", productForm);
-        return "addProductDetail";
+        return "vendor/addProductDetail";
     }
 
     // Set a form validator
@@ -93,8 +93,6 @@ public class ProductController {
                              BindingResult result,
                              final RedirectAttributes redirectAttributes,
                              Authentication auth) {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        UserDto userDto = userService.getUserByUserName(((UserDetails) auth.getPrincipal()).getUsername());
         Long id = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
         productService.addProduct(productForm, id);
         return "redirect:/listVendorProduct";
@@ -102,12 +100,10 @@ public class ProductController {
 
     @GetMapping(value = "/listVendorProduct")
     public String getAllProductByVendorId(Model model, Authentication auth) {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        UserDto userDto = userService.getUserByUserName(((UserDetails) auth.getPrincipal()).getUsername());
-        Long id = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
-        List<ProductForm> productFormList = productService.getAllProductByVendorId(id);
+        Long vendorId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
+        List<ProductForm> productFormList = productService.getAllProductByVendorId(vendorId);
         model.addAttribute("productForms", productFormList);
-        return "listVendorProduct";
+        return "vendor/listVendorProduct";
     }
 
     @GetMapping(value = "/editProduct")
@@ -118,7 +114,7 @@ public class ProductController {
         model.addAttribute("productForm", productForm);
         model.addAttribute("categories", categoryForms);
         model.addAttribute("vendorId", userDetailsDto.getUserDto().getId());
-        return "editProduct";
+        return "vendor/editProduct";
     }
 
     @PostMapping(value = "/editProduct")
@@ -148,7 +144,7 @@ public class ProductController {
         return "viewProductList";
     }
 
-    @GetMapping(value = "/showProducts")
+    @GetMapping(value = {"/", "/showProducts"})
     public String showAllProduct(Model model) {
         List<CategoryForm> categoryForms = getCategory();
 
@@ -194,5 +190,10 @@ public class ProductController {
         categoryId = Consts.DEFAULT_VALUE_0.equals(categoryId) ? null : categoryId;
         supCategoryId = Consts.DEFAULT_VALUE_0.equals(supCategoryId) ? null : supCategoryId;
         return productService.getALlProduct(categoryId, supCategoryId);
+    }
+
+    @GetMapping(value = "viewProductDetail")
+    public String viewProductDetail(Model model) {
+        return "viewProductDetail";
     }
 }

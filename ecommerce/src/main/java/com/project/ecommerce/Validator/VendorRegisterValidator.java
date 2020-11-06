@@ -1,8 +1,7 @@
 package com.project.ecommerce.Validator;
 
 import com.project.ecommerce.dao.UserMapper;
-import com.project.ecommerce.dto.UserDto;
-import com.project.ecommerce.form.RegisterForm;
+import com.project.ecommerce.form.VendorForm;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,7 +10,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 @Component
-public class UserValidator implements Validator {
+public class VendorRegisterValidator implements Validator {
     private EmailValidator emailValidator = EmailValidator.getInstance();
 
     @Autowired
@@ -19,42 +18,50 @@ public class UserValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return clazz == RegisterForm.class;
+        return clazz == VendorForm.class;
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        RegisterForm registerForm = (RegisterForm) target;
+        VendorForm vendorForm = (VendorForm) target;
 
         // Kiểm tra các field của UserForm.
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userName", "NotEmpty.UserForm.userName");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty.UserForm.email");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty.UserForm.password");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "NotEmpty.UserForm.confirmPassword");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "gender", "NotEmpty.UserForm.gender");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "province", "NotEmpty.UserForm.province");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phoneNumber", "NotEmpty.VendorForm.phoneNumber");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "businessCode", "NotEmpty.VendorForm.businessCode");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fullName", "NotEmpty.VendorForm.fullName");
 
-        if (!this.emailValidator.isValid(registerForm.getEmail())) {
+        if (!this.emailValidator.isValid(vendorForm.getEmail())) {
             // Email không hợp lệ.
             errors.rejectValue("email", "Pattern.UserForm.email");
-        } else if (registerForm.getId() == null) {
-            UserDto userDto = userMapper.findUserByEmail(registerForm.getEmail());
-            if (userDto != null) {
+        } else if (vendorForm.getId() == null) {
+            int count = userMapper.findVendorExist(null,vendorForm.getEmail(), null);
+            if (count > 0) {
                 // Email đã được sử dụng bởi tài khoản khác.
-                errors.rejectValue("email", "Duplicate.UserForm.email");
+                errors.rejectValue("email", "Duplicate.VendorForm.email");
             }
         }
 
         if (!errors.hasFieldErrors("userName")) {
-            UserDto userDto = userMapper.findUserByUserName(registerForm.getUserName());
-            if (userDto != null) {
+            int count = userMapper.findVendorExist(vendorForm.getUserName(),null,null);
+            if (count > 0) {
                 // Tên tài khoản đã bị sử dụng bởi người khác.
-                errors.rejectValue("userName", "Duplicate.UserForm.userNam");
+                errors.rejectValue("userName", "Duplicate.UserForm.userName");
+            }
+        }
+        if (!errors.hasFieldErrors("businessCode")) {
+            int count = userMapper.findVendorExist(null,null, vendorForm.getBusinessCode());
+            if (count > 0) {
+                // Tên tài khoản đã bị sử dụng bởi người khác.
+                errors.rejectValue("businessCode", "Duplicate.VendorForm.businessCode");
             }
         }
         if (!errors.hasErrors()) {
-            if (!registerForm.getConfirmPassword().equals(registerForm.getPassword())) {
-                errors.rejectValue("confirmPassword", "Match.usersForm.confirmPassword");
+            if (!vendorForm.getConfirmPassword().equals(vendorForm.getPassword())) {
+                errors.rejectValue("confirmPassword", "Match.UserForm.confirmPassword");
             }
         }
     }

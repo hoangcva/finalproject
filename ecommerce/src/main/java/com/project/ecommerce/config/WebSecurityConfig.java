@@ -53,16 +53,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 // Chỉ cho phép user có quyền ADMIN truy cập đường dẫn /admin/**
                 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/vendor/**").access("hasRole('ROLE_VENDOR')")
                 // Chỉ cho phép user có quyền ADMIN hoặc USER truy cập đường dẫn /user/**
                 .antMatchers("/customer/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
                 .and()
             // Cấu hình cho Login Form.
             .formLogin()
-                .loginProcessingUrl("/j_spring_security_login")//
-                .loginPage("/login")//
-                .defaultSuccessUrl("/user")//
-                .failureUrl("/login?message=error")//
-                .usernameParameter("username")//
+                .loginProcessingUrl("/j_spring_security_login")
+                .loginPage("/login")
+                .defaultSuccessUrl("/showProducts")
+                .failureUrl("/login?message=error")
+                .usernameParameter("username")
                 .passwordParameter("password")
                 .and()
             .rememberMe()

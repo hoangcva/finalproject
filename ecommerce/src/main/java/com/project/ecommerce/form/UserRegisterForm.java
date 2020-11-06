@@ -1,17 +1,15 @@
 package com.project.ecommerce.form;
 
-public class RegisterForm {
+public class UserRegisterForm {
     private Long id;
     private String userName;
     private String password;
     private String fullName;
-    private Boolean enable;
     private String gender;
     private String email;
     private String confirmPassword;
-    private String province;
 
-    public RegisterForm() {
+    public UserRegisterForm() {
     }
 
     public String getFullName() {
@@ -20,14 +18,6 @@ public class RegisterForm {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
-    }
-
-    public Boolean getEnable() {
-        return enable;
-    }
-
-    public void setEnable(Boolean enable) {
-        this.enable = enable;
     }
 
     public String getGender() {
@@ -52,14 +42,6 @@ public class RegisterForm {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
-    }
-
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
     }
 
     public Long getId() {
@@ -90,7 +72,6 @@ public class RegisterForm {
         this.fullName = this.fullName == null ? "" : this.fullName;
         this.gender = this.fullName == null ? "" : this.fullName;
         this.email = this.email == null ? "" : this.email;
-        this.province = this.province == null ? "" : this.province;
     }
 }
 

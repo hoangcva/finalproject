@@ -40,4 +40,8 @@
     <delete id="deleteAddress" parameterType="String">
         DELETE FROM customer_info WHERE id = #{id}
     </delete>
+
+    <delete id="deleteALLAddressByUser" parameterType="String">
+        DELETE FROM customer_info WHERE customer_id = #{customerId}
+    </delete>
 </mapper>

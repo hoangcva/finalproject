@@ -1,13 +1,27 @@
-<div xmlns:th="http://www.thymeleaf.org"
-     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
-     style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<script type="text/javascript" th:src="@{/js/common/_header.js}"></script>
+<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/common/_header.css}" href="../../css/common/_header.css">
+<div style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">
     <a th:href="@{/}">Home</a>
     <span sec:authorize="!isAuthenticated()">
         | &nbsp;
+        <a th:href="@{/login}">Login</a>
+        | &nbsp;
         <a th:href="@{/register}">Register</a>
+        | &nbsp;
+        <a th:href="@{/vendorRegister}">Vendor Register</a>
     </span>
     <span sec:authorize="isAuthenticated()">
         <span sec:authorize="hasRole('ADMIN')">
+            | &nbsp;
+            <a th:href="@{/members}">Members</a>
+        </span>
+        <span sec:authorize="hasRole('USER')">
+            | &nbsp;
+            <a th:href="@{/members}">Members</a>
+        </span>
+        <span sec:authorize="hasRole('VENDOR')">
             | &nbsp;
             <a th:href="@{/members}">Members</a>
         </span>
@@ -16,13 +30,13 @@
         |
         Role: <span sec:authentication="principal.authorities"></span>
         |
-<!--        <form th:action="@{/j_spring_security_logout}" method="post">-->
-<!--            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
-<!--            |-->
-<!--            <input type="submit" value="Logout"/>-->
-<!--        </form>-->
+        <span>
+            <a href="#" th:text="Logout" th:onclick="|javascript:logout()|"></a>
+        </span>
         | &nbsp;
         <a th:href="@{/updateUserPage}">update info</a>
     </span>
-
 </div>
+<form method="post" th:action="@{/j_spring_security_logout}" id="logout">
+    <!--    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+</form>

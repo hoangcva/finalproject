@@ -13,8 +13,9 @@ public class UserDto {
     private String role;
     private String fullName;
     private String email;
-    private String province;
+//    private String province;
     private String gender;
+
 
     public UserDto() {
     }
@@ -75,13 +76,13 @@ public class UserDto {
         this.gender = gender;
     }
 
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
+//    public String getProvince() {
+//        return province;
+//    }
+//
+//    public void setProvince(String province) {
+//        this.province = province;
+//    }
 
     public List<GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
