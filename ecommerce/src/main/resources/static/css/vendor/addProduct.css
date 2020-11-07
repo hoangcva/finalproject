@@ -1,0 +1,134 @@
+/** {*/
+/*    font-family: 'Noto Sans', sans-serif;*/
+/*}*/
+
+/*#store-location-page .location-selector {*/
+/*    float: left;*/
+/*    width: 37%;*/
+/*    padding-left: 5.1vw;*/
+/*}*/
+
+/*!*the container must be positioned relative:*!*/
+
+/*.custom-select, .custom-select2 {*/
+/*    position: relative;*/
+/*    width: 100%;*/
+/*    height: 4.2vw;*/
+/*    font-family: NotoSansBold;*/
+/*    font-size: 1.25vw;*/
+/*    line-height: 4.2vw;*/
+/*    margin-bottom: 2.2vw;*/
+/*}*/
+
+/*.custom-select select {*/
+/*    display: none;*/
+/*    !*hide original SELECT element:*!*/
+/*}*/
+
+/*.custom-select2 select {*/
+/*    display: none;*/
+/*}*/
+
+/*.select-selected {*/
+/*    background-color: #ffffff;*/
+/*    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);*/
+/*    border-radius: 0.4vw;*/
+/*}*/
+
+/*!*style the arrow inside the select element:*!*/
+
+/*.select-selected:after {*/
+/*    position: absolute;*/
+/*    display: block;*/
+/*    content: "";*/
+/*    top: 50%;*/
+/*    transform: translateY(-50%);*/
+/*    right: 1.4vw;*/
+/*    width: 0;*/
+/*    height: 0;*/
+/*    border: 0.4vw solid transparent;*/
+/*    border-color: #F287B7 transparent transparent transparent;*/
+/*}*/
+
+/*!*style the items (options), including the selected item:*!*/
+
+/*.select-items div, .select-selected {*/
+/*    color: #F287B7;*/
+/*    padding: 0.5vw 1.1vw;*/
+/*    border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;*/
+/*    cursor: pointer;*/
+/*    user-select: none;*/
+/*    font-family: NotoSansBold;*/
+/*    font-size: 1.25vw;*/
+/*    line-height: 2.5vw;*/
+/*}*/
+
+/*!*style items (options):*!*/
+
+/*.select-items {*/
+/*    position: absolute;*/
+/*    background-color: #ffffff;*/
+/*    top: 100%;*/
+/*    left: 0;*/
+/*    right: 0;*/
+/*    max-height: 29.1vw;*/
+/*    overflow-y: scroll;*/
+/*    z-index: 99;*/
+/*    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.25);*/
+/*    border-radius: 0.5vw;*/
+/*}*/
+
+/*!*hide the items when the select box is closed:*!*/
+
+/*.select-hide {*/
+/*    display: none;*/
+/*}*/
+
+/*.select-items div:hover, .same-as-selected {*/
+/*    background-color: rgba(253, 235, 236, 0.7);*/
+/*}*/
+
+/*@media screen and (max-width: 425px) {*/
+/*    #store-location-page .location-selector {*/
+/*        margin-top: 3vw;*/
+/*        width: 60%;*/
+/*    }*/
+/*    .custom-select, .custom-select2 {*/
+/*        height: 11vw;*/
+/*        margin-bottom: 5vw;*/
+/*    }*/
+/*    .select-items div, .select-selected {*/
+/*        padding: 0 0 0 4vw;*/
+/*        height: 11vw;*/
+/*        font-size: 3.7vw;*/
+/*        line-height: 11vw;*/
+/*    }*/
+/*    .select-items div {*/
+/*        padding: 0;*/
+/*        text-align: center;*/
+/*    }*/
+/*    .select-selected {*/
+/*        border-radius: 2vw;*/
+/*    }*/
+/*    .select-selected:after {*/
+/*        top: 50%;*/
+/*        transform: translateY(-50%);*/
+/*        right: 6vw;*/
+/*        width: 0;*/
+/*        height: 0;*/
+/*        border: 1.5vw solid transparent;*/
+/*        border-color: #F287B7 transparent transparent transparent;*/
+/*    }*/
+/*    .select-items {*/
+/*        top: 120%;*/
+/*        border-radius: 1.5vw;*/
+/*        max-height: 70vw;*/
+/*    }*/
+/*}*/
+
+.show {
+}
+
+.hide {
+    display: none;
+}

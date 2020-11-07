@@ -10,6 +10,8 @@ import com.project.ecommerce.form.ProductForm;
 import com.project.ecommerce.service.IProductService;
 import com.project.ecommerce.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -44,23 +48,21 @@ public class ProductController {
         return "vendor/addProduct";
     }
 
-//    @GetMapping(value = "/vendor/showCategory")
-//    @ResponseBody
-//    public String showCategory(@RequestBody ProductForm productForm, Model model) {
-//        // load danh sach category
-//        List<CategoryDto> categoryDtoList= productService.getAllCategory();
-//        model.addAttribute("category-list", categoryDtoList);
-//        return "/addProduct";
-//    }
-//
-//    @GetMapping(value = "/showSubCategory")
-//    @ResponseBody
-//    public String showSubCategory(@RequestBody ProductForm productForm, Model model) {
-//        // load danh sach sub-category
-//        List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
-//        model.addAttribute("sub-category-list", subCategoryDtoList);
-//        return "/addProduct";
-//    }
+    @GetMapping(value = "/vendor/getCategory")
+    @ResponseBody
+    public ResponseEntity<?> showCategory(HttpServletRequest request, HttpServletResponse response, Model model) {
+        // load danh sach category
+        List<CategoryDto> categoryDtoList= productService.getAllCategory();
+        return new ResponseEntity<>(categoryDtoList, HttpStatus.OK) ;
+    }
+
+    @GetMapping(value = "/vendor/getSubCategory")
+    @ResponseBody
+    public ResponseEntity<?> showSubCategory(HttpServletRequest request, HttpServletResponse response, Model model) {
+        // load danh sach sub-category
+        List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
+        return new ResponseEntity<>(subCategoryDtoList, HttpStatus.OK);
+    }
 
 
     @PostMapping(value = "/vendor/addProduct/detail")

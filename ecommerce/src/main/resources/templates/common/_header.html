@@ -4,8 +4,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-<link th:rel="stylesheet" th:href="@{assets/bootstrap4-toggle/bootstrap4-toggle.min.css}"/>
-<link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+<link th:href="@{assets/bootstrap4-toggle/bootstrap4-toggle.min.css}"/>
+<link th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
 
 <script type="text/javascript" th:src="@{/js/common/_header.js}"></script>
 <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/common/_header.css}" href="../../css/common/_header.css">
@@ -33,20 +33,17 @@
             Hello: <a th:href="@{/user}"><span sec:authentication="name"></span></a>
         </span>
         <span sec:authorize="hasRole('VENDOR')">
-            | &nbsp;
-            <a th:href="@{/members}">Members</a>
             |
             Hello: <a th:href="@{/vendor}"><span sec:authentication="name"></span></a>
         </span>
-
         |
         Role: <span sec:authentication="principal.authorities"></span>
+        | &nbsp;
+        <a th:href="@{/updateUserPage}">update info</a>
         |
         <span>
             <a href="#" th:text="Logout" th:onclick="|javascript:logout()|"></a>
         </span>
-        | &nbsp;
-        <a th:href="@{/updateUserPage}">update info</a>
     </span>
 </div>
 <form method="post" th:action="@{/j_spring_security_logout}" id="logout">

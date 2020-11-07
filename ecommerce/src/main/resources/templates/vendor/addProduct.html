@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add product</title>
+</head>
 <body>
 <th:block th:include="/common/_header"></th:block>
+<script type="text/javascript" th:src="@{/js/vendor/addProduct.js}"></script>
+<!--<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/vendor/addProduct.css}" href="../../vendor/addProduct.css">-->
 <h2>Choose Category</h2>
 
 <form th:action="@{/vendor/addProduct/detail}" th:object="${productForm}" th:method="POST">
-    <div>
-        <div>Category</div>
-        <select id="category-select" th:field="*{categoryId}">
-            <option value="0" selected disabled ></option>
-            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
-        </select>
-    </div>
-    <div>
-        <div>Sub category</div>
-        <select id="sub-category-select" th:field="*{subCategoryId}">
-            <option value="0" selected disabled ></option>
-            <option th:each="subCategory : ${subCategories}" th:value="${subCategory.id}" th:text="${subCategory.name}"></option>
-        </select>
+    <div class="category-select">
+        <div class="custom-select">
+            <span>Category</span>
+            <select id="category-select" th:field="*{categoryId}">
+                <option value="0" selected disabled th:value="category"></option>
+                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+            </select>
+        </div>
+        <div class="custom-select2">
+            <span>Sub category</span>
+            <select id="sub-category-select" th:field="*{subCategoryId}">
+<!--                <option value="0" selected disabled th:value="subcategory"></option>-->
+                <option class="hide" th:each="subCategory : ${subCategories}" th:value="${subCategory.id}" th:text="${subCategory.name}"
+                        th:attr="data-categoryId=${subCategory.categoryId}"></option>
+            </select>
+        </div>
     </div>
     <button th:type="submit" th:text="Submit"></button>
 </form>

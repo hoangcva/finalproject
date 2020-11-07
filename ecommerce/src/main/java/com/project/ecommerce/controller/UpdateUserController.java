@@ -33,9 +33,7 @@ public class UpdateUserController {
 
     @RequestMapping(value = "/updateUserPage", method = RequestMethod.GET)
     public String init(Model model, HttpSession session, Authentication auth) {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsDto userDetails = (UserDetailsDto) auth.getPrincipal();
-//        UserDto userDto = userService.getUserByUserName(userDetails.getUsername());
         UserUpdateForm user = new UserUpdateForm();
         user.setUserName(userDetails.getUsername());
         user.setFullName(userDetails.getUserDto().getFullName());

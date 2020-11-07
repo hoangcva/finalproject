@@ -18,20 +18,7 @@
             /*<![CDATA[*/
             $('#dropbtn'+id).hover(function() {
                 showSubCategoryMenu(/*[[${iterationStatus.count}]]*/'');
-            },
-            function() {
-                $('.show-content'+/*[[${iterationStatus.count}]]*/'').removeClass("show");
-                // $('.dropdown-content '+/*[[${iterationStatus.count}]]*/'').style.display = 'none';
-            });
-
-            $('#show-content'+id).hover(function() {
-                    $('.show-content'+/*[[${iterationStatus.count}]]*/'').addClass("show");
-            },
-            function() {
-                $('.show-content'+/*[[${iterationStatus.count}]]*/'').removeClass("show");
-                // $('.dropdown-content '+/*[[${iterationStatus.count}]]*/'').style.display = 'none';
-            });
-
+            })
             /*]]>*/
         </script>
         <ul class="dropdown-content list-group">
