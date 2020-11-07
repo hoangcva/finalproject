@@ -37,11 +37,11 @@
         WHERE id = #{id}
     </update>
 
-    <delete id="deleteAddress" parameterType="String">
+    <delete id="deleteAddress" parameterType="Long">
         DELETE FROM customer_info WHERE id = #{id}
     </delete>
 
-    <delete id="deleteALLAddressByUser" parameterType="String">
+    <delete id="deleteALLAddressByUser" parameterType="Long">
         DELETE FROM customer_info WHERE customer_id = #{customerId}
     </delete>
 </mapper>

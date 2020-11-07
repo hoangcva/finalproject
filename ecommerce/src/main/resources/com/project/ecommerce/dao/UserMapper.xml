@@ -42,7 +42,7 @@
              #{role,jdbcType=VARCHAR},
              #{email,jdbcType=VARCHAR}
             )
-        <selectKey keyProperty="id" resultType="long" order="AFTER">
+        <selectKey keyProperty="id" resultType="Long" order="AFTER">
             SELECT LAST_INSERT_ID();
         </selectKey>
     </insert>
@@ -54,7 +54,7 @@
             gender = #{gender}
         WHERE username = #{userName}
     </update>
-    <delete id="deleteUser" parameterType="long">
+    <delete id="deleteUser" parameterType="Long">
         DELETE FROM users WHERE id = #{userId}
     </delete>
 
