@@ -55,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/vendor/**").access("hasRole('ROLE_VENDOR')")
                 // Chỉ cho phép user có quyền ADMIN hoặc USER truy cập đường dẫn /user/**
-                .antMatchers("/customer/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+                .antMatchers("/customer/**").access("hasRole('ROLE_USER')")
                 .and()
             // Cấu hình cho Login Form.
             .formLogin()

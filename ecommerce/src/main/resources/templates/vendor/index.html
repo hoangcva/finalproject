@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <title>Spring Boot Security Hello</title>
+</head>
+<body>
+<!-- Include _header.html -->
+<th:block th:include="/common/_header"></th:block>
+<h2>Admin Page</h2>
+<h3>
+    Hello : <span th:utext="${#request.userPrincipal.name}"></span>
+</h3>
+
+<div th:if="${errorMessage != null}"
+     th:utext="${errorMessage}" class="ui-state-error-text">...</div>
+<div th:if="${message != null}"
+     th:utext="${message}" class="alert-info">...</div>
+
+<a th:href="@{/vendor/showCategory}">Add product</a><br>
+<a th:href="@{/vendor/listVendorProduct}">Show all vendor product</a><br>
+<a th:href="@{/showProducts}">Show all product</a><br>
+
+<table>
+    <thead>
+    <tr>
+        <th th:text="No"></th>
+        <th th:text="UserName"></th>
+        <th th:text="FullName"></th>
+        <th th:text="Email"></th>
+        <th th:text="Role"></th>
+        <th th:text="Action"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user,iterationStatus : ${user_list}">
+        <td th:text="${iterationStatus.count}"></td>
+        <td><span th:text="${user.userName}"></span></td>
+        <td><span th:text="${user.fullName}"></span></td>
+        <td><span th:text="${user.email}"></span></td>
+        <td><span th:text="${user.role}"></span></td>
+        <td><button class="btn_delete" type="button"
+                    th:text="Delete"
+                    th:id="'btn_delete' + ${iterationStatus.count}"
+                    th:onclick="|javascript:deleteUser(${user.id})|"
+                    th:if="${user.role ne 'ROLE_ADMIN'}"></button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+
+<!--<a th:href="@{/user}">User Page</a>-->
+<br/><br/>
+<form th:action="@{/j_spring_security_logout}" method="post">
+    <!--    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+    <input type="submit" value="Logout" />
+</form>
+<form method="post" th:action="@{/admin}" id="AdminReload"></form>
+</body>
+<script type="text/javascript" th:src="@{/js/admin/index.js}"></script>
+</html>

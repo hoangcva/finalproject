@@ -2,6 +2,7 @@ package com.project.ecommerce.service;
 
 import com.project.ecommerce.dto.CategoryDto;
 import com.project.ecommerce.dto.SubCategoryDto;
+import com.project.ecommerce.form.CategoryForm;
 import com.project.ecommerce.form.ProductForm;
 import org.springframework.lang.Nullable;
 
@@ -17,4 +18,6 @@ public interface IProductService {
     ProductForm getVendorProduct(Long productId);
 
     List<ProductForm> getALlProduct(@Nullable Integer categoryId, @Nullable Integer subCategoryId);
+    List<CategoryForm> getCategory();
+    List<ProductForm> getProduct(Integer categoryId, Integer supCategoryId);
 }

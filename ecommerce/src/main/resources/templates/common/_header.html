@@ -23,17 +23,22 @@
         <span sec:authorize="hasRole('ADMIN')">
             | &nbsp;
             <a th:href="@{/members}">Members</a>
+            |
+            Hello: <a th:href="@{/admin}"><span sec:authentication="name"></span></a>
         </span>
         <span sec:authorize="hasRole('USER')">
             | &nbsp;
             <a th:href="@{/members}">Members</a>
+            |
+            Hello: <a th:href="@{/user}"><span sec:authentication="name"></span></a>
         </span>
         <span sec:authorize="hasRole('VENDOR')">
             | &nbsp;
             <a th:href="@{/members}">Members</a>
+            |
+            Hello: <a th:href="@{/vendor}"><span sec:authentication="name"></span></a>
         </span>
-        |
-        Hello: <a th:href="@{/user}"><span sec:authentication="name"></span></a>
+
         |
         Role: <span sec:authentication="principal.authorities"></span>
         |

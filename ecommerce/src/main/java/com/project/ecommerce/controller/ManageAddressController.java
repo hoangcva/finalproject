@@ -98,7 +98,6 @@ public class ManageAddressController {
         }
 
         redirectAttributes.addFlashAttribute("message", "Create address successful");
-
         return "redirect:/manageAddress";
     }
 
@@ -139,7 +138,6 @@ public class ManageAddressController {
         }
 
         redirectAttributes.addFlashAttribute("message", "Create address successful");
-
         return "redirect:/manageAddress";
     }
 }

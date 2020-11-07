@@ -4,7 +4,7 @@
 <th:block th:include="/common/_header"></th:block>
 <h2>Choose Category</h2>
 
-<form th:action="@{/addProduct/detail}" th:object="${productForm}" th:method="POST">
+<form th:action="@{/vendor/addProduct/detail}" th:object="${productForm}" th:method="POST">
     <div>
         <div>Category</div>
         <select id="category-select" th:field="*{categoryId}">

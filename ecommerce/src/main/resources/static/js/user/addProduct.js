@@ -5,7 +5,7 @@ $(document).ready(function(){
 
 function setCitySelect() {
     $.ajax({
-        url: '/showCategory',
+        url: '/vendor/showCategory',
         type: 'GET',
         success: function (data) {
             data.forEach(function (category) {
