@@ -7,6 +7,7 @@ import com.project.ecommerce.form.ProductForm;
 import com.project.ecommerce.form.VendorProductForm;
 import com.project.ecommerce.service.IProductService;
 import com.project.ecommerce.service.IUserService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -177,16 +178,26 @@ public class ProductController {
     }
 
     @GetMapping(value = "/vendor/addProduct/search")
-    public String showAllProductByKeyWord(Model model, @RequestParam("keyword") String keyword) {
-        List<ProductForm> productFormList = productService.getProducts(null, null, null);
+    public String showAllProductByKeyWord(Model model,
+                                          @RequestParam(value = "keyword", required = false) String keyword,
+                                          final RedirectAttributes redirectAttributes
+//            , @Param("keyword") String keyword
+    ) {
+        List<ProductForm> productFormList = productService.getProducts(null, null, keyword);
+//        model.addAttribute("keyword", keyword);
         if (productFormList == null) {
-            model.addAttribute("response", "empty");
-            return "vendor/addProduct";
+//            model.addAttribute("response", "empty");
+            redirectAttributes.addFlashAttribute("response", "empty");
+//            return "vendor/addProduct";
+            return "redirect:/vendor/showCategory";
         }
 
-        model.addAttribute("response", "notEmpty");
-        model.addAttribute("productFormList", productFormList);
-        return"vendor/addProduct";
+        redirectAttributes.addFlashAttribute("response", "notEmpty");
+        redirectAttributes.addFlashAttribute("productFormList", productFormList);
+//        model.addAttribute("response", "notEmpty");
+//        model.addAttribute("productFormList", productFormList);
+//        return"vendor/addProduct";
+        return "redirect:/vendor/showCategory";
     }
 
 

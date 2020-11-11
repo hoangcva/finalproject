@@ -26,11 +26,14 @@ public interface ProductMapper {
 //    List<VendorProductDto> getAllVendorProductByVendorId(@Param("vendorId") Long vendorId);
     ProductForm getVendorProduct(@Param("productId") Long productId);
 
-    List<ProductForm> getAllProduct(@Param("categoryId") Integer categoryId, @Param("subCategoryId") Integer subCategoryId,@Param("keyword") String Keyword);
+    List<ProductForm> getAllProduct(@Param("categoryId") Integer categoryId,
+                                    @Param("subCategoryId") Integer subCategoryId,
+                                    @Param("keyword") String keyword);
 
     CategoryDto findCategory(Integer  categoryId);
     SubCategoryDto findSubCategory(Integer  categoryId);
-    ProductForm getProductDetail(@Param("productId") Long productId,@Param("vendorId") Long vendorId);
+    ProductForm getProductDetail(@Param("productId") Long productId,
+                                 @Param("vendorId") Long vendorId);
 
     List<VendorProductForm> getVendorListByProduct(@Param("productId") Long productId);
 }

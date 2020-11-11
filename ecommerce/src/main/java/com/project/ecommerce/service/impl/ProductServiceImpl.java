@@ -100,7 +100,7 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public List<ProductForm> getAllProduct(Integer categoryId, Integer subCategoryId, String keyword) {
-        return productMapper.getAllProduct(categoryId, subCategoryId, null);
+        return productMapper.getAllProduct(categoryId, subCategoryId, keyword);
     }
 
     @Override
@@ -140,7 +140,7 @@ public class ProductServiceImpl implements IProductService {
     public List<ProductForm> getProducts(Integer categoryId, Integer supCategoryId, String keyword) {
         categoryId = Consts.DEFAULT_VALUE_0.equals(categoryId) ? null : categoryId;
         supCategoryId = Consts.DEFAULT_VALUE_0.equals(supCategoryId) ? null : supCategoryId;
-        keyword = keyword.isEmpty() ? null : keyword;
+        if(keyword == null || keyword.isEmpty()) keyword = null;
         return getAllProduct(categoryId, supCategoryId, keyword);
     }
 
