@@ -38,10 +38,8 @@ public class ProductController {
         List<CategoryDto> categoryDtoList= productService.getAllCategory();
         // load danh sach sub-category
         List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
-        List<ProductForm> productFormList = productService.getAllProduct(null, null, null);
         ProductForm productForm = new ProductForm();
         model.addAttribute("productForm", productForm);
-        model.addAttribute("productFormList", productFormList);
         model.addAttribute("categories", categoryDtoList);
         model.addAttribute("subCategories", subCategoryDtoList);
         session.setAttribute("categoryDtoList", categoryDtoList);

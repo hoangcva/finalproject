@@ -140,7 +140,11 @@ public class ProductServiceImpl implements IProductService {
     public List<ProductForm> getProducts(Integer categoryId, Integer supCategoryId, String keyword) {
         categoryId = Consts.DEFAULT_VALUE_0.equals(categoryId) ? null : categoryId;
         supCategoryId = Consts.DEFAULT_VALUE_0.equals(supCategoryId) ? null : supCategoryId;
-        if(keyword == null || keyword.isEmpty()) keyword = null;
+        if(keyword == null || keyword.isEmpty()) {
+            keyword = null;
+        } else {
+            keyword = '%' + keyword + '%';
+        }
         return getAllProduct(categoryId, supCategoryId, keyword);
     }
 

@@ -115,7 +115,7 @@
                 AND subCategoryId = #{subCategoryId}
             </if>
             <if test="keyword != null">
-                AND product_name LIKE '%'|| #{keyword} ||'%'
+                AND product_name LIKE #{keyword}
             </if>
         </where>
         ORDER BY RAND()

@@ -31,19 +31,19 @@
     <button th:type="submit" th:text="Submit"></button>
 </form>
 
-<div>
-    <form action="@{/vendor/addProduct/search" th:method="GET">
-        <span th:text="Search product"></span>
-        <input type="text" th:name="keyword">
-        <input type="submit" th:value="search">
+<div class="search">
+    <form th:action="@{/vendor/addProduct/search}" th:method="GET">
+        <span text="Search product"></span>
+        <input type="text" th:id="keyword" th:name="keyword">
+        <input id="btn-search" type="submit" th:value="search">
     </form>
 </div>
 <form>
-    <table th:if="${response eq 'notEmpty'}">
+    <table th:if="${response ne null and response eq 'notEmpty'}">
         <tbody>
         <tr th:each="product,iterationStatus : ${productFormList}">
             <td th:text="${iterationStatus.count}"></td>
-            <td><a th:href="@{/vendor/addProduct/detail (productId = ${product.productId}, vendorId = ${product.vendorId})}" th:text="${product.productName}"></a></td>
+            <td><a th:href="@{/vendor/addProduct/detail(productId = ${product.productId}, vendorId = ${product.vendorId})}" th:text="${product.productName}"></a></td>
             <td th:text="${product.price}"></td>
             <td th:text="${product.rating}"></td>
         </tr>
