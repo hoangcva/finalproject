@@ -1,6 +1,9 @@
 package com.project.ecommerce.form;
 
-public class SubCategoryForm {
+import java.io.Serializable;
+
+public class SubCategoryForm implements Serializable {
+    private static final long serialVersionUID = 3755138838093653405L;
     private Integer id;
     private String name;
     private String description;

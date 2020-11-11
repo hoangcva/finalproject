@@ -1,6 +1,7 @@
 package com.project.ecommerce.form;
 
 public class VendorForm extends UserRegisterForm{
+    private static final long serialVersionUID = -6026754792396613636L;
     private String phoneNumber;
     private String businessCode;
     private int district;

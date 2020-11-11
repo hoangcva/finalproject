@@ -1,6 +1,9 @@
 package com.project.ecommerce.dto;
 
-public class CustomerAddressDto {
+import java.io.Serializable;
+
+public class CustomerAddressDto implements Serializable {
+    private static final long serialVersionUID = 3590943998409584209L;
     private Long id;
     private String fullName;
     private String phoneNumber;

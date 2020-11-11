@@ -4,10 +4,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDetailsDto implements UserDetails {
+    private static final long serialVersionUID = -127415367113858173L;
     private UserDto userDto;
 
     public UserDetailsDto(UserDto userDto) {

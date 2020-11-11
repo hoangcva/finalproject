@@ -1,6 +1,9 @@
 package com.project.ecommerce.dto;
 
-public class SubCategoryDto {
+import java.io.Serializable;
+
+public class SubCategoryDto implements Serializable {
+    private static final long serialVersionUID = -7097881808689318972L;
     private Integer id;
     private String name;
     private String description;

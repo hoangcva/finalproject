@@ -1,6 +1,9 @@
 package com.project.ecommerce.dto;
 
-public class ProductDto {
+import java.io.Serializable;
+
+public class ProductDto implements Serializable {
+    private static final long serialVersionUID = -6108378333398627517L;
     private Integer id;
     private String productName;
     private String description;
@@ -8,16 +11,14 @@ public class ProductDto {
     private Integer subCategoryId;
     private String brand;
     private String SKU;
-    private String size;
-    private String color;
-    private String subjectAge;
-    private String material;
+    private String origin;
+    private Long createdBy;
+    private Long listPrice;
 
     public ProductDto() {
     }
 
-    public ProductDto(Integer id, String productName, String description, Integer categoryId, Integer subCategoryId,
-                      String brand, String SKU, String size, String color, String subjectAge, String material) {
+    public ProductDto(Integer id, String productName, String description, Integer categoryId, Integer subCategoryId, String brand, String SKU, String origin, Long createdBy, Long listPrice) {
         this.id = id;
         this.productName = productName;
         this.description = description;
@@ -25,10 +26,9 @@ public class ProductDto {
         this.subCategoryId = subCategoryId;
         this.brand = brand;
         this.SKU = SKU;
-        this.size = size;
-        this.color = color;
-        this.subjectAge = subjectAge;
-        this.material = material;
+        this.origin = origin;
+        this.createdBy = createdBy;
+        this.listPrice = listPrice;
     }
 
     public Integer getId() {
@@ -87,35 +87,28 @@ public class ProductDto {
         this.SKU = SKU;
     }
 
-    public String getSize() {
-        return size;
+    public String getOrigin() {
+        return origin;
     }
 
-    public void setSize(String size) {
-        this.size = size;
+    public void setOrigin(String origin) {
+        this.origin = origin;
     }
 
-    public String getColor() {
-        return color;
+    public Long getCreatedBy() {
+        return createdBy;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setCreatedBy(Long createdBy) {
+        this.createdBy = createdBy;
     }
 
-    public String getSubjectAge() {
-        return subjectAge;
+
+    public Long getListPrice() {
+        return listPrice;
     }
 
-    public void setSubjectAge(String subjectAge) {
-        this.subjectAge = subjectAge;
-    }
-
-    public String getMaterial() {
-        return material;
-    }
-
-    public void setMaterial(String material) {
-        this.material = material;
+    public void setListPrice(Long listPrice) {
+        this.listPrice = listPrice;
     }
 }

@@ -1,9 +1,11 @@
 package com.project.ecommerce.form;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartInfo {
+public class CartInfo implements Serializable {
+    private static final long serialVersionUID = 1409178486466589445L;
     private int orderNum;
     private final List<CartLineInfo> cartLines = new ArrayList<>();
 

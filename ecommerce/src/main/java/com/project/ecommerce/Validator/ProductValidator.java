@@ -1,5 +1,6 @@
 package com.project.ecommerce.Validator;
 
+import com.project.ecommerce.dto.UserDto;
 import com.project.ecommerce.form.ProductForm;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -23,5 +24,13 @@ public class ProductValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "SKU", "NotEmpty.productForm.SKU");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "quantity", "NotEmpty.productForm.quantity");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "price", "NotEmpty.productForm.price");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "listPrice", "NotEmpty.productForm.listPrice");
+
+
+        if (!errors.hasFieldErrors("price")) {
+            if (productForm.getListPrice() > productForm.getPrice()) {
+                errors.rejectValue("listPrice", "Greater.productForm.Price");
+            }
+        }
     }
 }

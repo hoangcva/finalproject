@@ -3,10 +3,12 @@ package com.project.ecommerce.dto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDto {
+public class UserDto implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Long id;
     private String userName;
     private String password;

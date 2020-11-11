@@ -1,6 +1,9 @@
 package com.project.ecommerce.dto;
 
-public class ProvinceDto {
+import java.io.Serializable;
+
+public class ProvinceDto implements Serializable {
+    private static final long serialVersionUID = 7415301395055781055L;
     private Long id;
     private String name;
     private String code;

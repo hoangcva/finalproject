@@ -1,6 +1,9 @@
 package com.project.ecommerce.form;
 
-public class CartLineInfo {
+import java.io.Serializable;
+
+public class CartLineInfo implements Serializable {
+    private static final long serialVersionUID = -6735879961418173037L;
     private ProductForm productForm;
     private int quantity;
     public long getAmount() {

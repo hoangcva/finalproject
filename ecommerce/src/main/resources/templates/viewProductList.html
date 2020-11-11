@@ -34,7 +34,7 @@
     <tbody>
     <tr th:each="product,iterationStatus : ${productFormList}">
         <td th:text="${iterationStatus.count}"></td>
-        <td><a th:href="@{/viewProductDetail(productId = ${product.productId})}" th:text="${product.productName}"></a></td>
+        <td><a th:href="@{/viewProductDetail(productId = ${product.productId}, vendorId = ${product.vendorId})}" th:text="${product.productName}"></a></td>
         <td th:text="${product.price}"></td>
         <td th:text="${product.rating}"></td>
     </tr>

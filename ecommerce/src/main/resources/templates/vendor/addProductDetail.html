@@ -5,28 +5,64 @@
 <h2>Add Detail</h2>
 
 <form th:action="@{/vendor/addProduct/addDetail}" th:object="${productForm}" th:method="POST">
-    <label>Category:</label>
-        <input th:type="text" th:readonly="true" th:field="*{categoryId}" th:text="*{categoryId}"><br>
-    <label>SubCategory:</label>
-        <input th:type="text" th:readonly="true" th:field="*{subCategoryId}" th:text="*{subCategoryId}"><br>
-    <label>Product name:</label>
-        <input type="text" name="productName" th:field="*{productName}"><br>
-    <label>Brand:</label>
-        <input type="text" name="brand" th:field="*{brand}"><br>
-    <label>SKU:</label>
-        <input type="text" name="SKU" th:field="*{SKU}"><br>
-    <label>Size:</label>
-        <input type="text" name="size" th:field="*{size}"><br>
-    <label>Color:</label>
-        <input type="text" name="color" th:field="*{color}"><br>
-    <label>Age:</label>
-        <input type="text" name="subjectAge" th:field="*{subjectAge}"><br>
-    <label>Material:</label>
-        <input type="text" name="material" th:field="*{material}"><br>
-    <label>price:</label>
-     <input type="text" name="price" th:field="*{price}"><br>
-    <label>quantity:</label>
-    <input type="text" name="quantity" th:field="*{quantity}"><br>
+    <div class="main-content">
+        <div>
+            <label>Category:</label>
+            <div style="display: inline-block">
+                <span th:text="${categoryName}"></span>
+                <span> > </span>
+                <span th:text="${subCategoryName}"></span>
+            </div>
+            <input type="hidden" th:field="*{categoryId}">
+            <input type="hidden" th:field="*{subCategoryId}">
+        </div>
+        <div>
+            <label>Product name:</label>
+            <input type="text" name="productName" th:field="*{productName}"><br>
+        </div>
+        <div>
+            <label>Brand:</label>
+            <input type="text" name="brand" th:field="*{brand}"><br>
+        </div>
+        <div>
+            <label>Origin:</label>
+            <input type="text" name="origin" th:field="*{origin}"><br>
+        </div>
+        <div th:if="*{categoryId eq 1}">
+            <label>Size:</label>
+            <input type="text" name="size" th:field="*{size}" ><br>
+        </div>
+        <div th:if="*{categoryId eq 1}">
+            <label>Color:</label>
+            <input type="text" name="color" th:field="*{color}" ><br>
+        </div>
+        <div th:if="*{categoryId eq 1 or categoryId eq 3}">
+            <label>Age:</label>
+            <input type="text" name="subjectAge" th:field="*{subjectAge}" ><br>
+        </div>
+        <div th:if="*{categoryId eq 1}">
+            <label>Material:</label>
+            <input type="text" name="material" th:field="*{material}" ><br>
+        </div>
+    </div>
+    <div class="extra-content">
+        <div>
+            <label>SKU:</label>
+            <input type="text" name="SKU" th:field="*{SKU}"><br>
+        </div>
+        <div>
+            <label>List price:</label>
+            <input type="text" name="price" th:field="*{listPrice}"><br>
+        </div>
+        <div>
+            <label>price:</label>
+            <input type="text" name="price" th:field="*{price}"><br>
+        </div>
+        <div>
+            <label>quantity:</label>
+            <input type="text" name="quantity" th:field="*{quantity}"><br>
+        </div>
+    </div>
     <input type="submit" value="Submit">
 </form>
 </body>

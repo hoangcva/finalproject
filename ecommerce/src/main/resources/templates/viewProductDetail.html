@@ -5,31 +5,71 @@
 <h2>Add Detail</h2>
 
 <form th:action="@{/viewProductDetail}" th:object="${productForm}" th:method="POST">
-    <label>Category:</label>
-    <input th:type="text" th:readonly="true" th:field="*{categoryId}"><br>
-    <label>SubCategory:</label>
-    <input th:type="text" th:readonly="true" th:field="*{subCategoryId}"><br>
-    <label>Product name:</label>
-    <input type="text" name="productName" th:field="*{productName}"><br>
-    <label>Brand:</label>
-    <input type="text" name="brand" th:field="*{brand}"><br>
-    <label>SKU:</label>
-    <input type="text" name="SKU" th:field="*{SKU}"><br>
-    <label>Size:</label>
-    <input type="text" name="size" th:field="*{size}"><br>
-    <label>Color:</label>
-    <input type="text" name="color" th:field="*{color}"><br>
-    <label>Age:</label>
-    <input type="text" name="subjectAge" th:field="*{subjectAge}"><br>
-    <label>Material:</label>
-    <input type="text" name="material" th:field="*{material}"><br>
-    <label>price:</label>
-    <input type="text" name="price" th:field="*{price}"><br>
-    <label>quantity:</label>
-    <input type="text" name="quantity" th:field="*{quantity}"><br>
+    <div>
+        <label>Category:</label>
+        <span th:type="text" th:readonly="true" th:field="*{categoryId}"></span>
+    </div>
+    <div>
+        <label>SubCategory:</label>
+        <span th:type="text" th:readonly="true" th:field="*{subCategoryId}"></span>
+    </div>
+    <div>
+        <label>Product name:</label>
+        <span type="text" name="productName" th:field="*{productName}"></span>
+    </div>
+    <div>
+        <label>Brand:</label>
+        <span type="text" name="brand" th:field="*{brand}"></span>
+    </div>
+    <div>
+        <label>SKU:</label>
+        <span type="text" name="SKU" th:field="*{SKU}"></span>
+    </div>
+    <div>
+        <label>Size:</label>
+        <span type="text" name="size" th:field="*{size}"></span>
+    </div>
+    <div>
+        <label>Color:</label>
+        <span type="text" name="color" th:field="*{color}"></span>
+    </div>
+    <div>
+        <label>Age:</label>
+        <span type="text" name="subjectAge" th:field="*{subjectAge}"></span>
+    </div>
+    <div>
+        <label>Material:</label>
+        <span type="text" name="material" th:field="*{material}"></span>
+    </div>
+    <div>
+        <label>price:</label>
+        <span type="text" name="price" th:field="*{price}"></span><span id="%"></span>
+        <span type="text" name="listPrice" th:field="*{listPrice}"></span>
+    </div>
+    <div>
+        <label>quantity:</label>
+        <span type="text" name="quantity" th:text="*{quantity}"></span>
+    </div>
+    <div>
+        <label>Description:</label>
+        <span type="text" name="description" th:text="*{description}"></span><br>
+    </div>
     <input type="hidden" name="vendorId" th:field="*{vendorId}">
     <input type="hidden" name="productId" th:field="*{productId}">
-    <input type="submit" value="Submit">
+    <input
+            id="btn-submit" type="submit" value="Submit">
+    <table>
+        <tbody>
+        <tr th:each="vendor: ${vendorList}">
+            <td>
+                <div th:unless="${vendor.vendorId eq vendorId}">
+                    <a th:href="@{/viewProductDetail(productId = ${vendor.productId}, vendorId = ${vendor.vendorId})}" th:text="${vendor.fullName}"></a>
+                    <span th:value="${vendor.price}"></span>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </form>
 </body>
 </html>

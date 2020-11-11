@@ -1,8 +1,10 @@
 package com.project.ecommerce.form;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class CategoryForm {
+public class CategoryForm implements Serializable {
+    private static final long serialVersionUID = -2972869650381591062L;
     private Integer id;
     private String name;
     private List<SubCategoryForm> subCategoryForms;

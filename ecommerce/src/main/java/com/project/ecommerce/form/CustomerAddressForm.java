@@ -1,6 +1,9 @@
 package com.project.ecommerce.form;
 
-public class CustomerAddressForm {
+import java.io.Serializable;
+
+public class CustomerAddressForm implements Serializable {
+    private static final long serialVersionUID = 5684654821015578241L;
     private Long id;
     private String fullName;
     private String phoneNumber;

@@ -1,6 +1,9 @@
 package com.project.ecommerce.form;
 
-public class ProductForm {
+import java.io.Serializable;
+
+public class ProductForm implements Serializable {
+    private static final long serialVersionUID = 5999069305725560297L;
     private String productName;
     private Integer categoryId;
     private Integer subCategoryId;
@@ -17,6 +20,8 @@ public class ProductForm {
     private Long vendorId;
     private Long productId;
     private Long createdBy;
+    private String origin;
+    private Long listPrice;
 
     public String getProductName() {
         return productName;
@@ -144,5 +149,21 @@ public class ProductForm {
 
     public void setCreatedBy(Long createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public String getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
+    public Long getListPrice() {
+        return listPrice;
+    }
+
+    public void setListPrice(Long listPrice) {
+        this.listPrice = listPrice;
     }
 }

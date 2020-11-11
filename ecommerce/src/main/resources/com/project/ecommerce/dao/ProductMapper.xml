@@ -4,44 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.ecommerce.dao.ProductMapper">
-    <select id="getAllCategory" resultType="com.project.ecommerce.dto.CategoryDto" fetchSize="200">
-        SELECT * FROM category
-    </select>
-
-    <select id="getALLSubCategory" resultType="com.project.ecommerce.dto.SubCategoryDto" fetchSize="200">
-        SELECT * FROM sub_category
-    </select>
-
-    <insert id="insertProduct" parameterType="com.project.ecommerce.dto.ProductDto" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        INSERT INTO product
-        ( product_name, product_description, categoryId, subCategoryId, product_brand, product_SKU, product_size, product_color, product_subjectAge, product_material)
-        VALUES
-        (#{productName,jdbcType=VARCHAR},
-         #{description,jdbcType=VARCHAR},
-         #{categoryId,jdbcType=INTEGER},
-         #{subCategoryId,jdbcType=INTEGER},
-         #{brand,jdbcType=VARCHAR},
-         #{SKU,jdbcType=VARCHAR},
-         #{size,jdbcType=VARCHAR},
-         #{color,jdbcType=VARCHAR},
-         #{subjectAge,jdbcType=VARCHAR},
-         #{material,jdbcType=VARCHAR});
-        <selectKey keyProperty="id" resultType="int" order="AFTER">
-            SELECT LAST_INSERT_ID();
-        </selectKey>
-    </insert>
-
-    <insert id="insertVendorProduct" parameterType="com.project.ecommerce.dto.VendorProductDto">
-        INSERT INTO vendor_product
-        ( vendorId, productId, product_quantity, product_price, product_rating)
-        VALUES
-        (#{vendorId,jdbcType=BIGINT},
-         #{productId,jdbcType=BIGINT},
-         #{quantity,jdbcType=BIGINT},
-         #{price,jdbcType=BIGINT},
-         #{rating,jdbcType=INTEGER});
-    </insert>
-
     <resultMap id="ProductResultMap" type="com.project.ecommerce.form.ProductForm">
         <id property="productId" column="id" />
         <result property="productName" column="product_name"/>
@@ -59,7 +21,49 @@
         <result property="price" column="product_price"/>
         <result property="rating" column="product_rating"/>
         <result property="createdBy" column="createdBy"/>
+        <result property="origin" column="product_origin"/>
     </resultMap>
+
+    <select id="getAllCategory" resultType="com.project.ecommerce.dto.CategoryDto" fetchSize="200">
+        SELECT * FROM category
+    </select>
+
+    <select id="getALLSubCategory" resultType="com.project.ecommerce.dto.SubCategoryDto" fetchSize="200">
+        SELECT * FROM sub_category
+    </select>
+
+    <insert id="insertProduct" parameterType="com.project.ecommerce.dto.ProductDto" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO product
+        ( product_name, product_description, categoryId, subCategoryId, product_brand,
+         product_SKU,product_origin, createdBy)
+        VALUES
+        (#{productName,jdbcType=VARCHAR},
+         #{description,jdbcType=VARCHAR},
+         #{categoryId,jdbcType=INTEGER},
+         #{subCategoryId,jdbcType=INTEGER},
+         #{brand,jdbcType=VARCHAR},
+         #{SKU,jdbcType=VARCHAR},
+         #{origin,jdbcType=VARCHAR},
+         #{createdBy,jdbcType=BIGINT});
+        <selectKey keyProperty="id" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <insert id="insertVendorProduct" parameterType="com.project.ecommerce.dto.VendorProductDto">
+        INSERT INTO vendor_product
+        ( vendorId, productId, product_quantity, product_price, product_rating, product_size, product_color, product_subjectAge, product_material)
+        VALUES
+        (#{vendorId,jdbcType=BIGINT},
+         #{productId,jdbcType=BIGINT},
+         #{quantity,jdbcType=BIGINT},
+         #{price,jdbcType=BIGINT},
+         #{rating,jdbcType=INTEGER},
+         #{size,jdbcType=VARCHAR},
+         #{color,jdbcType=VARCHAR},
+         #{subjectAge,jdbcType=VARCHAR},
+         #{material,jdbcType=VARCHAR});
+    </insert>
 
     <select id="getAllProductByVendorId" resultMap="ProductResultMap" fetchSize="200">
         SELECT * FROM vendor_product
@@ -79,10 +83,7 @@
             product_description = #{description},
             product_brand = #{brand},
             product_SKU = #{SKU},
-            product_size = #{size},
-            product_color = #{color},
-            product_subjectAge = #{subjectAge},
-            product_material = #{material},
+            list_price = #{listPrice},
             categoryId = #{categoryId},
             subCategoryId = #{subCategoryId}
         WHERE id = #{productId} and createdBy = #{vendorId}
@@ -91,8 +92,12 @@
     <update id="updateVendorProduct" parameterType="com.project.ecommerce.form.ProductForm">
         UPDATE vendor_product
         SET product_quantity = #{quantity},
-            product_price = #{price}
-        Where productId = #{productId};
+            product_price = #{price},
+            product_size = #{size},
+            product_color = #{color},
+            product_subjectAge = #{subjectAge},
+            product_material = #{material}
+        WHERE productId = #{productId};
     </update>
 
     <select id="getAllProduct" parameterType="int" resultMap="ProductResultMap" fetchSize="200">
@@ -101,7 +106,7 @@
             ( SELECT *
               FROM vendor_product
               ORDER BY product_rating DESC, product_price ASC
-              LIMIT 1
+#               LIMIT 1
             ) vp ON p.id = vp.productId
         <where>
             <if test="categoryId != null">
@@ -110,7 +115,34 @@
             <if test="subCategoryId != null">
                 AND subCategoryId = #{subCategoryId}
             </if>
+            <if test="keyword != null">
+                AND product_name LIKE '%' + #{keyword} + '%'
+            </if>
         </where>
         ORDER BY RAND()
+        LIMIT 100
     </select>
+
+    <select id="getProductDetail" resultMap="ProductResultMap" fetchSize="200">
+        SELECT * FROM product p
+        INNER JOIN vendor_product vp on p.id = vp.productId
+        WHERE p.id = #{productId}
+        AND vp.vendorId = #{vendorId}
+    </select>
+
+    <resultMap id="VendorResultMap" type="com.project.ecommerce.form.VendorProductForm">
+        <result property="vendorId" column="vendorId"/>
+        <result property="productId" column="productId"/>
+        <result property="quantity" column="product_quantity"/>
+        <result property="price" column="product_price"/>
+        <result property="rating" column="product_rating"/>
+        <result property="fullName" column="vendor_name"/>
+    </resultMap>
+
+    <select id="getVendorListByProduct" resultMap="VendorResultMap" fetchSize="200">
+        SELECT vendorId, productId, product_quantity, product_price, product_rating, vendor_name FROM vendor_product vp
+        INNER JOIN vendor_info vi ON vp.vendorId = vi.id
+        WHERE productId = #{productId}
+    </select>
+
 </mapper>

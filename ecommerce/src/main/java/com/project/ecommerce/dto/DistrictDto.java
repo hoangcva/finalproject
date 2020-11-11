@@ -1,6 +1,9 @@
 package com.project.ecommerce.dto;
 
-public class DistrictDto {
+import java.io.Serializable;
+
+public class DistrictDto implements Serializable {
+    private static final long serialVersionUID = -4449380772412300507L;
     private Long id;
     private String name;
     private String prefix;

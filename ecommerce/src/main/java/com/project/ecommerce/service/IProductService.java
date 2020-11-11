@@ -4,6 +4,7 @@ import com.project.ecommerce.dto.CategoryDto;
 import com.project.ecommerce.dto.SubCategoryDto;
 import com.project.ecommerce.form.CategoryForm;
 import com.project.ecommerce.form.ProductForm;
+import com.project.ecommerce.form.VendorProductForm;
 import org.springframework.lang.Nullable;
 
 import java.util.List;
@@ -17,7 +18,12 @@ public interface IProductService {
     List<ProductForm> getAllProductByVendorId(Long vendorId);
     ProductForm getVendorProduct(Long productId);
 
-    List<ProductForm> getALlProduct(@Nullable Integer categoryId, @Nullable Integer subCategoryId);
+    List<ProductForm> getAllProduct(@Nullable Integer categoryId, @Nullable Integer subCategoryId, String keyword);
     List<CategoryForm> getCategory();
-    List<ProductForm> getProduct(Integer categoryId, Integer supCategoryId);
+    List<ProductForm> getProducts(Integer categoryId, Integer supCategoryId, String keyword);
+    ProductForm getProductDetail(Long productId, Long vendorId);
+
+    CategoryDto findCategory(Integer  categoryId);
+    SubCategoryDto findSubCategory(Integer  categoryId);
+    List<VendorProductForm> getVendorListByProduct(Long productId);
 }

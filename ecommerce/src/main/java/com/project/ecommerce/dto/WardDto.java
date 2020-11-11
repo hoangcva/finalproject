@@ -1,6 +1,9 @@
 package com.project.ecommerce.dto;
 
-public class WardDto {
+import java.io.Serializable;
+
+public class WardDto implements Serializable {
+    private static final long serialVersionUID = 4267372217953226798L;
     private Long id;
     private String name;
     private String prefix;

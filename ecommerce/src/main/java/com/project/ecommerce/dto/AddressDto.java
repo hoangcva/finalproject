@@ -1,8 +1,10 @@
 package com.project.ecommerce.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class AddressDto {
+public class AddressDto implements Serializable {
+    private static final long serialVersionUID = 3354477916071540099L;
     private List<ProvinceDto> provinceDtoList;
     private List<DistrictDto> districtDtoList;
     private List<WardDto> wardDtoList;

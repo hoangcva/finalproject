@@ -1,6 +1,9 @@
 package com.project.ecommerce.form;
 
-public class UserUpdateForm {
+import java.io.Serializable;
+
+public class UserUpdateForm implements Serializable {
+    private static final long serialVersionUID = 8240543896216842926L;
     private Long id;
     private String userName;
     private String password;

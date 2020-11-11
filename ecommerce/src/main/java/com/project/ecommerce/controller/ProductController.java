@@ -1,17 +1,13 @@
 package com.project.ecommerce.controller;
 
 import com.project.ecommerce.Validator.ProductValidator;
-import com.project.ecommerce.dto.CategoryDto;
-import com.project.ecommerce.dto.SubCategoryDto;
-import com.project.ecommerce.dto.UserDetailsDto;
-import com.project.ecommerce.dto.UserDto;
+import com.project.ecommerce.dto.*;
 import com.project.ecommerce.form.CategoryForm;
 import com.project.ecommerce.form.ProductForm;
+import com.project.ecommerce.form.VendorProductForm;
 import com.project.ecommerce.service.IProductService;
 import com.project.ecommerce.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -23,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -36,37 +32,55 @@ public class ProductController {
     private ProductValidator productValidator;
 
     @GetMapping(value = "/vendor/showCategory")
-    public String showCategory(Model model) {
+    public String showCategory(Model model, HttpSession session) {
         // load danh sach category
         List<CategoryDto> categoryDtoList= productService.getAllCategory();
         // load danh sach sub-category
         List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
+        List<ProductForm> productFormList = productService.getAllProduct(null, null, null);
         ProductForm productForm = new ProductForm();
         model.addAttribute("productForm", productForm);
+        model.addAttribute("productFormList", productFormList);
         model.addAttribute("categories", categoryDtoList);
         model.addAttribute("subCategories", subCategoryDtoList);
+        session.setAttribute("categoryDtoList", categoryDtoList);
+        session.setAttribute("subCategoryDtoList", subCategoryDtoList);
         return "vendor/addProduct";
     }
 
-    @GetMapping(value = "/vendor/getCategory")
-    @ResponseBody
-    public ResponseEntity<?> showCategory(HttpServletRequest request, HttpServletResponse response, Model model) {
-        // load danh sach category
-        List<CategoryDto> categoryDtoList= productService.getAllCategory();
-        return new ResponseEntity<>(categoryDtoList, HttpStatus.OK) ;
-    }
-
-    @GetMapping(value = "/vendor/getSubCategory")
-    @ResponseBody
-    public ResponseEntity<?> showSubCategory(HttpServletRequest request, HttpServletResponse response, Model model) {
-        // load danh sach sub-category
-        List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
-        return new ResponseEntity<>(subCategoryDtoList, HttpStatus.OK);
-    }
+//    @GetMapping(value = "/vendor/getCategory")
+//    @ResponseBody
+//    public ResponseEntity<?> showCategory(HttpServletRequest request, HttpServletResponse response, Model model) {
+//        // load danh sach category
+//        List<CategoryDto> categoryDtoList= productService.getAllCategory();
+//        return new ResponseEntity<>(categoryDtoList, HttpStatus.OK) ;
+//    }
+//
+//    @GetMapping(value = "/vendor/getSubCategory")
+//    @ResponseBody
+//    public ResponseEntity<?> showSubCategory(HttpServletRequest request, HttpServletResponse response, Model model) {
+//        // load danh sach sub-category
+//        List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
+//        return new ResponseEntity<>(subCategoryDtoList, HttpStatus.OK);
+//    }
 
 
     @PostMapping(value = "/vendor/addProduct/detail")
-    public String showDetail(@ModelAttribute("productForm") ProductForm productForm, Model model) {
+    public String showDetail(@ModelAttribute("productForm") ProductForm productForm, Model model, HttpServletRequest request) {
+        List<CategoryDto> categoryDtoList = (List<CategoryDto>) request.getSession().getAttribute("categoryDtoList");
+        List<SubCategoryDto> subCategoryDtoList = (List<SubCategoryDto>) request.getSession().getAttribute("subCategoryDtoList");
+
+        CategoryDto categoryDto = categoryDtoList.stream()
+                .filter(category -> productForm.getCategoryId().equals(category.getId()))
+                .findAny()
+                .orElse(null);
+        SubCategoryDto subCategoryDto = subCategoryDtoList.stream()
+                .filter(subCategory -> productForm.getSubCategoryId().equals(subCategory.getId()))
+                .findAny()
+                .orElse(null);
+
+        model.addAttribute("categoryName", categoryDto.getName());
+        model.addAttribute("subCategoryName", subCategoryDto.getName());
         model.addAttribute("productForm", productForm);
         return "vendor/addProductDetail";
     }
@@ -136,7 +150,7 @@ public class ProductController {
     public String showAllProduct(Model model, @ModelAttribute("categoryId") int categoryId, @ModelAttribute("subCategoryId") int subCategoryId) {
         List<CategoryForm> categoryForms = productService.getCategory();
 
-        List<ProductForm> productFormList = productService.getProduct(categoryId, subCategoryId);
+        List<ProductForm> productFormList = productService.getProducts(categoryId, subCategoryId, null);
         model.addAttribute("productFormList", productFormList);
         model.addAttribute("categories", categoryForms);
         return "viewProductList";
@@ -146,14 +160,34 @@ public class ProductController {
     public String showAllProduct(Model model) {
         List<CategoryForm> categoryForms = productService.getCategory();
 
-        List<ProductForm> productFormList = productService.getProduct(null, null);
+        List<ProductForm> productFormList = productService.getProducts(null, null, null);
         model.addAttribute("productFormList", productFormList);
         model.addAttribute("categories", categoryForms);
         return "viewProductList";
     }
 
     @GetMapping(value = "viewProductDetail")
-    public String viewProductDetail(Model model) {
+    public String viewProductDetail(Model model, @ModelAttribute("productId") Long productId, @ModelAttribute("vendorId") Long vendorId ) {
+        ProductForm productForm = productService.getProductDetail(productId, vendorId);
+        List<VendorProductForm> vendorList = productService.getVendorListByProduct(productId);
+        model.addAttribute("vendorId", vendorId);
+        model.addAttribute("productForm", productForm);
+        model.addAttribute("vendorList", vendorList);
         return "viewProductDetail";
     }
+
+    @GetMapping(value = "/vendor/addProduct/search")
+    public String showAllProductByKeyWord(Model model, @RequestParam("keyword") String keyword) {
+        List<ProductForm> productFormList = productService.getProducts(null, null, null);
+        if (productFormList == null) {
+            model.addAttribute("response", "empty");
+            return "vendor/addProduct";
+        }
+
+        model.addAttribute("response", "notEmpty");
+        model.addAttribute("productFormList", productFormList);
+        return"vendor/addProduct";
+    }
+
+
 }

@@ -9,6 +9,7 @@ import com.project.ecommerce.dto.VendorProductDto;
 import com.project.ecommerce.form.CategoryForm;
 import com.project.ecommerce.form.ProductForm;
 import com.project.ecommerce.form.SubCategoryForm;
+import com.project.ecommerce.form.VendorProductForm;
 import com.project.ecommerce.service.IProductService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +39,9 @@ public class ProductServiceImpl implements IProductService {
                                                     productForm.getSubCategoryId(),
                                                     productForm.getBrand(),
                                                     productForm.getSKU(),
-                                                    productForm.getSize(),
-                                                    productForm.getColor(),
-                                                    productForm.getSubjectAge(),
-                                                    productForm.getMaterial());
+                                                    productForm.getOrigin(),
+                                                    vendorId,
+                                                    productForm.getListPrice());
 
             productMapper.insertProduct(productDto);
 
@@ -49,7 +49,11 @@ public class ProductServiceImpl implements IProductService {
                                                                     productDto.getId(),
                                                                     productForm.getQuantity(),
                                                                     productForm.getPrice(),
-                                                                    productForm.getRating());
+                                                                    productForm.getRating(),
+                                                                    productForm.getSize(),
+                                                                    productForm.getColor(),
+                                                                    productForm.getSubjectAge(),
+                                                                    productForm.getMaterial());
             productMapper.insertVendorProduct(vendorProductDto);
             transactionManager.commit(txStatus);
         } catch (Exception ex) {
@@ -95,8 +99,8 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public List<ProductForm> getALlProduct(Integer categoryId, Integer subCategoryId) {
-        return productMapper.getAllProduct(categoryId, subCategoryId);
+    public List<ProductForm> getAllProduct(Integer categoryId, Integer subCategoryId, String keyword) {
+        return productMapper.getAllProduct(categoryId, subCategoryId, null);
     }
 
     @Override
@@ -133,9 +137,30 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public List<ProductForm> getProduct(Integer categoryId, Integer supCategoryId) {
+    public List<ProductForm> getProducts(Integer categoryId, Integer supCategoryId, String keyword) {
         categoryId = Consts.DEFAULT_VALUE_0.equals(categoryId) ? null : categoryId;
         supCategoryId = Consts.DEFAULT_VALUE_0.equals(supCategoryId) ? null : supCategoryId;
-        return getALlProduct(categoryId, supCategoryId);
+        keyword = keyword.isEmpty() ? null : keyword;
+        return getAllProduct(categoryId, supCategoryId, keyword);
+    }
+
+    @Override
+    public ProductForm getProductDetail(Long productId, Long vendorId) {
+        return productMapper.getProductDetail(productId, vendorId);
+    }
+
+    @Override
+    public CategoryDto findCategory(Integer categoryId) {
+        return null;
+    }
+
+    @Override
+    public SubCategoryDto findSubCategory(Integer categoryId) {
+        return null;
+    }
+
+    @Override
+    public List<VendorProductForm> getVendorListByProduct(Long productId) {
+        return productMapper.getVendorListByProduct(productId);
     }
 }

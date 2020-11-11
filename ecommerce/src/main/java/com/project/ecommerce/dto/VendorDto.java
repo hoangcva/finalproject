@@ -1,6 +1,7 @@
 package com.project.ecommerce.dto;
 
 public class VendorDto extends UserDto {
+    private static final long serialVersionUID = -8092566688474235512L;
     private String phoneNumber;
     private String businessCode;
     private int district;
@@ -10,6 +11,7 @@ public class VendorDto extends UserDto {
     private String addressDetail;
     private Boolean enable;
     private int categoryId;
+    private String vendorName;
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -81,5 +83,17 @@ public class VendorDto extends UserDto {
 
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getVendorName() {
+        return vendorName;
+    }
+
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
     }
 }
