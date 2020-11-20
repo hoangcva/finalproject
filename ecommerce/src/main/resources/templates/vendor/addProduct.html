@@ -38,17 +38,17 @@
         <input id="btn-search" type="submit" th:value="search">
     </form>
 </div>
-<form>
+<!--<form th:action="@{/vendor/addProduct/detail}" th:object="${productForm}" th:method="POST">-->
     <table th:if="${response ne null and response eq 'notEmpty'}">
         <tbody>
         <tr th:each="product,iterationStatus : ${productFormList}">
             <td th:text="${iterationStatus.count}"></td>
-            <td><a th:href="@{/vendor/addProduct/detail(productId = ${product.productId}, vendorId = ${product.vendorId})}" th:text="${product.productName}"></a></td>
+            <td><a th:href="@{/vendor/addProduct/detailExtend(productId = ${product.productId}, vendorId = ${product.vendorId})}" th:text="${product.productName}"></a></td>
             <td th:text="${product.price}"></td>
             <td th:text="${product.rating}"></td>
         </tr>
         </tbody>
     </table>
-</form>
+<!--</form>-->
 </body>
 </html>

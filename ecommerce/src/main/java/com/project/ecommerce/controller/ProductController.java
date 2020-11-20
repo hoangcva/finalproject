@@ -7,7 +7,6 @@ import com.project.ecommerce.form.ProductForm;
 import com.project.ecommerce.form.VendorProductForm;
 import com.project.ecommerce.service.IProductService;
 import com.project.ecommerce.service.IUserService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -68,6 +67,31 @@ public class ProductController {
     public String showDetail(@ModelAttribute("productForm") ProductForm productForm, Model model, HttpServletRequest request) {
         List<CategoryDto> categoryDtoList = (List<CategoryDto>) request.getSession().getAttribute("categoryDtoList");
         List<SubCategoryDto> subCategoryDtoList = (List<SubCategoryDto>) request.getSession().getAttribute("subCategoryDtoList");
+
+        CategoryDto categoryDto = categoryDtoList.stream()
+                .filter(category -> productForm.getCategoryId().equals(category.getId()))
+                .findAny()
+                .orElse(null);
+        SubCategoryDto subCategoryDto = subCategoryDtoList.stream()
+                .filter(subCategory -> productForm.getSubCategoryId().equals(subCategory.getId()))
+                .findAny()
+                .orElse(null);
+
+        model.addAttribute("categoryName", categoryDto.getName());
+        model.addAttribute("subCategoryName", subCategoryDto.getName());
+        model.addAttribute("productForm", productForm);
+        return "vendor/addProductDetail";
+    }
+
+    @GetMapping(value = "/vendor/addProduct/detailExtend")
+    public String showDetail(@ModelAttribute("productId") Long productId,
+                             @ModelAttribute("vendorId") Long vendorId,
+                             Model model,
+                             HttpServletRequest request) {
+        List<CategoryDto> categoryDtoList = (List<CategoryDto>) request.getSession().getAttribute("categoryDtoList");
+        List<SubCategoryDto> subCategoryDtoList = (List<SubCategoryDto>) request.getSession().getAttribute("subCategoryDtoList");
+
+        ProductForm productForm = productService.getProductDetail(productId, vendorId);
 
         CategoryDto categoryDto = categoryDtoList.stream()
                 .filter(category -> productForm.getCategoryId().equals(category.getId()))

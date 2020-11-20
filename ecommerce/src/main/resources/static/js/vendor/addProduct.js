@@ -2,6 +2,10 @@ $(document).ready(function() {
     showSubCategory();
     // setCategorySelect()
     // customSelectbox(2);
+    // $(".search").on('click', 'btn-search', function () {
+    //     var keyword = $('#keyword').val();
+    //
+    // })
 });
 
 $(document).on('change', '#category-select',  function () {
@@ -26,6 +30,8 @@ function showSubCategory() {
         }
     })
 }
+
+
 
 // function customSelectbox(selectFlg) {
 //     var x, i, j, selElmnt, a, b, c;

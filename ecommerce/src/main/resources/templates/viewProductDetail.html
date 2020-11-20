@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/template :: head_input(~{::title})"></head>
+<title th:text="${productForm.productName}"></title>
 <body>
 <th:block th:include="/common/_header"></th:block>
-<h2>Add Detail</h2>
+<script type="text/javascript" th:src="@{/js/user/viewProductDetail.js}"></script>
+<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/user/viewProductDetail.css}" href="../../css/user/viewProductDetail.css">
+<h2 th:text="${productForm.productName}"></h2>
 
 <form th:action="@{/viewProductDetail}" th:object="${productForm}" th:method="POST">
     <div>
@@ -48,16 +52,12 @@
     </div>
     <div>
         <label>quantity:</label>
-        <span type="text" name="quantity" th:text="*{quantity}"></span>
+        <span type="text"  th:text="*{quantity}"></span>
     </div>
     <div>
         <label>Description:</label>
         <span type="text" name="description" th:text="*{description}"></span><br>
     </div>
-    <input type="hidden" name="vendorId" th:field="*{vendorId}">
-    <input type="hidden" name="productId" th:field="*{productId}">
-    <input
-            id="btn-submit" type="submit" value="Submit">
     <table>
         <tbody>
         <tr th:each="vendor: ${vendorList}">
@@ -70,6 +70,16 @@
         </tr>
         </tbody>
     </table>
+    <div id="change-quantity">
+        <div id="decrease-btn">-</div>
+        <input type="text" id="buy-quantity" name="buy-quantity" value="0">
+        <div id="increase-btn">+</div>
+        <span id="over-quantity" class="hide d-none" th:text="'You can\'t buy more than ' + ${productForm.quantity} + ' products'"></span>
+    </div>
+    <input type="hidden" name="vendorId" id="vendorId" th:value="*{vendorId}">
+    <input type="hidden" name="productId" id="productId" th:value="*{productId}">
+    <input type="hidden" name="quantity" id="quantity" th:value="*{quantity}">
+    <input id="btn-submit" type="button" value="Buy" onclick="addProductToCart()">
 </form>
 </body>
 </html>

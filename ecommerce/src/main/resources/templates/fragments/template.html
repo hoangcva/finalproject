@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:fragment="head_input(title)">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" />
+    <link th:href="@{assets/bootstrap4-toggle/bootstrap4-toggle.min.css}"/>
+    <link th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+</head>
+<body>
+<div th:fragment="change-quantity" id="change-quantity">
+    <div id="decrease-btn">-</div>
+    <input type="text" id="buy-quantity" name="buy-quantity" value="0">
+    <div id="increase-btn">+</div>
+    <span id="over-quantity" class="hide d-none" th:text="'You can\'t buy more than ' + ${productForm.quantity} + ' products'"></span>
+</div>
+</body>
+</html>

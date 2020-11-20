@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/template :: head_input(~{::title})"></head>
+<body>
+<th:block th:include="/common/_header"></th:block>
+<h2>Cart</h2>
+<span th:text="'('${productNum} + 'products)'"></span>
+<form th:action="@{customer/createOrder}" method="POST">
+    <table th:each="vendor : ${vendorList}">
+        <thead>
+            <tr>
+                <th th:text="*{vendorName}"></th>
+            </tr>
+        </thead>
+        <tbody th:each="product : ${vendor.prductList}">
+            <tr>
+                <td>
+                    <div th:text="*{productName}"></div>
+                </td>
+                <td>
+                    <div th:text="*{price}"></div>
+                    <div th:text="*{listPrice}"></div>
+                </td>
+                <td>
+                    <div th:replace="fragments/template :: change-quantity"></div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="button" value="Make order">
+</form>
+<div th:text="'Total:' ${total}"></div>
+</body>
+</html>

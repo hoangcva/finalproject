@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.ecommerce.dao.CartMapper">
+    <insert id="createCart" parameterType="long" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO cart (customerId)
+        VALUES (#{customerId, jdbcType=BIGINT})
+    </insert>
+
+    <select id="getCart" parameterType="int" resultType="com.project.ecommerce.dto.CartDto" fetchSize="200">
+        SELECT * FROM cart_detail
+        INNER JOIN users ON cart_detail.customerId = users.id
+        WHERE customerId = #{customerId}
+    </select>
+
+    <insert id="addProductToCart" parameterType="com.project.ecommerce.dto.CartDto" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO cart_detail
+        (productId, buyQuantity, vendorId, customerId)
+        VALUES
+        (#{productId,jdbcType=BIGINT},
+         #{buyQuantity,jdbcType=INTEGER},
+         #{vendorId,jdbcType=BIGINT},
+         #{customerId,jdbcType=BIGINT});
+    </insert>
+    
+    <delete id="removeProduct" parameterType="long">
+        DELETE FROM cart_detail
+        WHERE id = #{id}
+    </delete>
+
+    <update id="updateQuantity" parameterType="long">
+        UPDATE cart_detail
+        SET buyQuantity = #{buyQuantity}
+        WHERE id = #{id}
+    </update>
+
+    <select id="findProductInCart" parameterType="com.project.ecommerce.dto.CartDto" resultType="com.project.ecommerce.dto.CartDto" fetchSize="200">
+        SELECT * FROM cart_detail
+        WHERE customerId = #{customerId}
+            AND productId = #{productId}
+            AND vendorId = #{vendorId}
+    </select>
+</mapper>
+
