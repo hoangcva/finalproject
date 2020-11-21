@@ -1,7 +1,9 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
 <script type="text/javascript" th:src="@{/js/common/_header.js}"></script>
-<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/common/_header.css}" href="../../css/common/_header.css">
+<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/common/_header.css}" href="../../static/css/common/_header.css">
+
 <div style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">
     <a th:href="@{/}">Home</a>
     <span sec:authorize="!isAuthenticated()">
@@ -24,6 +26,8 @@
             <a th:href="@{/members}">Members</a>
             |
             Hello: <a th:href="@{/user}"><span sec:authentication="name"></span></a>
+                        | &nbsp;
+            <a th:href="@{/user/viewCart}">Cart</a>
         </span>
         <span sec:authorize="hasRole('VENDOR')">
             |

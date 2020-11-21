@@ -92,14 +92,23 @@ public class CartServiceImpl implements ICartService {
     }
 
     @Override
-    public void updateQuantity(CartLineInfoForm cartLineInfoForm) {
+    public Message updateQuantity(CartLineInfoForm cartLineInfoForm) {
+        Message result = new Message();
+        String strMessage = "";
+        boolean isSuccess = true;
+
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
             cartMapper.updateQuantity(cartLineInfoForm.getId(), cartLineInfoForm.getBuyQuantity());
             transactionManager.commit(txStatus);
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
+            strMessage = messageAccessor.getMessage(Consts.MSG_02_E, "");
+            isSuccess = false;
         }
+        result.setSuccess(isSuccess);
+        result.setMessage(strMessage);
+        return result;
     }
 
     @Override

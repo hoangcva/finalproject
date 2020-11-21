@@ -9,9 +9,8 @@
         VALUES (#{customerId, jdbcType=BIGINT})
     </insert>
 
-    <select id="getCart" parameterType="int" resultType="com.project.ecommerce.dto.CartDto" fetchSize="200">
+    <select id="getCart" parameterType="long" resultType="com.project.ecommerce.dto.CartDto" fetchSize="200">
         SELECT * FROM cart_detail
-        INNER JOIN users ON cart_detail.customerId = users.id
         WHERE customerId = #{customerId}
     </select>
 

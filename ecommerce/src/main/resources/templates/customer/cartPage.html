@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/template :: head_input(~{::title})"></head>
+<body>
+<th:block th:include="/common/_header"></th:block>
+<script type="text/javascript" th:src="@{/js/customer/cartPage.js}"></script>
+<!--<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/customer/viewProductDetail.css}" href="../../css/customer/viewProductDetail.css">-->
+<h2>Cart</h2>
+<span th:text="'(' + ${cartInfoForm.getQuantityTotal()} + 'products)'"></span>
+<form th:action="@{customer/createOrder}" method="POST">
+    <table th:each="cartLine : ${cartInfoForm.cartLines}">
+<!--        <thead>-->
+<!--            <tr>-->
+<!--                <th th:text="Product name"></th>-->
+<!--                <th th:text="price"></th>-->
+<!--                <th th:text=""></th>-->
+<!--            </tr>-->
+<!--        </thead>-->
+        <tbody>
+            <tr>
+                <td>
+                    <div th:text="*{cartLine.productForm.productName}"></div>
+                </td>
+                <td>
+                    <div th:text="*{cartLine.productForm.price}"></div>
+                    <div th:text="*{cartLine.productForm.listPrice}"></div>
+                </td>
+                <td>
+                    <div th:replace="fragments/template :: change-quantity(${cartLine.buyQuantity}, ${cartLine.productForm.quantity})"></div>
+                </td>
+                <input type="hidden" name="carLineId" id="cartLineId" th:value="*{cartLine.id}">
+            </tr>
+        </tbody>
+    </table>
+    <input type="button" value="Make order">
+
+</form>
+<div th:text="'Total listing price:' + ${cartInfoForm.getListPriceTotal()}"></div>
+<div th:text="'Discount: -' + ${cartInfoForm.getListPriceTotal() - cartInfoForm.getBillTotal()}"></div>
+<div th:text="'Total:' + ${cartInfoForm.getBillTotal()}"></div>
+
+</body>
+</html>

@@ -4,8 +4,8 @@
 <title th:text="${productForm.productName}"></title>
 <body>
 <th:block th:include="/common/_header"></th:block>
-<script type="text/javascript" th:src="@{/js/user/viewProductDetail.js}"></script>
-<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/user/viewProductDetail.css}" href="../../css/user/viewProductDetail.css">
+<script type="text/javascript" th:src="@{/js/customer/viewProductDetail.js}"></script>
+<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/customer/viewProductDetail.css}" href="../../css/customer/viewProductDetail.css">
 <h2 th:text="${productForm.productName}"></h2>
 
 <form th:action="@{/viewProductDetail}" th:object="${productForm}" th:method="POST">
@@ -70,12 +70,7 @@
         </tr>
         </tbody>
     </table>
-    <div id="change-quantity">
-        <div id="decrease-btn">-</div>
-        <input type="text" id="buy-quantity" name="buy-quantity" value="0">
-        <div id="increase-btn">+</div>
-        <span id="over-quantity" class="hide d-none" th:text="'You can\'t buy more than ' + ${productForm.quantity} + ' products'"></span>
-    </div>
+    <div th:replace="fragments/template :: change-quantity(0, ${productForm.quantity})"></div>
     <input type="hidden" name="vendorId" id="vendorId" th:value="*{vendorId}">
     <input type="hidden" name="productId" id="productId" th:value="*{productId}">
     <input type="hidden" name="quantity" id="quantity" th:value="*{quantity}">

@@ -10,6 +10,6 @@ public interface ICartService {
     //    void createCart(@Param("customerId") long customerId);
     CartInfoForm getCart(@Param("customerId") long customerId);
     Message addProductToCart(CartLineInfoForm cartLineInfoForm, Authentication auth);
-    void updateQuantity(@Param("id") CartLineInfoForm cartLineInfoForm);
+    Message updateQuantity(@Param("id") CartLineInfoForm cartLineInfoForm);
     void removeProduct(@Param("id") long id);
 }

@@ -10,7 +10,7 @@ public class CartDto implements Serializable {
     private long productId;
     private long vendorId;
     private long buyQuantity;
-    private LocalDateTime time;
+    private LocalDateTime insertTime;
 
     public CartDto() {
     }
@@ -62,11 +62,11 @@ public class CartDto implements Serializable {
         this.buyQuantity = buyQuantity;
     }
 
-    public LocalDateTime getTime() {
-        return time;
+    public LocalDateTime getInsertTime() {
+        return insertTime;
     }
 
-    public void setTime(LocalDateTime time) {
-        this.time = time;
+    public void setInsertTime(LocalDateTime insertTime) {
+        this.insertTime = insertTime;
     }
 }

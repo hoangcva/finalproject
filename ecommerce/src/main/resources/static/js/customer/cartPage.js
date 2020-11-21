@@ -1,18 +1,20 @@
 $(document).ready(function () {
     var quantity = parseInt($('#quantity').val(), 10);
-    $('#change-quantity').on('change', '#buy-quantity', function () {
-        var buyQuantity = parseInt($('#buy-quantity').val(), 10);
+    $('.change-quantity').on('change', '.buy-quantity', function () {
+        var buyQuantity = parseInt($('.buy-quantity').val(), 10);
         if (buyQuantity <= quantity) {
             //hide warning
             hideWarning();
         } else {
             //show warning
             showWarning();
+            $('.buy-quantity').val(quantity);
         }
+        updateCart();
     });
 
-    $('#change-quantity').on('click', '#decrease-btn', function () {
-        var buyQuantity = parseInt($('#buy-quantity').val(), 10);
+    $('.change-quantity').on('click', '#decrease-btn', function () {
+        var buyQuantity = parseInt($('.buy-quantity').val(), 10);
         if (buyQuantity > 0) {
             buyQuantity = buyQuantity - 1;
         }
@@ -20,18 +22,20 @@ $(document).ready(function () {
             //hide warning
             hideWarning();
         }
-        $('#buy-quantity').val(buyQuantity);
+        $('.buy-quantity').val(buyQuantity);
+        updateCart();
     });
 
-    $('#change-quantity').on('click', '#increase-btn', function () {
-        var buyQuantity = parseInt($('#buy-quantity').val(), 10);
+    $('.change-quantity').on('click', '#increase-btn', function () {
+        var buyQuantity = parseInt($('.buy-quantity').val(), 10);
         if (buyQuantity < quantity) {
             buyQuantity = buyQuantity + 1;
         } else {
             //show warning
             showWarning();
         }
-        $('#buy-quantity').val(buyQuantity);
+        $('.buy-quantity').val(buyQuantity);
+        updateCart();
     });
 });
 
@@ -49,33 +53,27 @@ function hideWarning() {
     $('#over-quantity').addClass('none');
 }
 
-function addProductToCart() {
-    var productId = $('#productId').val();
-    var vendorId = $('#vendorId').val();
-    var buyQuantity = $('#buy-quantity').val();
-    var quantity = $('#quantity').val();
+function updateCart() {
+    var id = $('#cartLineId').val();
+    var buyQuantity = $('.buy-quantity').val();
 
-    var productForm = {
-        productId: productId,
-        vendorId: vendorId,
-        quantity: quantity,
-    };
     var dataRequest = {
-        productForm: productForm,
+        id: id,
         buyQuantity: buyQuantity,
     };
     $.ajax({
         type:'POST',
-        url: '/user/addProductToCart',
+        url: '/user/updateCart',
         // headers: { 'X-CSRF-TOKEN': $("input[name='_csrf']").val()},
         contentType: 'application/json',
         dataType : 'json',
         data: JSON.stringify(dataRequest),
         success : function (result) {
-            alert(result.responseJSON.msg);
+            alert(result.msg);
+            CommonPartsJs.redirectTo("/user/viewCart")
         },
         error: function (result) {
-            alert(result.responseJSON.msg);
+            alert(result.msg);
         },
     });
 }

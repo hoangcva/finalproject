@@ -11,9 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.HashMap;
 
@@ -34,13 +34,24 @@ public class CartController {
         }
     }
 
-    @GetMapping(value = "/user/viewCart")
+    @RequestMapping(value = "/user/viewCart")
     public String viewCart(Authentication auth, Model model) {
         CartInfoForm cartInfoForm = new CartInfoForm();
         UserDetailsDto userDetails = (UserDetailsDto) auth.getPrincipal();
         cartInfoForm = cartService.getCart(userDetails.getUserDto().getId());
         model.addAttribute("cartInfoForm", cartInfoForm);
+        return "customer/cartPage";
+    }
 
-        return "customer/cart";
+    @PostMapping(value = "/user/updateCart")
+    public ResponseEntity<?> updateCart(@RequestBody CartLineInfoForm CartLineInfoForm) {
+        Message result = cartService.updateQuantity(CartLineInfoForm);
+        HashMap<String, Object> message = new HashMap<>();
+        message.put("msg", result.getMessage());
+        if (result.isSuccess()) {
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        }
     }
 }

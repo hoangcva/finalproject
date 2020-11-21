@@ -10,13 +10,17 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" />
     <link th:href="@{assets/bootstrap4-toggle/bootstrap4-toggle.min.css}"/>
     <link th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link rel="stylesheet" href="../../static/css/common/common.css" th:href="@{/css/common/common.css}" />
 </head>
 <body>
-<div th:fragment="change-quantity" id="change-quantity">
-    <div id="decrease-btn">-</div>
-    <input type="text" id="buy-quantity" name="buy-quantity" value="0">
-    <div id="increase-btn">+</div>
-    <span id="over-quantity" class="hide d-none" th:text="'You can\'t buy more than ' + ${productForm.quantity} + ' products'"></span>
-</div>
+    <div th:fragment="change-quantity(buyQuantity, quantity)" class="change-quantity">
+        <div id="decrease-btn">-</div>
+        <input type="text" class="buy-quantity" name="buy-quantity" th:value="${buyQuantity}">
+        <div id="increase-btn">+</div>
+        <span id="over-quantity" class="hide d-none" th:text="'You can\'t buy more than ' + ${quantity} + ' products'"></span>
+    </div>
+    <div th:fragment="common-redirect-form">
+        <form method="post" th:action="@{/}" id="common-redirect-form"></form>
+    </div>
 </body>
 </html>
