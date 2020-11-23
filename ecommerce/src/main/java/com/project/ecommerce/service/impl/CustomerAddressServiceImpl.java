@@ -6,6 +6,9 @@ import com.project.ecommerce.dao.CustomerAddressMapper;
 import com.project.ecommerce.dto.*;
 import com.project.ecommerce.form.CustomerAddressForm;
 import com.project.ecommerce.service.ICustomerAddressService;
+import com.project.ecommerce.util.Message;
+import com.project.ecommerce.util.MessageAccessor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.lang.Nullable;
@@ -14,7 +17,6 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service("CustomerAddressService")
 public class CustomerAddressServiceImpl implements ICustomerAddressService {
@@ -24,6 +26,8 @@ public class CustomerAddressServiceImpl implements ICustomerAddressService {
     private DataSourceTransactionManager transactionManager;
     @Autowired
     private AddressMapper addressMapper;
+    @Autowired
+    private MessageAccessor messageAccessor;
 
     @Override
     public List<CustomerAddressDto> getAllAddressByCustomer(Long customerId) {
@@ -31,45 +35,59 @@ public class CustomerAddressServiceImpl implements ICustomerAddressService {
     }
 
     @Override
-    public CustomerAddressDto getAddressById(Long addressId) {
-        return customerAddressMapper.getAddressById(addressId);
+    public CustomerAddressForm getAddressById(Long addressId) {
+        CustomerAddressForm customerAddressForm = new CustomerAddressForm();
+        CustomerAddressDto customerAddressDto = customerAddressMapper.getAddressById(addressId);
+        BeanUtils.copyProperties(customerAddressDto, customerAddressForm);
+        return customerAddressForm;
     }
 
+    @Override
     public void updateAddress(CustomerAddressForm customerAddressForm) {
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
             CustomerAddressDto customerAddressDto = new CustomerAddressDto();
-            customerAddressDto.setAddressDetail(customerAddressForm.getAddressDetail());
-            customerAddressDto.setFullName(customerAddressForm.getFullName());
-            customerAddressDto.setId(customerAddressForm.getId());
-            customerAddressDto.setProvince(customerAddressForm.getProvinceId());
-            customerAddressDto.setDistrict(customerAddressForm.getDistrictId());
-            customerAddressDto.setWard(customerAddressForm.getWardId());
+            BeanUtils.copyProperties(customerAddressForm, customerAddressDto);
             customerAddressMapper.updateAddress(customerAddressDto);
             transactionManager.commit(txStatus);
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
+            throw ex;
         }
     }
 
+    @Override
     public void createAddress(CustomerAddressForm customerAddressForm) {
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
             CustomerAddressDto customerAddressDto = new CustomerAddressDto();
-            customerAddressDto.setAddressDetail(customerAddressForm.getAddressDetail());
-            customerAddressDto.setFullName(customerAddressForm.getFullName());
-            customerAddressDto.setId(customerAddressForm.getId());
-            customerAddressDto.setProvince(customerAddressForm.getProvinceId());
-            customerAddressDto.setDistrict(customerAddressForm.getDistrictId());
-            customerAddressDto.setWard(customerAddressForm.getWardId());
-            customerAddressMapper.updateAddress(customerAddressDto);
+            BeanUtils.copyProperties(customerAddressForm, customerAddressDto);
+            customerAddressMapper.insertAddress(customerAddressDto);
             transactionManager.commit(txStatus);
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
+            throw ex;
         }
     }
 
-    public void deleteAddress(Long addressId) {
+    @Override
+    public Message deleteAddress(Long addressId) {
+        Message message = new Message("", true);
+        TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        try {
+            customerAddressMapper.deleteAddress(addressId);
+            transactionManager.commit(txStatus);
+            message.setMessage(messageAccessor.getMessage(Consts.MSG_02_I));
+        } catch (Exception ex) {
+            transactionManager.rollback(txStatus);
+            message.setMessage(messageAccessor.getMessage(Consts.MSG_02_E));
+            message.setSuccess(false);
+        }
+        return message;
+    }
+
+    @Override
+    public void deleteAllAddress(Long customerId) {
 
     }
 
@@ -78,13 +96,10 @@ public class CustomerAddressServiceImpl implements ICustomerAddressService {
     }
 
     public List<DistrictDto> getDistrictList(@Nullable Long provinceId) {
-        provinceId = Objects.isNull(provinceId) ? Consts.PROVINCE_CODE_HANOI : provinceId;
         return addressMapper.getAllDistrict(provinceId);
     }
 
     public List<WardDto> getWardList(@Nullable Long provinceId,@Nullable Long districtId) {
-        provinceId = Objects.isNull(provinceId) ? Consts.PROVINCE_CODE_HANOI : provinceId;
-        districtId = Objects.isNull(districtId) ? Consts.DISTRICT_CODE_BADINH : districtId;
         return addressMapper.getAllWard(provinceId, districtId);
     }
 }

@@ -13,7 +13,7 @@ function deleteUser(userId) {
             dataType : 'json',
             data: JSON.stringify(userId),
             success : function (result) {
-                $('#AdminReload').submit();
+                $('#reload').submit();
             },
             error: function (result) {
                 console.log(result);

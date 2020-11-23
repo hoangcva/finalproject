@@ -10,7 +10,7 @@
 <h2>Create Account</h2>
 <div th:if="${errorMessage != null}"
      th:utext="${errorMessage}" class="error">...</div>
-<form name="register" th:object="${user_form}" th:action="@{/saveUser}" method="post">
+<form name="register" th:object="${user_form}" th:action="@{/saveUser}" method="post" autocomplete="off">
     <table>
         <tr>
             <td>Username</td>

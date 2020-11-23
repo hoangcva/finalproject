@@ -158,7 +158,7 @@ public class ProductController {
                               BindingResult result,
                               final RedirectAttributes redirectAttributes,
                               Authentication auth) {
-        UserDto userDto = userService.getUserByUserName(((UserDetails) auth.getPrincipal()).getUsername());
+//        UserDto userDto = userService.getUserByUserName(((UserDetails) auth.getPrincipal()).getUsername());
         productService.updateProduct(productForm);
         return "redirect:/vendor/listVendorProduct";
     }

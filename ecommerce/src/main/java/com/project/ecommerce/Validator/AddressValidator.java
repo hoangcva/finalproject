@@ -15,11 +15,11 @@ public class AddressValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fullName", "NotEmpty.UserUpdateForm.fullname");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fullName", "NotEmpty.UserUpdateForm.fullName");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phoneNumber", "NotEmpty.UserUpdateForm.phoneNumber");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "detail", "NotEmpty.UserUpdateForm.detail");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "province", "NotEmpty.UserUpdateForm.province");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "district", "NotEmpty.UserUpdateForm.district");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "ward", "NotEmpty.UserUpdateForm.ward");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "addressDetail", "NotEmpty.UserUpdateForm.addressDetail");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "provinceId", "NotEmpty.UserUpdateForm.province");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "districtId", "NotEmpty.UserUpdateForm.district");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "wardId", "NotEmpty.UserUpdateForm.ward");
     }
 }

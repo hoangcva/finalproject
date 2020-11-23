@@ -14,26 +14,32 @@
 
     <insert id="insertAddress" parameterType="com.project.ecommerce.dto.CustomerAddressDto" useGeneratedKeys="true" keyColumn="id">
         INSERT INTO customer_info
-        (customer_id, fullname, phone_number, province, district, ward, address_detail)
+        (customer_id, fullname, phone_number, provinceId, districtId, wardId, address_detail, province, district, ward)
         VALUES
-        (#{customerId, jdbcType=VARCHAR},
+        (#{customerId, jdbcType=BIGINT},
          #{fullName,jdbcType=VARCHAR},
          #{phoneNumber,jdbcType=VARCHAR},
-         #{province,jdbcType=VARCHAR},
-         #{district,jdbcType=VARCHAR},
-         #{ward,jdbcType=VARCHAR},
-         #{addressDetail,jdbcType=VARCHAR})
+         #{provinceId,jdbcType=BIGINT},
+         #{districtId,jdbcType=BIGINT},
+         #{wardId,jdbcType=BIGINT},
+         #{addressDetail,jdbcType=VARCHAR},
+         #{province, jdbcType=VARCHAR},
+         #{district, jdbcType=VARCHAR},
+         #{ward,jdbcType=VARCHAR})
     </insert>
 
     <update id="updateAddress" parameterType="com.project.ecommerce.dto.CustomerAddressDto">
         UPDATE customer_info
         SET
             fullname = #{fullName},
-            phone_number = #{email},
+            phone_number = #{phoneNumber},
+            provinceId = #{provinceId},
+            districtId = #{districtId},
+            wardId = #{wardId},
+            address_detail = #{addressDetail},
             province = #{province},
             district = #{district},
-            ward = #{ward},
-            address_detail = #{addressDetail}
+            ward = #{ward}
         WHERE id = #{id}
     </update>
 

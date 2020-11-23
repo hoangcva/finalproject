@@ -8,8 +8,9 @@ public class Consts {
     public static final String ROLE_VENDOR = "ROLE_VENDOR";
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
 
-    public static final String MSG_01_E = "MSG_01_E";
-    public static final String MSG_02_E = "MSG_02_E";
+    public static final String MSG_01_E = "MSG_01_E"; //You can not buy more than {0} products.
+    public static final String MSG_02_E = "MSG_02_E"; //DB error!
 
-    public static final String MSG_01_I = "MSG_01_I";
+    public static final String MSG_01_I = "MSG_01_I"; //The product has been added to cart
+    public static final String MSG_02_I = "MSG_02_I"; //Address has been deleted successful
 }

@@ -9,11 +9,25 @@
     </select>
 
     <select id="getAllDistrict" resultType="com.project.ecommerce.dto.DistrictDto" fetchSize="200">
-        SELECT * FROM district where _province_id = #{provinceId}
+        SELECT * FROM district
+        <where>
+            <if test="provinceId != null">
+                AND _province_id = #{provinceId}
+            </if>
+        </where>
+        ORDER BY _province_id, _prefix, _name
     </select>
 
     <select id="getAllWard" resultType="com.project.ecommerce.dto.WardDto" fetchSize="200">
-        SELECT * FROM ward where _province_id = #{provinceId} and _district_id = #{districtId}
+        SELECT * FROM ward
+        <where>
+            <if test="provinceId != null">
+                AND _province_id = #{provinceId}
+            </if>
+            <if test="districtId != null">
+                AND _district_id = #{districtId}
+            </if>
+        </where>
+        ORDER BY _province_id, _district_id, _prefix, _name
     </select>
-
 </mapper>

@@ -1,27 +1,35 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head>
-    <meta charset="UTF-8">
+<head th:replace="fragments/template :: head_input(~{::title})">
     <title>Title</title>
 </head>
 <body>
     <th:block th:include="/common/_header"></th:block>
     <h3 text="Address"></h3>
+    <div th:if="${errorMessage != null}"
+         th:utext="${errorMessage}" class="error">...</div>
 <!--    <div  sec:authentication="name"></div>-->
     <div><a th:href="@{/customer/address/initAddAddress}">Add new address</a></div>
     <div th:each="address : ${address_list}" th:unless="${#lists.isEmpty(address_list)}">
         <div>
             <div>
-                <span th:text="${address.fullName}"></span>
-                <span  th:text="${address.addressDetail}"></span>
-                <span  th:text="${address.phoneNumber}"></span>
+                <div th:text="${#strings.toUpperCase(address.fullName)}"></div>
+                <div th:text="'Address: '+${address.addressDetail}+', '+${address.ward}+', '+${address.district}+', '+${address.province}"></div>
+                <div th:text="'Telephone: '+${address.phoneNumber}"></div>
             </div>
             <div>
-                <span><a th:href="@{/customer/address/edit}"></a></span>
-                <span><a th:href="@{/customer/address/delete}"></a></span>
+                <span><a th:href="@{/customer/address/edit(id = ${address.id})}">Edit</a></span>
+                <span>
+                    <button class="btn_delete" type="button"
+                              th:text="Delete"
+                              th:onclick="|javascript:deleteAddress(${address.id})|">
+                    </button>
+                </span>
             </div>
         </div>
     </div>
+    <form method="get" th:action="@{/customer/address/manageAddress}" id="reload"></form>
+    <script type="text/javascript" th:src="@{/js/customer/manageAddress.js}"></script>
 </body>
 </html>
