@@ -39,7 +39,7 @@ public class CustomerAddressServiceImpl implements ICustomerAddressService {
         CustomerAddressForm customerAddressForm = new CustomerAddressForm();
         CustomerAddressDto customerAddressDto = customerAddressMapper.getAddressById(addressId);
         BeanUtils.copyProperties(customerAddressDto, customerAddressForm);
-        return customerAddressForm;
+        return checkWardId(customerAddressForm);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class CustomerAddressServiceImpl implements ICustomerAddressService {
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
             CustomerAddressDto customerAddressDto = new CustomerAddressDto();
-            BeanUtils.copyProperties(customerAddressForm, customerAddressDto);
+            BeanUtils.copyProperties(checkWardId(customerAddressForm), customerAddressDto);
             customerAddressMapper.updateAddress(customerAddressDto);
             transactionManager.commit(txStatus);
         } catch (Exception ex) {
@@ -61,7 +61,7 @@ public class CustomerAddressServiceImpl implements ICustomerAddressService {
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
             CustomerAddressDto customerAddressDto = new CustomerAddressDto();
-            BeanUtils.copyProperties(customerAddressForm, customerAddressDto);
+            BeanUtils.copyProperties(checkWardId(customerAddressForm), customerAddressDto);
             customerAddressMapper.insertAddress(customerAddressDto);
             transactionManager.commit(txStatus);
         } catch (Exception ex) {
@@ -101,5 +101,14 @@ public class CustomerAddressServiceImpl implements ICustomerAddressService {
 
     public List<WardDto> getWardList(@Nullable Long provinceId,@Nullable Long districtId) {
         return addressMapper.getAllWard(provinceId, districtId);
+    }
+
+    private CustomerAddressForm checkWardId(CustomerAddressForm customerAddressForm) {
+        if (customerAddressForm.getWardId() == Consts.EMPTY) {
+            customerAddressForm.setWardId(null);
+        } else if (customerAddressForm.getWardId() == null) {
+            customerAddressForm.setWardId(Consts.EMPTY);
+        }
+        return customerAddressForm;
     }
 }

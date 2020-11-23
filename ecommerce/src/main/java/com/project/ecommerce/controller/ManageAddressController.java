@@ -1,11 +1,13 @@
 package com.project.ecommerce.controller;
 
+import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.Validator.AddressValidator;
 import com.project.ecommerce.dto.*;
 import com.project.ecommerce.form.CustomerAddressForm;
 import com.project.ecommerce.service.ICustomerAddressService;
 import com.project.ecommerce.service.IUserService;
 import com.project.ecommerce.util.Message;
+import com.project.ecommerce.util.MessageAccessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -91,7 +93,8 @@ public class ManageAddressController {
                                 @ModelAttribute("address_form") @Validated CustomerAddressForm customerAddressForm,
                                 BindingResult result,
                                 final RedirectAttributes redirectAttributes,
-                                Authentication auth) {
+                                Authentication auth,
+                                MessageAccessor messageAccessor) {
         // Validate result
         if (result.hasErrors()) {
             initData(model);
@@ -105,7 +108,7 @@ public class ManageAddressController {
         // Other error!!
         catch (Exception e) {
             initData(model);
-            model.addAttribute("errorMessage", "Error: " + e.getMessage());
+            model.addAttribute("errorMessage", messageAccessor.getMessage(Consts.MSG_02_E));
             return "/customer/address/addAddressPage";
         }
 

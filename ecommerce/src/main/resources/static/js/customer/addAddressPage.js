@@ -1,22 +1,42 @@
+var province;
+var district;
+var ward;
 $(document).ready(function() {
+    province = $('#province-select option:selected').text();
+    district = $('#district-select option:selected').text();
+    ward = $('#ward-select option:selected').text();
+    if (ward == "Select ward") {
+        ward = "";
+    }
     showDistrict();
     showWard();
+    $('#province').val(province);
+    $('#district').val(district);
+    $('#ward').val(ward);
 });
 
-$(document).on('change', '#province-select',  function () {
+$(document).on('change', '#province-select', function () {
     showDistrict();
-    var province = $('#province-select option:selected').text();
+    province = $('#province-select option:selected').text();
     $('#province').val(province);
+    $('#district-select').val('');
+    $('#ward-select').val('');
 });
 
 $(document).on('change', '#district-select', function() {
     showWard();
-    var district = $('#district-select option:selected').text();
+    district = $('#district-select option:selected').text();
     $('#district').val(district);
+    $('#ward-select').val('');
+    ward = "";
+    $('#ward').val(ward);
 })
 
 $(document).on('change', '#ward-select', function() {
-    var ward = $('#ward-select option:selected').text();
+    ward = $('#ward-select option:selected').text();
+    if (ward == "Select ward") {
+        ward = "";
+    }
     $('#ward').val(ward);
 })
 
@@ -36,9 +56,7 @@ function showDistrict() {
             $(this).hide();
         }
     });
-    $('#district-select').val('');
-    $('#ward-select').val('');
-}
+};
 
 function showWard() {
     var districtId = $("#district-select option:selected").val();
@@ -55,5 +73,4 @@ function showWard() {
             $(this).hide();
         }
     });
-    $('#ward-select').val('');
 }

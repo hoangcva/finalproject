@@ -20,6 +20,6 @@ public class AddressValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "addressDetail", "NotEmpty.UserUpdateForm.addressDetail");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "provinceId", "NotEmpty.UserUpdateForm.province");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "districtId", "NotEmpty.UserUpdateForm.district");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "wardId", "NotEmpty.UserUpdateForm.ward");
+//        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "wardId", "NotEmpty.UserUpdateForm.ward");
     }
 }
