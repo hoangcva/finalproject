@@ -6,7 +6,6 @@ import com.project.ecommerce.dao.CustomerAddressMapper;
 import com.project.ecommerce.dto.*;
 import com.project.ecommerce.form.CustomerAddressForm;
 import com.project.ecommerce.service.ICustomerAddressService;
-import org.apache.tomcat.util.bcel.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.lang.Nullable;
@@ -43,9 +42,9 @@ public class CustomerAddressServiceImpl implements ICustomerAddressService {
             customerAddressDto.setAddressDetail(customerAddressForm.getAddressDetail());
             customerAddressDto.setFullName(customerAddressForm.getFullName());
             customerAddressDto.setId(customerAddressForm.getId());
-            customerAddressDto.setProvince(customerAddressForm.getProvince());
-            customerAddressDto.setDistrict(customerAddressForm.getDistrict());
-            customerAddressDto.setWard(customerAddressForm.getWard());
+            customerAddressDto.setProvince(customerAddressForm.getProvinceId());
+            customerAddressDto.setDistrict(customerAddressForm.getDistrictId());
+            customerAddressDto.setWard(customerAddressForm.getWardId());
             customerAddressMapper.updateAddress(customerAddressDto);
             transactionManager.commit(txStatus);
         } catch (Exception ex) {
@@ -60,9 +59,9 @@ public class CustomerAddressServiceImpl implements ICustomerAddressService {
             customerAddressDto.setAddressDetail(customerAddressForm.getAddressDetail());
             customerAddressDto.setFullName(customerAddressForm.getFullName());
             customerAddressDto.setId(customerAddressForm.getId());
-            customerAddressDto.setProvince(customerAddressForm.getProvince());
-            customerAddressDto.setDistrict(customerAddressForm.getDistrict());
-            customerAddressDto.setWard(customerAddressForm.getWard());
+            customerAddressDto.setProvince(customerAddressForm.getProvinceId());
+            customerAddressDto.setDistrict(customerAddressForm.getDistrictId());
+            customerAddressDto.setWard(customerAddressForm.getWardId());
             customerAddressMapper.updateAddress(customerAddressDto);
             transactionManager.commit(txStatus);
         } catch (Exception ex) {

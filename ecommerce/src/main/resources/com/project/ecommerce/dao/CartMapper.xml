@@ -41,5 +41,10 @@
             AND productId = #{productId}
             AND vendorId = #{vendorId}
     </select>
+
+    <select id="getCartLine" parameterType="long" resultType="com.project.ecommerce.dto.CartDto" fetchSize="200">
+        SELECT * FROM cart_detail
+        WHERE id = #{id}
+    </select>
 </mapper>
 

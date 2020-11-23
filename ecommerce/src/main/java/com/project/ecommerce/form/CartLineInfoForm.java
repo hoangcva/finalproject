@@ -8,6 +8,15 @@ public class CartLineInfoForm implements Serializable {
     private ProductForm productForm;
     private long buyQuantity;
 
+    public CartLineInfoForm() {
+    }
+
+    public CartLineInfoForm(long id, ProductForm productForm, long buyQuantity) {
+        this.id = id;
+        this.productForm = productForm;
+        this.buyQuantity = buyQuantity;
+    }
+
     public long getId() {
         return id;
     }

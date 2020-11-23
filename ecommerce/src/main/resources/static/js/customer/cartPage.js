@@ -1,14 +1,18 @@
+// import Tabulator from 'tabulator-tables';
+var table;
 $(document).ready(function () {
+    // // Initial tabulator
+    // makeTable(1);
     var quantity = parseInt($('#quantity').val(), 10);
     $('.change-quantity').on('change', '.buy-quantity', function () {
         var buyQuantity = parseInt($('.buy-quantity').val(), 10);
-        if (buyQuantity <= quantity) {
+        if (buyQuantity <= quantity && buyQuantity >= 0) {
             //hide warning
-            hideWarning();
+            // hideWarning();
         } else {
             //show warning
-            showWarning();
-            $('.buy-quantity').val(quantity);
+            // showWarning();
+            // $('.buy-quantity').val(quantity);
         }
         updateCart();
     });
@@ -17,25 +21,25 @@ $(document).ready(function () {
         var buyQuantity = parseInt($('.buy-quantity').val(), 10);
         if (buyQuantity > 0) {
             buyQuantity = buyQuantity - 1;
+            $('.buy-quantity').val(buyQuantity);
+            updateCart();
         }
         if (buyQuantity <= quantity) {
             //hide warning
             hideWarning();
         }
-        $('.buy-quantity').val(buyQuantity);
-        updateCart();
     });
 
     $('.change-quantity').on('click', '#increase-btn', function () {
         var buyQuantity = parseInt($('.buy-quantity').val(), 10);
         if (buyQuantity < quantity) {
             buyQuantity = buyQuantity + 1;
+            $('.buy-quantity').val(buyQuantity);
+            updateCart();
         } else {
             //show warning
             showWarning();
         }
-        $('.buy-quantity').val(buyQuantity);
-        updateCart();
     });
 });
 
@@ -69,12 +73,26 @@ function updateCart() {
         dataType : 'json',
         data: JSON.stringify(dataRequest),
         success : function (result) {
-            alert(result.msg);
+            if (result.msg !== '') {
+                alert(result.msg);
+            }
             CommonPartsJs.redirectTo("/user/viewCart")
         },
         error: function (result) {
             alert(result.msg);
         },
+    });
+};
+
+function makeTable(currentPage) {
+    table = new Tabulator('#tblCartPage', {
+        data: cartInfoForm,
+        columns: [
+            {title: "name", field: "productForm.productName"},
+            {},
+            {},
+            {},
+        ],
     });
 }
 

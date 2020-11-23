@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <th:block th:include="/common/_header"></th:block>
+    <h3 text="Address"></h3>
+<!--    <div  sec:authentication="name"></div>-->
+    <div><a th:href="@{/customer/address/initAddAddress}">Add new address</a></div>
+    <div th:each="address : ${address_list}" th:unless="${#lists.isEmpty(address_list)}">
+        <div>
+            <div>
+                <span th:text="${address.fullName}"></span>
+                <span  th:text="${address.addressDetail}"></span>
+                <span  th:text="${address.phoneNumber}"></span>
+            </div>
+            <div>
+                <span><a th:href="@{/customer/address/edit}"></a></span>
+                <span><a th:href="@{/customer/address/delete}"></a></span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

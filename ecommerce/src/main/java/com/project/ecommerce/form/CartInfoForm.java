@@ -25,26 +25,28 @@ public class CartInfoForm implements Serializable {
         }
     }
 
-    public void addCartLine(ProductForm productForm, long quantity) {
-        CartLineInfoForm cartLine = this.findLineByCode(productForm.getProductId());
-        if (cartLine == null) {
-            cartLine = new CartLineInfoForm();
-            cartLine.setProductForm(productForm);
-            cartLine.setBuyQuantity(quantity);
-            this.cartLines.add(cartLine);
-        } else {
-            long newQuantity = cartLine.getBuyQuantity() + quantity;
-            if (newQuantity <= 0) {
-                this.cartLines.remove(cartLine);
-            } else {
-                cartLine.setBuyQuantity(newQuantity);
-            }
-        }
+    public void addCartLine(Long id, ProductForm productForm, long quantity) {
+//        CartLineInfoForm cartLine = this.findLineByCode(productForm.getProductId());
+//        if (cartLine == null) {
+//            cartLine = new CartLineInfoForm();
+//            cartLine.setProductForm(productForm);
+//            cartLine.setBuyQuantity(quantity);
+//            this.cartLines.add(cartLine);
+//        } else {
+//            long newQuantity = cartLine.getBuyQuantity() + quantity;
+//            if (newQuantity <= 0) {
+//                this.cartLines.remove(cartLine);
+//            } else {
+//                cartLine.setBuyQuantity(newQuantity);
+//            }
+//        }
+        CartLineInfoForm cartLine = new CartLineInfoForm(id, productForm, quantity);
+        this.cartLines.add(cartLine);
     }
 
-    public void updateCartLine(ProductForm productForm, int quantity) {
-        addCartLine(productForm, quantity);
-    }
+//    public void updateCartLine(ProductForm productForm, int quantity) {
+//        addCartLine(productForm, quantity);
+//    }
 
     public long getBillTotal() {
         long total = 0;

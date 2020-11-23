@@ -17,7 +17,7 @@ public class AddressValidator implements Validator {
     public void validate(Object target, Errors errors) {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fullName", "NotEmpty.UserUpdateForm.fullname");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phoneNumber", "NotEmpty.UserUpdateForm.phoneNumber");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "addressDetail", "NotEmpty.UserUpdateForm.addressDetail");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "detail", "NotEmpty.UserUpdateForm.detail");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "province", "NotEmpty.UserUpdateForm.province");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "district", "NotEmpty.UserUpdateForm.district");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "ward", "NotEmpty.UserUpdateForm.ward");

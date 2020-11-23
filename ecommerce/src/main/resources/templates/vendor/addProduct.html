@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
+<head th:replace="fragments/template :: head_input(~{::title})">
     <title>Add product</title>
 </head>
 <body>
 <th:block th:include="/common/_header"></th:block>
-<script type="text/javascript" th:src="@{/js/vendor/viewProductDetail.js}"></script>
+
 <!--<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/vendor/addProduct.css}" href="../../vendor/addProduct.css">-->
 <h2>Choose Category</h2>
 
@@ -16,14 +15,19 @@
             <span>Category</span>
             <select id="category-select" th:field="*{categoryId}">
                 <option value="0" selected disabled th:value="category"></option>
-                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                <option th:each="category : ${categories}"
+                        th:value="${category.id}"
+                        th:text="${category.name}"></option>
             </select>
         </div>
         <div class="custom-select2">
             <span>Sub category</span>
             <select id="sub-category-select" th:field="*{subCategoryId}">
 <!--                <option value="0" selected disabled th:value="subcategory"></option>-->
-                <option class="hide" th:each="subCategory : ${subCategories}" th:value="${subCategory.id}" th:text="${subCategory.name}"
+                <option class="hide"
+                        th:each="subCategory : ${subCategories}"
+                        th:value="${subCategory.id}"
+                        th:text="${subCategory.name}"
                         th:attr="data-categoryId=${subCategory.categoryId}"></option>
             </select>
         </div>
@@ -50,5 +54,6 @@
         </tbody>
     </table>
 <!--</form>-->
+<script type="text/javascript" th:src="@{/js/vendor/addProduct.js}"></script>
 </body>
 </html>

@@ -6,38 +6,59 @@ USERS:
 		admin
 		customer
 		vendor
+	fullname
 	
 CUSTOMER
 	customer_id (primary key)
 	customer_name
 	
 CUSTOMER_INFO
-	user_id (foreign key to USERS.user_id)
-	address
+	id (primary key)
+	customer_id (foreign key to CUSTOMER.customer_id)
 	phonenumber
+	province (foreign key to province.id)
+	district (foreign key to district.id)
+	ward (foreign key to ward.id)
+	address
 
 VENDORS:
 	vendor_id (primary key)
 	vendor_name
 	vendor_phone
 	vendor_email
+	
+CATEGORY
+	_id
+	_name
+	_description
+	
+SUB_CATEGORY
+	_id
+	_name
+	_description
+	category_id
 
 PRODUCTS
 	product_id (primary key)
 	product_name
-	product_category
 	product_description
+	category_id
+	_size
+	_page_number
+	_color
+	_age
+	_material
 
 VENDOR_PRODUCTS
     vendor_id (primary key, foreign key to VENDORS.vendor_id)
 	product_id (primary key, foreign key to PRODUCTS.product_id)
 	quantity
 	price
+	rating
 	
 CART
 	cart_id (primary key)
 	user_id (primary key, foreign key to USERS.user_id)
-	vendor_id 
 	
 CART_PRODUCTS
 	cart_id (primary key, foreign key to CART.cart_id)
@@ -62,4 +83,22 @@ ORDER_PRODUCTS
 	price
 	discount
 	address_id
+	
+PROVINCE
+	id
+	_name
+	_code
+	
+DISTRICT
+	id
+	_name
+	_prefix
+	_province_id
+	
+WARD
+	id
+	_name
+	_prefix
+	_province_id
+	_district_id
 

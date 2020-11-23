@@ -6,10 +6,13 @@
     <title>Title</title>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="dist/js/tabulator.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/common/common.js}"></script>
 
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" />
     <link th:href="@{assets/bootstrap4-toggle/bootstrap4-toggle.min.css}"/>
     <link th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link href="dist/css/tabulator.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../static/css/common/common.css" th:href="@{/css/common/common.css}" />
 </head>
 <body>
@@ -22,5 +25,6 @@
     <div th:fragment="common-redirect-form">
         <form method="post" th:action="@{/}" id="common-redirect-form"></form>
     </div>
+    <div th:fragment="overlay" class="overlay"></div>
 </body>
 </html>

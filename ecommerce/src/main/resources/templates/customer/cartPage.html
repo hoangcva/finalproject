@@ -4,7 +4,7 @@
 <body>
 <th:block th:include="/common/_header"></th:block>
 <script type="text/javascript" th:src="@{/js/customer/cartPage.js}"></script>
-<!--<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/customer/viewProductDetail.css}" href="../../css/customer/viewProductDetail.css">-->
+<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/customer/cartPage.css}" href="../../css/customer/cartPage.css">
 <h2>Cart</h2>
 <span th:text="'(' + ${cartInfoForm.getQuantityTotal()} + 'products)'"></span>
 <form th:action="@{customer/createOrder}" method="POST">
@@ -29,15 +29,23 @@
                     <div th:replace="fragments/template :: change-quantity(${cartLine.buyQuantity}, ${cartLine.productForm.quantity})"></div>
                 </td>
                 <input type="hidden" name="carLineId" id="cartLineId" th:value="*{cartLine.id}">
+                <input type="hidden" name="quantity" id="quantity" th:value="*{cartLine.productForm.quantity}">
             </tr>
         </tbody>
     </table>
     <input type="button" value="Make order">
 
+    <div id="tblCartPage"></div>
 </form>
+
 <div th:text="'Total listing price:' + ${cartInfoForm.getListPriceTotal()}"></div>
 <div th:text="'Discount: -' + ${cartInfoForm.getListPriceTotal() - cartInfoForm.getBillTotal()}"></div>
 <div th:text="'Total:' + ${cartInfoForm.getBillTotal()}"></div>
 
+<div th:replace="fragments/template::common-redirect-form"></div>
+<div th:replace="fragments/template::overlay"></div>
+<script type="text/javascript" th:inline="javascript">
+    const cartInfoForm = [[${cartInfoForm.cartLines}]];
+</script>
 </body>
 </html>

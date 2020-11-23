@@ -37,7 +37,7 @@ public class CartServiceImpl implements ICartService {
         CartInfoForm cartInfoForm = new CartInfoForm();
         for (CartDto cartLine : cartDtoList) {
             ProductForm productForm = productMapper.getProductDetail(cartLine.getProductId(), cartLine.getVendorId());
-            cartInfoForm.addCartLine(productForm, cartLine.getBuyQuantity());
+            cartInfoForm.addCartLine(cartLine.getId(), productForm, cartLine.getBuyQuantity());
         }
         return cartInfoForm;
     }
@@ -96,7 +96,13 @@ public class CartServiceImpl implements ICartService {
         Message result = new Message();
         String strMessage = "";
         boolean isSuccess = true;
-
+        CartDto existCartDto = cartMapper.getCartLine(cartLineInfoForm.getId());
+        ProductForm productForm = productMapper.getProductDetail(existCartDto.getProductId(), existCartDto.getVendorId());
+        long maxQuantity = productForm.getQuantity();
+        if (cartLineInfoForm.getBuyQuantity() > maxQuantity) {
+            strMessage = messageAccessor.getMessage(Consts.MSG_01_E, Long.toString(maxQuantity));
+            cartLineInfoForm.setBuyQuantity(maxQuantity);
+        }
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
             cartMapper.updateQuantity(cartLineInfoForm.getId(), cartLineInfoForm.getBuyQuantity());

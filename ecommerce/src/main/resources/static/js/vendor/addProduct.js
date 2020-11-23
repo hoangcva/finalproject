@@ -25,7 +25,7 @@ function showSubCategory() {
 
     childs.each( function () {
         if ($(this).attr('data-categoryId') == categoryId) {
-            $('.custom-select2 select').val($(this).attr('data-categoryId'));
+            $('.custom-select2 select').val($(this).val());
             return false;
         }
     })

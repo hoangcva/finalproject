@@ -22,6 +22,7 @@ public class ProductForm implements Serializable {
     private Long createdBy;
     private String origin;
     private Long listPrice;
+    private String vendorName;
 
     public String getProductName() {
         return productName;
@@ -165,5 +166,13 @@ public class ProductForm implements Serializable {
 
     public void setListPrice(Long listPrice) {
         this.listPrice = listPrice;
+    }
+
+    public String getVendorName() {
+        return vendorName;
+    }
+
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
     }
 }

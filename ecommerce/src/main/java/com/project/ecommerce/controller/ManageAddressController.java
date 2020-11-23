@@ -1,6 +1,6 @@
 package com.project.ecommerce.controller;
 
-import com.project.ecommerce.Validator.UserUpdateValidator;
+import com.project.ecommerce.Validator.AddressValidator;
 import com.project.ecommerce.dto.*;
 import com.project.ecommerce.form.CustomerAddressForm;
 import com.project.ecommerce.service.ICustomerAddressService;
@@ -19,14 +19,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-@Controller(value = "/customer/address")
+@Controller
+@RequestMapping(value = "/customer/address")
 public class ManageAddressController {
     @Autowired
     private IUserService userService;
     @Autowired
     private ICustomerAddressService customerAddressService;
     @Autowired
-    private UserUpdateValidator validator;
+    private AddressValidator validator;
 
     // Set a form validator
     @InitBinder
@@ -35,7 +36,6 @@ public class ManageAddressController {
         if(target == null) {
             return;
         }
-
         System.out.println("Target = " + target);
         if(target.getClass() == CustomerAddressForm.class) {
             dataBinder.setValidator(validator);
@@ -49,7 +49,20 @@ public class ManageAddressController {
         UserDto userDto = userService.getUserByUserName(userDetails.getUsername());
         List<CustomerAddressDto> customerAddressDtoList = customerAddressService.getAllAddressByCustomer(userDto.getId());
         model.addAttribute("address_list", customerAddressDtoList);
-        return "customer/address/manageAddress";
+        return "customer/address/manageAddressPage";
+    }
+
+    @GetMapping(value = "/initAddAddress")
+    public String initCreateAddress(Model model) {
+        CustomerAddressForm addressForm = new CustomerAddressForm();
+        List<ProvinceDto> provinceDtoList = customerAddressService.getProvinceList();
+        List<DistrictDto> districtDtoList = customerAddressService.getDistrictList(null);
+        List<WardDto> wardDtoList = customerAddressService.getWardList(null, null);
+        model.addAttribute("province_list", provinceDtoList);
+        model.addAttribute("district_list", districtDtoList);
+        model.addAttribute("ward_list", wardDtoList);
+        model.addAttribute("address_form", addressForm);
+        return "/customer/address/addAddressPage";
     }
 
     @GetMapping(value = "/getProvince")
@@ -74,37 +87,37 @@ public class ManageAddressController {
                                 final RedirectAttributes redirectAttributes) {
         // Validate result
         if (result.hasErrors()) {
-            List<ProvinceDto> provinceDtoList = customerAddressService.getProvinceList();
-            List<DistrictDto> districtDtoList = customerAddressService.getDistrictList(null);
-            List<WardDto> wardDtoList = customerAddressService.getWardList(null, null);
-            model.addAttribute("province_list", provinceDtoList);
-            model.addAttribute("district_list", districtDtoList);
-            model.addAttribute("ward_list", wardDtoList);
-            return "/customer/address/addAddress";
+//            List<ProvinceDto> provinceDtoList = customerAddressService.getProvinceList();
+//            List<DistrictDto> districtDtoList = customerAddressService.getDistrictList(null);
+//            List<WardDto> wardDtoList = customerAddressService.getWardList(null, null);
+//            model.addAttribute("province_list", provinceDtoList);
+//            model.addAttribute("district_list", districtDtoList);
+//            model.addAttribute("ward_list", wardDtoList);
+            return "redirect:/customer/address/initAddAddress";
         }
         try {
             customerAddressService.createAddress(customerAddressForm);
         }
         // Other error!!
         catch (Exception e) {
-            List<ProvinceDto> provinceDtoList = customerAddressService.getProvinceList();
-            List<DistrictDto> districtDtoList = customerAddressService.getDistrictList(null);
-            List<WardDto> wardDtoList = customerAddressService.getWardList(null, null);
-            model.addAttribute("province_list", provinceDtoList);
-            model.addAttribute("district_list", districtDtoList);
-            model.addAttribute("ward_list", wardDtoList);
-            model.addAttribute("errorMessage", "Error: " + e.getMessage());
-            return "/customer/address/addAddress";
+//            List<ProvinceDto> provinceDtoList = customerAddressService.getProvinceList();
+//            List<DistrictDto> districtDtoList = customerAddressService.getDistrictList(null);
+//            List<WardDto> wardDtoList = customerAddressService.getWardList(null, null);
+//            model.addAttribute("province_list", provinceDtoList);
+//            model.addAttribute("district_list", districtDtoList);
+//            model.addAttribute("ward_list", wardDtoList);
+            redirectAttributes.addFlashAttribute("errorMessage", "Error: " + e.getMessage());
+            return "redirect:/customer/address/initAddAddress";
         }
 
         redirectAttributes.addFlashAttribute("message", "Create address successful");
-        return "redirect:/manageAddress";
+        return "redirect:/customer/address/manageAddress";
     }
 
     @DeleteMapping(value = "/deleteAddress")
     public String deleteAddress(Model model, @PathVariable("address_id") Long addressId) {
         customerAddressService.deleteAddress(addressId);
-        return "redirect:/manageAddress";
+        return "redirect:/customer/address/manageAddress";
     }
 
     @PostMapping(value = "updateAddress")
@@ -120,7 +133,7 @@ public class ManageAddressController {
             model.addAttribute("province_list", provinceDtoList);
             model.addAttribute("district_list", districtDtoList);
             model.addAttribute("ward_list", wardDtoList);
-            return "/customer/address/addAddress";
+            return "addAddressPage";
         }
         try {
             customerAddressService.updateAddress(customerAddressForm);
@@ -134,10 +147,10 @@ public class ManageAddressController {
             model.addAttribute("district_list", districtDtoList);
             model.addAttribute("ward_list", wardDtoList);
             model.addAttribute("errorMessage", "Error: " + e.getMessage());
-            return "/customer/address/addAddress";
+            return "addAddressPage";
         }
 
         redirectAttributes.addFlashAttribute("message", "Create address successful");
-        return "redirect:/manageAddress";
+        return "redirect:/customer/address/manageAddress";
     }
 }

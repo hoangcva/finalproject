@@ -21,3 +21,22 @@ var CommonPartsJs = {
         }
     },
 }
+
+$(function () {
+    $.showLoading = function() {
+        $('body').showLoading();
+    }
+
+    $.closeLoading = function() {
+        $('body').closeLoading();
+    }
+})
+
+$(document).on({
+    ajaxStart: function(){
+        $("body").addClass("loading");
+    },
+    ajaxStop: function(){
+        $("body").removeClass("loading");
+    }
+});
