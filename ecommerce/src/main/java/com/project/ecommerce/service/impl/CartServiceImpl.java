@@ -97,8 +97,15 @@ public class CartServiceImpl implements ICartService {
         String strMessage = "";
         boolean isSuccess = true;
         CartDto existCartDto = cartMapper.getCartLine(cartLineInfoForm.getId());
+
+        if (cartLineInfoForm.getBuyQuantity() <= 0) {
+            result = removeProduct(cartLineInfoForm.getId());
+            return result;
+        }
+
         ProductForm productForm = productMapper.getProductDetail(existCartDto.getProductId(), existCartDto.getVendorId());
         long maxQuantity = productForm.getQuantity();
+
         if (cartLineInfoForm.getBuyQuantity() > maxQuantity) {
             strMessage = messageAccessor.getMessage(Consts.MSG_01_E, Long.toString(maxQuantity));
             cartLineInfoForm.setBuyQuantity(maxQuantity);
@@ -118,13 +125,18 @@ public class CartServiceImpl implements ICartService {
     }
 
     @Override
-    public void removeProduct(long id) {
+    public Message removeProduct(long id) {
+        Message result = new Message("", true);
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
             cartMapper.removeProduct(id);
             transactionManager.commit(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_03_I));
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_02_E, ""));
+            result.setSuccess(false);
         }
+        return result;
     }
 }

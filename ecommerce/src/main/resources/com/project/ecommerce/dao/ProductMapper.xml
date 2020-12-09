@@ -35,7 +35,7 @@
     <insert id="insertProduct" parameterType="com.project.ecommerce.dto.ProductDto" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO product
         ( product_name, product_description, categoryId, subCategoryId, product_brand,
-         product_SKU,product_origin, createdBy)
+         product_SKU,product_origin, createdBy, list_price)
         VALUES
         (#{productName,jdbcType=VARCHAR},
          #{description,jdbcType=VARCHAR},
@@ -44,7 +44,8 @@
          #{brand,jdbcType=VARCHAR},
          #{SKU,jdbcType=VARCHAR},
          #{origin,jdbcType=VARCHAR},
-         #{createdBy,jdbcType=BIGINT});
+         #{createdBy,jdbcType=BIGINT},
+         #{listPrice,jdbcType=BIGINT});
         <selectKey keyProperty="id" resultType="int" order="AFTER">
             SELECT LAST_INSERT_ID();
         </selectKey>

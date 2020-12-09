@@ -12,6 +12,7 @@
     <select id="getCart" parameterType="long" resultType="com.project.ecommerce.dto.CartDto" fetchSize="200">
         SELECT * FROM cart_detail
         WHERE customerId = #{customerId}
+        ORDER BY vendorId, insertTime DESC
     </select>
 
     <insert id="addProductToCart" parameterType="com.project.ecommerce.dto.CartDto" useGeneratedKeys="true" keyColumn="id" keyProperty="id">

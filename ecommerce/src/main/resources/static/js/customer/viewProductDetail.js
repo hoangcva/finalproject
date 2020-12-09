@@ -67,7 +67,7 @@ function addProductToCart() {
     };
     $.ajax({
         type:'POST',
-        url: '/user/addProductToCart',
+        url: '/customer/cart/add-product',
         // headers: { 'X-CSRF-TOKEN': $("input[name='_csrf']").val()},
         contentType: 'application/json',
         dataType : 'json',

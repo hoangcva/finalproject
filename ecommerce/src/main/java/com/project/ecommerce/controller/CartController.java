@@ -18,11 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.HashMap;
 
 @Controller
+@RequestMapping(value = "/customer/cart")
 public class CartController {
     @Autowired
     private ICartService cartService;
 
-    @PostMapping(value = "/user/addProductToCart")
+    @PostMapping(value = "/add-product")
     public ResponseEntity<?> addProductToCart(@RequestBody CartLineInfoForm CartLineInfoForm, Authentication auth) {
         Message result = cartService.addProductToCart(CartLineInfoForm, auth);
         HashMap<String, Object> message = new HashMap<>();
@@ -34,7 +35,7 @@ public class CartController {
         }
     }
 
-    @RequestMapping(value = "/user/viewCart")
+    @RequestMapping(value = "/view")
     public String viewCart(Authentication auth, Model model) {
         CartInfoForm cartInfoForm = new CartInfoForm();
         UserDetailsDto userDetails = (UserDetailsDto) auth.getPrincipal();
@@ -43,9 +44,21 @@ public class CartController {
         return "customer/cartPage";
     }
 
-    @PostMapping(value = "/user/updateCart")
+    @PostMapping(value = "/update")
     public ResponseEntity<?> updateCart(@RequestBody CartLineInfoForm CartLineInfoForm) {
         Message result = cartService.updateQuantity(CartLineInfoForm);
+        HashMap<String, Object> message = new HashMap<>();
+        message.put("msg", result.getMessage());
+        if (result.isSuccess()) {
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping(value = "/remove")
+    public ResponseEntity<?> removeProduct(@RequestBody CartLineInfoForm CartLineInfoForm) {
+        Message result = cartService.removeProduct(CartLineInfoForm.getId());
         HashMap<String, Object> message = new HashMap<>();
         message.put("msg", result.getMessage());
         if (result.isSuccess()) {

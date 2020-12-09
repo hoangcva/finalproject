@@ -1,51 +1,69 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/template :: head_input(~{::title})"></head>
+<title>Cart</title>
 <body>
 <th:block th:include="/common/_header"></th:block>
 <script type="text/javascript" th:src="@{/js/customer/cartPage.js}"></script>
 <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/customer/cartPage.css}" href="../../css/customer/cartPage.css">
 <h2>Cart</h2>
-<span th:text="'(' + ${cartInfoForm.getQuantityTotal()} + 'products)'"></span>
-<form th:action="@{customer/createOrder}" method="POST">
-    <table th:each="cartLine : ${cartInfoForm.cartLines}">
-<!--        <thead>-->
-<!--            <tr>-->
-<!--                <th th:text="Product name"></th>-->
-<!--                <th th:text="price"></th>-->
-<!--                <th th:text=""></th>-->
-<!--            </tr>-->
-<!--        </thead>-->
-        <tbody>
-            <tr>
-                <td>
-                    <div th:text="*{cartLine.productForm.productName}"></div>
-                </td>
-                <td>
-                    <div th:text="*{cartLine.productForm.price}"></div>
-                    <div th:text="*{cartLine.productForm.listPrice}"></div>
-                </td>
-                <td>
-                    <div th:replace="fragments/template :: change-quantity(${cartLine.buyQuantity}, ${cartLine.productForm.quantity})"></div>
-                </td>
-                <input type="hidden" name="carLineId" id="cartLineId" th:value="*{cartLine.id}">
-                <input type="hidden" name="quantity" id="quantity" th:value="*{cartLine.productForm.quantity}">
-            </tr>
-        </tbody>
-    </table>
-    <input type="button" value="Make order">
-
-    <div id="tblCartPage"></div>
-</form>
-
-<div th:text="'Total listing price:' + ${cartInfoForm.getListPriceTotal()}"></div>
-<div th:text="'Discount: -' + ${cartInfoForm.getListPriceTotal() - cartInfoForm.getBillTotal()}"></div>
-<div th:text="'Total:' + ${cartInfoForm.getBillTotal()}"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-xl-9">
+            <div><span th:text="'(' + ${cartInfoForm.getQuantityTotal()} + 'products)'"></span></div>
+            <form th:action="@{customer/createOrder}" method="POST" th:unless="${cartInfoForm.getQuantityTotal() == 0}">
+                <div th:each="cartLine : ${cartInfoForm.cartLines}" class="row">
+                    <div class="col-xl-6">
+                        <div th:text="*{cartLine.productForm.productName}"></div>
+                    </div>
+                    <div class="col-xl-2">
+                        <div>
+                            <strong th:text="*{cartLine.productForm.price}"></strong>
+                        </div>
+                        <div class="text-decoration-line-through">
+                            <span th:text="*{cartLine.productForm.listPrice}"></span>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 change-quantity">
+                        <div id="decrease-btn"
+                             th:onclick="|javascript:minus(*{cartLine.buyQuantity}, *{cartLine.productForm.quantity}, *{cartLine.id})|">
+                            -
+                        </div>
+                        <input type="text" class="buy-quantity"
+                               th:classappend="'edit'+*{cartLine.id}" name="buy-quantity"
+                               th:value="*{cartLine.buyQuantity}"
+                               th:onchange="|javascript:change(*{cartLine.id})|">
+                        <div id="increase-btn"
+                             th:onclick="|javascript:plus(*{cartLine.buyQuantity}, *{cartLine.productForm.quantity}, *{cartLine.id})|">
+                            +
+                        </div>
+                        <span id="over-quantity" class="hide d-none" th:text="'You can\'t buy more than ' + ${cartLine.productForm.quantity} + ' products'"></span>
+                    </div>
+                    <div class="change-quantity col-xl-2 btn"  th:onclick="|javascript:remove(*{cartLine.id})|">Remove</div>
+                    <input type="hidden" name="carLineId" id="cartLineId" th:value="*{cartLine.id}">
+                    <input type="hidden" name="quantity" id="quantity" th:value="*{cartLine.productForm.quantity}">
+                </div>
+                <input type="button" value="Make order">
+<!--                <div id="tblCartPage"></div>-->
+            </form>
+            <div class="align-content-center overflow-auto" th:if="${cartInfoForm.getQuantityTotal()} == 0">
+                <div class="mh-50"><p text="Cart is empty"></p></div>
+                <div class="mh-50"><a text="Continue shopping" th:href="@{/}"></a></div>
+            </div>
+        </div>
+        <div class="col-xl-3">
+            <div th:text="'Total listing price:' + ${cartInfoForm.getListPriceTotal()}"></div>
+            <div th:text="'Discount: ' + ${cartInfoForm.getBillTotal() - cartInfoForm.getListPriceTotal()}"></div>
+            <div th:text="'Total:' + ${cartInfoForm.getBillTotal()}"></div>
+        </div>
+    </div>
+</div>
 
 <div th:replace="fragments/template::common-redirect-form"></div>
 <div th:replace="fragments/template::overlay"></div>
 <script type="text/javascript" th:inline="javascript">
     const cartInfoForm = [[${cartInfoForm.cartLines}]];
+    var totalQuantity = [[${cartInfoForm.getQuantityTotal()}]];
 </script>
 </body>
 </html>

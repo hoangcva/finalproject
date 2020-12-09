@@ -57,3 +57,7 @@ body.loading{
 body.loading .overlay{
     display: block;
 }
+
+.text-decoration-line-through {
+    text-decoration: line-through !important;
+}

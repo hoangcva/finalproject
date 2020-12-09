@@ -11,5 +11,5 @@ public interface ICartService {
     CartInfoForm getCart(@Param("customerId") long customerId);
     Message addProductToCart(CartLineInfoForm cartLineInfoForm, Authentication auth);
     Message updateQuantity(@Param("id") CartLineInfoForm cartLineInfoForm);
-    void removeProduct(@Param("id") long id);
+    Message removeProduct(@Param("id") long id);
 }

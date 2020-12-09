@@ -29,7 +29,7 @@ public class WebConfiguration implements WebMvcConfigurer {
         // http://somedomain/SomeContextPath/jquery/jquery.min.css
         //
         registry.addResourceHandler("/jquery/**") //
-                .addResourceLocations("classpath:/META-INF/resources/webjars/jquery/3.3.1-1/");
+                .addResourceLocations("classpath:/META-INF/resources/webjars/jquery/3.4.1-1/");
 
         //
         // http://somedomain/SomeContextPath/popper/popper.min.js
@@ -41,7 +41,7 @@ public class WebConfiguration implements WebMvcConfigurer {
         // http://somedomain/SomeContextPath/bootstrap/js/bootstrap.min.js
         //
         registry.addResourceHandler("/bootstrap/**") //
-                .addResourceLocations("classpath:/META-INF/resources/webjars/bootstrap/4.1.1/");
+                .addResourceLocations("classpath:/META-INF/resources/webjars/bootstrap/4.3.1/");
 
     }
 }

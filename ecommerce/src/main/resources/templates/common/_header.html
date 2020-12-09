@@ -27,7 +27,7 @@
             |
             Hello: <a th:href="@{/user}"><span sec:authentication="name"></span></a>
                         | &nbsp;
-            <a th:href="@{/user/viewCart}">Cart</a>
+            <a th:href="@{/customer/cart/view}">Cart</a>
         </span>
         <span sec:authorize="hasRole('VENDOR')">
             |

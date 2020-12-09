@@ -1,55 +1,91 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/template :: head_input(~{::title})">
+    <title>Edit product</title>
+</head>
 <body>
 <th:block th:include="/common/_header"></th:block>
-<h2>Add Detail</h2>
+<h2>Edit Product Detail</h2>
 
 <form th:action="@{/vendor/editProduct}" th:object="${productForm}" th:method="POST">
-    <div th:if="${productForm.createdBy eq vendorId}">
-        <label>Category:</label>
-    <!--    <input th:type="text" th:readonly="true" th:field="*{categoryId}"><br>-->
-        <select name="categoryId" id="categoryId">
-            <option value="0" selected disabled ></option>
-            <option th:each="category : ${categories}"
-                    th:value="${category.id}"
-                    th:text="${category.name}"
-                    th:selected="${productForm.categoryId == category.id}">
-            </option>
-        </select><br>
-        <label>SubCategory:</label>
-    <!--    <input th:type="text" th:readonly="true" th:field="*{subCategoryId}"><br>-->
-        <select name="subCategoryId" id="subCategoryId">
-            <option value="0" selected disabled ></option>
-            <div th:each="category : ${categories}">
-                <option th:each="subCategory : ${category.subCategoryForms}"
-                        th:value="${subCategory.id}"
-                        th:text="${subCategory.name}"
-                        th:selected="${productForm.subCategoryId == subCategory.id}">
-                </option>
+    <div>
+        <div class="main-content" th:if="${productForm.createdBy eq productForm.vendorId}">
+            <div th:replace="fragments/template :: category-select"></div>
+            <div>
+                <label>Product name:</label>
+                <input type="text" name="productName" th:field="*{productName}">
+                <label th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}"></label>
+                <br>
             </div>
-        </select><br>
-        <label>Product name:</label>
-        <input type="text" name="productName" th:field="*{productName}"><br>
-        <label>Brand:</label>
-        <input type="text" name="brand" th:field="*{brand}"><br>
-        <label>SKU:</label>
-        <input type="text" name="SKU" th:field="*{SKU}"><br>
-        <label>Size:</label>
-        <input type="text" name="size" th:field="*{size}"><br>
-        <label>Color:</label>
-        <input type="text" name="color" th:field="*{color}"><br>
-        <label>Age:</label>
-        <input type="text" name="subjectAge" th:field="*{subjectAge}"><br>
-        <label>Material:</label>
-        <input type="text" name="material" th:field="*{material}"><br>
+            <div>
+                <label>Brand:</label>
+                <input type="text" name="brand" th:field="*{brand}">
+                <span th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></span>
+                <br>
+            </div>
+            <div>
+                <label>Origin:</label>
+                <input type="text" name="origin" th:field="*{origin}">
+                <!--            <label th:if="${#fields.hasErrors('origin')}" th:errors="*{origin}"></label>-->
+                <br>
+            </div>
+            <div th:if="*{categoryId eq 1}">
+                <label>Size:</label>
+                <input type="text" name="size" th:field="*{size}">
+                <!--            <label th:if="${#fields.hasErrors('size')}" th:errors="*{size}"></label>-->
+                <br>
+            </div>
+            <div th:if="*{categoryId eq 1}">
+                <label>Color:</label>
+                <input type="text" name="color" th:field="*{color}">
+                <!--            <label th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></label>-->
+                <br>
+            </div>
+            <div th:if="*{categoryId eq 1 or categoryId eq 3}">
+                <label>Age:</label>
+                <input type="text" name="subjectAge" th:field="*{subjectAge}" >
+                <!--            <label th:if="${#fields.hasErrors('subjectAge')}" th:errors="*{subjectAge}"></label>-->
+                <br>
+            </div>
+            <div th:if="*{categoryId eq 1}">
+                <label>Material:</label>
+                <input type="text" name="material" th:field="*{material}" >
+                <!--            <label th:if="${#fields.hasErrors('material')}" th:errors="*{material}"></label>-->
+                <br>
+            </div>
+            <div>
+                <label>List price:</label>
+                <input type="text" name="price" th:field="*{listPrice}">
+                <span th:if="${#fields.hasErrors('listPrice')}" th:errors="*{listPrice}"></span>
+                <br>
+            </div>
+        </div>
+        <div class="extra-content">
+            <div>
+                <label>SKU:</label>
+                <input type="text" name="SKU" th:field="*{SKU}">
+                <label th:if="${#fields.hasErrors('SKU')}" th:errors="*{SKU}"></label>
+                <br>
+            </div>
+            <div>
+                <label>price:</label>
+                <input type="text" name="price" th:field="*{price}">
+                <label th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></label>
+                <br>
+            </div>
+            <div>
+                <label>quantity:</label>
+                <input type="text" name="quantity" th:field="*{quantity}">
+                <label th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></label>
+                <br>
+            </div>
+        </div>
+        <input type="hidden" name="vendorId" th:field="*{vendorId}">
+        <input type="hidden" name="productId" th:field="*{productId}">
+        <input type="hidden" name="createdBy" th:field="*{createdBy}">
+        <input type="submit" value="Submit">
     </div>
-    <label>price:</label>
-    <input type="text" name="price" th:field="*{price}"><br>
-    <label>quantity:</label>
-    <input type="text" name="quantity" th:field="*{quantity}"><br>
-    <input type="hidden" name="vendorId" th:field="*{vendorId}">
-    <input type="hidden" name="productId" th:field="*{productId}">
-    <input type="submit" value="Submit">
 </form>
+<script type="text/javascript" th:src="@{/js/vendor/editProduct.js}"></script>
 </body>
 </html>

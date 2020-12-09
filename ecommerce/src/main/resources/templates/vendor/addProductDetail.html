@@ -15,52 +15,76 @@
             </div>
             <input type="hidden" th:field="*{categoryId}">
             <input type="hidden" th:field="*{subCategoryId}">
+            <input type="hidden" name="categoryName" th:value="${categoryName}">
+            <input type="hidden" name="subCategoryName" th:value="${subCategoryName}">
         </div>
         <div>
             <label>Product name:</label>
-            <input type="text" name="productName" th:field="*{productName}"><br>
+            <input type="text" name="productName" th:field="*{productName}">
+            <label th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}"></label>
+            <br>
         </div>
         <div>
             <label>Brand:</label>
-            <input type="text" name="brand" th:field="*{brand}"><br>
+            <input type="text" name="brand" th:field="*{brand}">
+            <label th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></label>
+            <br>
         </div>
         <div>
             <label>Origin:</label>
-            <input type="text" name="origin" th:field="*{origin}"><br>
+            <input type="text" name="origin" th:field="*{origin}">
+<!--            <label th:if="${#fields.hasErrors('origin')}" th:errors="*{origin}"></label>-->
+            <br>
         </div>
         <div th:if="*{categoryId eq 1}">
             <label>Size:</label>
-            <input type="text" name="size" th:field="*{size}" ><br>
+            <input type="text" name="size" th:field="*{size}">
+<!--            <label th:if="${#fields.hasErrors('size')}" th:errors="*{size}"></label>-->
+            <br>
         </div>
         <div th:if="*{categoryId eq 1}">
             <label>Color:</label>
-            <input type="text" name="color" th:field="*{color}" ><br>
+            <input type="text" name="color" th:field="*{color}">
+<!--            <label th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></label>-->
+            <br>
         </div>
         <div th:if="*{categoryId eq 1 or categoryId eq 3}">
             <label>Age:</label>
-            <input type="text" name="subjectAge" th:field="*{subjectAge}" ><br>
+            <input type="text" name="subjectAge" th:field="*{subjectAge}">
+<!--            <label th:if="${#fields.hasErrors('subjectAge')}" th:errors="*{subjectAge}"></label>-->
+            <br>
         </div>
         <div th:if="*{categoryId eq 1}">
             <label>Material:</label>
-            <input type="text" name="material" th:field="*{material}" ><br>
+            <input type="text" name="material" th:field="*{material}">
+<!--            <label th:if="${#fields.hasErrors('material')}" th:errors="*{material}"></label>-->
+            <br>
         </div>
     </div>
     <div class="extra-content">
         <div>
             <label>SKU:</label>
-            <input type="text" name="SKU" th:field="*{SKU}"><br>
+            <input type="text" name="SKU" th:field="*{SKU}">
+            <label th:if="${#fields.hasErrors('SKU')}" th:errors="*{SKU}"></label>
+            <br>
         </div>
         <div>
             <label>List price:</label>
-            <input type="text" name="price" th:field="*{listPrice}"><br>
+            <input type="text" name="price" th:field="*{listPrice}">
+            <label th:if="${#fields.hasErrors('listPrice')}" th:errors="*{listPrice}"></label>
+            <br>
         </div>
         <div>
             <label>price:</label>
-            <input type="text" name="price" th:field="*{price}"><br>
+            <input type="text" name="price" th:field="*{price}">
+            <label th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></label>
+            <br>
         </div>
         <div>
             <label>quantity:</label>
-            <input type="text" name="quantity" th:field="*{quantity}"><br>
+            <input type="text" name="quantity" th:field="*{quantity}">
+            <label th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></label>
+            <br>
         </div>
     </div>
     <input type="submit" value="Submit">

@@ -68,17 +68,19 @@ public class ProductController {
         List<CategoryDto> categoryDtoList = (List<CategoryDto>) request.getSession().getAttribute("categoryDtoList");
         List<SubCategoryDto> subCategoryDtoList = (List<SubCategoryDto>) request.getSession().getAttribute("subCategoryDtoList");
 
-        CategoryDto categoryDto = categoryDtoList.stream()
+        String categoryName = categoryDtoList.stream()
                 .filter(category -> productForm.getCategoryId().equals(category.getId()))
                 .findAny()
-                .orElse(null);
-        SubCategoryDto subCategoryDto = subCategoryDtoList.stream()
+                .map(category -> category.getName())
+                .orElse("");
+        String subCategoryName = subCategoryDtoList.stream()
                 .filter(subCategory -> productForm.getSubCategoryId().equals(subCategory.getId()))
                 .findAny()
-                .orElse(null);
+                .map(subCategory -> subCategory.getName())
+                .orElse("");
 
-        model.addAttribute("categoryName", categoryDto.getName());
-        model.addAttribute("subCategoryName", subCategoryDto.getName());
+        model.addAttribute("categoryName", categoryName);
+        model.addAttribute("subCategoryName", subCategoryName);
         model.addAttribute("productForm", productForm);
         return "vendor/addProductDetail";
     }
@@ -88,22 +90,25 @@ public class ProductController {
                              @ModelAttribute("vendorId") Long vendorId,
                              Model model,
                              HttpServletRequest request) {
+        ProductForm productForm = productService.getProductDetail(productId, vendorId);
         List<CategoryDto> categoryDtoList = (List<CategoryDto>) request.getSession().getAttribute("categoryDtoList");
         List<SubCategoryDto> subCategoryDtoList = (List<SubCategoryDto>) request.getSession().getAttribute("subCategoryDtoList");
 
-        ProductForm productForm = productService.getProductDetail(productId, vendorId);
-
-        CategoryDto categoryDto = categoryDtoList.stream()
+        String categoryName = categoryDtoList.stream()
                 .filter(category -> productForm.getCategoryId().equals(category.getId()))
                 .findAny()
-                .orElse(null);
-        SubCategoryDto subCategoryDto = subCategoryDtoList.stream()
+                .map(category -> category.getName())
+                .orElse("");
+        String subCategoryName = subCategoryDtoList.stream()
                 .filter(subCategory -> productForm.getSubCategoryId().equals(subCategory.getId()))
                 .findAny()
-                .orElse(null);
+                .map(subCategory -> subCategory.getName())
+                .orElse("");
 
-        model.addAttribute("categoryName", categoryDto.getName());
-        model.addAttribute("subCategoryName", subCategoryDto.getName());
+        productForm.setCategoryName(categoryName);
+        productForm.setSubCategoryName(subCategoryName);
+        model.addAttribute("categoryName", categoryName);
+        model.addAttribute("subCategoryName", subCategoryName);
         model.addAttribute("productForm", productForm);
         return "vendor/addProductDetail";
     }
@@ -124,11 +129,17 @@ public class ProductController {
 
     @PostMapping(value = "/vendor/addProduct/addDetail")
     public String addProduct(@ModelAttribute("productForm") @Validated ProductForm productForm,
-                             Model model,
                              BindingResult result,
+                             Model model,
                              final RedirectAttributes redirectAttributes,
-                             Authentication auth) {
+                             Authentication auth,
+                             HttpServletRequest request) {
         Long id = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
+        if (result.hasErrors()) {
+            model.addAttribute("categoryName", productForm.getCategoryName());
+            model.addAttribute("subCategoryName", productForm.getSubCategoryName());
+            return "vendor/addProductDetail";
+        }
         productService.addProduct(productForm, id);
         return "redirect:/vendor/listVendorProduct";
     }
@@ -143,22 +154,28 @@ public class ProductController {
 
     @GetMapping(value = "/vendor/editProduct")
     public String getEditProduct(@ModelAttribute("productId") Long productId, Model model, Authentication auth) {
-        UserDetailsDto userDetailsDto = (UserDetailsDto) auth.getPrincipal();
-        List<CategoryForm> categoryForms = productService.getCategory();
+        List<CategoryDto> categoryDtoList= productService.getAllCategory();
+        List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
         ProductForm productForm = productService.getVendorProduct(productId);
         model.addAttribute("productForm", productForm);
-        model.addAttribute("categories", categoryForms);
-        model.addAttribute("vendorId", userDetailsDto.getUserDto().getId());
+        model.addAttribute("categories", categoryDtoList);
+        model.addAttribute("subCategories", subCategoryDtoList);
         return "vendor/editProduct";
     }
 
     @PostMapping(value = "/vendor/editProduct")
     public String editProduct(@ModelAttribute("productForm") @Validated ProductForm productForm,
-                              Model model,
                               BindingResult result,
+                              Model model,
                               final RedirectAttributes redirectAttributes,
                               Authentication auth) {
-//        UserDto userDto = userService.getUserByUserName(((UserDetails) auth.getPrincipal()).getUsername());
+        if (result.hasErrors()) {
+            List<CategoryDto> categoryDtoList= productService.getAllCategory();
+            List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
+            model.addAttribute("categories", categoryDtoList);
+            model.addAttribute("subCategories", subCategoryDtoList);
+            return "vendor/editProduct";
+        }
         productService.updateProduct(productForm);
         return "redirect:/vendor/listVendorProduct";
     }
@@ -221,6 +238,4 @@ public class ProductController {
 //        return"vendor/addProduct";
         return "redirect:/vendor/showCategory";
     }
-
-
 }

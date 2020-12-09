@@ -20,12 +20,13 @@ public class OrderController {
 
     @GetMapping("/customer/checkout")
     public String getCheckout(Model model, Authentication auth) {
+        OrderForm orderForm = new OrderForm();
         CartInfoForm cartInfoForm = new CartInfoForm();
         UserDetailsDto userDetails = (UserDetailsDto) auth.getPrincipal();
         cartInfoForm = cartService.getCart(userDetails.getUserDto().getId());
+        orderForm.setCartInfoForm(cartInfoForm);
 
-
-        model.addAttribute("cartInfoForm", cartInfoForm);
-        return "customer/cartPage";
+        model.addAttribute("orderForm", orderForm);
+        return "customer/order/orderPage";
     }
 }

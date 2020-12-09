@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/template :: head_input(~{::title})">
+    <title>Order</title>
+</head>
+<body>
+<th:block th:include="/common/_header"></th:block>
+<script type="text/javascript" th:src="@{/js/customer/cartPage.js}"></script>
+<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/customer/cartPage.css}" href="../../css/customer/cartPage.css">
+<h2>Cart</h2>
+<form th:action="@{customer/createOrder}" method="POST" th:object="${orderForm}">
+    <div>
+        <span>Payment method: </span>
+        <div>
+            <span class="radio-btn"></span>
+            <span class="icon"></span>
+            <span class="content"></span>
+        </div>
+    </div>
+    <div class="cart">
+        <span th:text="'Order (' + *{cartInfoForm.getQuantityTotal()} + 'products)'"></span>
+        <div class="product" th:each="cartLine : *{cartInfoForm.cartLines}">
+            <div class="info">
+                <strong th:text="${cartLine.buyQuantity  + 'x '}"></strong>
+                <a th:href="@{/viewProductDetail(productId = ${cartLine.productForm.productId}, vendorId = ${cartLine.productForm.vendorId})}"
+                   th:text="${cartLine.productForm.productName}"></a>
+            </div>
+            <span>Provided by <strong th:text="${cartLine.productForm.vendorName}"></strong></span>
+            <div class="price" th:text="${cartLine.productForm.price}"></div>
+            <input type="hidden" name="carLineId" id="cartLineId" th:value="${cartLine.id}">
+            <input type="hidden" name="quantity" id="quantity" th:value="${cartLine.productForm.quantity}">
+        </div>
+        <div class="price-summary">
+            <div class="total-list-price">
+                <div class="name" ></div>
+                <div class="value" th:field="*{cartInfoForm.getListPriceTotal()}" th:text="*{cartInfoForm.getListPriceTotal()}"></div>
+            </div>
+            <div class="shipping-cost">
+                <div class="name"></div>
+                <div class="value"></div>
+            </div>
+            <div class="total-price">
+                <div class="name"></div>
+                <div class="value" th:field="*{cartInfoForm.getBillTotal()}" th:text="*{cartInfoForm.getBillTotal()}"></div>
+            </div>
+        </div>
+    </div>
+    <div class="address">
+        <div class="title">
+            <span>Delivery address</span>
+            <div><a th:href="@{/customer/address/change}"></a></div>
+        </div>
+        <div class="content">
+            <span class="name"></span>
+            <span class="detail"></span>
+            <span class="phoneNumber"></span>
+        </div>
+    </div>
+    <input type="button" value="Make order">
+</form>
+<div th:text="'Total:' + ${cartInfoForm.getBillTotal()}"></div>
+
+<div th:replace="fragments/template::common-redirect-form"></div>
+<div th:replace="fragments/template::overlay"></div>
+<script type="text/javascript" th:inline="javascript">
+    const cartInfoForm = [[${cartInfoForm.cartLines}]];
+</script>
+</body>
+</html>

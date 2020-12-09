@@ -10,28 +10,7 @@
 <h2>Choose Category</h2>
 
 <form th:action="@{/vendor/addProduct/detail}" th:object="${productForm}" th:method="POST">
-    <div class="category-select">
-        <div class="custom-select">
-            <span>Category</span>
-            <select id="category-select" th:field="*{categoryId}">
-                <option value="0" selected disabled th:value="category"></option>
-                <option th:each="category : ${categories}"
-                        th:value="${category.id}"
-                        th:text="${category.name}"></option>
-            </select>
-        </div>
-        <div class="custom-select2">
-            <span>Sub category</span>
-            <select id="sub-category-select" th:field="*{subCategoryId}">
-<!--                <option value="0" selected disabled th:value="subcategory"></option>-->
-                <option class="hide"
-                        th:each="subCategory : ${subCategories}"
-                        th:value="${subCategory.id}"
-                        th:text="${subCategory.name}"
-                        th:attr="data-categoryId=${subCategory.categoryId}"></option>
-            </select>
-        </div>
-    </div>
+    <div th:replace="fragments/template :: category-select"></div>
     <button th:type="submit" th:text="Submit"></button>
 </form>
 

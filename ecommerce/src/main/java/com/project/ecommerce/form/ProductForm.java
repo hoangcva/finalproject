@@ -23,6 +23,8 @@ public class ProductForm implements Serializable {
     private String origin;
     private Long listPrice;
     private String vendorName;
+    private String categoryName;
+    private String subCategoryName;
 
     public String getProductName() {
         return productName;
@@ -174,5 +176,21 @@ public class ProductForm implements Serializable {
 
     public void setVendorName(String vendorName) {
         this.vendorName = vendorName;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getSubCategoryName() {
+        return subCategoryName;
+    }
+
+    public void setSubCategoryName(String subCategoryName) {
+        this.subCategoryName = subCategoryName;
     }
 }

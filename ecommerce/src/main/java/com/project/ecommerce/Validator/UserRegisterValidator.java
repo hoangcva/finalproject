@@ -48,7 +48,7 @@ public class UserRegisterValidator implements Validator {
             UserDto userDto = userMapper.findUserByUserName(userRegisterForm.getUserName());
             if (userDto != null) {
                 // Tên tài khoản đã bị sử dụng bởi người khác.
-                errors.rejectValue("userName", "Duplicate.UserForm.userNam");
+                errors.rejectValue("userName", "Duplicate.UserForm.userName");
             }
         }
         if (!errors.hasErrors()) {
