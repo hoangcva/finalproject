@@ -6,37 +6,43 @@
 </head>
 <!--    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/viewProductList.css}" href="../../css/viewProductList.css">-->
 <body>
-<th:block th:include="/common/_header"></th:block>
-
-<ul class="dropdown list-group">
-<!--    <div th:each="category,iterationStatus : ${categories}">-->
-    <li class="dropbtn list-group-item" th:each="category,iterationStatus : ${categories}" th:id="'dropbtn'+${iterationStatus.count}">
-        <a th:href="@{/showProductsByCategory(categoryId = ${category.id}, subCategoryId = 0)}" th:text="${category.name}"></a>
-        <script th:inline="javascript">
-            /*<![CDATA[*/
-            $('#dropbtn'+id).hover(function() {
-                showSubCategoryMenu(/*[[${iterationStatus.count}]]*/'');
-            })
-            /*]]>*/
-        </script>
-        <ul class="dropdown-content list-group">
-            <li class="dropdown-content-btn list-group-item" th:classappend="'show-content'+${iterationStatus.count}" th:each="subCategory : ${category.subCategoryForms}">
-                <a th:href="@{/showProductsByCategory(categoryId = ${category.id}, subCategoryId = ${subCategory.id})}" th:text="${subCategory.name}"></a>
-            </li>
-        </ul>
-</li>
-<!--    </div>-->
-</ul>
-
-<table>
-    <tbody>
-    <tr th:each="product,iterationStatus : ${productFormList}">
-        <td th:text="${iterationStatus.count}"></td>
-        <td><a th:href="@{/viewProductDetail(productId = ${product.productId}, vendorId = ${product.vendorId})}" th:text="${product.productName}"></a></td>
-        <td th:text="${product.price}"></td>
-        <td th:text="${product.rating}"></td>
-    </tr>
-    </tbody>
-</table>
+    <th:block th:include="/common/_header"></th:block>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <ul class="dropdown list-group">
+                <!--    <div th:each="category,iterationStatus : ${categories}">-->
+                    <li class="dropbtn list-group-item" th:each="category,iterationStatus : ${categories}" th:id="'dropbtn'+${iterationStatus.count}">
+                        <a th:href="@{/showProductsByCategory(categoryId = ${category.id}, subCategoryId = 0)}" th:text="${category.name}"></a>
+                        <script th:inline="javascript">
+                            /*<![CDATA[*/
+                            $('#dropbtn'+id).hover(function() {
+                                showSubCategoryMenu(/*[[${iterationStatus.count}]]*/'');
+                            })
+                            /*]]>*/
+                        </script>
+                        <ul class="dropdown-content list-group">
+                            <li class="dropdown-content-btn list-group-item" th:classappend="'show-content'+${iterationStatus.count}" th:each="subCategory : ${category.subCategoryForms}">
+                                <a th:href="@{/showProductsByCategory(categoryId = ${category.id}, subCategoryId = ${subCategory.id})}" th:text="${subCategory.name}"></a>
+                            </li>
+                        </ul>
+                    </li>
+                <!--    </div>-->
+                </ul>
+            </div>
+            <div class="col-sm-9">
+                <table>
+                    <tbody>
+                    <tr th:each="product,iterationStatus : ${productFormList}">
+                        <td th:text="${iterationStatus.count}"></td>
+                        <td><a th:href="@{/viewProductDetail(productId = ${product.productId}, vendorId = ${product.vendorId})}" th:text="${product.productName}"></a></td>
+                        <td th:text="${product.price}"></td>
+                        <td th:text="${product.rating}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

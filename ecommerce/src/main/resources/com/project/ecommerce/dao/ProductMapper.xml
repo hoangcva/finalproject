@@ -145,4 +145,12 @@
         WHERE productId = #{productId}
     </select>
 
+    <insert id="saveProductImage" parameterType="com.project.ecommerce.dto.ProductImageDto" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO image
+        ( name, productId, content)
+        VALUES
+        (#{name,jdbcType=VARCHAR},
+        #{productId,jdbcType=BIGINT},
+        #{content,jdbcType=BLOB});
+    </insert>
 </mapper>

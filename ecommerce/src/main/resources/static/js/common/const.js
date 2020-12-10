@@ -1,3 +1,6 @@
+const SIZE_5_MB = 5242880;
+
+
 var message = {}
 
 function getMessage(key, argument) {
@@ -11,3 +14,4 @@ function getMessage(key, argument) {
         return str.replace("{0}", argument);
     }
 }
+

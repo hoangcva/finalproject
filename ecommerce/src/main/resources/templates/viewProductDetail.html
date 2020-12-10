@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/template :: head_input(~{::title})"></head>
-<title th:text="${productForm.productName}"></title>
+<head th:replace="fragments/template :: head_input(~{::title})">
+    <title th:text="${productForm.productName}"></title>
+</head>
 <body>
 <th:block th:include="/common/_header"></th:block>
 <script type="text/javascript" th:src="@{/js/customer/viewProductDetail.js}"></script>

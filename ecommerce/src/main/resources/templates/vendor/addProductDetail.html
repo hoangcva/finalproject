@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/template :: head_input(~{::title})">
+    <title>Add product</title>
+</head>
 <body>
 <th:block th:include="/common/_header"></th:block>
 <h2>Add Detail</h2>

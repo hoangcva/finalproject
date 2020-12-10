@@ -2,10 +2,7 @@ package com.project.ecommerce.service.impl;
 
 import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.dao.ProductMapper;
-import com.project.ecommerce.dto.CategoryDto;
-import com.project.ecommerce.dto.ProductDto;
-import com.project.ecommerce.dto.SubCategoryDto;
-import com.project.ecommerce.dto.VendorProductDto;
+import com.project.ecommerce.dto.*;
 import com.project.ecommerce.form.CategoryForm;
 import com.project.ecommerce.form.ProductForm;
 import com.project.ecommerce.form.SubCategoryForm;
@@ -166,5 +163,18 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public List<VendorProductForm> getVendorListByProduct(Long productId) {
         return productMapper.getVendorListByProduct(productId);
+    }
+
+    @Override
+    public void saveProductImage(List<ProductImageDto> productImageDtoList) {
+        TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        try {
+            for (ProductImageDto productImage : productImageDtoList) {
+                productMapper.saveProductImage(productImage);
+            }
+            transactionManager.commit(txStatus);
+        } catch (Exception ex) {
+            transactionManager.rollback(txStatus);
+        }
     }
 }

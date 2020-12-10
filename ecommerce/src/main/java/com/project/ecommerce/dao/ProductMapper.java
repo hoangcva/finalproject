@@ -1,9 +1,6 @@
 package com.project.ecommerce.dao;
 
-import com.project.ecommerce.dto.CategoryDto;
-import com.project.ecommerce.dto.ProductDto;
-import com.project.ecommerce.dto.SubCategoryDto;
-import com.project.ecommerce.dto.VendorProductDto;
+import com.project.ecommerce.dto.*;
 import com.project.ecommerce.form.ProductForm;
 import com.project.ecommerce.form.VendorProductForm;
 import org.apache.ibatis.annotations.Mapper;
@@ -36,4 +33,6 @@ public interface ProductMapper {
                                  @Param("vendorId") Long vendorId);
 
     List<VendorProductForm> getVendorListByProduct(@Param("productId") Long productId);
+
+    void saveProductImage(ProductImageDto productImageDto);
 }

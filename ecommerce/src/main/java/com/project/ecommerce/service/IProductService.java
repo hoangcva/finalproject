@@ -1,6 +1,7 @@
 package com.project.ecommerce.service;
 
 import com.project.ecommerce.dto.CategoryDto;
+import com.project.ecommerce.dto.ProductImageDto;
 import com.project.ecommerce.dto.SubCategoryDto;
 import com.project.ecommerce.form.CategoryForm;
 import com.project.ecommerce.form.ProductForm;
@@ -26,4 +27,6 @@ public interface IProductService {
     CategoryDto findCategory(Integer  categoryId);
     SubCategoryDto findSubCategory(Integer  categoryId);
     List<VendorProductForm> getVendorListByProduct(Long productId);
+
+    void saveProductImage(List<ProductImageDto> productImageDtoList);
 }
