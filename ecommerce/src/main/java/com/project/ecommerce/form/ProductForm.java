@@ -1,6 +1,9 @@
 package com.project.ecommerce.form;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.Serializable;
+import java.util.List;
 
 public class ProductForm implements Serializable {
     private static final long serialVersionUID = 5999069305725560297L;
@@ -25,7 +28,9 @@ public class ProductForm implements Serializable {
     private String vendorName;
     private String categoryName;
     private String subCategoryName;
-    private
+    private List<ProductImageForm> productImageFormList;
+    private MultipartFile[] uploadFiles;
+    private boolean isSubmitted = false;
 
     public String getProductName() {
         return productName;
@@ -193,5 +198,29 @@ public class ProductForm implements Serializable {
 
     public void setSubCategoryName(String subCategoryName) {
         this.subCategoryName = subCategoryName;
+    }
+
+    public List<ProductImageForm> getProductImageFormList() {
+        return productImageFormList;
+    }
+
+    public MultipartFile[] getUploadFiles() {
+        return uploadFiles;
+    }
+
+    public void setUploadFiles(MultipartFile[] uploadFiles) {
+        this.uploadFiles = uploadFiles;
+    }
+
+    public void setProductImageFormList(List<ProductImageForm> productImageFormList) {
+        this.productImageFormList = productImageFormList;
+    }
+
+    public boolean isSubmitted() {
+        return isSubmitted;
+    }
+
+    public void setSubmitted(boolean submitted) {
+        isSubmitted = submitted;
     }
 }

@@ -46,7 +46,7 @@
          #{origin,jdbcType=VARCHAR},
          #{createdBy,jdbcType=BIGINT},
          #{listPrice,jdbcType=BIGINT});
-        <selectKey keyProperty="id" resultType="int" order="AFTER">
+        <selectKey keyProperty="id" resultType="long" order="AFTER">
             SELECT LAST_INSERT_ID();
         </selectKey>
     </insert>

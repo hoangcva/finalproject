@@ -4,6 +4,7 @@ import com.project.ecommerce.Validator.ProductValidator;
 import com.project.ecommerce.dto.*;
 import com.project.ecommerce.form.CategoryForm;
 import com.project.ecommerce.form.ProductForm;
+import com.project.ecommerce.form.ProductImageForm;
 import com.project.ecommerce.form.VendorProductForm;
 import com.project.ecommerce.service.IProductService;
 import com.project.ecommerce.service.IUserService;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -61,7 +63,6 @@ public class ProductController {
 //        List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
 //        return new ResponseEntity<>(subCategoryDtoList, HttpStatus.OK);
 //    }
-
 
     @PostMapping(value = "/vendor/addProduct/detail")
     public String showDetail(@ModelAttribute("productForm") ProductForm productForm, Model model, HttpServletRequest request) {
@@ -135,6 +136,7 @@ public class ProductController {
                              Authentication auth,
                              HttpServletRequest request) {
         Long id = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
+        productForm.setSubmitted(true);
         if (result.hasErrors()) {
             model.addAttribute("categoryName", productForm.getCategoryName());
             model.addAttribute("subCategoryName", productForm.getSubCategoryName());
@@ -189,7 +191,6 @@ public class ProductController {
     @GetMapping(value = "/showProductsByCategory")
     public String showAllProduct(Model model, @ModelAttribute("categoryId") int categoryId, @ModelAttribute("subCategoryId") int subCategoryId) {
         List<CategoryForm> categoryForms = productService.getCategory();
-
         List<ProductForm> productFormList = productService.getProducts(categoryId, subCategoryId, null);
         model.addAttribute("productFormList", productFormList);
         model.addAttribute("categories", categoryForms);
@@ -201,6 +202,7 @@ public class ProductController {
         List<CategoryForm> categoryForms = productService.getCategory();
 
         List<ProductForm> productFormList = productService.getProducts(null, null, null);
+
         model.addAttribute("productFormList", productFormList);
         model.addAttribute("categories", categoryForms);
         return "viewProductList";

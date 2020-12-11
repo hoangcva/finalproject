@@ -31,16 +31,27 @@
                 </ul>
             </div>
             <div class="col-sm-9">
-                <table>
-                    <tbody>
-                    <tr th:each="product,iterationStatus : ${productFormList}">
-                        <td th:text="${iterationStatus.count}"></td>
-                        <td><a th:href="@{/viewProductDetail(productId = ${product.productId}, vendorId = ${product.vendorId})}" th:text="${product.productName}"></a></td>
-                        <td th:text="${product.price}"></td>
-                        <td th:text="${product.rating}"></td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div class="d-inline-flex flex-wrap">
+                    <div th:each="product,iterationStatus : ${productFormList}" class="outer">
+                        <a class="product-thumbnail" th:href="@{/viewProductDetail(productId = ${product.productId}, vendorId = ${product.vendorId})}">
+                            <div class="card inner">
+                                <img th:src="@{'data:image/jpeg;base64,'+${product.productImageFormList[0].generateBase64Image()}}"
+                                     th:unless="${#lists.size(product.productImageFormList) eq 0} "/>
+                                <img th:src="@{/images/no_product_image.jpg}"
+                                     src="../../static/images/no_product_image.jpg"
+                                     th:if="${#lists.size(product.productImageFormList) eq 0} "/>
+                                <div class="card-body">
+                                    <p class="card-text" th:text="${product.productName}">Product name</p>
+                                    <p class="card-text">
+                                        <span class="price" th:text="${product.price}"></span>
+                                        <span class="discount" th:text="*{(product.price - product.listPrice)*100/product.listPrice + '%'} "></span>
+                                        <span class="list-price" th:text="${product.listPrice}">list price</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

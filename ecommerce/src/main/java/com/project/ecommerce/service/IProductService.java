@@ -4,7 +4,7 @@ import com.project.ecommerce.dto.CategoryDto;
 import com.project.ecommerce.dto.ProductImageDto;
 import com.project.ecommerce.dto.SubCategoryDto;
 import com.project.ecommerce.form.CategoryForm;
-import com.project.ecommerce.form.DisplayProductImageForm;
+import com.project.ecommerce.form.ProductImageForm;
 import com.project.ecommerce.form.ProductForm;
 import com.project.ecommerce.form.VendorProductForm;
 import org.springframework.lang.Nullable;
@@ -30,5 +30,5 @@ public interface IProductService {
     List<VendorProductForm> getVendorListByProduct(Long productId);
 
     void saveProductImage(List<ProductImageDto> productImageDtoList);
-    List<DisplayProductImageForm> getProductImage(long productId);
+    List<ProductImageForm> getProductImage(long productId);
 }

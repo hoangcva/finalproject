@@ -1,7 +1,8 @@
 package com.project.ecommerce.controller;
 
 import com.project.ecommerce.dto.ProductImageDto;
-import com.project.ecommerce.form.DisplayProductImageForm;
+import com.project.ecommerce.form.ProductForm;
+import com.project.ecommerce.form.ProductImageForm;
 import com.project.ecommerce.form.MyUploadForm;
 import com.project.ecommerce.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -41,9 +43,9 @@ public class MyFileUploadController {
     @RequestMapping(value = "/uploadOneFile", method = RequestMethod.POST)
     public String uploadOneFileHandlerPOST(HttpServletRequest request,
                                            Model model,
-                                           @ModelAttribute("myUploadForm") MyUploadForm myUploadForm) {
+                                           @ModelAttribute("myUploadForm") ProductForm productForm) {
 
-        return this.doUpload(request, model, myUploadForm);
+        return this.doUpload(request, model, productForm);
 
     }
 
@@ -56,28 +58,27 @@ public class MyFileUploadController {
     }
 
     // POST: Sử lý Upload
-    @RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
+    @RequestMapping(value = "/vendor/uploadImage", method = RequestMethod.POST)
     public String uploadMultiFileHandlerPOST(HttpServletRequest request,
                                              Model model,
-                                             @ModelAttribute("myUploadForm") MyUploadForm myUploadForm) {
-        return this.doUpload(request, model, myUploadForm);
+                                             final RedirectAttributes redirectAttributes,
+                                             @ModelAttribute("myUploadForm") ProductForm productForm) {
+        return this.doUpload(request, model, productForm);
     }
 
     private String doUpload(HttpServletRequest request, Model model,
-                            MyUploadForm myUploadForm) {
+                            ProductForm productForm) {
 
-        // Thư mục gốc upload file.
-        String uploadRootPath = request.getServletContext().getRealPath("upload");
-
-        File uploadRootDir = new File(uploadRootPath);
-        // Tạo thư mục gốc upload nếu nó không tồn tại.
-        if (!uploadRootDir.exists()) {
-            uploadRootDir.mkdirs();
-        }
-        MultipartFile[] imageFiles = myUploadForm.getUploadFiles();
+//        // Thư mục gốc upload file.
+//        String uploadRootPath = request.getServletContext().getRealPath("upload");
+//
+//        File uploadRootDir = new File(uploadRootPath);
+//        // Tạo thư mục gốc upload nếu nó không tồn tại.
+//        if (!uploadRootDir.exists()) {
+//            uploadRootDir.mkdirs();
+//        }
+        MultipartFile[] imageFiles = productForm.getUploadFiles();
         //
-        List<File> uploadedFiles = new ArrayList<>();
-        List<String> failedFiles = new ArrayList<String>();
         List<ProductImageDto> productImageDtoList = new ArrayList<>();
 
         for (MultipartFile image : imageFiles) {
@@ -92,29 +93,18 @@ public class MyFileUploadController {
                     productImage.setContent(image.getBytes());
                     productImage.setProductId(1);
                     productImageDtoList.add(productImage);
-//                    // Tạo file tại Server.
-//                    File serverFile = new File(uploadRootDir.getAbsolutePath() + File.separator + name);
-//
-//                    BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-//                    stream.write(image.getBytes());
-//                    stream.close();
-//                    //
-//                    uploadedFiles.add(serverFile);
                 } catch (Exception e) {
-                    failedFiles.add(name);
                 }
             }
         }
         productService.saveProductImage(productImageDtoList);
-        model.addAttribute("uploadedFiles", uploadedFiles);
-        model.addAttribute("failedFiles", failedFiles);
-        return "uploadResult";
+        return "redirect:/getProductImage";
     }
 
     @GetMapping(value = "/getProductImage")
 //    public String getProductImage(@ModelAttribute("productId") long productId, Model model) {
     public String getProductImage(Model model) {
-        List<DisplayProductImageForm> productImageFormList = new ArrayList<>();
+        List<ProductImageForm> productImageFormList = new ArrayList<>();
         productImageFormList = productService.getProductImage(1);
         model.addAttribute("productImages", productImageFormList);
         return "displayImage";

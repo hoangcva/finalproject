@@ -62,11 +62,50 @@ body.loading .overlay{
     text-decoration: line-through !important;
 }
 
-.cart {
+.card {
     width: 16rem;
 }
 
-.cart img {
+.card img {
     width: 16rem;
 }
+
+.product-thumbnail {
+    padding: 10px;
+    display: contents;
+}
+
+.discount {
+    color: rgb(120, 120, 120);
+    display: inline-block;
+    font-size: 13px;
+}
+
+.price {
+    color: rgb(36, 36, 36);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+.list-price {
+    color: rgb(120, 120, 120);
+    text-decoration: line-through;
+    font-size: 13px;
+    margin-left: 0px;
+    display: block;
+}
+
+/*.outer {*/
+/*    !*width: 70px;*!*/
+/*    min-height: 380px;*/
+/*    background-color: #000;*/
+/*}*/
+/*.inner {*/
+/*    height: 100%;*/
+/*    !*min-width: 100%;*!*/
+/*    background-color: #fff;*/
+/*    opacity: 0.5;*/
+/*    overflow: visible;*/
+/*}*/
 

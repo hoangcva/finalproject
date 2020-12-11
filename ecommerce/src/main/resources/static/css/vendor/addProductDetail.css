@@ -1,0 +1,31 @@
+.img-thumbnail {
+    display: none;
+    max-height: 100%;
+}
+
+/*.show {*/
+/*    display: inline-block;*/
+/*}*/
+
+.input-image {
+    display: none;
+}
+
+.add-img-btn {
+    max-height: 60%;
+    margin: 20% auto;
+}
+
+.img-manager {
+    margin: 5px 5px 5px 10px;
+    text-align: center;
+}
+
+.img-manager img:hover {
+    box-shadow: 0 0 11px rgba(33,33,33,.2);
+}
+
+.delete-btn-img {
+    display: none;
+    max-height: 20px;
+}

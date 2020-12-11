@@ -11,6 +11,8 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +47,7 @@ public class ProductServiceImpl implements IProductService {
                                                     productForm.getListPrice());
 
             productMapper.insertProduct(productDto);
-
+            productForm.setProductId(productDto.getId());
             VendorProductDto vendorProductDto = new VendorProductDto( vendorId,
                                                                     productDto.getId(),
                                                                     productForm.getQuantity(),
@@ -56,9 +58,29 @@ public class ProductServiceImpl implements IProductService {
                                                                     productForm.getSubjectAge(),
                                                                     productForm.getMaterial());
             productMapper.insertVendorProduct(vendorProductDto);
+            doUploadImage(productForm);
             transactionManager.commit(txStatus);
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
+        }
+    }
+
+    private void doUploadImage(ProductForm productForm) {
+        MultipartFile[] imageFiles = productForm.getUploadFiles();
+        for (MultipartFile image : imageFiles) {
+            // Tên file gốc tại Client.
+            String name = StringUtils.cleanPath(image.getOriginalFilename());
+            if (name != null && name.length() > 0) {
+                try {
+                    ProductImageDto productImage = new ProductImageDto();
+                    productImage.setName(name);
+                    productImage.setContent(image.getBytes());
+                    productImage.setProductId(productForm.getProductId());
+                    productMapper.saveProductImage(productImage);
+                } catch (Exception e) {
+                    System.out.println(e.getStackTrace());
+                }
+            }
         }
     }
 
@@ -127,7 +149,12 @@ public class ProductServiceImpl implements IProductService {
      */
     @Override
     public List<ProductForm> getAllProduct(Integer categoryId, Integer subCategoryId, String keyword) {
-        return productMapper.getAllProduct(categoryId, subCategoryId, keyword);
+        List<ProductForm> productFormList = productMapper.getAllProduct(categoryId, subCategoryId, keyword);
+        for (ProductForm productForm : productFormList) {
+            List<ProductImageForm> productImageFormList = getProductImage(productForm.getProductId());
+            productForm.setProductImageFormList(productImageFormList);
+        }
+        return productFormList;
     }
 
     /**
@@ -230,13 +257,13 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public List<DisplayProductImageForm> getProductImage(long productId) {
+    public List<ProductImageForm> getProductImage(long productId) {
         List<ProductImageDto> productImageDtoList = productMapper.getProductImage(productId);
-        List<DisplayProductImageForm> productImageFormList = new ArrayList<>();
+        List<ProductImageForm> productImageFormList = new ArrayList<>();
         for (ProductImageDto productImageDto : productImageDtoList) {
-            DisplayProductImageForm displayProductImageForm = new DisplayProductImageForm();
-            BeanUtils.copyProperties(productImageDto, displayProductImageForm);
-            productImageFormList.add(displayProductImageForm);
+            ProductImageForm productImageForm = new ProductImageForm();
+            BeanUtils.copyProperties(productImageDto, productImageForm);
+            productImageFormList.add(productImageForm);
         }
         return productImageFormList;
     }

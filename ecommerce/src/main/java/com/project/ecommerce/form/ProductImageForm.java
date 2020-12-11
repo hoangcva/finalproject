@@ -1,10 +1,11 @@
 package com.project.ecommerce.form;
 
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 
-public class DisplayProductImageForm implements Serializable {
+public class ProductImageForm implements Serializable {
     private static final long serialVersionUID = -8134351929014169401L;
     private byte[] content;
     private String name;
