@@ -35,4 +35,5 @@ public interface ProductMapper {
     List<VendorProductForm> getVendorListByProduct(@Param("productId") Long productId);
 
     void saveProductImage(ProductImageDto productImageDto);
+    List<ProductImageDto> getProductImage(@Param("productId") long productId);
 }

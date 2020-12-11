@@ -25,6 +25,7 @@ public class ProductForm implements Serializable {
     private String vendorName;
     private String categoryName;
     private String subCategoryName;
+    private
 
     public String getProductName() {
         return productName;

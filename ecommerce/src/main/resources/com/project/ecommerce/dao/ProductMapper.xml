@@ -153,4 +153,9 @@
         #{productId,jdbcType=BIGINT},
         #{content,jdbcType=BLOB});
     </insert>
+    
+    <select id="getProductImage" fetchSize="200" resultType="com.project.ecommerce.dto.ProductImageDto">
+        SELECT * FROM image
+        WHERE productId = #{productId}
+    </select>
 </mapper>

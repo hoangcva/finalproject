@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/template :: head_input(~{::title})">
+    <title>Product list</title>
+</head>
+<body>
+<!--    <div th:each="image : ${productImages}">-->
+<!--        <img th:src="@{'data:image/jpeg;base64,'+${image.generateBase64Image()}}"/>-->
+<!--    </div>-->
+    <a>
+        <div class="card" style="width: 18rem;">
+            <img th:src="@{'data:image/jpeg;base64,'+${productImages[0].generateBase64Image()}}"/>
+            <div class="card-body">
+<!--                <h5 class="card-title">Card title</h5>-->
+                <p class="card-text">Product name</p>
+            </div>
+            <div class="card-body">
+                <h5 class="card-text" text="price">
+                    <!--<span th:text="*{price - listPrice + '%'} "></span>-->
+                </h5>
+                <p class="card-text">list price</p>
+            </div>
+        </div>
+    </a>
+</body>
+</html>
