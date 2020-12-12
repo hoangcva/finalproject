@@ -147,19 +147,21 @@
 
     <insert id="saveProductImage" parameterType="com.project.ecommerce.dto.ProductImageDto" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO image
-        ( name, productId, content)
+        ( name, productId, content, imageOrder)
         VALUES
         (#{name,jdbcType=VARCHAR},
-        #{productId,jdbcType=BIGINT},
-        #{content,jdbcType=BLOB});
+         #{productId,jdbcType=BIGINT},
+         #{content,jdbcType=BLOB},
+         #{imageOrder,jdbcType=TINYINT});
     </insert>
     
     <select id="getProductImage" fetchSize="200" resultType="com.project.ecommerce.dto.ProductImageDto">
         SELECT * FROM image
         WHERE productId = #{productId}
+        ORDER BY imageOrder
     </select>
 
-    <update id="updateProductImage" parameterType="com.project.ecommerce.form.ProductImageForm">
+    <update id="updateProductImage" parameterType="com.project.ecommerce.dto.ProductImageDto">
         UPDATE image
         SET name = #{name},
             content = #{content}

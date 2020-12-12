@@ -9,6 +9,7 @@ public class ProductImageDto implements Serializable {
     private long productId;
     private String name;
     private byte[] content;
+    private int imageOrder;
 
     public long getId() {
         return id;
@@ -40,5 +41,13 @@ public class ProductImageDto implements Serializable {
 
     public void setContent(byte[] content) {
         this.content = content;
+    }
+
+    public int getImageOrder() {
+        return imageOrder;
+    }
+
+    public void setImageOrder(int imageOrder) {
+        this.imageOrder = imageOrder;
     }
 }

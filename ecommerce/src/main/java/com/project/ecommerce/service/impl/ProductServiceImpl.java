@@ -5,6 +5,7 @@ import com.project.ecommerce.dao.ProductMapper;
 import com.project.ecommerce.dto.*;
 import com.project.ecommerce.form.*;
 import com.project.ecommerce.service.IProductService;
+import com.project.ecommerce.util.MessageAccessor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -26,6 +27,8 @@ public class ProductServiceImpl implements IProductService {
     private ProductMapper productMapper;
     @Autowired
     private DataSourceTransactionManager transactionManager;
+    @Autowired
+    private MessageAccessor messageAccessor;
 
     /**
      * @param productForm
@@ -62,25 +65,6 @@ public class ProductServiceImpl implements IProductService {
             transactionManager.commit(txStatus);
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
-        }
-    }
-
-    private void doUploadImage(ProductForm productForm) {
-        MultipartFile[] imageFiles = productForm.getUploadFiles();
-        for (MultipartFile image : imageFiles) {
-            // Tên file gốc tại Client.
-            String name = StringUtils.cleanPath(image.getOriginalFilename());
-            if (name != null && name.length() > 0) {
-                try {
-                    ProductImageDto productImage = new ProductImageDto();
-                    productImage.setName(name);
-                    productImage.setContent(image.getBytes());
-                    productImage.setProductId(productForm.getProductId());
-                    productMapper.saveProductImage(productImage);
-                } catch (Exception e) {
-                    System.out.println(e.getStackTrace());
-                }
-            }
         }
     }
 
@@ -278,5 +262,88 @@ public class ProductServiceImpl implements IProductService {
             productImageFormList.add(productImageForm);
         }
         return productImageFormList;
+    }
+
+    private void doUploadImage(ProductForm productForm) {
+        MultipartFile imageFile1 = productForm.getUploadFile1();
+        MultipartFile imageFile2 = productForm.getUploadFile2();
+        MultipartFile imageFile3 = productForm.getUploadFile3();
+        List<ProductImageDto> productImageDtoList = productMapper.getProductImage(productForm.getProductId());
+
+        if(!imageFile1.isEmpty()) {
+            ProductImageDto productImageDto = productImageDtoList.stream()
+                    .filter(productImage -> 1 == productImage.getImageOrder())
+                    .findAny().orElse(null);
+            if(productImageDto != null) {
+                updateImage(imageFile1, productImageDto.getId());
+            }
+            else {
+                saveImage(imageFile1, productForm.getProductId(), 1);
+            }
+        } else {
+            //delete img
+        }
+
+        if(!imageFile2.isEmpty()) {
+            ProductImageDto productImageDto = productImageDtoList.stream()
+                    .filter(productImage -> 2 == productImage.getImageOrder())
+                    .findAny().orElse(null);
+            if(productImageDto != null) {
+                updateImage(imageFile2, productImageDto.getId());
+            } else {
+                saveImage(imageFile2, productForm.getProductId(), 2);
+            }
+        } else {
+            //delete img
+        }
+
+        if(!imageFile3.isEmpty()) {
+            ProductImageDto productImageDto = productImageDtoList.stream()
+                    .filter(productImage -> 3 == productImage.getImageOrder())
+                    .findAny().orElse(null);
+            if(productImageDto != null) {
+                updateImage(imageFile3, productImageDto.getId());
+            } else {
+                saveImage(imageFile3, productForm.getProductId(), 3);
+            }
+        } else {
+            //delete img
+        }
+    }
+
+    private void saveImage(MultipartFile imageFile, long productId, int imageOrder) {
+        // Tên file gốc tại Client.
+        String name = StringUtils.cleanPath(imageFile.getOriginalFilename());
+        if (name != null && name.length() > 0) {
+            try {
+                ProductImageDto productImage = new ProductImageDto();
+                productImage.setName(name);
+                productImage.setContent(imageFile.getBytes());
+                productImage.setProductId(productId);
+                productImage.setImageOrder(imageOrder);
+                productMapper.saveProductImage(productImage);
+            } catch (Exception e) {
+                System.out.println(e.getStackTrace());
+            }
+        }
+    }
+
+    private void updateImage(MultipartFile imageFile, long id) {
+        String name = StringUtils.cleanPath(imageFile.getOriginalFilename());
+        if (name != null && name.length() > 0) {
+            try {
+                ProductImageDto productImage = new ProductImageDto();
+                productImage.setId(id);
+                productImage.setName(name);
+                productImage.setContent(imageFile.getBytes());
+                productMapper.updateProductImage(productImage);
+            } catch (Exception e) {
+                System.out.println(e.getStackTrace());
+            }
+        }
+    }
+
+    private void deleteImage(MultipartFile imageFile, long productId, int imageOrder) {
+
     }
 }

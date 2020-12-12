@@ -37,5 +37,5 @@ public interface ProductMapper {
 
     void saveProductImage(ProductImageDto productImageDto);
     List<ProductImageDto> getProductImage(@Param("productId") long productId);
-    void updateProductImage(ProductImageForm productImageForm);
+    void updateProductImage(ProductImageDto productImageDto);
 }

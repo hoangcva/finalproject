@@ -11,43 +11,33 @@ $(document).ready(function() {
     });
 
     $('#imageFile1').change(function() {
-        showImageThumbnail(this, '#thumbnail1', '#add-img-btn1', '#delete-btn-img1');
+        showImageThumbnail(this, '#thumbnail1', '#add-img-btn1', '#delete-btn-img1', '#previous-img-1');
     });
     $('#imageFile2').change(function() {
-        showImageThumbnail(this, '#thumbnail2', '#add-img-btn2', '#delete-btn-img2');
+        showImageThumbnail(this, '#thumbnail2', '#add-img-btn2', '#delete-btn-img2', '#previous-img-2');
     });
     $('#imageFile3').change(function() {
-        showImageThumbnail(this, '#thumbnail3', '#add-img-btn3', '#delete-btn-img3');
+        showImageThumbnail(this, '#thumbnail3', '#add-img-btn3', '#delete-btn-img3', '#previous-img-3');
     });
 
-    $('#add-img-btn1').click(function() {
+    $('#add-img-btn1, #thumbnail1, #previous-img-1').click(function() {
         $('#imageFile1').click();
     });
-    $('#add-img-btn2').click(function() {
+    $('#add-img-btn2, #thumbnail2, #previous-img-2').click(function() {
         $('#imageFile2').click();
     });
-    $('#add-img-btn3').click(function() {
-        $('#imageFile3').click();
-    });
-
-    $('#thumbnail1').click(function() {
-        $('#imageFile1').click();
-    });
-    $('#thumbnail2').click(function() {
-        $('#imageFile2').click();
-    });
-    $('#thumbnail3').click(function() {
+    $('#add-img-btn3, #thumbnail3, #previous-img-3').click(function() {
         $('#imageFile3').click();
     });
 
     $('#delete-btn-img1').click(function() {
-        removeImage('#imageFile1', '#thumbnail1', '#add-img-btn1', this)
+        removeImage('#imageFile1', '#thumbnail1', '#add-img-btn1', this, '#previous-img-1');
     });
     $('#delete-btn-img2').click(function() {
-        removeImage('#imageFile2', '#thumbnail2', '#add-img-btn2', this)
+        removeImage('#imageFile2', '#thumbnail2', '#add-img-btn2', this, '#previous-img-2');
     });
     $('#delete-btn-img3').click(function() {
-        removeImage('#imageFile3', '#thumbnail3', '#add-img-btn3', this)
+        removeImage('#imageFile3', '#thumbnail3', '#add-img-btn3', this, '#previous-img-3');
     });
 
     $('.btn-save').click(function() {
@@ -78,7 +68,7 @@ function showSubCategory() {
     })
 };
 
-function showImageThumbnail(fileInput, thumbnailId, addImgBtnId, deleteImgBtnId) {
+function showImageThumbnail(fileInput, thumbnailId, addImgBtnId, deleteImgBtnId, previousImg) {
     file = fileInput.files[0];
     if(file.size >= SIZE_5_MB) {
         handleOverSizeImage(fileInput, thumbnailId);
@@ -90,6 +80,7 @@ function showImageThumbnail(fileInput, thumbnailId, addImgBtnId, deleteImgBtnId)
         $(thumbnailId).show();
         $(deleteImgBtnId).show();
         $(addImgBtnId).hide();
+        $(previousImg).hide();
     }
     reader.readAsDataURL(file);
 };
@@ -100,9 +91,10 @@ function handleOverSizeImage(fileInput, thumbnailId) {
     $(thumbnailId).hide();
 };
 
-function removeImage(fileInput, thumbnailId, addImgBtnId, deleteImgBtnId) {
+function removeImage(fileInput, thumbnailId, addImgBtnId, deleteImgBtnId, previousImg) {
     $(addImgBtnId).show();
     $(deleteImgBtnId).hide();
     $(thumbnailId).hide();
     $(fileInput).val(null);
+    $(previousImg).hide();
 };

@@ -1,7 +1,7 @@
-.img-thumbnail {
-    display: none;
-    max-height: 100%;
-}
+/*.img-thumbnail {*/
+/*    display: none;*/
+/*    max-height: 100%;*/
+/*}*/
 
 .input-image {
     display: none;
@@ -22,6 +22,10 @@
 }
 
 .delete-btn-img {
-    display: none;
+    /*display: none;*/
     max-height: 20px;
 }
+
+/*.previous-img {*/
+/*    max-height: 100%;*/
+/*}*/

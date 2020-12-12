@@ -29,7 +29,9 @@ public class ProductForm implements Serializable {
     private String categoryName;
     private String subCategoryName;
     private List<ProductImageForm> productImageFormList;
-    private MultipartFile[] uploadFiles;
+    private MultipartFile uploadFile1;
+    private MultipartFile uploadFile2;
+    private MultipartFile uploadFile3;
     private boolean isSubmitted = false;
 
     public String getProductName() {
@@ -204,14 +206,6 @@ public class ProductForm implements Serializable {
         return productImageFormList;
     }
 
-    public MultipartFile[] getUploadFiles() {
-        return uploadFiles;
-    }
-
-    public void setUploadFiles(MultipartFile[] uploadFiles) {
-        this.uploadFiles = uploadFiles;
-    }
-
     public void setProductImageFormList(List<ProductImageForm> productImageFormList) {
         this.productImageFormList = productImageFormList;
     }
@@ -222,5 +216,29 @@ public class ProductForm implements Serializable {
 
     public void setSubmitted(boolean submitted) {
         isSubmitted = submitted;
+    }
+
+    public MultipartFile getUploadFile1() {
+        return uploadFile1;
+    }
+
+    public void setUploadFile1(MultipartFile uploadFile1) {
+        this.uploadFile1 = uploadFile1;
+    }
+
+    public MultipartFile getUploadFile2() {
+        return uploadFile2;
+    }
+
+    public void setUploadFile2(MultipartFile uploadFile2) {
+        this.uploadFile2 = uploadFile2;
+    }
+
+    public MultipartFile getUploadFile3() {
+        return uploadFile3;
+    }
+
+    public void setUploadFile3(MultipartFile uploadFile3) {
+        this.uploadFile3 = uploadFile3;
     }
 }
