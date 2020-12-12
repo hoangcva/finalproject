@@ -38,19 +38,22 @@
             </div>
             <div class="col-xl-4">
                 <div class="address container border mb-4">
-                    <div class="title">
+                    <div class="title mt-2">
                         <span>Delivery address</span>
                         <div><a th:href="@{/customer/address/change}"></a></div>
                     </div>
-                    <div class="content">
-                        <span class="name"></span>
-                        <span class="detail"></span>
-                        <span class="phoneNumber"></span>
+                    <hr class="my-2">
+                    <div class="content clearfix">
+                        <span class="name" th:text="${defaultAddress.getFullName()}"></span>
+                        <span class="phoneNumber float-right" th:text="${defaultAddress.phoneNumber}"></span>
+                        <span class="detail d-block" th:text="${defaultAddress.addressDetail}+', '+${defaultAddress.ward}+', '+${defaultAddress.district}+', '+${defaultAddress.province}"></span>
                     </div>
                 </div>
                 <div class="cart container border ">
-                    <span th:text="'Order (' + *{cartInfoForm.getQuantityTotal()} + ' products)'"></span>
-                    <hr class="my-4">
+                    <div class="title mt-2">
+                        <span th:text="'Order (' + *{cartInfoForm.getQuantityTotal()} + ' products)'"></span>
+                    </div>
+                    <hr class="my-2">
                     <div class="product row"
                          th:each="cartLine : *{cartInfoForm.cartLines}">
                         <div class="info col-sm-8">

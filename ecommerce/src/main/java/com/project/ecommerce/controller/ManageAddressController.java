@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -51,8 +49,9 @@ public class ManageAddressController {
     @GetMapping(value = "/manageAddress")
     public String manageAddress(Model model, Authentication auth) {
         UserDetailsDto userDetails = (UserDetailsDto) auth.getPrincipal();
-        UserDto userDto = userService.getUserByUserName(userDetails.getUsername());
-        List<CustomerAddressDto> customerAddressDtoList = customerAddressService.getAllAddressByCustomer(userDto.getId());
+        Long customerId = userDetails.getUserDto().getId();
+//        UserDto userDto = userService.getUserByUserName(userDetails.getUsername());
+        List<CustomerAddressDto> customerAddressDtoList = customerAddressService.getAllAddressByCustomer(customerId);
         model.addAttribute("address_list", customerAddressDtoList);
         return "customer/address/manageAddressPage";
     }
@@ -102,8 +101,9 @@ public class ManageAddressController {
         }
         try {
             UserDetailsDto userDetails = (UserDetailsDto) auth.getPrincipal();
-            customerAddressForm.setCustomerId(userDetails.getUserDto().getId());
-            customerAddressService.createAddress(customerAddressForm);
+            Long customerId = userDetails.getUserDto().getId();
+            customerAddressForm.setCustomerId(customerId);
+            customerAddressService.createAddress(customerAddressForm, customerId);
         }
         // Other error!!
         catch (Exception e) {
@@ -158,5 +158,17 @@ public class ManageAddressController {
         model.addAttribute("province_list", provinceDtoList);
         model.addAttribute("district_list", districtDtoList);
         model.addAttribute("ward_list", wardDtoList);
+    }
+
+    @PostMapping(value = "/setDefault")
+    public ResponseEntity<?> setDefault(@RequestBody CustomerAddressForm customerAddressForm,
+                                        Authentication auth) {
+        Message result = customerAddressService.setDefault(customerAddressForm.getId(), auth);
+        HashMap<String, Object> message = new HashMap<>();
+        message.put("msg", result.getMessage());
+        if(!result.isSuccess()) {
+            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 }

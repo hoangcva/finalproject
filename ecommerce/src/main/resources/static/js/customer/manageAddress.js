@@ -25,3 +25,22 @@ function deleteAddress(id) {
     }
 }
 
+function setDefaultAddress(id) {
+    var id = {"id" : id};
+    $.ajax({
+        type:'POST',
+        url: '/customer/address/setDefault',
+        // headers: { 'X-CSRF-TOKEN': $("input[name='_csrf']").val()},
+        contentType: 'application/json',
+        dataType : 'json',
+        data: JSON.stringify(id),
+        success : function (result) {
+            alert(result.msg);
+            $('#reload').submit();
+        },
+        error: function (result) {
+            alert(result.msg);
+        },
+    });
+};
+

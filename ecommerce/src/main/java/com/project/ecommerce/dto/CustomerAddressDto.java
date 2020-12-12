@@ -15,6 +15,7 @@ public class CustomerAddressDto implements Serializable {
     private String province;
     private String district;
     private String ward;
+    private Integer isDefault;
 
     public Long getId() {
         return id;
@@ -102,5 +103,13 @@ public class CustomerAddressDto implements Serializable {
 
     public void setWard(String ward) {
         this.ward = ward;
+    }
+
+    public Integer getIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(Integer isDefault) {
+        this.isDefault = isDefault;
     }
 }

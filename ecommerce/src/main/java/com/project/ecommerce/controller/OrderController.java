@@ -1,5 +1,6 @@
 package com.project.ecommerce.controller;
 
+import com.project.ecommerce.dto.CustomerAddressDto;
 import com.project.ecommerce.dto.UserDetailsDto;
 import com.project.ecommerce.form.CartInfoForm;
 import com.project.ecommerce.form.CartLineInfoForm;
@@ -25,11 +26,15 @@ public class OrderController {
     @RequestMapping("/customer/order")
     public String init(Model model, Authentication auth) {
         OrderForm orderForm = new OrderForm();
+        CustomerAddressDto customerAddressDto = new CustomerAddressDto();
         CartInfoForm cartInfoForm = new CartInfoForm();
         UserDetailsDto userDetails = (UserDetailsDto) auth.getPrincipal();
-        cartInfoForm = cartService.getCart(userDetails.getUserDto().getId());
+        Long customerId = userDetails.getUserDto().getId();
+        cartInfoForm = cartService.getCart(customerId);
+        customerAddressDto = addressService.getDefault(customerId);
         orderForm.setCartInfoForm(cartInfoForm);
         model.addAttribute("orderForm", orderForm);
+        model.addAttribute("defaultAddress", customerAddressDto);
         return "customer/order/orderPage";
     }
 }

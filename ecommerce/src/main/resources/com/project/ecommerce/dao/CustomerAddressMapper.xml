@@ -50,4 +50,27 @@
     <delete id="deleteALLAddressByUser" parameterType="Long">
         DELETE FROM customer_info WHERE customer_id = #{customerId}
     </delete>
+
+    <select id="getDefaultAddress" resultType="com.project.ecommerce.dto.CustomerAddressDto">
+        SELECT * FROM customer_info
+        WHERE customer_id = #{customerId}
+          AND isDefault = 1
+    </select>
+
+    <update id="setDefault">
+        UPDATE customer_info
+        SET isDefault = 1
+        WHERE id = #{id}
+    </update>
+
+    <update id="clearDefault">
+        UPDATE customer_info
+        SET isDefault = 0
+        WHERE id = #{id}
+    </update>
+
+    <select id="countAddress" resultType="int">
+        SELECT count(*) FROM customer_info
+        WHERE customer_id = #{customerId}
+    </select>
 </mapper>

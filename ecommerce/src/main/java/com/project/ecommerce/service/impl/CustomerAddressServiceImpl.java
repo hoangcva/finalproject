@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.lang.Nullable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
@@ -57,11 +58,15 @@ public class CustomerAddressServiceImpl implements ICustomerAddressService {
     }
 
     @Override
-    public void createAddress(CustomerAddressForm customerAddressForm) {
+    public void createAddress(CustomerAddressForm customerAddressForm, Long customerId) {
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
             CustomerAddressDto customerAddressDto = new CustomerAddressDto();
             BeanUtils.copyProperties(checkWardId(customerAddressForm), customerAddressDto);
+            int count = customerAddressMapper.countAddress(customerId);
+            if (count == 0) {
+                customerAddressDto.setIsDefault(1);
+            }
             customerAddressMapper.insertAddress(customerAddressDto);
             transactionManager.commit(txStatus);
         } catch (Exception ex) {
@@ -89,6 +94,37 @@ public class CustomerAddressServiceImpl implements ICustomerAddressService {
     @Override
     public void deleteAllAddress(Long customerId) {
 
+    }
+
+    @Override
+    public Message setDefault(Long addressId, Authentication auth) {
+        Message message = new Message("", true);
+        UserDetailsDto userDetails = (UserDetailsDto) auth.getPrincipal();
+        Long customerId = userDetails.getUserDto().getId();
+        TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        try {
+            CustomerAddressDto customerAddressDto = customerAddressMapper.getDefaultAddress(customerId);
+            if (customerAddressDto == null) {
+                customerAddressMapper.setDefault(addressId);
+            } else if (!addressId.equals(customerAddressDto.getId())) {
+                customerAddressMapper.setDefault(addressId);
+                customerAddressMapper.clearDefault(customerAddressDto.getId());
+            }
+            transactionManager.commit(txStatus);
+            message.setMessage(messageAccessor.getMessage(Consts.MSG_04_I));
+        } catch (Exception ex) {
+            transactionManager.rollback(txStatus);
+            message.setMessage(messageAccessor.getMessage(Consts.MSG_03_E));
+            message.setSuccess(false);
+        }
+        return message;
+    }
+
+    @Override
+    public CustomerAddressDto getDefault(Long customerId) {
+        CustomerAddressDto customerAddressDto = new CustomerAddressDto();
+        customerAddressDto = customerAddressMapper.getDefaultAddress(customerId);
+        return customerAddressDto;
     }
 
     public List<ProvinceDto> getProvinceList() {

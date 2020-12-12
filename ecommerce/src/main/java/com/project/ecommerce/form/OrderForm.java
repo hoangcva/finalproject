@@ -8,6 +8,24 @@ public class OrderForm implements Serializable {
     private String orderId;
     private String orderDateTime;
     private CustomerAddressForm addressForm;
+    private long totalAmount;
+    private String orderStatus;
+
+    public long getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(long totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
+    }
 
     public CartInfoForm getCartInfoForm() {
         return cartInfoForm;
