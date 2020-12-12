@@ -33,13 +33,16 @@
             <div class="col-sm-9">
                 <div class="d-inline-flex flex-wrap">
                     <div th:each="product,iterationStatus : ${productFormList}" class="outer">
-                        <a class="product-thumbnail" th:href="@{/viewProductDetail(productId = ${product.productId}, vendorId = ${product.vendorId})}">
+                        <a class="product-thumbnail text-decoration-none" th:href="@{/viewProductDetail(productId = ${product.productId}, vendorId = ${product.vendorId})}">
                             <div class="card inner">
-                                <img th:src="@{'data:image/jpeg;base64,'+${product.productImageFormList[0].generateBase64Image()}}"
-                                     th:unless="${#lists.size(product.productImageFormList) eq 0} "/>
-                                <img th:src="@{/images/no_product_image.jpg}"
-                                     src="../../static/images/no_product_image.jpg"
-                                     th:if="${#lists.size(product.productImageFormList) eq 0} "/>
+                                <div class="card-img-top">
+                                    <img class="img-thumbnail"
+                                         th:src="@{'data:image/jpeg;base64,'+${product.productImageFormList[0].generateBase64Image()}}"
+                                         th:unless="${#lists.size(product.productImageFormList) eq 0} "/>
+                                    <img class="img-thumbnail" th:src="@{/images/no_product_image.jpg}"
+                                         src="../../static/images/no_product_image.jpg"
+                                         th:if="${#lists.size(product.productImageFormList) eq 0} "/>
+                                </div>
                                 <div class="card-body">
                                     <p class="card-text" th:text="${product.productName}">Product name</p>
                                     <p class="card-text">

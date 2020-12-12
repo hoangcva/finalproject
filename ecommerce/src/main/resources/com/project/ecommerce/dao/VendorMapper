@@ -55,8 +55,6 @@
             province,
             business_code,
             category,
-            district,
-            ward,
             vendor_address_detail
         )
         VALUES
@@ -67,8 +65,6 @@
             #{province,jdbcType=INTEGER},
             #{businessCode,jdbcType=VARCHAR},
             #{category,jdbcType=INTEGER},
-            #{district,jdbcType=INTEGER},
-            #{ward,jdbcType=INTEGER},
             #{vendor_address_detail,jdbcType=VARCHAR}
         )
     </insert>

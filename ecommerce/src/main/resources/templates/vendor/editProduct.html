@@ -105,12 +105,13 @@
                              th:unless="${#lists.size(productForm.productImageFormList) eq 0} "/>
                         <img class="add-img-btn" id="add-img-btn1" th:src="@{/images/add-image.png}"
                              th:classappend="${(#lists.size(productForm.productImageFormList) eq 0) ? '':'hide'}">
-                        <input class="input-image" id="imageFile1" th:field="*{uploadFile1}" type="file" accept="image/png, image/jpeg"/>
+                        <input class="input-image" id="imageFile1" th:field="*{uploadImage1.uploadFile}" type="file" accept="image/png, image/jpeg"/>
                         <img class="img-thumbnail hide" id="thumbnail1" alt="Product image preview">
+                        <input type="hidden" id="delete1" name="delete1" th:value="*{uploadImage1.delete}">
                     </div>
                     <span>Image 1</span>
                     <img class="delete-btn-img" id="delete-btn-img1" th:src="@{/images/trash.png}"
-                         th:unless="${#lists.size(productForm.productImageFormList) eq 0}">
+                        th:classappend="${(#lists.size(productForm.productImageFormList) eq 0) ? 'hide':''}">
                 </div>
                 <div class="img-manager">
                     <div style="width: 100px; height: 100px">
@@ -119,12 +120,13 @@
                              th:unless="${#lists.size(productForm.productImageFormList) < 2}"/>
                         <img class="add-img-btn" id="add-img-btn2" th:src="@{/images/add-image.png}"
                              th:classappend="${(#lists.size(productForm.productImageFormList) < 2) ? '':'hide'}">
-                        <input class="input-image" id="imageFile2" th:field="*{uploadFile2}" type="file" accept="image/png, image/jpeg"/>
+                        <input class="input-image" id="imageFile2" th:field="*{uploadImage2.uploadFile}" type="file" accept="image/png, image/jpeg"/>
                         <img class="img-thumbnail hide" id="thumbnail2" alt="Product image preview">
+                        <input type="hidden" id="delete2" name="delete2" th:value="*{delete2}">
                     </div>
                     <span>Image 2</span>
                     <img class="delete-btn-img" id="delete-btn-img2" th:src="@{/images/trash.png}"
-                         th:unless="${#lists.size(productForm.productImageFormList) < 2}">
+                         th:classappend="${(#lists.size(productForm.productImageFormList) < 2) ? 'hide':''}">
                 </div>
                 <div class="img-manager">
                     <div style="width: 100px; height: 100px">
@@ -133,12 +135,13 @@
                              th:unless="${#lists.size(productForm.productImageFormList) < 3}">
                         <img class="add-img-btn" id="add-img-btn3" th:src="@{/images/add-image.png}"
                              th:classappend="${(#lists.size(productForm.productImageFormList) < 3) ? '':'hide'}">
-                        <input class="input-image" id="imageFile3" th:field="*{uploadFile3}" type="file" accept="image/png, image/jpeg"/>
+                        <input class="input-image" id="imageFile3" th:field="*{uploadImage3.uploadFile}" type="file" accept="image/png, image/jpeg"/>
                         <img class="img-thumbnail hide" id="thumbnail3" alt="Product image preview">
+                        <input type="hidden" id="delete3" name="delete3" th:field="*{uploadImage1.delete}">
                     </div>
                     <span>Image 3</span>
                     <img class="delete-btn-img" id="delete-btn-img3" th:src="@{/images/trash.png}"
-                         th:unless="${#lists.size(productForm.productImageFormList) < 3}">
+                         th:classappend="${(#lists.size(productForm.productImageFormList) < 3) ? 'hide':''}">
                 </div>
             </div>
         </div>

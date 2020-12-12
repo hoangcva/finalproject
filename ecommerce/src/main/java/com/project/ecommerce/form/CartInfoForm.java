@@ -67,7 +67,7 @@ public class CartInfoForm implements Serializable {
     public long getListPriceTotal() {
         long total = 0;
         for (CartLineInfoForm cartLine : this.cartLines) {
-            total += cartLine.getProductForm().getListPrice();
+            total += cartLine.getProductForm().getListPrice() * cartLine.getBuyQuantity();
         }
         return total;
     }

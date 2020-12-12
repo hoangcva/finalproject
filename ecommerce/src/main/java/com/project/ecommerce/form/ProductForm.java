@@ -1,7 +1,5 @@
 package com.project.ecommerce.form;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -29,10 +27,22 @@ public class ProductForm implements Serializable {
     private String categoryName;
     private String subCategoryName;
     private List<ProductImageForm> productImageFormList;
-    private MultipartFile uploadFile1;
-    private MultipartFile uploadFile2;
-    private MultipartFile uploadFile3;
+//    private MultipartFile uploadFile1;
+//    private MultipartFile uploadFile2;
+//    private MultipartFile uploadFile3;
+    private UploadImageForm uploadImage1;
+    private UploadImageForm uploadImage2;
+    private UploadImageForm uploadImage3;
+    private String delete2;
     private boolean isSubmitted = false;
+
+    public String getDelete2() {
+        return delete2;
+    }
+
+    public void setDelete2(boolean delete2) {
+        delete2 = delete2;
+    }
 
     public String getProductName() {
         return productName;
@@ -218,27 +228,51 @@ public class ProductForm implements Serializable {
         isSubmitted = submitted;
     }
 
-    public MultipartFile getUploadFile1() {
-        return uploadFile1;
+//    public MultipartFile getUploadFile1() {
+//        return uploadFile1;
+//    }
+//
+//    public void setUploadFile1(MultipartFile uploadFile1) {
+//        this.uploadFile1 = uploadFile1;
+//    }
+//
+//    public MultipartFile getUploadFile2() {
+//        return uploadFile2;
+//    }
+//
+//    public void setUploadFile2(MultipartFile uploadFile2) {
+//        this.uploadFile2 = uploadFile2;
+//    }
+//
+//    public MultipartFile getUploadFile3() {
+//        return uploadFile3;
+//    }
+//
+//    public void setUploadFile3(MultipartFile uploadFile3) {
+//        this.uploadFile3 = uploadFile3;
+//    }
+
+    public UploadImageForm getUploadImage1() {
+        return uploadImage1;
     }
 
-    public void setUploadFile1(MultipartFile uploadFile1) {
-        this.uploadFile1 = uploadFile1;
+    public void setUploadImage1(UploadImageForm uploadImage1) {
+        this.uploadImage1 = uploadImage1;
     }
 
-    public MultipartFile getUploadFile2() {
-        return uploadFile2;
+    public UploadImageForm getUploadImage2() {
+        return uploadImage2;
     }
 
-    public void setUploadFile2(MultipartFile uploadFile2) {
-        this.uploadFile2 = uploadFile2;
+    public void setUploadImage2(UploadImageForm uploadImage2) {
+        this.uploadImage2 = uploadImage2;
     }
 
-    public MultipartFile getUploadFile3() {
-        return uploadFile3;
+    public UploadImageForm getUploadImage3() {
+        return uploadImage3;
     }
 
-    public void setUploadFile3(MultipartFile uploadFile3) {
-        this.uploadFile3 = uploadFile3;
+    public void setUploadImage3(UploadImageForm uploadImage3) {
+        this.uploadImage3 = uploadImage3;
     }
 }

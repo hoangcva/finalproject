@@ -22,6 +22,8 @@
         <result property="rating" column="product_rating"/>
         <result property="createdBy" column="createdBy"/>
         <result property="origin" column="product_origin"/>
+        <result property="vendorName" column="vendor_name"/>
+        <result property="listPrice" column="list_price"/>
     </resultMap>
 
     <select id="getAllCategory" resultType="com.project.ecommerce.dto.CategoryDto" fetchSize="200">
@@ -124,10 +126,19 @@
     </select>
 
     <select id="getProductDetail" resultMap="ProductResultMap" fetchSize="200">
-        SELECT * FROM product p
-        INNER JOIN vendor_product vp on p.id = vp.productId
-        WHERE p.id = #{productId}
-        AND vp.vendorId = #{vendorId}
+        SELECT * FROM
+            (SELECT p.id, p.product_name, p.product_brand, p.product_description, p.product_origin, p.product_SKU,
+                    p.categoryId, p.subCategoryId, p.createdBy, p.list_price,
+                    vp.vendorId, vp.product_quantity, vp.product_price, vp.product_rating, vp.product_size,
+                    vp.product_subjectAge, vp.product_material, vp.product_color
+             FROM  product p
+                INNER JOIN vendor_product vp
+                    ON p.id = vp.productId
+             WHERE p.id = #{productId}
+               AND vp.vendorId = #{vendorId} ) t1
+        LEFT JOIN
+             (SELECT vendor_name, id FROM vendor_info) t2
+             ON t1.vendorId = t2.id;
     </select>
 
     <resultMap id="VendorResultMap" type="com.project.ecommerce.form.VendorProductForm">
@@ -167,4 +178,9 @@
             content = #{content}
         WHERE id = #{id};
     </update>
+    <delete id="removeProductImage">
+        DELETE FROM image
+        WHERE productId = #{productId}
+            AND imageOrder = #{imageOrder}
+    </delete>
 </mapper>

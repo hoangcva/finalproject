@@ -265,49 +265,53 @@ public class ProductServiceImpl implements IProductService {
     }
 
     private void doUploadImage(ProductForm productForm) {
-        MultipartFile imageFile1 = productForm.getUploadFile1();
-        MultipartFile imageFile2 = productForm.getUploadFile2();
-        MultipartFile imageFile3 = productForm.getUploadFile3();
-        List<ProductImageDto> productImageDtoList = productMapper.getProductImage(productForm.getProductId());
+        long productId = productForm.getProductId();
+        MultipartFile imageFile1 = productForm.getUploadImage1().getUploadFile();
+        MultipartFile imageFile2 = productForm.getUploadImage2().getUploadFile();
+        MultipartFile imageFile3 = productForm.getUploadImage3().getUploadFile();
+        List<ProductImageDto> productImageDtoList = productMapper.getProductImage(productId);
 
         if(!imageFile1.isEmpty()) {
             ProductImageDto productImageDto = productImageDtoList.stream()
-                    .filter(productImage -> 1 == productImage.getImageOrder())
+                    .filter(productImage -> Consts.IMG_ORDER_1 == productImage.getImageOrder())
                     .findAny().orElse(null);
             if(productImageDto != null) {
                 updateImage(imageFile1, productImageDto.getId());
             }
             else {
-                saveImage(imageFile1, productForm.getProductId(), 1);
+                saveImage(imageFile1, productId, Consts.IMG_ORDER_1);
             }
-        } else {
+        } else if (productForm.getUploadImage1().getDelete() == "true"){
             //delete img
+            deleteImage(productId, Consts.IMG_ORDER_1);
         }
 
         if(!imageFile2.isEmpty()) {
             ProductImageDto productImageDto = productImageDtoList.stream()
-                    .filter(productImage -> 2 == productImage.getImageOrder())
+                    .filter(productImage -> Consts.IMG_ORDER_2 == productImage.getImageOrder())
                     .findAny().orElse(null);
             if(productImageDto != null) {
                 updateImage(imageFile2, productImageDto.getId());
             } else {
-                saveImage(imageFile2, productForm.getProductId(), 2);
+                saveImage(imageFile2, productId, Consts.IMG_ORDER_2);
             }
         } else {
             //delete img
+            deleteImage(productId, Consts.IMG_ORDER_2);
         }
 
         if(!imageFile3.isEmpty()) {
             ProductImageDto productImageDto = productImageDtoList.stream()
-                    .filter(productImage -> 3 == productImage.getImageOrder())
+                    .filter(productImage -> Consts.IMG_ORDER_3 == productImage.getImageOrder())
                     .findAny().orElse(null);
             if(productImageDto != null) {
                 updateImage(imageFile3, productImageDto.getId());
             } else {
-                saveImage(imageFile3, productForm.getProductId(), 3);
+                saveImage(imageFile3, productId, Consts.IMG_ORDER_3);
             }
         } else {
             //delete img
+            deleteImage(productId, Consts.IMG_ORDER_3);
         }
     }
 
@@ -343,7 +347,11 @@ public class ProductServiceImpl implements IProductService {
         }
     }
 
-    private void deleteImage(MultipartFile imageFile, long productId, int imageOrder) {
-
+    private void deleteImage(long productId, int imageOrder) {
+        try {
+            productMapper.removeProductImage(productId, imageOrder);
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace());
+        }
     }
 }

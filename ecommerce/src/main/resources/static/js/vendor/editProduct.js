@@ -31,13 +31,13 @@ $(document).ready(function() {
     });
 
     $('#delete-btn-img1').click(function() {
-        removeImage('#imageFile1', '#thumbnail1', '#add-img-btn1', this, '#previous-img-1');
+        removeImage('#imageFile1', '#thumbnail1', '#add-img-btn1', this, '#previous-img-1','#delete1');
     });
     $('#delete-btn-img2').click(function() {
-        removeImage('#imageFile2', '#thumbnail2', '#add-img-btn2', this, '#previous-img-2');
+        removeImage('#imageFile2', '#thumbnail2', '#add-img-btn2', this, '#previous-img-2', '#delete2');
     });
     $('#delete-btn-img3').click(function() {
-        removeImage('#imageFile3', '#thumbnail3', '#add-img-btn3', this, '#previous-img-3');
+        removeImage('#imageFile3', '#thumbnail3', '#add-img-btn3', this, '#previous-img-3', '#delete3');
     });
 
     $('.btn-save').click(function() {
@@ -91,10 +91,12 @@ function handleOverSizeImage(fileInput, thumbnailId) {
     $(thumbnailId).hide();
 };
 
-function removeImage(fileInput, thumbnailId, addImgBtnId, deleteImgBtnId, previousImg) {
+function removeImage(fileInput, thumbnailId, addImgBtnId, deleteImgBtnId, previousImg, isDelete) {
     $(addImgBtnId).show();
     $(deleteImgBtnId).hide();
     $(thumbnailId).hide();
     $(fileInput).val(null);
     $(previousImg).hide();
+    $(isDelete).val('true');
+    $(isDelete).value = 'true';
 };

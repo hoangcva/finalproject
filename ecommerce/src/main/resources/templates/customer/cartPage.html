@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-xl-9">
             <div><span th:text="'(' + ${cartInfoForm.getQuantityTotal()} + 'products)'"></span></div>
-            <form th:action="@{customer/createOrder}" method="POST" th:unless="${cartInfoForm.getQuantityTotal() == 0}">
+            <form th:action="@{/customer/order}" method="POST" th:unless="${cartInfoForm.getQuantityTotal() == 0}">
                 <div th:each="cartLine : ${cartInfoForm.cartLines}" class="row">
                     <div class="col-xl-6">
                         <div th:text="*{cartLine.productForm.productName}"></div>
@@ -43,7 +43,7 @@
                     <input type="hidden" name="carLineId" id="cartLineId" th:value="*{cartLine.id}">
                     <input type="hidden" name="quantity" id="quantity" th:value="*{cartLine.productForm.quantity}">
                 </div>
-                <input type="button" value="Make order">
+                <button id="order-btn" >Make order</button>
 <!--                <div id="tblCartPage"></div>-->
             </form>
             <div class="align-content-center overflow-auto" th:if="${cartInfoForm.getQuantityTotal()} == 0">

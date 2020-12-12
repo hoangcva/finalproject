@@ -109,7 +109,7 @@ function updateCart(id, buyQuantity) {
             if (result.msg !== '') {
                 alert(result.msg);
             }
-            CommonPartsJs.redirectTo("/customer/cart/view")
+            CommonPartsJs.redirectTo("/customer/cart/view");
         },
         error: function (result) {
             alert(result.msg);
@@ -137,6 +137,29 @@ function remove(id) {
         },
     });
 }
+
+// function saveCart() {
+//     var form = $('form');
+//     // form.on('submit', function(e) {
+//         $.ajax({
+//             type:'POST',
+//             url: '/customer/cart/save',
+//             // headers: { 'X-CSRF-TOKEN': $("input[name='_csrf']").val()},
+//             contentType: 'application/json',
+//             dataType : 'json',
+//             data: form.serialize(),
+//             success : function (result) {
+//                 if (result.msg !== '') {
+//                     alert(result.msg);
+//                 }
+//                 CommonPartsJs.redirectTo("/customer/order")
+//             },
+//             error: function (result) {
+//                 alert(result.msg);
+//             },
+//         });
+//     // })
+// }
 
 function makeTable(currentPage) {
     table = new Tabulator('#tblCartPage', {
