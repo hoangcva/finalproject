@@ -10,7 +10,7 @@
 <h2>Choose Category</h2>
 
 <form th:action="@{/vendor/addProduct/detail}" th:object="${productForm}" th:method="POST">
-    <div th:replace="fragments/template :: category-select"></div>
+    <div th:replace="fragments/template :: category-select-fragment"></div>
     <button th:type="submit" th:text="Submit"></button>
 </form>
 

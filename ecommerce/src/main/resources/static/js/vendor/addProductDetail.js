@@ -52,7 +52,6 @@ $(document).ready(function () {
     // });
 });
 
-
 function showImageThumbnail(fileInput, thumbnailId, addImgBtnId, deleteImgBtnId) {
     file = fileInput.files[0];
     if(file.size >= SIZE_5_MB) {
@@ -80,4 +79,4 @@ function removeImage(fileInput, thumbnailId, addImgBtnId, deleteImgBtnId) {
     $(deleteImgBtnId).hide();
     $(thumbnailId).hide();
     $(fileInput).val(null);
-}
+};

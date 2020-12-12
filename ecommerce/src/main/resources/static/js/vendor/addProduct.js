@@ -25,7 +25,7 @@ function showSubCategory() {
 
     childs.each( function () {
         if ($(this).attr('data-categoryId') == categoryId) {
-            $('.custom-select2 select').val($(this).val());
+            $('.custom-select-div2 select').val($(this).val());
             return false;
         }
     })
@@ -35,11 +35,11 @@ function showSubCategory() {
 
 // function customSelectbox(selectFlg) {
 //     var x, i, j, selElmnt, a, b, c;
-//     /*look for any elements with the class "custom-select":*/
+//     /*look for any elements with the class "custom-select-div":*/
 //     if (selectFlg == 1) {
-//         x = document.getElementsByClassName("custom-select");
+//         x = document.getElementsByClassName("custom-select-div");
 //     } else {
-//         x = document.getElementsByClassName("custom-select2");
+//         x = document.getElementsByClassName("custom-select-div2");
 //     }
 //
 //     for (i = 0; i < x.length; i++) {
@@ -142,7 +142,7 @@ function showSubCategory() {
 //         url: '/vendor/getSubCategory',
 //         type: 'GET',
 //         success: function (data) {
-//             $(".custom-select2 option[value!='0']").remove();
+//             $(".custom-select-div2 option[value!='0']").remove();
 //             data.forEach(function (supCategory) {
 //                 if (supCategory.categoryId == category) {
 //                     $('#sub-category-select')
@@ -151,9 +151,9 @@ function showSubCategory() {
 //                             .text(supCategory.name));
 //                 };
 //             });
-//             $('.custom-select2>div').remove();
+//             $('.custom-select-div2>div').remove();
 //             customSelectbox(2);
-//             $('.custom-select2 .select-items').children().on('click', function () {
+//             $('.custom-select-div2 .select-items').children().on('click', function () {
 //                 // var district = $(this).html();
 //                 // displayStore(category, district);
 //             });

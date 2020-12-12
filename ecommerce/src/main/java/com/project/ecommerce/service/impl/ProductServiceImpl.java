@@ -109,6 +109,7 @@ public class ProductServiceImpl implements IProductService {
         try {
             productMapper.updateProduct(productForm);
             productMapper.updateVendorProduct(productForm);
+            doUploadImage(productForm);
             transactionManager.commit(txStatus);
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
@@ -129,7 +130,12 @@ public class ProductServiceImpl implements IProductService {
      */
     @Override
     public List<ProductForm> getAllProductByVendorId(Long vendorId) {
-        return productMapper.getAllProductByVendorId(vendorId);
+        List<ProductForm> productFormList = productMapper.getAllProductByVendorId(vendorId);
+        for (ProductForm productForm : productFormList) {
+            List<ProductImageForm> productImageFormList = getProductImage(productForm.getProductId());
+            productForm.setProductImageFormList(productImageFormList);
+        }
+        return productFormList;
     }
 
     /**
@@ -138,7 +144,10 @@ public class ProductServiceImpl implements IProductService {
      */
     @Override
     public ProductForm getVendorProduct(Long productId) {
-        return productMapper.getVendorProduct(productId);
+        ProductForm productForm = productMapper.getVendorProduct(productId);
+        List<ProductImageForm> productImageFormList = getProductImage(productForm.getProductId());
+        productForm.setProductImageFormList(productImageFormList);
+        return productForm;
     }
 
     /**
@@ -218,7 +227,10 @@ public class ProductServiceImpl implements IProductService {
      */
     @Override
     public ProductForm getProductDetail(Long productId, Long vendorId) {
-        return productMapper.getProductDetail(productId, vendorId);
+        ProductForm productForm = productMapper.getProductDetail(productId, vendorId);
+        List<ProductImageForm> productImageFormList = getProductImage(productForm.getProductId());
+        productForm.setProductImageFormList(productImageFormList);
+        return productForm;
     }
 
     @Override

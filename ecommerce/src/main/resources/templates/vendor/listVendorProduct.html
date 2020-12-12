@@ -1,19 +1,36 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>ALL product</title>
+<head th:replace="fragments/template :: head_input(~{::title})">
+    <title>Edit product</title>
 </head>
 <body>
 <th:block th:include="/common/_header"></th:block>
-
-<table>
-    <tbody>
-        <tr th:each="product,iterationStatus : ${productForms}">
-            <td th:text="${iterationStatus.count}"></td>
-            <td><a th:href="@{/vendor/editProduct(productId = ${product.productId})}" th:text="${product.productName}"></a></td>
-        </tr>
-    </tbody>
-</table>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <div class="d-inline-flex flex-wrap">
+                <div th:each="product,iterationStatus : ${productForms}" class="outer">
+                    <a class="product-thumbnail" th:href="@{/vendor/editProduct(productId = ${product.productId})}">
+                        <div class="card inner">
+                            <img th:src="@{'data:image/jpeg;base64,'+${product.productImageFormList[0].generateBase64Image()}}"
+                                 th:unless="${#lists.size(product.productImageFormList) eq 0}"/>
+                            <img th:src="@{/images/no_product_image.jpg}"
+                                 src="../../static/images/no_product_image.jpg"
+                                 th:if="${#lists.size(product.productImageFormList) eq 0} "/>
+                            <div class="card-body">
+                                <p class="card-text" th:text="${product.productName}">Product name</p>
+                                <p class="card-text">
+                                    <span class="price" th:text="${product.price}"></span>
+                                    <span class="discount" th:text="*{(product.price - product.listPrice)*100/product.listPrice + '%'} "></span>
+                                    <span class="list-price" th:text="${product.listPrice}">list price</span>
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

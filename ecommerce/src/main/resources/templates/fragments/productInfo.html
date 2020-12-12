@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div th:fragment="edit-product-info(productForm)" class="edit-product-info">
+        <div id="decrease-btn">-</div>
+        <input type="text" class="buy-quantity" name="buy-quantity" th:value="${buyQuantity}">
+        <div id="increase-btn">+</div>
+        <span id="over-quantity" class="hide d-none" th:text="'You can\'t buy more than ' + ${quantity} + ' products'"></span>
+    </div>
+</body>
+</html>

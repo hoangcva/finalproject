@@ -158,4 +158,11 @@
         SELECT * FROM image
         WHERE productId = #{productId}
     </select>
+
+    <update id="updateProductImage" parameterType="com.project.ecommerce.form.ProductImageForm">
+        UPDATE image
+        SET name = #{name},
+            content = #{content}
+        WHERE id = #{id};
+    </update>
 </mapper>

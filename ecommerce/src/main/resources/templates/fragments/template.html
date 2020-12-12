@@ -31,19 +31,19 @@
     </div>
     <div th:fragment="overlay" class="overlay"></div>
 
-    <div th:fragment="category-select" class="category-select">
-        <div class="custom-select">
-            <span>Category</span>
-            <select id="category-select" th:field="*{categoryId}">
+    <div th:fragment="category-select-fragment" class="category-select-fragment form-row">
+        <div class="custom-select-div col-3 form-group">
+            <span for="category-select">Category</span>
+            <select class="custom-select" id="category-select" th:field="*{categoryId}">
                 <option value="0" selected disabled text="category"></option>
                 <option th:each="category : ${categories}"
                         th:value="${category.id}"
                         th:text="${category.name}"></option>
             </select>
         </div>
-        <div class="custom-select2">
-            <span>Sub category</span>
-            <select id="sub-category-select" th:field="*{subCategoryId}">
+        <div class="custom-select-div2 col-3 form-group">
+            <span for="sub-category-select">Sub category</span>
+            <select class="custom-select" id="sub-category-select" th:field="*{subCategoryId}">
                 <option class="hide"
                         th:each="subCategory : ${subCategories}"
                         th:value="${subCategory.id}"

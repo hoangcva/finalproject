@@ -23,7 +23,7 @@
             <td th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></td>
         </tr>
         <tr>
-            <div class="custom-select">
+            <div class="custom-select-div">
                 <td>City</td>
                 <td>
                     <select id="province-select" th:field="*{provinceId}">
@@ -39,7 +39,7 @@
             </div>
         </tr>
         <tr>
-            <div class="custom-select2">
+            <div class="custom-select-div2">
                 <td>District</td>
                 <td>
                     <select id="district-select" th:field="*{districtId}">
@@ -56,7 +56,7 @@
             </div>
         </tr>
         <tr>
-            <div class="custom-select3">
+            <div class="custom-select-div3">
                 <td>Wards</td>
                 <td>
                     <select id="ward-select" th:field="*{wardId}">

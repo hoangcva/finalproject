@@ -10,7 +10,7 @@
 
 /*!*the container must be positioned relative:*!*/
 
-/*.custom-select, .custom-select2 {*/
+/*.custom-select-div, .custom-select-div2 {*/
 /*    position: relative;*/
 /*    width: 100%;*/
 /*    height: 4.2vw;*/
@@ -20,12 +20,12 @@
 /*    margin-bottom: 2.2vw;*/
 /*}*/
 
-/*.custom-select select {*/
+/*.custom-select-div select {*/
 /*    display: none;*/
 /*    !*hide original SELECT element:*!*/
 /*}*/
 
-/*.custom-select2 select {*/
+/*.custom-select-div2 select {*/
 /*    display: none;*/
 /*}*/
 
@@ -93,7 +93,7 @@
 /*        margin-top: 3vw;*/
 /*        width: 60%;*/
 /*    }*/
-/*    .custom-select, .custom-select2 {*/
+/*    .custom-select-div, .custom-select-div2 {*/
 /*        height: 11vw;*/
 /*        margin-bottom: 5vw;*/
 /*    }*/
