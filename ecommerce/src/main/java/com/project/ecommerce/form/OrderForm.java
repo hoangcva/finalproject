@@ -12,6 +12,15 @@ public class OrderForm implements Serializable {
     private String orderStatus;
     private Long addressId;
     private String note;
+    private Long shippingFee;
+
+    public Long getShippingFee() {
+        return shippingFee;
+    }
+
+    public void setShippingFee(Long shippingFee) {
+        this.shippingFee = shippingFee;
+    }
 
     public String getNote() {
         return note;

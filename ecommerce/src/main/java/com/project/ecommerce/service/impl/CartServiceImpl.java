@@ -20,6 +20,9 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.util.List;
 
+/**
+ *
+ */
 @Service("cartService")
 public class CartServiceImpl implements ICartService {
     @Autowired
@@ -31,6 +34,10 @@ public class CartServiceImpl implements ICartService {
     @Autowired
     private MessageAccessor messageAccessor;
 
+    /**
+     * @param customerId
+     * @return
+     */
     @Override
     public CartInfoForm getCart(long customerId) {
         List<CartDto> cartDtoList = cartMapper.getCart(customerId);
@@ -132,6 +139,25 @@ public class CartServiceImpl implements ICartService {
             cartMapper.removeProduct(id);
             transactionManager.commit(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_03_I));
+        } catch (Exception ex) {
+            transactionManager.rollback(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_02_E, ""));
+            result.setSuccess(false);
+        }
+        return result;
+    }
+
+
+    /**
+     * @param customerId
+     * @return
+     */
+    @Override
+    public Message clearCart(long customerId) {
+        Message result = new Message("", true);
+        TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        try {
+            cartMapper.clearCart(customerId);
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_02_E, ""));

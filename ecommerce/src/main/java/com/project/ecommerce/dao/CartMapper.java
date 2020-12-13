@@ -17,4 +17,5 @@ public interface CartMapper {
     void removeProduct(@Param("id") long id);
     CartDto findProductInCart(CartDto cartDto);
     CartDto getCartLine(@Param("id") long id);
+    void clearCart(@Param("customerId") long customerId);
 }

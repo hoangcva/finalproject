@@ -108,6 +108,7 @@
         INNER JOIN
             ( SELECT *
               FROM vendor_product
+              WHERE product_quantity > 0
               ORDER BY product_rating DESC, product_price ASC
             ) vp ON p.id = vp.productId
         <where>
@@ -183,4 +184,10 @@
         WHERE productId = #{productId}
             AND imageOrder = #{imageOrder}
     </delete>
+    <update id="updateProductQuantity">
+        UPDATE vendor_product
+        SET product_quantity = #{quantity}
+        WHERE productId = #{productId}
+        AND vendorId = #{vendorId}
+    </update>
 </mapper>

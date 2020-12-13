@@ -5,15 +5,19 @@
 
 <mapper namespace="com.project.ecommerce.dao.OrderMapper">
     <insert id="createOrder" parameterType="com.project.ecommerce.dto.OrderDto" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        INSERT INTO order
-        (customerId, billTotal, deliveryAddress, totalAmount, note)
+        INSERT INTO orders
+        (customerId, billTotal, order_status, deliveryAddress, note, fullName, phoneNumber, shippingFee, orderDspId)
         VALUES
         (#{customerId, jdbcType=BIGINT},
          #{billTotal,jdbcType=BIGINT},
+         #{orderStatus,jdbcType=VARCHAR},
          #{deliveryAddress,jdbcType=VARCHAR},
-         #{totalAmount,jdbcType=BIGINT},
-         #{note,jdbcType=VARCHAR})
-        <selectKey keyProperty="id" resultType="long" order="AFTER">
+         #{note,jdbcType=VARCHAR},
+         #{fullName,jdbcType=VARCHAR},
+         #{phoneNumber,jdbcType=VARCHAR},
+         #{shippingFee,jdbcType=BIGINT},
+         #{orderDspId,jdbcType=VARCHAR})
+        <selectKey keyProperty="id" resultType="Long" order="AFTER">
             SELECT LAST_INSERT_ID();
         </selectKey>
     </insert>
@@ -28,4 +32,16 @@
          #{buyQuantity,jdbcType=BIGINT},
          #{price,jdbcType=BIGINT})
     </insert>
+
+    <select id="getOrderListCustomer" resultType="com.project.ecommerce.dto.OrderDto" fetchSize="200">
+        SELECT * FROM orders
+        WHERE customerId = #{customerId}
+        ORDER BY orderDate
+    </select>
+
+    <select id="getOrderDetailCustomer" resultType="com.project.ecommerce.dto.OrderDetailDto">
+        SELECT * FROM order_products
+        WHERE orderId = #{orderId}
+    </select>
+
 </mapper>

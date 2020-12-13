@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("CustomerAddressService")
@@ -32,7 +33,8 @@ public class CustomerAddressServiceImpl implements ICustomerAddressService {
 
     @Override
     public List<CustomerAddressDto> getAllAddressByCustomer(Long customerId) {
-        return customerAddressMapper.getAllAddressByCustomerId(customerId);
+        List<CustomerAddressDto> customerAddressDtoList = customerAddressMapper.getAllAddressByCustomerId(customerId);
+        return customerAddressDtoList;
     }
 
     @Override

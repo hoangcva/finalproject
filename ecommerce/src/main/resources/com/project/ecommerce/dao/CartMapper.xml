@@ -47,5 +47,9 @@
         SELECT * FROM cart_detail
         WHERE id = #{id}
     </select>
+
+    <delete id="clearCart">
+        DELETE FROM cart_detail WHERE customerId = #{customerId}
+    </delete>
 </mapper>
 

@@ -18,20 +18,20 @@ public interface ProductMapper {
     List<SubCategoryDto> getALLSubCategory();
     void updateProduct(ProductForm productForm);
     void updateVendorProduct(ProductForm productForm);
-    void deleteProduct(@Param("productId") Long productId);
+    void deleteProduct(@Param("productId") long productId);
     void insertVendorProduct(VendorProductDto vendorProductDto);
     List<ProductForm> getAllProductByVendorId(@Param("vendorId") Long vendorId);
 //    List<VendorProductDto> getAllVendorProductByVendorId(@Param("vendorId") Long vendorId);
-    ProductForm getVendorProduct(@Param("productId") Long productId);
+    ProductForm getVendorProduct(@Param("productId") long productId);
 
     List<ProductForm> getAllProduct(@Param("categoryId") Integer categoryId,
                                     @Param("subCategoryId") Integer subCategoryId,
                                     @Param("keyword") String keyword);
 
-    CategoryDto findCategory(Integer  categoryId);
-    SubCategoryDto findSubCategory(Integer  categoryId);
-    ProductForm getProductDetail(@Param("productId") Long productId,
-                                 @Param("vendorId") Long vendorId);
+    CategoryDto findCategory(Integer categoryId);
+    SubCategoryDto findSubCategory(Integer categoryId);
+    ProductForm getProductDetail(@Param("productId") long productId,
+                                 @Param("vendorId") long vendorId);
 
     List<VendorProductForm> getVendorListByProduct(@Param("productId") Long productId);
 
@@ -39,4 +39,6 @@ public interface ProductMapper {
     List<ProductImageDto> getProductImage(@Param("productId") long productId);
     void updateProductImage(ProductImageDto productImageDto);
     void removeProductImage(@Param("productId") long productId, @Param("imageOrder") long imageOrder);
+
+    boolean updateProductQuantity(@Param("productId") long productId, @Param("vendorId") long vendorId, @Param("quantity") long quantity);
 }

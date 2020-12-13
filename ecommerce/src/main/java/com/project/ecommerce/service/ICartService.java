@@ -8,8 +8,9 @@ import org.springframework.security.core.Authentication;
 
 public interface ICartService {
     //    void createCart(@Param("customerId") long customerId);
-    CartInfoForm getCart(@Param("customerId") long customerId);
+    CartInfoForm getCart(long customerId);
     Message addProductToCart(CartLineInfoForm cartLineInfoForm, Authentication auth);
-    Message updateQuantity(@Param("id") CartLineInfoForm cartLineInfoForm);
-    Message removeProduct(@Param("id") long id);
+    Message updateQuantity(CartLineInfoForm cartLineInfoForm);
+    Message removeProduct(long id);
+    Message clearCart(long customerId);
 }

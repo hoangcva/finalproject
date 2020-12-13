@@ -12,8 +12,44 @@ public class OrderDto implements Serializable {
     private LocalDateTime deliveryDate;
     private String orderStatus;
     private String deliveryAddress;
-    private long totalAmount;
+    private long billTotal;
     private String note;
+    private String fullName;
+    private String phoneNumber;
+    private Long shippingFee;
+    private String orderDspId;
+
+    public String getOrderDspId() {
+        return orderDspId;
+    }
+
+    public void setOrderDspId(String orderDspId) {
+        this.orderDspId = orderDspId;
+    }
+
+    public Long getShippingFee() {
+        return shippingFee;
+    }
+
+    public void setShippingFee(Long shippingFee) {
+        this.shippingFee = shippingFee;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
     public long getId() {
         return id;
@@ -63,12 +99,12 @@ public class OrderDto implements Serializable {
         this.deliveryAddress = deliveryAddress;
     }
 
-    public long getTotalAmount() {
-        return totalAmount;
+    public long getBillTotal() {
+        return billTotal;
     }
 
-    public void setTotalAmount(long totalAmount) {
-        this.totalAmount = totalAmount;
+    public void setBillTotal(long billTotal) {
+        this.billTotal = billTotal;
     }
 
     public String getNote() {
