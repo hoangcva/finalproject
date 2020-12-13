@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/template :: head_input(~{::title})">
+    <title>TEST</title>
+</head>
+<body>
+    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+        <div class="hovereffect">
+            <img class="img-responsive" th:src="@{/images/p14.jpg}" alt="">
+            <div class="overlay">
+                <h2>Effect 10</h2>
+                <p class="icon-links">
+                    <a href="#">
+                        <span class="fa fa-twitter">Twitter</span>
+                    </a>
+                    <a href="#">
+                        <span class="fa fa-facebook">Facebook</span>
+                    </a>
+                    <a href="#">
+                        <span class="fa fa-instagram">instagram</span>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+<link rel="stylesheet" href="../../static/css/test.css" th:href="@{/css/test.css}" />
+</html>

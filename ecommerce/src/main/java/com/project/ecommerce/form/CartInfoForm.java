@@ -7,7 +7,16 @@ import java.util.List;
 public class CartInfoForm implements Serializable {
     private static final long serialVersionUID = 1409178486466589445L;
     private int orderNum;
+    private long id;
     private final List<CartLineInfoForm> cartLines = new ArrayList<>();
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     private CartLineInfoForm findLineByCode(Long productId) {
         for (CartLineInfoForm cartLine : this.cartLines) {

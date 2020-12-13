@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.ecommerce.dao.OrderMapper">
+    <insert id="createOrder" parameterType="com.project.ecommerce.dto.OrderDto" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO order
+        (customerId, billTotal, deliveryAddress, totalAmount, note)
+        VALUES
+        (#{customerId, jdbcType=BIGINT},
+         #{billTotal,jdbcType=BIGINT},
+         #{deliveryAddress,jdbcType=VARCHAR},
+         #{totalAmount,jdbcType=BIGINT},
+         #{note,jdbcType=VARCHAR})
+        <selectKey keyProperty="id" resultType="long" order="AFTER">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <insert id="createOrderDetail" parameterType="com.project.ecommerce.dto.OrderDetailDto">
+        INSERT INTO order_products
+            (orderId, productId, vendorId, buyQuantity, price)
+        VALUES
+        (#{orderId, jdbcType=BIGINT},
+         #{productId,jdbcType=BIGINT},
+         #{vendorId,jdbcType=BIGINT},
+         #{buyQuantity,jdbcType=BIGINT},
+         #{price,jdbcType=BIGINT})
+    </insert>
+</mapper>

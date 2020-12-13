@@ -10,6 +10,24 @@ public class OrderForm implements Serializable {
     private CustomerAddressForm addressForm;
     private long totalAmount;
     private String orderStatus;
+    private Long addressId;
+    private String note;
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public Long getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
+    }
 
     public long getTotalAmount() {
         return totalAmount;

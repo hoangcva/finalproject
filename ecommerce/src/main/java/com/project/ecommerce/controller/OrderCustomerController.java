@@ -12,12 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
-public class OrderController {
+public class OrderCustomerController {
     @Autowired
     private ICartService cartService;
     @Autowired
@@ -36,5 +34,13 @@ public class OrderController {
         model.addAttribute("orderForm", orderForm);
         model.addAttribute("defaultAddress", customerAddressDto);
         return "customer/order/orderPage";
+    }
+
+    @PostMapping("/customer/order/create")
+    public String createOrder(@ModelAttribute("orderForm") OrderForm orderForm,
+                                Model model, Authentication auth) {
+
+
+        return null;
     }
 }
