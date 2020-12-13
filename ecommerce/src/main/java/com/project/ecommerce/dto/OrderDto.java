@@ -6,18 +6,22 @@ import java.time.LocalDateTime;
 
 public class OrderDto implements Serializable {
     private static final long serialVersionUID = 8686410531140993726L;
+    //product info
+    //order info
     private long id;
-    private long customerId;
     private Timestamp orderDate;
     private LocalDateTime deliveryDate;
     private String orderStatus;
-    private String deliveryAddress;
-    private long billTotal;
-    private String note;
-    private String fullName;
-    private String phoneNumber;
     private Long shippingFee;
     private String orderDspId;
+    private long billTotal;
+    private String note;
+    //customer info
+    private long customerId;
+    private String fullName;
+    private String phoneNumber;
+    private String deliveryAddress;
+
 
     public String getOrderDspId() {
         return orderDspId;

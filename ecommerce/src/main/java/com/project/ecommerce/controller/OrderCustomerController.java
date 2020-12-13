@@ -15,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 public class OrderCustomerController {
     @Autowired
@@ -22,7 +24,7 @@ public class OrderCustomerController {
     @Autowired
     private ICustomerAddressService addressService;
     @Autowired
-    private IOrderCustomerService iOrderCustomerService;
+    private IOrderCustomerService orderCustomerService;
 
     @RequestMapping("/customer/order")
     public String init(Model model, Authentication auth) {
@@ -44,16 +46,16 @@ public class OrderCustomerController {
                               Authentication auth,
                               Model model,
                               final RedirectAttributes redirectAttributes) {
-        Message result = iOrderCustomerService.createOrder(orderForm, auth);
-        if (result.isSuccess()) {
+        Message result = orderCustomerService.createOrder(orderForm, auth);
+//        if (result.isSuccess()) {
             redirectAttributes.addFlashAttribute("message", result.getMessage());
             redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
             return "redirect:/customer/order/success";
-        } else {
-            redirectAttributes.addFlashAttribute("message", result.getMessage());
-            redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
-            return "redirect:/customer/order/unsuccessful";
-        }
+//        } else {
+//            redirectAttributes.addFlashAttribute("message", result.getMessage());
+//            redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
+//            return "redirect:/customer/order/unsuccessful";
+//        }
     }
 
     @GetMapping("/customer/order/success")
@@ -61,8 +63,15 @@ public class OrderCustomerController {
         return "/customer/order/success";
     }
 
-    @GetMapping("/customer/order/unsuccessful")
-    public String unsuccessful(Model model) {
-        return "/customer/order/unsuccessful";
+//    @GetMapping("/customer/order/unsuccessful")
+//    public String unsuccessful(Model model) {
+//        return "/customer/order/unsuccessful";
+//    }
+
+    @GetMapping("/customer/order/history")
+    public String viewOrderHistory(Model model, Authentication auth){
+        List<OrderForm> orderFormList = orderCustomerService.getOrderListCustomer(auth);
+        model.addAttribute("orderFormList", orderFormList);
+        return "/customer/order/history";
     }
 }

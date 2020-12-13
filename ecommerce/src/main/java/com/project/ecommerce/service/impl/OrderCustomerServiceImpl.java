@@ -2,7 +2,6 @@ package com.project.ecommerce.service.impl;
 
 import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.dao.CartMapper;
-import com.project.ecommerce.dao.CustomerAddressMapper;
 import com.project.ecommerce.dao.OrderMapper;
 import com.project.ecommerce.dao.ProductMapper;
 import com.project.ecommerce.dto.OrderDetailDto;
@@ -15,6 +14,7 @@ import com.project.ecommerce.service.IOrderCustomerService;
 import com.project.ecommerce.util.CommonUtils;
 import com.project.ecommerce.util.Message;
 import com.project.ecommerce.util.MessageAccessor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.security.core.Authentication;
@@ -25,7 +25,6 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service("orderCustomerService")
 public class OrderCustomerServiceImpl implements IOrderCustomerService {
@@ -103,11 +102,11 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
 
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
+            //create order
             orderMapper.createOrder(orderDto);
             for (OrderDetailDto orderDetailDto : orderDetailDtoList) {
                 orderDetailDto.setOrderId(orderDto.getId());
                 orderMapper.createOrderDetail(orderDetailDto);
-
                 // update quantity
                 newQuantity = productFormList.stream()
                         .filter(productForm -> (productForm.getProductId().equals(orderDetailDto.getProductId() )
@@ -125,8 +124,7 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
                                                     orderDetailDto.getVendorId(),
                                                     newQuantity);
             }
-
-
+            //clear cart
             cartMapper.clearCart(customerId);
             if (!result.isSuccess()) {
                 transactionManager.rollback(txStatus);
@@ -159,7 +157,7 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
     }
 
     private String createOrderId(String customerId) {
-        StringBuilder orderDspId = new StringBuilder();
+        StringBuilder orderDspId = new StringBuilder('#');
         LocalDateTime now = LocalDateTime.now();
         String year = ((Integer)now.getYear()).toString();
         String month = ((Integer)now.getMonthValue()).toString();
@@ -178,8 +176,16 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
     }
 
     @Override
-    public OrderForm getOrderListCustomer(Authentication auth) {
-        return null;
+    public List<OrderForm> getOrderListCustomer(Authentication auth) {
+        Long customerId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
+        List<OrderDto> orderDtoList = orderMapper.getOrderListCustomer(customerId);
+        List<OrderForm> orderFormList = new ArrayList<>();
+        for (OrderDto orderDto : orderDtoList) {
+            OrderForm orderForm = new OrderForm();
+            BeanUtils.copyProperties(orderDto, orderForm);
+            orderFormList.add(orderForm);
+        }
+        return orderFormList;
     }
 
     @Override

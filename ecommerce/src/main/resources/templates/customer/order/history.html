@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/template :: head_input(~{::title})">
+    <title>Order</title>
+</head>
+<body>
+<th:block th:include="/common/_header"></th:block>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Code order</th>
+                        <th scope="col">Order date</th>
+                        <th scope="col">Total amount</th>
+                        <th scope="col">Order status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="order,iStat  : ${orderFormList}">
+                        <th scope="row" th:text="${iStat.count}"></th>
+                        <td ><a th:text="${order.orderDspId}" th:href="@{/customer/order/detail(id = ${order.id})}"></a></td>
+                        <td th:text="${order.orderDateTime}"></td>
+                        <td th:text="${order.billTotal}"></td>
+                        <td th:text="${order.orderStatus}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

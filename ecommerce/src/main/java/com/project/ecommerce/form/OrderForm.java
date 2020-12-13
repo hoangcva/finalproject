@@ -1,18 +1,67 @@
 package com.project.ecommerce.form;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class OrderForm implements Serializable {
     private static final long serialVersionUID = 326586143790672537L;
+    //product info
     private CartInfoForm cartInfoForm;
-    private String orderId;
+    private List<OrderDetailForm> orderDetailList;
+    //order info
+    private String id;
     private String orderDateTime;
-    private CustomerAddressForm addressForm;
-    private long totalAmount;
     private String orderStatus;
-    private Long addressId;
     private String note;
     private Long shippingFee;
+    private long billTotal;
+    private String orderDspId;
+    //customer info
+    private String fullName;
+    private String phoneNumber;
+    private String deliveryAddress;
+    private Long addressId;
+    private CustomerAddressForm addressForm;
+
+    public List<OrderDetailForm> getOrderDetailList() {
+        return orderDetailList;
+    }
+
+    public void setOrderDetailList(List<OrderDetailForm> orderDetailList) {
+        this.orderDetailList = orderDetailList;
+    }
+
+    public String getOrderDspId() {
+        return orderDspId;
+    }
+
+    public void setOrderDspId(String orderDspId) {
+        this.orderDspId = orderDspId;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
+    }
 
     public Long getShippingFee() {
         return shippingFee;
@@ -38,12 +87,12 @@ public class OrderForm implements Serializable {
         this.addressId = addressId;
     }
 
-    public long getTotalAmount() {
-        return totalAmount;
+    public long getBillTotal() {
+        return billTotal;
     }
 
-    public void setTotalAmount(long totalAmount) {
-        this.totalAmount = totalAmount;
+    public void setBillTotal(long billTotal) {
+        this.billTotal = billTotal;
     }
 
     public String getOrderStatus() {
@@ -62,12 +111,12 @@ public class OrderForm implements Serializable {
         this.cartInfoForm = cartInfoForm;
     }
 
-    public String getOrderId() {
-        return orderId;
+    public String getId() {
+        return id;
     }
 
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getOrderDateTime() {
