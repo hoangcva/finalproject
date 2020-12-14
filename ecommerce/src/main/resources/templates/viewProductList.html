@@ -46,9 +46,9 @@
                                 <div class="card-body">
                                     <p class="card-text text-truncate" th:text="${product.productName}">Product name</p>
                                     <p class="card-text">
-                                        <span class="price" th:text="${product.price}"></span>
-                                        <span class="discount" th:text="*{(product.price - product.listPrice)*100/product.listPrice + '%'} "></span>
-                                        <span class="list-price" th:text="${product.listPrice}">list price</span>
+                                        <span class="money price" th:text="${product.price}"></span>
+                                        <span class="money discount" th:text="*{(product.price - product.listPrice)*100/product.listPrice + '%'} "></span>
+                                        <span class="money list-price" th:text="${product.listPrice}">list price</span>
                                     </p>
                                 </div>
                             </div>

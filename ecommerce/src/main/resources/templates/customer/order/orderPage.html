@@ -73,7 +73,7 @@
                             </a>
                             <span style="display: block">Provided by <strong th:text="${cartLine.productForm.vendorName}"></strong></span>
                         </div>
-                        <div class="price col-sm-4 text-right" th:text="${cartLine.productForm.price}+' đ'"></div>
+                        <div class="price col-sm-4 text-right money" th:text="${cartLine.productForm.price}"></div>
 <!--                        <input type="hidden" name="carLineId" id="cartLineId" th:value="${cartLine.id}">-->
 <!--                        <input type="hidden" name="quantity" id="quantity" th:value="${cartLine.productForm.quantity}">-->
                     </div>
@@ -87,9 +87,9 @@
             <!--                <div class="name"></div>-->
             <!--                <div class="value"></div>-->
             <!--            </div>-->
-                        <div class="total-price d-inline-block float-right">
+                        <div class="bill-total d-inline-block float-right">
                             <span class="name">Total: </span>
-                            <span class="value" th:field="*{cartInfoForm.getBillTotal()}" th:text="*{cartInfoForm.getBillTotal()+' đ'}"></span>
+                            <span class="money value" th:field="*{cartInfoForm.getBillTotal()}" th:text="*{cartInfoForm.getBillTotal()}"></span>
                         </div>
                     </div>
                 </div>

@@ -18,10 +18,10 @@
                     </div>
                     <div class="col-xl-2">
                         <div>
-                            <strong th:text="*{cartLine.productForm.price}"></strong>
+                            <strong class="money price" th:text="*{cartLine.productForm.price}"></strong>
                         </div>
                         <div class="text-decoration-line-through">
-                            <span th:text="*{cartLine.productForm.listPrice}"></span>
+                            <span class="money list-price" th:text="*{cartLine.productForm.listPrice}"></span>
                         </div>
                     </div>
                     <div class="col-xl-2 change-quantity">
@@ -52,9 +52,9 @@
             </div>
         </div>
         <div class="col-xl-3">
-            <div th:text="'Total listing price:' + ${cartInfoForm.getListPriceTotal()}"></div>
-            <div th:text="'Discount: ' + ${cartInfoForm.getBillTotal() - cartInfoForm.getListPriceTotal()}"></div>
-            <div th:text="'Total:' + ${cartInfoForm.getBillTotal()}"></div>
+            <div class="money" th:text="'Total listing price:' + ${cartInfoForm.getListPriceTotal()}"></div>
+            <div class="money" th:text="'Discount: ' + ${cartInfoForm.getBillTotal() - cartInfoForm.getListPriceTotal()}"></div>
+            <div class="money" th:text="'Total:' + ${cartInfoForm.getBillTotal()}"></div>
         </div>
     </div>
 </div>

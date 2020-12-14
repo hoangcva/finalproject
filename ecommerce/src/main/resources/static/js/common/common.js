@@ -42,6 +42,10 @@ $(document).on({
 });
 
 $(document).ready(function() {
+    $('.money').each(function() {
+        $(this).text(commafy($(this).text()));
+    });
+
     $( ".card" ).hover(
         function() {
             $(this).addClass('shadow-lg').css('cursor', 'pointer');
@@ -49,3 +53,7 @@ $(document).ready(function() {
             $(this).removeClass('shadow-lg');
         });
 });
+
+function commafy(num) {
+    return num === '' ? num : num.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')+ ' đ';
+}

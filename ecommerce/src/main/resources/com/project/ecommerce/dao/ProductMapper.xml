@@ -39,6 +39,15 @@
         <result property="publisher" column="publisher"/>
     </resultMap>
 
+    <resultMap id="VendorResultMap" type="com.project.ecommerce.form.VendorProductForm">
+        <result property="vendorId" column="vendorId"/>
+        <result property="productId" column="productId"/>
+        <result property="quantity" column="product_quantity"/>
+        <result property="price" column="product_price"/>
+        <result property="rating" column="product_rating"/>
+        <result property="fullName" column="vendor_name"/>
+    </resultMap>
+
     <insert id="insertProduct" parameterType="com.project.ecommerce.dto.ProductDto" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO product
         ( product_name, product_description, categoryId, subCategoryId, product_brand,
@@ -137,15 +146,6 @@
              (SELECT vendor_name, id FROM vendor_info) t2
              ON t1.vendorId = t2.id;
     </select>
-
-    <resultMap id="VendorResultMap" type="com.project.ecommerce.form.VendorProductForm">
-        <result property="vendorId" column="vendorId"/>
-        <result property="productId" column="productId"/>
-        <result property="quantity" column="product_quantity"/>
-        <result property="price" column="product_price"/>
-        <result property="rating" column="product_rating"/>
-        <result property="fullName" column="vendor_name"/>
-    </resultMap>
 
     <select id="getVendorListByProduct" resultMap="VendorResultMap" fetchSize="200">
         SELECT vendorId, productId, product_quantity, product_price, product_rating, vendor_name FROM vendor_product vp

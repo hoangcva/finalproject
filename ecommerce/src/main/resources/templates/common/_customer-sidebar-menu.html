@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<div class="col-lg-3">
+	<div class="list-group">
+		<a th:href="@{/user}" class="list-group-item list-group-item-action active">
+			Customer Page
+		</a>
+		<a id="manager-address" th:href="@{/customer/address/manageAddress}"
+		   class="list-group-item list-group-item-action">
+			Manager address
+		</a>
+		<a id="update-iformation" th:href="@{/user/update}"
+		   class="list-group-item list-group-item-action">
+			Update Information
+		</a>
+		<a id="view-order-history" th:href="@{/customer/order/history}"
+		   class="list-group-item list-group-item-action">
+			View Order History
+		</a>
+	</div>
+</div>
+</html>
