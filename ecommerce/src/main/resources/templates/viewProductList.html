@@ -44,7 +44,7 @@
                                          th:if="${#lists.size(product.productImageFormList) eq 0} "/>
                                 </div>
                                 <div class="card-body">
-                                    <p class="card-text" th:text="${product.productName}">Product name</p>
+                                    <p class="card-text text-truncate" th:text="${product.productName}">Product name</p>
                                     <p class="card-text">
                                         <span class="price" th:text="${product.price}"></span>
                                         <span class="discount" th:text="*{(product.price - product.listPrice)*100/product.listPrice + '%'} "></span>

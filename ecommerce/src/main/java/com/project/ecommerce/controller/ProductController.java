@@ -8,6 +8,7 @@ import com.project.ecommerce.form.ProductImageForm;
 import com.project.ecommerce.form.VendorProductForm;
 import com.project.ecommerce.service.IProductService;
 import com.project.ecommerce.service.IUserService;
+import com.project.ecommerce.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -64,7 +65,7 @@ public class ProductController {
 //        return new ResponseEntity<>(subCategoryDtoList, HttpStatus.OK);
 //    }
 
-    @PostMapping(value = "/vendor/addProduct/detail")
+    @PostMapping(value = "/vendor/product/add/detail")
     public String showDetail(@ModelAttribute("productForm") ProductForm productForm, Model model, HttpServletRequest request) {
         List<CategoryDto> categoryDtoList = (List<CategoryDto>) request.getSession().getAttribute("categoryDtoList");
         List<SubCategoryDto> subCategoryDtoList = (List<SubCategoryDto>) request.getSession().getAttribute("subCategoryDtoList");
@@ -80,9 +81,12 @@ public class ProductController {
                 .map(subCategory -> subCategory.getName())
                 .orElse("");
 
+        List<CountriesDto> countriesDtoList = productService.getCountries();
+
         model.addAttribute("categoryName", categoryName);
         model.addAttribute("subCategoryName", subCategoryName);
         model.addAttribute("productForm", productForm);
+        model.addAttribute("countriesDtoList", countriesDtoList);
         return "vendor/addProductDetail";
     }
 
@@ -128,22 +132,31 @@ public class ProductController {
         }
     }
 
-    @PostMapping(value = "/vendor/addProduct/addDetail")
+    @PostMapping(value = "/vendor/product/add/addDetail")
     public String addProduct(@ModelAttribute("productForm") @Validated ProductForm productForm,
-                             BindingResult result,
+                             BindingResult bindingResult,
                              Model model,
                              final RedirectAttributes redirectAttributes,
                              Authentication auth,
                              HttpServletRequest request) {
         Long id = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
         productForm.setSubmitted(true);
-        if (result.hasErrors()) {
+        if (bindingResult.hasErrors()) {
+            List<CountriesDto> countriesDtoList = productService.getCountries();
+            model.addAttribute("countriesDtoList", countriesDtoList);
             model.addAttribute("categoryName", productForm.getCategoryName());
             model.addAttribute("subCategoryName", productForm.getSubCategoryName());
             return "vendor/addProductDetail";
         }
-        productService.addProduct(productForm, id);
-        return "redirect:/vendor/listVendorProduct";
+        Message result = productService.addProduct(productForm, id);
+        redirectAttributes.addFlashAttribute("message", result.getMessage());
+        redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
+        return "redirect:/vendor/success";
+    }
+
+    @GetMapping("/vendor/success")
+    public String success(Model model) {
+        return "/vendor/success";
     }
 
     @GetMapping(value = "/vendor/listVendorProduct")
@@ -159,8 +172,10 @@ public class ProductController {
         List<CategoryDto> categoryDtoList= productService.getAllCategory();
         List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
         ProductForm productForm = productService.getVendorProduct(productId);
+        List<CountriesDto> countriesDtoList = productService.getCountries();
         model.addAttribute("productForm", productForm);
         model.addAttribute("categories", categoryDtoList);
+        model.addAttribute("countriesDtoList", countriesDtoList);
         model.addAttribute("subCategories", subCategoryDtoList);
         return "vendor/editProduct";
     }
@@ -174,6 +189,8 @@ public class ProductController {
         if (result.hasErrors()) {
             List<CategoryDto> categoryDtoList= productService.getAllCategory();
             List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
+            List<CountriesDto> countriesDtoList = productService.getCountries();
+            model.addAttribute("countriesDtoList", countriesDtoList);
             model.addAttribute("categories", categoryDtoList);
             model.addAttribute("subCategories", subCategoryDtoList);
             return "vendor/editProduct";

@@ -3,6 +3,7 @@ package com.project.ecommerce.controller;
 import com.project.ecommerce.Validator.UserRegisterValidator;
 import com.project.ecommerce.Validator.VendorRegisterValidator;
 import com.project.ecommerce.dao.AddressMapper;
+import com.project.ecommerce.dao.CategoryMapper;
 import com.project.ecommerce.dao.ProductMapper;
 import com.project.ecommerce.dto.CategoryDto;
 import com.project.ecommerce.dto.ProvinceDto;
@@ -32,6 +33,8 @@ public class RegisterController {
     private UserRegisterValidator userRegisterValidator;
     @Autowired
     private VendorRegisterValidator vendorRegisterValidator;
+    @Autowired
+    private CategoryMapper categoryMapper;
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String init(Model model) {
@@ -46,7 +49,7 @@ public class RegisterController {
     public String initVendor(Model model) {
         VendorForm vendorForm = new VendorForm();
         List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
-        List<CategoryDto> categoryDtoList = productMapper.getAllCategory();
+        List<CategoryDto> categoryDtoList = categoryMapper.getAllCategory();
         model.addAttribute("province_list", provinceDtoList);
         model.addAttribute("category_list", categoryDtoList);
         model.addAttribute("vendor_form", vendorForm);
@@ -110,7 +113,7 @@ public class RegisterController {
         // Validate result
         if (result.hasErrors()) {
             List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
-            List<CategoryDto> categoryDtoList = productMapper.getAllCategory();
+            List<CategoryDto> categoryDtoList = categoryMapper.getAllCategory();
             model.addAttribute("province_list", provinceDtoList);
             model.addAttribute("category_list", categoryDtoList);
             return "vendor/register";
@@ -121,7 +124,7 @@ public class RegisterController {
         // Other error!!
         catch (Exception e) {
             List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
-            List<CategoryDto> categoryDtoList = productMapper.getAllCategory();
+            List<CategoryDto> categoryDtoList = categoryMapper.getAllCategory();
             model.addAttribute("province_list", provinceDtoList);
             model.addAttribute("category_list", categoryDtoList);
 //            model.addAttribute("errorMessage", "Error: " + e.getMessage());

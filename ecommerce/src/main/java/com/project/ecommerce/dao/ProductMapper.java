@@ -14,8 +14,6 @@ import java.util.List;
 @Mapper
 public interface ProductMapper {
     void insertProduct(ProductDto productDto);
-    List<CategoryDto> getAllCategory();
-    List<SubCategoryDto> getALLSubCategory();
     void updateProduct(ProductForm productForm);
     void updateVendorProduct(ProductForm productForm);
     void deleteProduct(@Param("productId") long productId);
@@ -28,8 +26,7 @@ public interface ProductMapper {
                                     @Param("subCategoryId") Integer subCategoryId,
                                     @Param("keyword") String keyword);
 
-    CategoryDto findCategory(Integer categoryId);
-    SubCategoryDto findSubCategory(Integer categoryId);
+
     ProductForm getProductDetail(@Param("productId") long productId,
                                  @Param("vendorId") long vendorId);
 
@@ -41,4 +38,12 @@ public interface ProductMapper {
     void removeProductImage(@Param("productId") long productId, @Param("imageOrder") long imageOrder);
 
     boolean updateProductQuantity(@Param("productId") long productId, @Param("vendorId") long vendorId, @Param("quantity") long quantity);
+
+    List<CountriesDto> getCountries();
+
+    boolean insertDetailCategory1(ProductForm productForm);
+    boolean insertDetailCategory2Sub1(ProductForm productForm);
+    boolean insertDetailCategory2Sub2(ProductForm productForm);
+    boolean insertDetailCategory2Sub3(ProductForm productForm);
+    boolean insertDetailCategory3(ProductForm productForm);
 }

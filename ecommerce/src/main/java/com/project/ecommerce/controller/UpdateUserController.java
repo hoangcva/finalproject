@@ -31,7 +31,7 @@ public class UpdateUserController {
     @Autowired
     private AddressMapper addressMapper;
 
-    @RequestMapping(value = "/updateUserPage", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/update", method = RequestMethod.GET)
     public String init(Model model, HttpSession session, Authentication auth) {
         UserDetailsDto userDetails = (UserDetailsDto) auth.getPrincipal();
         UserUpdateForm user = new UserUpdateForm();

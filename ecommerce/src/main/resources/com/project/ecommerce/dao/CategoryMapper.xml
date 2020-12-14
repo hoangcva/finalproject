@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.ecommerce.dao.CategoryMapper">
+    <select id="getAllCategory" resultType="com.project.ecommerce.dto.CategoryDto" fetchSize="200">
+        SELECT * FROM category
+    </select>
+
+    <select id="getALLSubCategory" resultType="com.project.ecommerce.dto.SubCategoryDto" fetchSize="200">
+        SELECT * FROM sub_category
+    </select>
+
+    <insert id="addSubCategory" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO sub_category
+        (name, category_id, description)
+        VALUES
+        (#{name,jdbcType=VARCHAR},
+        #{categoryId,jdbcType=INTEGER},
+        #{description,jdbcType=VARCHAR});
+    </insert>
+</mapper>

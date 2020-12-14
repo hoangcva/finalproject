@@ -20,6 +20,28 @@
     <link rel="stylesheet" href="../../static/css/common/common.css" th:href="@{/css/common/common.css}" />
 </head>
 <body>
+    <div th:fragment="display-error-message" class="row mb-2">
+        <div th:if="${message != null and message != ''}"
+             class="error col-lg">
+            <img class="pb-1" th:src="@{/images/check.png}" th:if="${isSuccess}" style="max-height: 25px;">
+            <img class="pb-1" th:src="@{/images/fail.png}" th:unless="${isSuccess}" style="max-height: 25px;">
+            <span class="pt-1 pb-1 ml-2" th:classappend="${isSuccess}?'text-success':'text-danger'" th:text="${message}" style="font-size: 20px"></span>
+        </div>
+    </div>
+
+    <div th:fragment="admin-sidebarmenu" class="col-lg-3">
+        <div class="list-group">
+<!--            <a href="#" class="list-group-item list-group-item-action active">-->
+<!--                Cras justo odio-->
+<!--            </a>-->
+            <a id="manage-account" th:href="@{/admin}" class="list-group-item list-group-item-action">Manage account</a>
+            <a id="add-product" th:href="@{/vendor/showCategory}" class="list-group-item list-group-item-action">Add product</a>
+            <a id="show-all-vendor-product" th:href="@{/vendor/listVendorProduct}" class="list-group-item list-group-item-action">Show all vendor product</a>
+            <a id="show-all-product" th:href="@{/showProducts}" class="list-group-item list-group-item-action">Show all product</a>
+            <a id="add-category" th:href="@{/admin/category/add}" class="list-group-item list-group-item-action">Add category</a>
+        </div>
+    </div>
+
     <div th:fragment="change-quantity(buyQuantity, quantity)" class="change-quantity">
         <div id="decrease-btn">-</div>
         <input type="text" class="buy-quantity" name="buy-quantity" th:value="${buyQuantity}">

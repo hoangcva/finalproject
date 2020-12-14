@@ -8,6 +8,15 @@ public class SubCategoryForm implements Serializable {
     private String name;
     private String description;
     private Integer categoryId;
+    private boolean isSubmitted;
+
+    public boolean isSubmitted() {
+        return isSubmitted;
+    }
+
+    public void setSubmitted(boolean submitted) {
+        isSubmitted = submitted;
+    }
 
     public Integer getId() {
         return id;

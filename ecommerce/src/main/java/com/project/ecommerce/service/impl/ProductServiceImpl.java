@@ -1,10 +1,12 @@
 package com.project.ecommerce.service.impl;
 
 import com.project.ecommerce.Consts.Consts;
+import com.project.ecommerce.dao.CategoryMapper;
 import com.project.ecommerce.dao.ProductMapper;
 import com.project.ecommerce.dto.*;
 import com.project.ecommerce.form.*;
 import com.project.ecommerce.service.IProductService;
+import com.project.ecommerce.util.Message;
 import com.project.ecommerce.util.MessageAccessor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +31,17 @@ public class ProductServiceImpl implements IProductService {
     private DataSourceTransactionManager transactionManager;
     @Autowired
     private MessageAccessor messageAccessor;
+    @Autowired
+    private CategoryMapper categoryMapper;
 
     /**
      * @param productForm
      * @param vendorId
+     * @return
      */
     @Override
-    public void addProduct(ProductForm productForm, Long vendorId) {
+    public Message addProduct(ProductForm productForm, Long vendorId) {
+        Message result = new Message("", true);
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
             ProductDto productDto = new ProductDto( null,
@@ -61,11 +67,30 @@ public class ProductServiceImpl implements IProductService {
                                                                     productForm.getSubjectAge(),
                                                                     productForm.getMaterial());
             productMapper.insertVendorProduct(vendorProductDto);
+            int categoryId = productForm.getCategoryId();
+            int subCategoryId = productForm.getSubCategoryId();
+            if (categoryId == 1) {
+                productMapper.insertDetailCategory1(productForm);
+            } else if (categoryId == 2) {
+                if (subCategoryId == 1) {
+                    productMapper.insertDetailCategory2Sub1(productForm);
+                } else if (subCategoryId == 2) {
+                    productMapper.insertDetailCategory2Sub2(productForm);
+                } else if (subCategoryId == 3) {
+                    productMapper.insertDetailCategory2Sub3(productForm);
+                }
+            } else if (categoryId == 3) {
+                productMapper.insertDetailCategory3(productForm);
+            }
             doUploadImage(productForm);
             transactionManager.commit(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_07_I));
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_07_E));
+            result.setSuccess(false);
         }
+        return result;
     }
 
     /**
@@ -73,7 +98,7 @@ public class ProductServiceImpl implements IProductService {
      */
     @Override
     public List<CategoryDto> getAllCategory() {
-        return productMapper.getAllCategory();
+        return categoryMapper.getAllCategory();
     }
 
     /**
@@ -81,7 +106,7 @@ public class ProductServiceImpl implements IProductService {
      */
     @Override
     public List<SubCategoryDto> getALLSubCategory() {
-        return productMapper.getALLSubCategory();
+        return categoryMapper.getALLSubCategory();
     }
 
     /**
@@ -262,6 +287,12 @@ public class ProductServiceImpl implements IProductService {
             productImageFormList.add(productImageForm);
         }
         return productImageFormList;
+    }
+
+    @Override
+    public List<CountriesDto> getCountries() {
+        List<CountriesDto> countriesDtoList = productMapper.getCountries();
+        return countriesDtoList;
     }
 
     private void doUploadImage(ProductForm productForm) {

@@ -132,6 +132,7 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
                 result.setSuccess(false);
                 return result;
             }
+            //commit
             transactionManager.commit(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_05_I, orderDspId));
         } catch (Exception ex) {

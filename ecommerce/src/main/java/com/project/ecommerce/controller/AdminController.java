@@ -1,13 +1,24 @@
 package com.project.ecommerce.controller;
 
+import com.project.ecommerce.Validator.CategoryValidator;
+import com.project.ecommerce.dto.CategoryDto;
 import com.project.ecommerce.dto.UserDto;
+import com.project.ecommerce.form.SubCategoryForm;
 import com.project.ecommerce.form.UserDeleteForm;
+import com.project.ecommerce.form.UserRegisterForm;
+import com.project.ecommerce.form.VendorForm;
+import com.project.ecommerce.service.IAdminService;
+import com.project.ecommerce.service.IProductService;
 import com.project.ecommerce.service.impl.UserServiceImpl;
+import com.project.ecommerce.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -18,6 +29,12 @@ import java.util.List;
 public class AdminController {
     @Autowired
     private UserServiceImpl userService;
+    @Autowired
+    private IAdminService adminService;
+    @Autowired
+    private IProductService productService;
+    @Autowired
+    private CategoryValidator categoryValidator;
 
     @GetMapping
     public String index(Model model) {
@@ -50,5 +67,46 @@ public class AdminController {
             return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/category/add")
+    public String addCategory(Model model) {
+        List<CategoryDto> categoryDtoList= productService.getAllCategory();
+        SubCategoryForm subCategoryForm = new SubCategoryForm();
+        model.addAttribute("categories", categoryDtoList);
+        model.addAttribute("subCategoryForm", subCategoryForm);
+        return "/admin/addCategory";
+    }
+
+    @PostMapping(value = "/category/add")
+    public String addCategory(@ModelAttribute("subCategoryForm") @Validated SubCategoryForm subCategoryForm,
+                              BindingResult bindingResult,
+                              Model model,
+                              final RedirectAttributes redirectAttributes) {
+        subCategoryForm.setSubmitted(true);
+        if (bindingResult.hasErrors()) {
+            List<CategoryDto> categoryDtoList= productService.getAllCategory();
+            model.addAttribute("categories", categoryDtoList);
+            return "/admin/addCategory";
+        }
+
+        Message result = adminService.addCategory(subCategoryForm);
+        redirectAttributes.addFlashAttribute("message", result.getMessage());
+        redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
+        return "redirect:/admin/category/add";
+    }
+
+    // Set a form validator
+    @InitBinder
+    protected void initBinder(WebDataBinder dataBinder) {
+        Object target = dataBinder.getTarget();
+        if(target == null) {
+            return;
+        }
+
+        System.out.println("Target = " + target);
+        if(target.getClass() == SubCategoryForm.class) {
+            dataBinder.setValidator(categoryValidator);
+        }
     }
 }

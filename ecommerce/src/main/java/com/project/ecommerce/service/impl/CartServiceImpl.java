@@ -72,6 +72,7 @@ public class CartServiceImpl implements ICartService {
                 TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
                 try {
                     cartMapper.updateQuantity(existCartDto.getId(), newQuantity);
+                    //commit
                     transactionManager.commit(txStatus);
                 } catch (Exception ex) {
                     transactionManager.rollback(txStatus);
@@ -83,6 +84,7 @@ public class CartServiceImpl implements ICartService {
             TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
             try {
                 cartMapper.addProductToCart(newCartDto);
+                //commit
                 transactionManager.commit(txStatus);
             } catch (Exception ex) {
                 transactionManager.rollback(txStatus);
@@ -120,6 +122,7 @@ public class CartServiceImpl implements ICartService {
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
             cartMapper.updateQuantity(cartLineInfoForm.getId(), cartLineInfoForm.getBuyQuantity());
+            //commit
             transactionManager.commit(txStatus);
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
@@ -137,8 +140,9 @@ public class CartServiceImpl implements ICartService {
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
             cartMapper.removeProduct(id);
-            transactionManager.commit(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_03_I));
+            //commit
+            transactionManager.commit(txStatus);
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_02_E, ""));
@@ -158,6 +162,8 @@ public class CartServiceImpl implements ICartService {
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
             cartMapper.clearCart(customerId);
+            //commit
+            transactionManager.commit(txStatus);
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_02_E, ""));

@@ -22,6 +22,8 @@ public class Consts {
     public static final String MSG_03_E = "MSG_03_E"; //Set default address fail
     public static final String MSG_04_E = "MSG_04_E"; //Create order fail
     public static final String MSG_05_E = "MSG_05_E"; //Some products have changed quantity
+    public static final String MSG_06_E = "MSG_06_E"; //Add sub-category fail!
+    public static final String MSG_07_E = "MSG_07_E"; //Create product fail!
 
 
 //-----------------------------------------------------------------------------------------------
@@ -30,4 +32,6 @@ public class Consts {
     public static final String MSG_03_I = "MSG_03_I"; //Product has been removed successful!
     public static final String MSG_04_I = "MSG_04_I"; //Set default address successful!
     public static final String MSG_05_I = "MSG_05_I"; //Order {0} has been created successful!
+    public static final String MSG_06_I = "MSG_06_I"; //Add sub-category successful!
+    public static final String MSG_07_I = "MSG_07_I"; //Product has been created successful!
 }

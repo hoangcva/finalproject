@@ -1,6 +1,7 @@
 package com.project.ecommerce.form;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 public class ProductForm implements Serializable {
@@ -11,10 +12,29 @@ public class ProductForm implements Serializable {
     private String description;
     private String brand;
     private String SKU;
+
+    private String subjectAge;
+
     private String size;
     private String color;
-    private String subjectAge;
     private String material;
+
+    private String model;
+    private String type;
+    private String framePerSecond;
+    private String weight;
+    private String connectionPorts;
+
+    private String capacity;
+    private String power;
+    private String voltage;
+
+    private String author;
+    private LocalDate releaseDate;
+    private Integer numberOfPages;
+    private String language;
+    private String publisher;
+
     private Long quantity;
     private Long price;
     private Integer rating;
@@ -35,6 +55,114 @@ public class ProductForm implements Serializable {
     private UploadImageForm uploadImage3;
     private String delete2;
     private boolean isSubmitted = false;
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getFramePerSecond() {
+        return framePerSecond;
+    }
+
+    public void setFramePerSecond(String framePerSecond) {
+        this.framePerSecond = framePerSecond;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public String getConnectionPorts() {
+        return connectionPorts;
+    }
+
+    public void setConnectionPorts(String connectionPorts) {
+        this.connectionPorts = connectionPorts;
+    }
+
+    public String getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(String capacity) {
+        this.capacity = capacity;
+    }
+
+    public String getPower() {
+        return power;
+    }
+
+    public void setPower(String power) {
+        this.power = power;
+    }
+
+    public String getVoltage() {
+        return voltage;
+    }
+
+    public void setVoltage(String voltage) {
+        this.voltage = voltage;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public LocalDate getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public Integer getNumberOfPages() {
+        return numberOfPages;
+    }
+
+    public void setNumberOfPages(Integer numberOfPages) {
+        this.numberOfPages = numberOfPages;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public void setDelete2(String delete2) {
+        this.delete2 = delete2;
+    }
 
     public String getDelete2() {
         return delete2;

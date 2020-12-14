@@ -9,7 +9,7 @@
 <!--<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/vendor/addProduct.css}" href="../../vendor/addProduct.css">-->
 <h2>Choose Category</h2>
 
-<form th:action="@{/vendor/addProduct/detail}" th:object="${productForm}" th:method="POST">
+<form th:action="@{/vendor/product/add/detail}" th:object="${productForm}" th:method="POST">
     <div th:replace="fragments/template :: category-select-fragment"></div>
     <button th:type="submit" th:text="Submit"></button>
 </form>
@@ -21,7 +21,7 @@
         <input id="btn-search" type="submit" th:value="search">
     </form>
 </div>
-<!--<form th:action="@{/vendor/addProduct/detail}" th:object="${productForm}" th:method="POST">-->
+<!--<form th:action="@{/vendor/product/add/detail}" th:object="${productForm}" th:method="POST">-->
     <table th:if="${response ne null and response eq 'notEmpty'}">
         <tbody>
         <tr th:each="product,iterationStatus : ${productFormList}">

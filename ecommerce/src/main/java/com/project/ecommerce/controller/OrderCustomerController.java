@@ -47,26 +47,15 @@ public class OrderCustomerController {
                               Model model,
                               final RedirectAttributes redirectAttributes) {
         Message result = orderCustomerService.createOrder(orderForm, auth);
-//        if (result.isSuccess()) {
-            redirectAttributes.addFlashAttribute("message", result.getMessage());
-            redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
-            return "redirect:/customer/order/success";
-//        } else {
-//            redirectAttributes.addFlashAttribute("message", result.getMessage());
-//            redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
-//            return "redirect:/customer/order/unsuccessful";
-//        }
+        redirectAttributes.addFlashAttribute("message", result.getMessage());
+        redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
+        return "redirect:/customer/order/success";
     }
 
     @GetMapping("/customer/order/success")
     public String success(Model model) {
         return "/customer/order/success";
     }
-
-//    @GetMapping("/customer/order/unsuccessful")
-//    public String unsuccessful(Model model) {
-//        return "/customer/order/unsuccessful";
-//    }
 
     @GetMapping("/customer/order/history")
     public String viewOrderHistory(Model model, Authentication auth){

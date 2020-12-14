@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments/template :: head_input(~{::title})">
+	<title>Add category</title>
+</head>
+<body>
+<!-- Include _header.html -->
+<th:block th:include="/common/_header"></th:block>
+<div class="container">
+	<div class="row">
+		<div class="col-lg">
+			<h2>Admin Page</h2>
+		</div>
+	</div>
+	<div class="row">
+		<div th:replace="fragments/template :: admin-sidebarmenu"></div>
+		<div class="col-lg-9">
+			<div th:replace="fragments/template :: display-error-message"/>
+			<form th:object="${subCategoryForm}" th:action="@{/admin/category/add}" method="post">
+				<div class="form-row">
+					<div class="custom-select-div col-3 form-group">
+						<label for="category-select">Category</label>
+						<select class="custom-select" id="category-select" th:field="*{categoryId}">
+							<option value="0" selected disabled text="category"></option>
+							<option th:each="category : ${categories}"
+							        th:value="${category.id}"
+							        th:text="${category.name}"></option>
+						</select>
+					</div>
+					<div class="custom-select-div2 col-3 form-group">
+						<label for="sub-category-name-input">Sub category</label>
+						<input id="sub-category-name-input" type="text" class="form-control"
+						       placeholder="Enter sub-category" th:field="*{name}"
+						       th:classappend="${(#fields.hasErrors('name')?'is-invalid':'')
+                               + (!#fields.hasErrors('name') and subCategoryForm.isSubmitted() ? 'is-valid':'')}">
+						<label class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></label>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group">
+						<label for="sub-category-desc-input">Sub category</label>
+						<input id="sub-category-desc-input" type="text" class="form-control"
+						       placeholder="Enter description" th:field="*{description}"
+						       th:classappend="${(#fields.hasErrors('description')?'is-invalid':'')
+                               + (!#fields.hasErrors('description') and subCategoryForm.isSubmitted() ? 'is-valid':'')}">
+						<label class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></label>
+					</div>
+				</div>
+				<input type="submit" class="btn btn-primary" value="Add">
+			</form>
+		</div>
+	</div>
+</div>
+</body>
+</html>

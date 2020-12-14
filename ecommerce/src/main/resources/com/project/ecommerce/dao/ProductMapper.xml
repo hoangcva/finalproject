@@ -24,15 +24,20 @@
         <result property="origin" column="product_origin"/>
         <result property="vendorName" column="vendor_name"/>
         <result property="listPrice" column="list_price"/>
+        <result property="model" column="model"/>
+        <result property="type" column="type"/>
+        <result property="framePerSecond" column="framePerSecond"/>
+        <result property="weight" column="weight"/>
+        <result property="connectionPorts" column="connectionPorts"/>
+        <result property="voltage" column="voltage"/>
+        <result property="capacity" column="capacity"/>
+        <result property="power" column="power"/>
+        <result property="author" column="author"/>
+        <result property="releaseDate" column="releaseDate"/>
+        <result property="numberOfPages" column="numberOfPages"/>
+        <result property="language" column="language"/>
+        <result property="publisher" column="publisher"/>
     </resultMap>
-
-    <select id="getAllCategory" resultType="com.project.ecommerce.dto.CategoryDto" fetchSize="200">
-        SELECT * FROM category
-    </select>
-
-    <select id="getALLSubCategory" resultType="com.project.ecommerce.dto.SubCategoryDto" fetchSize="200">
-        SELECT * FROM sub_category
-    </select>
 
     <insert id="insertProduct" parameterType="com.project.ecommerce.dto.ProductDto" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO product
@@ -55,17 +60,13 @@
 
     <insert id="insertVendorProduct" parameterType="com.project.ecommerce.dto.VendorProductDto">
         INSERT INTO vendor_product
-        ( vendorId, productId, product_quantity, product_price, product_rating, product_size, product_color, product_subjectAge, product_material)
+        ( vendorId, productId, product_quantity, product_price, product_rating)
         VALUES
         (#{vendorId,jdbcType=BIGINT},
          #{productId,jdbcType=BIGINT},
          #{quantity,jdbcType=BIGINT},
          #{price,jdbcType=BIGINT},
-         #{rating,jdbcType=INTEGER},
-         #{size,jdbcType=VARCHAR},
-         #{color,jdbcType=VARCHAR},
-         #{subjectAge,jdbcType=VARCHAR},
-         #{material,jdbcType=VARCHAR});
+         #{rating,jdbcType=INTEGER});
     </insert>
 
     <select id="getAllProductByVendorId" resultMap="ProductResultMap" fetchSize="200">
@@ -95,11 +96,7 @@
     <update id="updateVendorProduct" parameterType="com.project.ecommerce.form.ProductForm">
         UPDATE vendor_product
         SET product_quantity = #{quantity},
-            product_price = #{price},
-            product_size = #{size},
-            product_color = #{color},
-            product_subjectAge = #{subjectAge},
-            product_material = #{material}
+            product_price = #{price}
         WHERE productId = #{productId};
     </update>
 
@@ -130,8 +127,7 @@
         SELECT * FROM
             (SELECT p.id, p.product_name, p.product_brand, p.product_description, p.product_origin, p.product_SKU,
                     p.categoryId, p.subCategoryId, p.createdBy, p.list_price,
-                    vp.vendorId, vp.product_quantity, vp.product_price, vp.product_rating, vp.product_size,
-                    vp.product_subjectAge, vp.product_material, vp.product_color
+                    vp.vendorId, vp.product_quantity, vp.product_price, vp.product_rating
              FROM  product p
                 INNER JOIN vendor_product vp
                     ON p.id = vp.productId
@@ -190,4 +186,66 @@
         WHERE productId = #{productId}
         AND vendorId = #{vendorId}
     </update>
+
+    <select id="getCountries" resultType="com.project.ecommerce.dto.CountriesDto">
+        SELECT * FROM countries ORDER BY name
+    </select>
+
+    <insert id="insertDetailCategory1" parameterType="com.project.ecommerce.form.ProductForm" useGeneratedKeys="true" keyColumn="id">
+        INSERT INTO category1_fashion_detail
+            (productid, size, material, color)
+        VALUES
+        (#{productId,jdbcType=BIGINT},
+         #{size,jdbcType=VARCHAR},
+         #{material,jdbcType=VARCHAR},
+         #{color,jdbcType=VARCHAR});
+    </insert>
+
+    <insert id="insertDetailCategory2Sub1" parameterType="com.project.ecommerce.form.ProductForm" useGeneratedKeys="true" keyColumn="id">
+        INSERT INTO category2_sub1_tivi_detail
+            (productid, model, type, framepersecond, weight, connectionports, size, voltage)
+        VALUES
+        (#{productId,jdbcType=BIGINT},
+         #{model,jdbcType=VARCHAR},
+         #{type,jdbcType=VARCHAR},
+         #{framepersecond,jdbcType=VARCHAR},
+         #{weight,jdbcType=VARCHAR},
+         #{connectionports,jdbcType=VARCHAR},
+         #{size,jdbcType=VARCHAR},
+         #{voltage,jdbcType=VARCHAR});
+    </insert>
+
+    <insert id="insertDetailCategory2Sub2" parameterType="com.project.ecommerce.form.ProductForm" useGeneratedKeys="true" keyColumn="id">
+        INSERT INTO category2_sub2_cooker_detail
+        (productId, model, capacity, power, voltage)
+        VALUES
+        (#{productId,jdbcType=BIGINT},
+         #{model,jdbcType=VARCHAR},
+         #{capacity,jdbcType=VARCHAR},
+         #{power,jdbcType=VARCHAR},
+         #{voltage,jdbcType=VARCHAR});
+    </insert>
+
+    <insert id="insertDetailCategory2Sub3" parameterType="com.project.ecommerce.form.ProductForm" useGeneratedKeys="true" keyColumn="id">
+        INSERT INTO category2_sub3_fridge_detail
+        (productId, model, voltage, capacity, size)
+        VALUES
+        (#{productId,jdbcType=BIGINT},
+         #{model,jdbcType=VARCHAR},
+         #{capacity,jdbcType=VARCHAR},
+         #{size,jdbcType=VARCHAR},
+         #{voltage,jdbcType=VARCHAR});
+    </insert>
+
+    <insert id="insertDetailCategory3" parameterType="com.project.ecommerce.form.ProductForm" useGeneratedKeys="true" keyColumn="id">
+        INSERT INTO category3_book_detail
+            (productId, author, releaseDate, numberOfPages, language, publisher)
+        VALUES
+        (#{productId,jdbcType=BIGINT},
+         #{author,jdbcType=VARCHAR},
+         #{releaseDate,jdbcType=DATE},
+         #{numberOfPages,jdbcType=INTEGER},
+         #{language,jdbcType=VARCHAR},
+         #{publisher,jdbcType=VARCHAR});
+    </insert>
 </mapper>

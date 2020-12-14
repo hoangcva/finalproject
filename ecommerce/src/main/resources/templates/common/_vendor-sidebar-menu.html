@@ -1,0 +1,24 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<div class="col-lg-3">
+	<div class="list-group">
+        <a th:href="@{/vendor}" class="list-group-item list-group-item-action active">
+	        Vendor Page
+        </a>
+		<a id="add-product" th:href="@{/vendor/showCategory}"
+		   class="list-group-item list-group-item-action">
+			Add product
+		</a>
+		<a id="view-product-list" th:href="@{/vendor/listVendorProduct}"
+		   class="list-group-item list-group-item-action">
+			Show all vendor product
+		</a>
+		<a id="edit-profile" th:href="@{/user/update}"
+		   class="list-group-item list-group-item-action">
+			Update profile
+		</a>
+		<!--			<a id="show-all-vendor-product" th:href="@{/showProducts}" class="list-group-item list-group-item-action">Show all product</a>-->
+	</div>
+</div>
+</html>
