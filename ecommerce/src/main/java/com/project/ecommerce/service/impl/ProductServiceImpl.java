@@ -237,9 +237,47 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public ProductForm getProductDetail(Long productId, Long vendorId) {
         ProductForm productForm = productMapper.getProductDetail(productId, vendorId);
+        ProductForm productDetail = productMapper.getProductDetailBaseOnCategory(productForm);
+        productForm = setDetail(productDetail, productForm);
         List<ProductImageForm> productImageFormList = getProductImage(productForm.getProductId());
         productForm.setProductImageFormList(productImageFormList);
-        return productForm;
+        return productForm ;
+    }
+
+    private ProductForm setDetail(ProductForm source, ProductForm target) {
+        if (target.getCategoryId() == 1) {
+            target.setSize(source.getSize());
+            target.setMaterial(source.getMaterial());
+            target.setColor(source.getColor());
+        } else if (target.getCategoryId() == 2) {
+            if (target.getSubCategoryId() == 1) {
+                target.setModel(source.getModel());
+                target.setType(source.getType());
+                target.setFramePerSecond(source.getFramePerSecond());
+                target.setWeight(source.getWeight());
+                target.setSize(source.getSize());
+                target.setConnectionPorts(source.getConnectionPorts());
+                target.setVoltage(source.getVoltage());
+            } else if (target.getSubCategoryId() == 2) {
+                target.setModel(source.getModel());
+                target.setCapacity(source.getCapacity());
+                target.setPower(source.getPower());
+                target.setVoltage(source.getVoltage());
+            } else if (target.getSubCategoryId() == 3) {
+                target.setModel(source.getModel());
+                target.setCapacity(source.getCapacity());
+                target.setPower(source.getPower());
+                target.setVoltage(source.getVoltage());
+                target.setSize(source.getSize());
+            }
+        } else if (target.getCategoryId() == 3) {
+            target.setAuthor(source.getAuthor());
+            target.setReleaseDate(source.getReleaseDate());
+            target.setNumberOfPages(source.getNumberOfPages());
+            target.setLanguage(source.getLanguage());
+            target.setPublisher(source.getPublisher());
+        }
+        return target;
     }
 
     @Override

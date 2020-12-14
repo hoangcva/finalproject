@@ -46,4 +46,6 @@ public interface ProductMapper {
     boolean insertDetailCategory2Sub2(ProductForm productForm);
     boolean insertDetailCategory2Sub3(ProductForm productForm);
     boolean insertDetailCategory3(ProductForm productForm);
+
+    ProductForm getProductDetailBaseOnCategory(ProductForm productForm);
 }

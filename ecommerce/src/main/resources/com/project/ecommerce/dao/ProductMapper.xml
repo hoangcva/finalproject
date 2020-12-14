@@ -10,7 +10,7 @@
         <result property="description" column="product_description"/>
         <result property="brand" column="product_brand"/>
         <result property="SKU" column="product_SKU"/>
-        <result property="size" column="product_size"/>
+        <result property="size" column="size"/>
         <result property="color" column="product_color"/>
         <result property="subjectAge" column="product_subjectAge"/>
         <result property="material" column="product_material"/>
@@ -143,8 +143,23 @@
              WHERE p.id = #{productId}
                AND vp.vendorId = #{vendorId} ) t1
         LEFT JOIN
-             (SELECT vendor_name, id FROM vendor_info) t2
-             ON t1.vendorId = t2.id;
+                (SELECT vendor_name, id FROM vendor_info) t2
+                 ON t1.vendorId = t2.id;
+#         LEFT JOIN
+#                 (SELECT size, material, color, productId FROM category1_fashion_detail) c1
+#                 ON c1.productId = t1.id
+#         LEFT JOIN
+#                 (SELECT model, type, framePerSecond, weight, size, voltage, productId FROM category2_sub1_tivi_detail) c2
+#                 ON c2.productId = t1.id
+#         LEFT JOIN
+#                 (SELECT productId, model, capacity, power, voltage FROM category2_sub2_cooker_detail) c3
+#                 ON c3.productId = t1.id
+#         LEFT JOIN
+#                 (SELECT size, model, voltage, capacity, productId FROM category2_sub3_fridge_detail) c4
+#                 ON c4.productId = t1.id
+#         LEFT JOIN
+#                 (SELECT author, releaseDate, numberOfPages, language, publisher, productId FROM category3_book_detail) c5
+#                 ON c5.productId = t1.id
     </select>
 
     <select id="getVendorListByProduct" resultMap="VendorResultMap" fetchSize="200">
@@ -228,7 +243,7 @@
 
     <insert id="insertDetailCategory2Sub3" parameterType="com.project.ecommerce.form.ProductForm" useGeneratedKeys="true" keyColumn="id">
         INSERT INTO category2_sub3_fridge_detail
-        (productId, model, voltage, capacity, size)
+        (productId, model, capacity, size, voltage)
         VALUES
         (#{productId,jdbcType=BIGINT},
          #{model,jdbcType=VARCHAR},
@@ -248,4 +263,23 @@
          #{language,jdbcType=VARCHAR},
          #{publisher,jdbcType=VARCHAR});
     </insert>
+
+    <select id="getProductDetailBaseOnCategory" resultMap="ProductResultMap" parameterType="com.project.ecommerce.form.ProductForm">
+        <if test="categoryId == 1">
+            SELECT * FROM category1_fashion_detail
+        </if>
+        <if test="categoryId == 2 and subCategoryId == 1">
+            SELECT * FROM category2_sub1_tivi_detail
+        </if>
+        <if test="categoryId == 2 and subCategoryId == 2">
+            SELECT * FROM category2_sub2_cooker_detail
+        </if>
+        <if test="categoryId == 2 and subCategoryId == 3">
+            SELECT * FROM category2_sub3_fridge_detail
+        </if>
+        <if test="categoryId == 3">
+            SELECT * FROM category3_book_detail
+        </if>
+        WHERE productId = #{productId}
+    </select>
 </mapper>

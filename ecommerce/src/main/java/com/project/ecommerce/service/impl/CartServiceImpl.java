@@ -11,6 +11,7 @@ import com.project.ecommerce.form.ProductForm;
 import com.project.ecommerce.service.ICartService;
 import com.project.ecommerce.util.MessageAccessor;
 import com.project.ecommerce.util.Message;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.security.core.Authentication;
@@ -44,6 +45,7 @@ public class CartServiceImpl implements ICartService {
         CartInfoForm cartInfoForm = new CartInfoForm();
         for (CartDto cartLine : cartDtoList) {
             ProductForm productForm = productMapper.getProductDetail(cartLine.getProductId(), cartLine.getVendorId());
+            ProductForm productDetail = productMapper.getProductDetailBaseOnCategory(productForm);
             cartInfoForm.addCartLine(cartLine.getId(), productForm, cartLine.getBuyQuantity());
         }
         return cartInfoForm;
