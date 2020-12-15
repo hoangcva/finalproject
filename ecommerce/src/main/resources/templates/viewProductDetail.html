@@ -1,81 +1,133 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/template :: head_input(~{::title})">
-    <title th:text="${productForm.productName}"></title>
+	<title th:text="${productForm.productName}"></title>
 </head>
 <body>
 <th:block th:include="/common/_header"></th:block>
-<script type="text/javascript" th:src="@{/js/customer/viewProductDetail.js}"></script>
-<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/customer/viewProductDetail.css}" href="../../css/customer/viewProductDetail.css">
-<h2 th:text="${productForm.productName}"></h2>
-
-<form th:action="@{/viewProductDetail}" th:object="${productForm}" th:method="POST">
-    <div>
-        <label>Category:</label>
-        <span th:type="text" th:readonly="true" th:field="*{categoryId}"></span>
-    </div>
-    <div>
-        <label>SubCategory:</label>
-        <span th:type="text" th:readonly="true" th:field="*{subCategoryId}"></span>
-    </div>
-    <div>
-        <label>Product name:</label>
-        <span type="text" name="productName" th:field="*{productName}"></span>
-    </div>
-    <div>
-        <label>Brand:</label>
-        <span type="text" name="brand" th:field="*{brand}"></span>
-    </div>
-    <div>
-        <label>SKU:</label>
-        <span type="text" name="SKU" th:field="*{SKU}"></span>
-    </div>
-    <div>
-        <label>Size:</label>
-        <span type="text" name="size" th:field="*{size}"></span>
-    </div>
-    <div>
-        <label>Color:</label>
-        <span type="text" name="color" th:field="*{color}"></span>
-    </div>
-    <div>
-        <label>Age:</label>
-        <span type="text" name="subjectAge" th:field="*{subjectAge}"></span>
-    </div>
-    <div>
-        <label>Material:</label>
-        <span type="text" name="material" th:field="*{material}"></span>
-    </div>
-    <div>
-        <label>price:</label>
-        <span type="text" name="price" th:field="*{price}"></span><span id="%"></span>
-        <span type="text" name="listPrice" th:field="*{listPrice}"></span>
-    </div>
-    <div>
-        <label>quantity:</label>
-        <span type="text"  th:text="*{quantity}"></span>
-    </div>
-    <div>
-        <label>Description:</label>
-        <span type="text" name="description" th:text="*{description}"></span><br>
-    </div>
-    <table>
-        <tbody>
-        <tr th:each="vendor: ${vendorList}">
-            <td>
-                <div th:unless="${vendor.vendorId eq vendorId}">
-                    <a th:href="@{/viewProductDetail(productId = ${vendor.productId}, vendorId = ${vendor.vendorId})}" th:text="${vendor.fullName}"></a>
-                    <span th:value="${vendor.price}"></span>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-8 container">
+            <form th:action="@{/viewProductDetail}" th:object="${productForm}" th:method="POST">
+                <div class="row">
+                    <div class="col-md-7">
+                        <h3 class="d-block" th:text="${productForm.productName}"></h3>
+                    </div>
+                    <div class="col-md-5">
+                        <div id="carouselExampleIndicators" class="carousel slide d-flex" data-ride="carousel" style="height: 400px;">
+                            <ol class="carousel-indicators">
+                                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"
+                                    th:unless="${#lists.size(productForm.productImageFormList) eq 0}"></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="1"
+                                    th:unless="${#lists.size(productForm.productImageFormList) < 2}"></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="2"
+                                    th:unless="${#lists.size(productForm.productImageFormList) < 3}"></li>
+                            </ol>
+                            <div class="carousel-inner d-flex align-items-center">
+                                <div class="carousel-item active" th:unless="${#lists.size(productForm.productImageFormList) eq 0}">
+                                    <img class="d-block img-fluid" alt="First slide"
+                                         th:src="@{'data:image/jpeg;base64,'+${productForm.productImageFormList[0].generateBase64Image()}}"
+                                         th:unless="${#lists.size(productForm.productImageFormList) eq 0}">
+                                </div>
+                                <div class="carousel-item" th:unless="${#lists.size(productForm.productImageFormList) < 2}">
+                                    <img class="d-block img-fluid" alt="Second slide"
+                                         th:src="@{'data:image/jpeg;base64,'+${productForm.productImageFormList[1].generateBase64Image()}}"
+                                         th:unless="${#lists.size(productForm.productImageFormList) < 2}">
+                                </div>
+                                <div class="carousel-item" th:unless="${#lists.size(productForm.productImageFormList) < 3}">
+                                    <img class="d-block img-fluid" alt="Third slide"
+                                         th:src="@{'data:image/jpeg;base64,'+${productForm.productImageFormList[2].generateBase64Image()}}"
+                                         th:unless="${#lists.size(productForm.productImageFormList) < 3}">
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <div th:replace="fragments/template :: change-quantity(0, ${productForm.quantity})"></div>
-    <input type="hidden" name="vendorId" id="vendorId" th:value="*{vendorId}">
-    <input type="hidden" name="productId" id="productId" th:value="*{productId}">
-    <input type="hidden" name="quantity" id="quantity" th:value="*{quantity}">
-    <input id="btn-submit" type="button" value="Buy" onclick="addProductToCart()">
-</form>
+                <div class="row">
+                    <div>
+                        <label>Category:</label>
+                        <span th:type="text" th:readonly="true" th:field="*{categoryId}"></span>
+                    </div>
+                    <div>
+                        <label>SubCategory:</label>
+                        <span th:type="text" th:readonly="true" th:field="*{subCategoryId}"></span>
+                    </div>
+                    <div>
+                        <label>Product name:</label>
+                        <span type="text" name="productName" th:field="*{productName}"></span>
+                    </div>
+                    <div>
+                        <label>Brand:</label>
+                        <span type="text" name="brand" th:field="*{brand}"></span>
+                    </div>
+                    <div>
+                        <label>SKU:</label>
+                        <span type="text" name="SKU" th:field="*{SKU}"></span>
+                    </div>
+                    <div>
+                        <label>Size:</label>
+                        <span type="text" name="size" th:field="*{size}"></span>
+                    </div>
+                    <div>
+                        <label>Color:</label>
+                        <span type="text" name="color" th:field="*{color}"></span>
+                    </div>
+                    <div>
+                        <label>Material:</label>
+                        <span type="text" name="material" th:field="*{material}"></span>
+                    </div>
+                    <div>
+                        <label>price:</label>
+                        <span type="text" name="price" th:field="*{price}"></span><span id="%"></span>
+                        <span type="text" name="listPrice" th:field="*{listPrice}"></span>
+                    </div>
+                    <div>
+                        <label>quantity:</label>
+                        <span type="text" th:text="*{quantity}"></span>
+                    </div>
+                    <div>
+                        <label>Description:</label>
+                        <span type="text" name="description" th:text="*{description}"></span><br>
+                    </div>
+                    <table>
+                        <tbody>
+                        <tr th:each="vendor: ${vendorList}">
+                            <td>
+                                <div th:unless="${vendor.vendorId eq vendorId}">
+                                    <a th:href="@{/viewProductDetail(productId = ${vendor.productId}, vendorId = ${vendor.vendorId})}"
+                                       th:text="${vendor.fullName}"></a>
+                                    <span th:value="${vendor.price}"></span>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div th:replace="fragments/template :: change-quantity(0, ${productForm.quantity})"></div>
+                <input type="hidden" name="vendorId" id="vendorId" th:value="*{vendorId}">
+                <input type="hidden" name="productId" id="productId" th:value="*{productId}">
+                <input type="hidden" name="quantity" id="quantity" th:value="*{quantity}">
+                <input id="btn-submit" type="button" value="Buy" onclick="addProductToCart()">
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
 </body>
+<script type="text/javascript" th:src="@{/js/customer/viewProductDetail.js}"></script>
+<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/customer/viewProductDetail.css}"
+      href="../../css/customer/viewProductDetail.css">
 </html>

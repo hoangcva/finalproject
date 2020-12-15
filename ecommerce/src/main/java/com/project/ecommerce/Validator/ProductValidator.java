@@ -66,6 +66,7 @@ public class ProductValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "price", "NotEmpty.productForm.price");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "listPrice", "NotEmpty.productForm.listPrice");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "origin", "NotEmpty.productForm.origin");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "NotEmpty.productForm.description");
 
         if (!errors.hasFieldErrors("listPrice")) {
             if (productForm.getListPrice() < productForm.getPrice()) {

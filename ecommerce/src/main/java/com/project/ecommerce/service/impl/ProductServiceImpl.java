@@ -154,6 +154,8 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public ProductForm getVendorProduct(Long productId) {
         ProductForm productForm = productMapper.getVendorProduct(productId);
+        ProductForm productDetail = productMapper.getProductDetailBaseOnCategory(productForm);
+        productForm = setDetail(productDetail, productForm);
         List<ProductImageForm> productImageFormList = getProductImage(productForm.getProductId());
         productForm.setProductImageFormList(productImageFormList);
         return productForm;

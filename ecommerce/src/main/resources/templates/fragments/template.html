@@ -8,6 +8,25 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
 <!--    <script type="text/javascript" src="dist/js/tabulator.min.js"></script>-->
+    <script src='https://cdn.tiny.cloud/1/wowceb2jqq0dguc56nz2kvwllta9sriwgsbi1m50l3c7ah9v/tinymce/5/tinymce.min.js' referrerpolicy="origin">
+    </script>
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            height: 500,
+            menubar: false,
+            plugins: ['a11ychecker advcode casechange formatpainter linkchecker autolink paste visualblocks insertdatetime help ',
+                    'lists checklist media image mediaembed pageembed permanentpen powerpaste advtable tinymcespellchecker'],
+            toolbar: 'undo redo | formatselect fontsizeselect| ' +
+                    'bold italic backcolor | alignleft aligncenter ' +
+                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                    'removeformat | link image | help',
+            toolbar_mode: 'floating',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
+        });
+    </script>
+
     <script type="text/javascript" th:src="@{/js/common/const.js}"></script>
     <script type="text/javascript" th:src="@{/js/common/common.js}"></script>
 

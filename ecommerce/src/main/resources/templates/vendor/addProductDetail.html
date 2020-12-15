@@ -278,9 +278,21 @@
 					</div>
 				</div>
 				<hr class="my-4">
-				<div class="image-content container d-inline-flex flex-wrap">
+				<div class="container">
+					<div class="form-group">
+						<label for="description">Description:</label>
+						<p th:classappend="${(#fields.hasErrors('description')?'border border-danger':'')
+	                               + (!#fields.hasErrors('description') and productForm.isSubmitted() ? 'border border-success':'')}">
+							<textarea class="form-control" id="description" name="description"></textarea>
+						</p>
+						<label class="invalid-feedback d-block" th:if="${#fields.hasErrors('description')}"
+						       th:errors="*{description}"></label>
+					</div>
+				</div>
+				<hr class="my-4">
+				<div class="image-content container d-inline-flex flex-wrap flex-row">
 					<label for="img-manager-section">Add images:</label>
-					<div id="img-manager-section">
+					<div id="img-manager-section" class="d-flex flex-row justify-content-around">
 						<div class="img-manager">
 							<div style="width: 100px; height: 100px">
 								<img class="add-img-btn" id="add-img-btn1" th:src="@{/images/add-image.png}">

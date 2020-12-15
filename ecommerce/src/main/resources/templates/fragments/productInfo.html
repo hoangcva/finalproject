@@ -2,15 +2,258 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+	<meta charset="UTF-8">
+	<title>Title</title>
 </head>
 <body>
-    <div th:fragment="edit-product-info(productForm)" class="edit-product-info">
-        <div id="decrease-btn">-</div>
-        <input type="text" class="buy-quantity" name="buy-quantity" th:value="${buyQuantity}">
-        <div id="increase-btn">+</div>
-        <span id="over-quantity" class="hide d-none" th:text="'You can\'t buy more than ' + ${quantity} + ' products'"></span>
-    </div>
+<div th:fragment="edit-product-info(productForm)" class="edit-product-info">
+	<div id="decrease-btn">-</div>
+	<input type="text" class="buy-quantity" name="buy-quantity" th:value="${buyQuantity}">
+	<div id="increase-btn">+</div>
+	<span id="over-quantity" class="hide d-none"
+	      th:text="'You can\'t buy more than ' + ${quantity} + ' products'"></span>
+</div>
+
+<div th:fragment="edit-info-category1" class="form-row" th:if="*{categoryId eq 1}">
+	<div class="form-group col">
+		<label for="size">Size:</label>
+		<input class="form-control" type="text" id="size" name="size"
+		       placeholder="Enter size" th:field="*{size}"
+		       th:classappend="${(#fields.hasErrors('size')?'is-invalid':'')
+                                + (!#fields.hasErrors('size') and productForm.isSubmitted() ? 'is-valid':'')}">
+		<label class="invalid-feedback" th:if="${#fields.hasErrors('size')}"
+		       th:errors="*{size}"></label>
+	</div>
+	<div class="form-group col">
+		<label for="color">Color:</label>
+		<input class="form-control" type="text" id="color" name="color"
+		       placeholder="Enter color" th:field="*{color}"
+		       th:classappend="${(#fields.hasErrors('color')?'is-invalid':'')
+                                + (!#fields.hasErrors('color') and productForm.isSubmitted() ? 'is-valid':'')}">
+		<label class="invalid-feedback" th:if="${#fields.hasErrors('color')}"
+		       th:errors="*{color}"></label>
+	</div>
+	<div class="form-group col">
+		<label for="material">Material:</label>
+		<input class="form-control" type="text" id="material" name="material"
+		       placeholder="Enter material" th:field="*{material}"
+		       th:classappend="${(#fields.hasErrors('material')?'is-invalid':'')
+                                + (!#fields.hasErrors('material') and productForm.isSubmitted() ? 'is-valid':'')}">
+		<label class="invalid-feedback" th:if="${#fields.hasErrors('material')}"
+		       th:errors="*{material}"></label>
+	</div>
+	<!--						<div class="form-group col" th:if="*{categoryId eq 1 or categoryId eq 3}">-->
+	<!--							<label for="subjectAge">Age:</label>-->
+	<!--							<input class="form-control" type="text" id="subjectAge" name="subjectAge"-->
+	<!--							       th:field="*{subjectAge}">-->
+	<!--							&lt;!&ndash;            <label th:if="${#fields.hasErrors('subjectAge')}" th:errors="*{subjectAge}"></label>&ndash;&gt;-->
+	<!--						</div>-->
+
+</div>
+
+<div th:fragment="edit-info-category2" class="form-row" th:if="*{categoryId eq 2}">
+	<div class="form-group col" th:if="*{subCategoryId eq 1 or subCategoryId eq 3}">
+		<label for="size3">Size:</label>
+		<input class="form-control" type="text" id="size3" name="size3"
+		       placeholder="Enter size" th:field="*{size}"
+		       th:classappend="${(#fields.hasErrors('size')?'is-invalid':'')
+                                + (!#fields.hasErrors('size') and productForm.isSubmitted() ? 'is-valid':'')}">
+		<label class="invalid-feedback" th:if="${#fields.hasErrors('size')}"
+		       th:errors="*{size}"></label>
+	</div>
+	<div class="form-group col">
+		<label for="model">Model:</label>
+		<input class="form-control" type="text" id="model" name="model"
+		       placeholder="Enter model" th:field="*{model}"
+		       th:classappend="${(#fields.hasErrors('model')?'is-invalid':'')
+                                + (!#fields.hasErrors('model') and productForm.isSubmitted() ? 'is-valid':'')}">
+		<label class="invalid-feedback" th:if="${#fields.hasErrors('model')}"
+		       th:errors="*{model}"></label>
+	</div>
+	<div class="form-group col" th:if="*{subCategoryId eq 1}">
+		<label for="type">Type:</label>
+		<input class="form-control" type="text" id="type" name="type"
+		       placeholder="Enter type" th:field="*{type}"
+		       th:classappend="${(#fields.hasErrors('type')?'is-invalid':'')
+                                + (!#fields.hasErrors('type') and productForm.isSubmitted() ? 'is-valid':'')}">
+		<label class="invalid-feedback" th:if="${#fields.hasErrors('type')}"
+		       th:errors="*{type}"></label>
+	</div>
+	<div class="form-group col" th:if="*{subCategoryId eq 1}">
+		<label for="framePerSecond">Frame/second:</label>
+		<input class="form-control" type="text" id="framePerSecond" name="framePerSecond"
+		       placeholder="Enter frame/second" th:field="*{framePerSecond}"
+		       th:classappend="${(#fields.hasErrors('framePerSecond')?'is-invalid':'')
+                                + (!#fields.hasErrors('framePerSecond') and productForm.isSubmitted() ? 'is-valid':'')}">
+		<label class="invalid-feedback" th:if="${#fields.hasErrors('framePerSecond')}"
+		       th:errors="*{framePerSecond}"></label>
+	</div>
+	<div class="form-group col" th:if="*{subCategoryId eq 1}">
+		<label for="weight">Weight:</label>
+		<input class="form-control" type="text" id="weight" name="weight"
+		       placeholder="Enter weight" th:field="*{weight}"
+		       th:classappend="${(#fields.hasErrors('weight')?'is-invalid':'')
+                                + (!#fields.hasErrors('weight') and productForm.isSubmitted() ? 'is-valid':'')}">
+		<label class="invalid-feedback" th:if="${#fields.hasErrors('weight')}"
+		       th:errors="*{weight}"></label>
+	</div>
+	<div class="form-group col" th:if="*{subCategoryId eq 1}">
+		<label for="connectionPorts">Connection ports:</label>
+		<input class="form-control" type="text" id="connectionPorts" name="connectionPorts"
+		       placeholder="Enter connection ports" th:field="*{connectionPorts}"
+		       th:classappend="${(#fields.hasErrors('connectionPorts')?'is-invalid':'')
+                                + (!#fields.hasErrors('connectionPorts') and productForm.isSubmitted() ? 'is-valid':'')}">
+		<label class="invalid-feedback" th:if="${#fields.hasErrors('connectionPorts')}"
+		       th:errors="*{connectionPorts}"></label>
+	</div>
+	<div class="form-group col">
+		<label for="voltage">Voltage:</label>
+		<input class="form-control" type="text" id="voltage" name="voltage"
+		       placeholder="Enter voltage" th:field="*{voltage}"
+		       th:classappend="${(#fields.hasErrors('voltage')?'is-invalid':'')
+                                + (!#fields.hasErrors('voltage') and productForm.isSubmitted() ? 'is-valid':'')}">
+		<label class="invalid-feedback" th:if="${#fields.hasErrors('voltage')}"
+		       th:errors="*{voltage}"></label>
+	</div>
+	<div class="form-group col" th:if="*{subCategoryId eq 2 or subCategoryId eq 3}">
+		<label for="capacity">Capacity:</label>
+		<input class="form-control" type="text" id="capacity" name="capacity"
+		       placeholder="Enter capacity" th:field="*{capacity}"
+		       th:classappend="${(#fields.hasErrors('capacity')?'is-invalid':'')
+                                + (!#fields.hasErrors('capacity') and productForm.isSubmitted() ? 'is-valid':'')}">
+		<label class="invalid-feedback" th:if="${#fields.hasErrors('capacity')}"
+		       th:errors="*{capacity}"></label>
+	</div>
+	<div class="form-group col" th:if="*{subCategoryId eq 2}">
+		<label for="power">Power:</label>
+		<input class="form-control" type="text" id="power" name="power"
+		       placeholder="Enter power" th:field="*{power}"
+		       th:classappend="${(#fields.hasErrors('power')?'is-invalid':'')
+                                + (!#fields.hasErrors('power') and productForm.isSubmitted() ? 'is-valid':'')}">
+		<label class="invalid-feedback" th:if="${#fields.hasErrors('power')}"
+		       th:errors="*{power}"></label>
+	</div>
+</div>
+
+<div th:fragment="edit-info-category3" class="form-row" th:if="*{categoryId eq 3}">
+	<div class="form-group col">
+		<label for="author">Author:</label>
+		<input class="form-control" type="text" id="author" name="author"
+		       placeholder="Enter author" th:field="*{author}"
+		       th:classappend="${(#fields.hasErrors('author')?'is-invalid':'')
+                                + (!#fields.hasErrors('author') and productForm.isSubmitted() ? 'is-valid':'')}">
+		<label class="invalid-feedback" th:if="${#fields.hasErrors('author')}"
+		       th:errors="*{author}"></label>
+	</div>
+	<div class="form-group col">
+		<label for="releaseDate">Release date:</label>
+		<input class="form-control" type="text" id="releaseDate" name="releaseDate"
+		       placeholder="Enter release date" th:field="*{releaseDate}"
+		       th:classappend="${(#fields.hasErrors('releaseDate')?'is-invalid':'')
+                                + (!#fields.hasErrors('releaseDate') and productForm.isSubmitted() ? 'is-valid':'')}">
+		<label class="invalid-feedback" th:if="${#fields.hasErrors('releaseDate')}"
+		       th:errors="*{releaseDate}"></label>
+	</div>
+	<div class="form-group col">
+		<label for="numberOfPages">Number of pages:</label>
+		<input class="form-control" type="number" id="numberOfPages" name="numberOfPages"
+		       placeholder="Enter number of pages" th:field="*{numberOfPages}"
+		       th:classappend="${(#fields.hasErrors('numberOfPages')?'is-invalid':'')
+                                + (!#fields.hasErrors('numberOfPages') and productForm.isSubmitted() ? 'is-valid':'')}">
+		<label class="invalid-feedback" th:if="${#fields.hasErrors('numberOfPages')}"
+		       th:errors="*{numberOfPages}"></label>
+	</div>
+	<div class="form-group col">
+		<label for="language">Language:</label>
+		<input class="form-control" type="text" id="language" name="language"
+		       placeholder="Enter language" th:field="*{language}"
+		       th:classappend="${(#fields.hasErrors('language')?'is-invalid':'')
+                                + (!#fields.hasErrors('language') and productForm.isSubmitted() ? 'is-valid':'')}">
+		<label class="invalid-feedback" th:if="${#fields.hasErrors('language')}"
+		       th:errors="*{language}"></label>
+	</div>
+	<div class="form-group col">
+		<label for="publisher">Publisher:</label>
+		<input class="form-control" type="text" id="publisher" name="publisher"
+		       placeholder="Enter publisher" th:field="*{publisher}"
+		       th:classappend="${(#fields.hasErrors('publisher')?'is-invalid':'')
+                                + (!#fields.hasErrors('publisher') and productForm.isSubmitted() ? 'is-valid':'')}">
+		<label class="invalid-feedback" th:if="${#fields.hasErrors('publisher')}"
+		       th:errors="*{publisher}"></label>
+	</div>
+</div>
+
+<div th:fragment="edit-info-extra-content" class="extra-content container">
+	<div class="form-row">
+		<div class="form-group col-3">
+			<label for="SKU">SKU:</label>
+			<input class="form-control" type="text" id="SKU" name="SKU" th:field="*{SKU}"
+			       th:classappend="${(#fields.hasErrors('SKU')?'is-invalid':'')
+                               + (!#fields.hasErrors('SKU') and productForm.isSubmitted() ? 'is-valid':'')}">
+			<label class="invalid-feedback" th:if="${#fields.hasErrors('SKU')}" th:errors="*{SKU}"></label>
+		</div>
+	</div>
+	<div class="form-row">
+		<div class="form-group col">
+			<label for="listPrice">List price:</label>
+			<input class="form-control" type="number" id="listPrice" name="listPrice" th:field="*{listPrice}"
+			       th:classappend="${(#fields.hasErrors('listPrice')?'is-invalid':'')
+                               + (!#fields.hasErrors('listPrice') and productForm.isSubmitted() ? 'is-valid':'')}">
+			<label class="invalid-feedback" th:if="${#fields.hasErrors('listPrice')}"
+			       th:errors="*{listPrice}"></label>
+		</div>
+		<div class="form-group col">
+			<label for="price">price:</label>
+			<input class="form-control" type="number" id="price" name="price" th:field="*{price}"
+			       th:classappend="${(#fields.hasErrors('price')?'is-invalid':'')
+                               + (!#fields.hasErrors('price') and productForm.isSubmitted() ? 'is-valid':'')}">
+			<label class="invalid-feedback" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></label>
+		</div>
+	</div>
+	<div class="form-row">
+		<div class="form-group col-3">
+			<label for="quantity">quantity:</label>
+			<input class="form-control" type="number" id="quantity" name="quantity" th:field="*{quantity}"
+			       th:classappend="${(#fields.hasErrors('quantity')?'is-invalid':'')
+                               + (!#fields.hasErrors('quantity') and productForm.isSubmitted() ? 'is-valid':'')}">
+			<label class="invalid-feedback" th:if="${#fields.hasErrors('quantity')}"
+			       th:errors="*{quantity}"></label>
+		</div>
+	</div>
+</div>
+
+<div th:fragment="edit-info-description" class="container">
+	<div class="form-group">
+		<label for="description"></label>
+		<textarea class="form-control" id="description" name="description" th:text="*{description}"
+		          th:classappend="${(#fields.hasErrors('description')?'is-invalid':'')
+                               + (!#fields.hasErrors('description') and productForm.isSubmitted() ? 'is-valid':'')}"></textarea>
+		<label class="invalid-feedback" th:if="${#fields.hasErrors('description')}"
+		       th:errors="*{description}"></label>
+	</div>
+</div>
+
+
+<div th:fragment="view-product-list" class="view-product-list card inner">
+	<div class="card-img-top">
+		<img class="img-thumbnail"
+		     th:src="@{'data:image/jpeg;base64,'+${product.productImageFormList[0].generateBase64Image()}}"
+		     th:unless="${#lists.size(product.productImageFormList) eq 0} "/>
+		<img class="img-thumbnail" th:src="@{/images/no_product_image.jpg}"
+		     src="../../static/images/no_product_image.jpg"
+		     th:if="${#lists.size(product.productImageFormList) eq 0} "/>
+	</div>
+	<div class="card-body">
+		<p class="card-text text-truncate" th:text="${product.productName}">Product name</p>
+		<p class="card-text">
+			<span class="money price" th:text="${product.price}"></span>
+			<span class="money discount"
+			      th:text="*{(product.price - product.listPrice)*100/product.listPrice + '%'} "></span>
+			<span class="money list-price" th:text="${product.listPrice}">list price</span>
+		</p>
+	</div>
+</div>
+
+
 </body>
 </html>

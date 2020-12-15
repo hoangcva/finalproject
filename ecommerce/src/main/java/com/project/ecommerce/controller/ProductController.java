@@ -163,7 +163,7 @@ public class ProductController {
     public String getAllProductByVendorId(Model model, Authentication auth) {
         Long vendorId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
         List<ProductForm> productFormList = productService.getAllProductByVendorId(vendorId);
-        model.addAttribute("productForms", productFormList);
+        model.addAttribute("productFormList", productFormList);
         return "vendor/listVendorProduct";
     }
 
