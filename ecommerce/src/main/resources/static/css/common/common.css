@@ -109,3 +109,18 @@ body.loading .overlay{
 /*    overflow: visible;*/
 /*}*/
 
+.btn-plus, btn-minus {
+    width : 50px;
+}
+input.buy-quantity {
+    text-align: center;
+    border-color: #DDDDDD;
+}
+
+body {
+    background-color: lightblue;
+}
+
+.container {
+    background-color: white;
+}

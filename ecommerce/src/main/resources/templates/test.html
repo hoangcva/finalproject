@@ -4,25 +4,35 @@
     <title>TEST</title>
 </head>
 <body>
-    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-        <div class="hovereffect">
-            <img class="img-responsive" th:src="@{/images/p14.jpg}" alt="">
-            <div class="overlay">
-                <h2>Effect 10</h2>
-                <p class="icon-links">
-                    <a href="#">
-                        <span class="fa fa-twitter">Twitter</span>
-                    </a>
-                    <a href="#">
-                        <span class="fa fa-facebook">Facebook</span>
-                    </a>
-                    <a href="#">
-                        <span class="fa fa-instagram">instagram</span>
-                    </a>
-                </p>
-            </div>
-        </div>
-    </div>
+<!--    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">-->
+<!--        <div class="hovereffect">-->
+<!--            <img class="img-responsive" th:src="@{/images/p14.jpg}" alt="">-->
+<!--            <div class="overlay">-->
+<!--                <h2>Effect 10</h2>-->
+<!--                <p class="icon-links">-->
+<!--                    <a href="#">-->
+<!--                        <span class="fa fa-twitter">Twitter</span>-->
+<!--                    </a>-->
+<!--                    <a href="#">-->
+<!--                        <span class="fa fa-facebook">Facebook</span>-->
+<!--                    </a>-->
+<!--                    <a href="#">-->
+<!--                        <span class="fa fa-instagram">instagram</span>-->
+<!--                    </a>-->
+<!--                </p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+    <form th:action="@{/test/add}" method="post" th:object="${testForm}">
+        <textarea name="text" id="text" th:text="*{text}"></textarea>
+        <input type="submit" text="submit">
+    </form>
+
+<!--    <textarea th:value="${testForm.description}"></textarea>-->
+<script type="text/javascript" th:inline="javascript">
+    var description = [[${testForm.getText()}]];
+</script>
 </body>
 <link rel="stylesheet" href="../../static/css/test.css" th:href="@{/css/test.css}" />
+<script type="text/javascript" th:src="@{/js/test.js}"></script>
 </html>

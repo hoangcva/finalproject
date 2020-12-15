@@ -62,10 +62,18 @@
     </div>
 
     <div th:fragment="change-quantity(buyQuantity, quantity)" class="change-quantity">
-        <div id="decrease-btn">-</div>
-        <input type="text" class="buy-quantity" name="buy-quantity" th:value="${buyQuantity}">
-        <div id="increase-btn">+</div>
-        <span id="over-quantity" class="hide d-none" th:text="'You can\'t buy more than ' + ${quantity} + ' products'"></span>
+        <div class="btn-group">
+            <div class="btn btn-plus" id="decrease-btn">-</div>
+            <input type="text" class="buy-quantity" name="buy-quantity" th:value="${buyQuantity}">
+            <div class="btn btn-minus" id="increase-btn">+</div>
+        </div>
+        <div>
+            (
+            <span th:text="${quantity}" class=""></span>
+            product left
+            )
+        </div>
+        <span id="over-quantity text-danger" class="hide d-none" th:text="'You can\'t buy more than ' + ${quantity} + ' products'"></span>
     </div>
     <div th:fragment="common-redirect-form">
         <form method="post" th:action="@{/}" id="common-redirect-form"></form>

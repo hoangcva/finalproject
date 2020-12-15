@@ -5,32 +5,22 @@
 </head>
 <body>
 <th:block th:include="/common/_header"></th:block>
-<div class="container">
-    <div class="row">
-        <div class="col-sm-9">
-            <div class="d-inline-flex flex-wrap">
-                <div th:each="product,iterationStatus : ${productForms}" class="outer">
-                    <a class="product-thumbnail" th:href="@{/vendor/editProduct(productId = ${product.productId})}">
-                        <div class="card inner">
-                            <img th:src="@{'data:image/jpeg;base64,'+${product.productImageFormList[0].generateBase64Image()}}"
-                                 th:unless="${#lists.size(product.productImageFormList) eq 0}"/>
-                            <img th:src="@{/images/no_product_image.jpg}"
-                                 src="../../static/images/no_product_image.jpg"
-                                 th:if="${#lists.size(product.productImageFormList) eq 0} "/>
-                            <div class="card-body">
-                                <p class="card-text" th:text="${product.productName}">Product name</p>
-                                <p class="card-text">
-                                    <span class="price" th:text="${product.price}"></span>
-                                    <span class="discount" th:text="*{(product.price - product.listPrice)*100/product.listPrice + '%'} "></span>
-                                    <span class="list-price" th:text="${product.listPrice}">list price</span>
-                                </p>
-                            </div>
-                        </div>
-                    </a>
+<main>
+    <div class="container-fluid">
+        <div class="row">
+            <th:block th:include="/common/_vendor-sidebar-menu"></th:block>
+            <div class="col-lg-8">
+                <div class="d-inline-flex flex-wrap">
+                    <div class="outer" th:each="product,iterationStatus : ${productFormList}">
+                        <a class="product-thumbnail text-decoration-none"
+                           th:href="@{/vendor/editProduct(productId = ${product.productId})}">
+                            <div th:replace="fragments/productInfo :: view-product-list"></div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</main>
 </body>
 </html>

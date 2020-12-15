@@ -54,10 +54,6 @@
 								        th:value="${country.name}"
 								        th:text="${country.name}"></option>
 							</select>
-							<!--                    <input class="form-control" type="text" id="origin" name="origin"-->
-							<!--                           placeholder="Enter origin" th:field="*{origin}"-->
-							<!--                           th:classappend="${(#fields.hasErrors('origin')?'is-invalid':'')-->
-							<!--                               + (!#fields.hasErrors('origin') and productForm.isSubmitted() ? 'is-valid':'')}">-->
 							<label class="invalid-feedback" th:if="${#fields.hasErrors('origin')}"
 							       th:errors="*{origin}"></label>
 						</div>
@@ -91,13 +87,6 @@
 							<label class="invalid-feedback" th:if="${#fields.hasErrors('material')}"
 							       th:errors="*{material}"></label>
 						</div>
-						<!--						<div class="form-group col" th:if="*{categoryId eq 1 or categoryId eq 3}">-->
-						<!--							<label for="subjectAge">Age:</label>-->
-						<!--							<input class="form-control" type="text" id="subjectAge" name="subjectAge"-->
-						<!--							       th:field="*{subjectAge}">-->
-						<!--							&lt;!&ndash;            <label th:if="${#fields.hasErrors('subjectAge')}" th:errors="*{subjectAge}"></label>&ndash;&gt;-->
-						<!--						</div>-->
-
 					</div>
 
 					<div class="form-row" th:if="*{categoryId eq 2}">
