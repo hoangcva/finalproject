@@ -13,7 +13,7 @@
                 <div class="d-inline-flex flex-wrap">
                     <div class="outer" th:each="product,iterationStatus : ${productFormList}">
                         <a class="product-thumbnail text-decoration-none"
-                           th:href="@{/vendor/editProduct(productId = ${product.productId})}">
+                           th:href="@{/vendor/product/edit(productId = ${product.productId})}">
                             <div th:replace="fragments/productInfo :: view-product-list"></div>
                         </a>
                     </div>

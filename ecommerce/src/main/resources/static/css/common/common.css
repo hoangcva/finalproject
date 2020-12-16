@@ -109,7 +109,7 @@ body.loading .overlay{
 /*    overflow: visible;*/
 /*}*/
 
-.btn-plus, btn-minus {
+.btn-plus, .btn-minus {
     width : 50px;
 }
 input.buy-quantity {
@@ -123,4 +123,8 @@ body {
 
 .container {
     background-color: white;
+}
+
+.borderless td, .borderless th {
+    border: none;
 }

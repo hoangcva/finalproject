@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/template :: head_input(~{::title})">
+	<title></title>
+</head>
+<body>
+<th:block th:include="/common/_header"></th:block>
+<main>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6">
+				<a class="btn btn-outline-primary" th:href="@{/}">Back to main page</a>
+			</div>
+		</div>
+	</div>
+</main>
+</body>
+</html>

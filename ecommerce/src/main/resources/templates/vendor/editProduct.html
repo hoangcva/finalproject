@@ -7,7 +7,7 @@
 <th:block th:include="/common/_header"></th:block>
 <h2>Edit Product Detail</h2>
 
-<form th:action="@{/vendor/editProduct}" th:object="${productForm}" th:method="POST" id="save-product-form"
+<form th:action="@{/vendor/product/edit}" th:object="${productForm}" th:method="POST" id="save-product-form"
       enctype="multipart/form-data">
 	<div class="container">
 		<div class="main-content container" th:if="${productForm.createdBy eq productForm.vendorId}">

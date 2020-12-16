@@ -6,8 +6,8 @@
 <body>
 <th:block th:include="/common/_header"></th:block>
 <div class="container">
-	<form th:action="@{/viewProductDetail}" th:object="${productForm}" th:method="POST">
-		<div class="row">
+	<form th:action="@{/product/view/detail}" th:object="${productForm}" th:method="POST">
+		<div class="row pt-lg-3 mb-lg-4">
 			<div class="col-md-5">
 				<div id="carouselExampleIndicators" class="carousel slide d-flex" data-ride="carousel"
 				     style="height: 400px;">
@@ -64,109 +64,111 @@
 							<input class="btn btn-primary d-inline-block" id="btn-submit" type="button" value="Buy"
 							       onclick="addProductToCart()" style="width: 250px">
 						</div>
-						<div class="col-sm-5">Vendor todo</div>
+						<div class="col-sm-5">
+							<div th:text="${vendorForm.fullName}"></div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="row">
+		<div class="row mb-lg-4">
 			<div class="col-lg-8">
 				<h3>Detail Information</h3>
-				<table>
+				<table class="table borderless" style="font-size: 15px">
 					<tbody>
-					<tr>
-						<td>SKU</td>
-						<td th:text="*{SKU}"></td>
-					</tr>
-					<tr>
-						<td>Origin</td>
-						<td th:text="*{origin}"></td>
-					</tr>
-					<tr>
-						<td>Brand</td>
-						<td th:text="*{brand}"></td>
-					</tr>
+						<tr>
+							<th scope="row" class="table-active">SKU</th>
+							<td th:text="*{SKU}"></td>
+						</tr>
+						<tr>
+							<th scope="row" class="table-active">Origin</th>
+							<td th:text="*{origin}"></td>
+						</tr>
+						<tr>
+							<th scope="row" class="table-active">Brand</th>
+							<td th:text="*{brand}"></td>
+						</tr>
 					</tbody>
 					<tbody th:if="*{categoryId eq 1}">
-					<tr>
-						<td>Size</td>
-						<td th:text="*{size}"></td>
-					</tr>
-					<tr>
-						<td>Color</td>
-						<td th:text="*{color}"></td>
-					</tr>
-					<tr>
-						<td>Material</td>
-						<td th:text="*{material}"></td>
-					</tr>
+						<tr>
+							<th scope="row" class="table-active">Size</th>
+							<td th:text="*{size}"></td>
+						</tr>
+						<tr>
+							<th scope="row" class="table-active">Color</th>
+							<td th:text="*{color}"></td>
+						</tr>
+						<tr>
+							<th scope="row" class="table-active">Material</th>
+							<td th:text="*{material}"></td>
+						</tr>
 					</tbody>
 					<tbody th:if="*{categoryId eq 2}">
-					<tr th:if="*{subCategoryId eq 1 or subCategoryId eq 3}">
-						<td>Size</td>
-						<td th:text="*{size}"></td>
-					</tr>
-					<tr>
-						<td>Model</td>
-						<td th:text="*{model}"></td>
-					</tr>
-					<tr th:if="*{subCategoryId eq 1}">
-						<td>Type</td>
-						<td th:text="*{type}"></td>
-					</tr>
-					<tr th:if="*{subCategoryId eq 1}">
-						<td>Frames per second</td>
-						<td th:text="*{framePerSecond}"></td>
-					</tr>
-					<tr th:if="*{subCategoryId eq 1}">
-						<td>Weight</td>
-						<td th:text="*{weight}"></td>
-					</tr>
-					<tr th:if="*{subCategoryId eq 1}">
-						<td>Connection ports</td>
-						<td th:text="*{connectionPorts}"></td>
-					</tr>
-					<tr>
-						<td>Voltage</td>
-						<td th:text="*{voltage}"></td>
-					</tr>
-					<tr th:if="*{subCategoryId eq 2 or subCategoryId eq 3}">
-						<td>Capacity</td>
-						<td th:text="*{capacity}"></td>
-					</tr>
-					<tr th:if="*{subCategoryId eq 2}">
-						<td>Power</td>
-						<td th:text="*{power}"></td>
-					</tr>
+						<tr th:if="*{subCategoryId eq 1 or subCategoryId eq 3}">
+							<th scope="row" class="table-active">Size</th>
+							<td th:text="*{size}"></td>
+						</tr>
+						<tr>
+							<th scope="row" class="table-active">Model</th>
+							<td th:text="*{model}"></td>
+						</tr>
+						<tr th:if="*{subCategoryId eq 1}">
+							<th scope="row" class="table-active">Type</th>
+							<td th:text="*{type}"></td>
+						</tr>
+						<tr th:if="*{subCategoryId eq 1}">
+							<th scope="row" class="table-active">Frames per second</th>
+							<td th:text="*{framePerSecond}"></td>
+						</tr>
+						<tr th:if="*{subCategoryId eq 1}">
+							<th scope="row" class="table-active">Weight</th>
+							<td th:text="*{weight}"></td>
+						</tr>
+						<tr th:if="*{subCategoryId eq 1}">
+							<th scope="row" class="table-active">Connection ports</th>
+							<td th:text="*{connectionPorts}"></td>
+						</tr>
+						<tr>
+							<th scope="row" class="table-active">Voltage</th>
+							<td th:text="*{voltage}"></td>
+						</tr>
+						<tr th:if="*{subCategoryId eq 2 or subCategoryId eq 3}">
+							<th scope="row" class="table-active">Capacity</th>
+							<td th:text="*{capacity}"></td>
+						</tr>
+						<tr th:if="*{subCategoryId eq 2}">
+							<th scope="row" class="table-active">Power</th>
+							<td th:text="*{power}"></td>
+						</tr>
 					</tbody>
 					<tbody th:if="*{categoryId eq 3}">
-					<tr>
-						<td>Author</td>
-						<td th:text="*{author}"></td>
-					</tr>
-					<tr>
-						<td>Release date</td>
-						<td th:text="*{releaseDate}"></td>
-					</tr>
-					<tr>
-						<td>Number of pages/td>
-						<td th:text="*{numberOfPages}"></td>
-					</tr>
-					<tr>
-						<td>Language</td>
-						<td th:text="*{language}"></td>
-					</tr>
-					<tr>
-						<td>Publisher</td>
-						<td th:text="*{publisher}"></td>
-					</tr>
+						<tr>
+							<th scope="row" class="table-active">Author</th>
+							<td th:text="*{author}"></td>
+						</tr>
+						<tr>
+							<th scope="row" class="table-active">Release date</th>
+							<td th:text="*{releaseDate}"></td>
+						</tr>
+						<tr>
+							<th scope="row" class="table-active">Number of pages/td>
+							<td th:text="*{numberOfPages}"></td>
+						</tr>
+						<tr>
+							<th scope="row" class="table-active">Language</th>
+							<td th:text="*{language}"></td>
+						</tr>
+						<tr>
+							<th scope="row" class="table-active">Publisher</th>
+							<td th:text="*{publisher}"></td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
 			<div class="col-lg-2">
 				<ul th:each="vendor: ${vendorList}">
 					<li th:unless="${vendor.vendorId eq vendorId}">
-						<a th:href="@{/viewProductDetail(productId = ${vendor.productId}, vendorId = ${vendor.vendorId})}">
+						<a th:href="@{/product/view/detail(productId = ${vendor.productId}, vendorId = ${vendor.vendorId})}">
 							<span th:text="${vendor.fullName}"></span>
 							<span th:value="${vendor.price}"></span>
 						</a>
@@ -174,14 +176,15 @@
 				</ul>
 			</div>
 		</div>
-
 		<div class="row">
-			<div class="d-block"><h3>Product Description</h3></div>
-<!--			<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">-->
+<!--			<div class="col-lg-10 collapse">-->
+<!--						<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">-->
 <!--				Button with data-target-->
 <!--			</button>-->
-			<div class="col-lg-10 collapse">
-				<div th:utext="*{description}" id="collapseExample" th:remove="tag"></div>
+			<div class="col-lg-11">
+				<div class="d-block mb-lg-3"><h3>Product Description</h3></div>
+<!--				<div th:utext="*{description}" id="collapseExample" th:remove="tag"></div>-->
+				<div class="bg-light p-lg-2" th:utext="*{description}"></div>
 			</div>
 		</div>
 

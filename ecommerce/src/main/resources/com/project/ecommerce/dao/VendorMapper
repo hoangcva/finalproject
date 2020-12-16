@@ -5,17 +5,15 @@
 
 <mapper namespace="com.project.ecommerce.dao.VendorMapper">
     <resultMap id="VendorResultMap" type="com.project.ecommerce.dto.VendorDto">
-        <id property="id" column="id" />
+        <id property="vendorId" column="id" />
         <result property="userName" column="username"/>
         <result property="fullName" column="vendor_name"/>
         <result property="phoneNumber" column="vendor_phone"/>
         <result property="addressDetail" column="vendor_address_detail"/>
         <result property="province" column="province"/>
-        <result property="district" column="district"/>
-        <result property="ward" column="ward"/>
-        <result property="description" column="vendor_description"/>
+        <result property="description" column="description"/>
         <result property="businessCode" column="business_code"/>
-<!--        <result property="categoryId" column="categoryId"/>-->
+        <result property="enable" column="enable"/>
     </resultMap>
 
     <select id="findVendorByUserName" resultType="int" fetchSize="200">
@@ -79,5 +77,9 @@
             category = #{gender}
         WHERE id = #{id}
     </update>
+
+    <select id="getInfo" resultType="VendorResultMap">
+        SELECT * FROM vendor_info WHERE id = #{id}
+    </select>
 </mapper>
 

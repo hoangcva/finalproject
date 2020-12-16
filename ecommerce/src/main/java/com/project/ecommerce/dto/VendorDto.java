@@ -12,6 +12,15 @@ public class VendorDto extends UserDto {
     private Boolean enable;
     private int categoryId;
     private String vendorName;
+    private long vendorId;
+
+    public long getVendorId() {
+        return vendorId;
+    }
+
+    public void setVendorId(long vendorId) {
+        this.vendorId = vendorId;
+    }
 
     public String getPhoneNumber() {
         return phoneNumber;

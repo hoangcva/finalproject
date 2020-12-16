@@ -15,7 +15,7 @@
 </form>
 
 <div class="search">
-    <form th:action="@{/vendor/addProduct/search}" th:method="GET">
+    <form th:action="@{/vendor/product/add/search}" th:method="GET">
         <span text="Search product"></span>
         <input type="text" th:id="keyword" th:name="keyword">
         <input id="btn-search" type="submit" th:value="search">
@@ -26,7 +26,7 @@
         <tbody>
         <tr th:each="product,iterationStatus : ${productFormList}">
             <td th:text="${iterationStatus.count}"></td>
-            <td><a th:href="@{/vendor/addProduct/detailExtend(productId = ${product.productId}, vendorId = ${product.vendorId})}" th:text="${product.productName}"></a></td>
+            <td><a th:href="@{/vendor/product/add/detailExtend(productId = ${product.productId}, vendorId = ${product.vendorId})}" th:text="${product.productName}"></a></td>
             <td th:text="${product.price}"></td>
             <td th:text="${product.rating}"></td>
         </tr>

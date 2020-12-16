@@ -11,6 +11,15 @@ public class VendorForm extends UserRegisterForm{
     private String addressDetail;
     private Boolean enable;
     private int category;
+    private long vendorId;
+
+    public long getVendorId() {
+        return vendorId;
+    }
+
+    public void setVendorId(long vendorId) {
+        this.vendorId = vendorId;
+    }
 
     public VendorForm() {
     }

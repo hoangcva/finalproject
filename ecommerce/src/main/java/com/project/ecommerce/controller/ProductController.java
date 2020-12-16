@@ -2,12 +2,10 @@ package com.project.ecommerce.controller;
 
 import com.project.ecommerce.Validator.ProductValidator;
 import com.project.ecommerce.dto.*;
-import com.project.ecommerce.form.CategoryForm;
-import com.project.ecommerce.form.ProductForm;
-import com.project.ecommerce.form.ProductImageForm;
-import com.project.ecommerce.form.VendorProductForm;
+import com.project.ecommerce.form.*;
 import com.project.ecommerce.service.IProductService;
 import com.project.ecommerce.service.IUserService;
+import com.project.ecommerce.service.IVendorService;
 import com.project.ecommerce.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -33,8 +31,10 @@ public class ProductController {
     private IUserService userService;
     @Autowired
     private ProductValidator productValidator;
+    @Autowired
+    private IVendorService vendorService;
 
-    @GetMapping(value = "/vendor/showCategory")
+    @GetMapping(value = "/vendor/show/category")
     public String showCategory(Model model, HttpSession session) {
         // load danh sach category
         List<CategoryDto> categoryDtoList= productService.getAllCategory();
@@ -90,7 +90,7 @@ public class ProductController {
         return "vendor/addProductDetail";
     }
 
-    @GetMapping(value = "/vendor/addProduct/detailExtend")
+    @GetMapping(value = "/vendor/product/add/detailExtend")
     public String showDetail(@ModelAttribute("productId") Long productId,
                              @ModelAttribute("vendorId") Long vendorId,
                              Model model,
@@ -132,7 +132,7 @@ public class ProductController {
         }
     }
 
-    @PostMapping(value = "/vendor/product/add/addDetail")
+    @PostMapping(value = "/vendor/product/add/detail/add")
     public String addProduct(@ModelAttribute("productForm") @Validated ProductForm productForm,
                              BindingResult bindingResult,
                              Model model,
@@ -159,7 +159,7 @@ public class ProductController {
         return "/vendor/success";
     }
 
-    @GetMapping(value = "/vendor/listVendorProduct")
+    @GetMapping(value = "/vendor/product/view/byVendor")
     public String getAllProductByVendorId(Model model, Authentication auth) {
         Long vendorId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
         List<ProductForm> productFormList = productService.getAllProductByVendorId(vendorId);
@@ -167,7 +167,7 @@ public class ProductController {
         return "vendor/listVendorProduct";
     }
 
-    @GetMapping(value = "/vendor/editProduct")
+    @GetMapping(value = "/vendor/product/edit")
     public String getEditProduct(@ModelAttribute("productId") Long productId, Model model, Authentication auth) {
         List<CategoryDto> categoryDtoList= productService.getAllCategory();
         List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
@@ -180,7 +180,7 @@ public class ProductController {
         return "vendor/editProduct";
     }
 
-    @PostMapping(value = "/vendor/editProduct")
+    @PostMapping(value = "/vendor/product/edit")
     public String editProduct(@ModelAttribute("productForm") @Validated ProductForm productForm,
                               BindingResult result,
                               Model model,
@@ -196,16 +196,16 @@ public class ProductController {
             return "vendor/editProduct";
         }
         productService.updateProduct(productForm);
-        return "redirect:/vendor/listVendorProduct";
+        return "redirect:/vendor/product/view/byVendor";
     }
 
-    @PostMapping(value = "/vendor/deleteProduct")
+    @PostMapping(value = "/vendor/product/delete")
     public String deleteProduct(@RequestParam Long productId) {
         productService.deleteProduct(productId);
         return null;
     }
 
-    @GetMapping(value = "/showProductsByCategory")
+    @GetMapping(value = "/product/view/byCategory")
     public String showAllProduct(Model model, @ModelAttribute("categoryId") int categoryId, @ModelAttribute("subCategoryId") int subCategoryId) {
         List<CategoryForm> categoryForms = productService.getCategory();
         List<ProductForm> productFormList = productService.getProducts(categoryId, subCategoryId, null);
@@ -214,7 +214,7 @@ public class ProductController {
         return "viewProductList";
     }
 
-    @GetMapping(value = {"/", "/showProducts"})
+    @GetMapping(value = {"/", "/product/view/list"})
     public String showAllProduct(Model model) {
         List<CategoryForm> categoryForms = productService.getCategory();
 
@@ -225,17 +225,19 @@ public class ProductController {
         return "viewProductList";
     }
 
-    @GetMapping(value = "viewProductDetail")
+    @GetMapping(value = "/product/view/detail")
     public String viewProductDetail(Model model, @ModelAttribute("productId") Long productId, @ModelAttribute("vendorId") Long vendorId ) {
         ProductForm productForm = productService.getProductDetail(productId, vendorId);
         List<VendorProductForm> vendorList = productService.getVendorListByProduct(productId);
+        VendorForm vendorForm = vendorService.getInfo(vendorId);
         model.addAttribute("vendorId", vendorId);
         model.addAttribute("productForm", productForm);
         model.addAttribute("vendorList", vendorList);
+        model.addAttribute("vendorForm", vendorForm);
         return "viewProductDetail";
     }
 
-    @GetMapping(value = "/vendor/addProduct/search")
+    @GetMapping(value = "/vendor/product/add/search")
     public String showAllProductByKeyWord(Model model,
                                           @RequestParam(value = "keyword", required = false) String keyword,
                                           final RedirectAttributes redirectAttributes
@@ -247,7 +249,7 @@ public class ProductController {
 //            model.addAttribute("response", "empty");
             redirectAttributes.addFlashAttribute("response", "empty");
 //            return "vendor/addProduct";
-            return "redirect:/vendor/showCategory";
+            return "redirect:/vendor/show/category";
         }
 
         redirectAttributes.addFlashAttribute("response", "notEmpty");
@@ -255,6 +257,6 @@ public class ProductController {
 //        model.addAttribute("response", "notEmpty");
 //        model.addAttribute("productFormList", productFormList);
 //        return"vendor/addProduct";
-        return "redirect:/vendor/showCategory";
+        return "redirect:/vendor/show/category";
     }
 }

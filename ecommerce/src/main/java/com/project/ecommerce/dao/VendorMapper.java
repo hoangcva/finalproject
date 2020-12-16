@@ -13,4 +13,5 @@ public interface VendorMapper {
     int findVendorByUserName(@Param("userName") String userName);
     int findVendorExist(@Param("userName") @Nullable String userName, @Param("email") @Nullable String email, @Param("businessCode") @Nullable String businessCode);
     void createVendor(VendorDto vendorDto);
+    VendorDto getInfo(@Param("id") Long vendorId);
 }
