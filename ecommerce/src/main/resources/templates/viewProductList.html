@@ -10,9 +10,9 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-3">
-                <ul class="dropdown list-group">
+                <div class="list-group">
                 <!--    <div th:each="category,iterationStatus : ${categories}">-->
-                    <li class="dropbtn list-group-item" th:each="category,iterationStatus : ${categories}" th:id="'dropbtn'+${iterationStatus.count}">
+                    <div class="list-group-item" th:each="category,iterationStatus : ${categories}" th:id="'dropbtn'+${iterationStatus.count}">
                         <a th:href="@{/product/view/byCategory(categoryId = ${category.id}, subCategoryId = 0)}" th:text="${category.name}"></a>
                         <script th:inline="javascript">
                             /*<![CDATA[*/
@@ -21,14 +21,14 @@
                             })
                             /*]]>*/
                         </script>
-                        <ul class="dropdown-content list-group">
-                            <li class="dropdown-content-btn list-group-item" th:classappend="'show-content'+${iterationStatus.count}" th:each="subCategory : ${category.subCategoryForms}">
+                        <div class="list-group">
+                            <div class="list-group-item" th:classappend="'show-content'+${iterationStatus.count}" th:each="subCategory : ${category.subCategoryForms}">
                                 <a th:href="@{/product/view/byCategory(categoryId = ${category.id}, subCategoryId = ${subCategory.id})}" th:text="${subCategory.name}"></a>
-                            </li>
-                        </ul>
-                    </li>
+                            </div>
+                        </div>
+                    </div>
                 <!--    </div>-->
-                </ul>
+                </div>
             </div>
             <div class="col-sm-9">
                 <div class="d-inline-flex flex-wrap">

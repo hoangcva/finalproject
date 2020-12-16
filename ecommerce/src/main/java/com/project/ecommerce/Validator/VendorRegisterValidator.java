@@ -12,7 +12,6 @@ import org.springframework.validation.Validator;
 @Component
 public class VendorRegisterValidator implements Validator {
     private EmailValidator emailValidator = EmailValidator.getInstance();
-
     @Autowired
     private UserMapper userMapper;
 
@@ -28,11 +27,37 @@ public class VendorRegisterValidator implements Validator {
         // Kiểm tra các field của UserForm.
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userName", "NotEmpty.UserForm.userName");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty.UserForm.email");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty.UserForm.password");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "NotEmpty.UserForm.confirmPassword");
+
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phoneNumber", "NotEmpty.VendorForm.phoneNumber");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "businessCode", "NotEmpty.VendorForm.businessCode");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fullName", "NotEmpty.VendorForm.fullName");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "addressDetail", "NotEmpty.VendorForm.addressDetail");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "NotEmpty.VendorForm.description");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "vendorName", "NotEmpty.VendorForm.vendorName");
+
+        if ("register".equals(vendorForm.getAction())) {
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty.UserForm.password");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "NotEmpty.UserForm.confirmPassword");
+            if (!errors.hasFieldErrors("userName")) {
+                int count = userMapper.findVendorExist(vendorForm.getUserName(),null,null);
+                if (count > 0) {
+                    // Tên tài khoản đã bị sử dụng bởi người khác.
+                    errors.rejectValue("userName", "Duplicate.UserForm.userName");
+                }
+            }
+            if (!errors.hasFieldErrors("businessCode")) {
+                int count = userMapper.findVendorExist(null,null, vendorForm.getBusinessCode());
+                if (count > 0) {
+                    // Tên tài khoản đã bị sử dụng bởi người khác.
+                    errors.rejectValue("businessCode", "Duplicate.VendorForm.businessCode");
+                }
+            }
+            if (!errors.hasFieldErrors("confirmPassword")) {
+                if (!vendorForm.getConfirmPassword().equals(vendorForm.getPassword())) {
+                    errors.rejectValue("confirmPassword", "Match.UserForm.confirmPassword");
+                }
+            }
+        }
 
         if (!this.emailValidator.isValid(vendorForm.getEmail())) {
             // Email không hợp lệ.
@@ -42,26 +67,6 @@ public class VendorRegisterValidator implements Validator {
             if (count > 0) {
                 // Email đã được sử dụng bởi tài khoản khác.
                 errors.rejectValue("email", "Duplicate.VendorForm.email");
-            }
-        }
-
-        if (!errors.hasFieldErrors("userName")) {
-            int count = userMapper.findVendorExist(vendorForm.getUserName(),null,null);
-            if (count > 0) {
-                // Tên tài khoản đã bị sử dụng bởi người khác.
-                errors.rejectValue("userName", "Duplicate.UserForm.userName");
-            }
-        }
-        if (!errors.hasFieldErrors("businessCode")) {
-            int count = userMapper.findVendorExist(null,null, vendorForm.getBusinessCode());
-            if (count > 0) {
-                // Tên tài khoản đã bị sử dụng bởi người khác.
-                errors.rejectValue("businessCode", "Duplicate.VendorForm.businessCode");
-            }
-        }
-        if (!errors.hasErrors()) {
-            if (!vendorForm.getConfirmPassword().equals(vendorForm.getPassword())) {
-                errors.rejectValue("confirmPassword", "Match.UserForm.confirmPassword");
             }
         }
     }

@@ -28,11 +28,11 @@
                         <span th:classappend="${(address.isDefault eq 1) ? 'show':'hide'}" class="text-success ml-2 font-weight-bold pt-1" style="font-size: 80%">Default address</span>
                     </div>
                     <div class="row">
-                        <span class="text-muted">Address: </span>
+                        <span class="text-muted" text="Address: "></span>
                         <span th:text="${address.addressDetail}+', '+${address.ward}+', '+${address.district}+', '+${address.province}"></span>
                     </div>
                     <div class="row">
-                        <span class="text-muted">Telephone: </span>
+                        <span class="text-muted" text="Telephone: "></span>
                         <span th:text="${address.phoneNumber}"></span>
                     </div>
                 </div>

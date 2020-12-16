@@ -10,6 +10,8 @@ import com.project.ecommerce.dto.ProvinceDto;
 import com.project.ecommerce.form.UserRegisterForm;
 import com.project.ecommerce.form.VendorForm;
 import com.project.ecommerce.service.IUserService;
+import com.project.ecommerce.service.IVendorService;
+import com.project.ecommerce.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,34 +28,23 @@ public class RegisterController {
     @Autowired
     private AddressMapper addressMapper;
     @Autowired
-    private ProductMapper productMapper;
-    @Autowired
     private IUserService userService;
     @Autowired
     private UserRegisterValidator userRegisterValidator;
     @Autowired
-    private VendorRegisterValidator vendorRegisterValidator;
+    private IVendorService vendorService;
     @Autowired
     private CategoryMapper categoryMapper;
+    @Autowired
+    private VendorRegisterValidator vendorRegisterValidator;
 
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    @RequestMapping(value = "/registerUser", method = RequestMethod.GET)
     public String init(Model model) {
         UserRegisterForm userRegisterForm = new UserRegisterForm();
         List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
-        model.addAttribute("province_list", provinceDtoList);
+        model.addAttribute("provinceList", provinceDtoList);
         model.addAttribute("user_form", userRegisterForm);
         return "register";
-    }
-
-    @RequestMapping(value = "/vendorRegister", method = RequestMethod.GET)
-    public String initVendor(Model model) {
-        VendorForm vendorForm = new VendorForm();
-        List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
-        List<CategoryDto> categoryDtoList = categoryMapper.getAllCategory();
-        model.addAttribute("province_list", provinceDtoList);
-        model.addAttribute("category_list", categoryDtoList);
-        model.addAttribute("vendor_form", vendorForm);
-        return "vendor/register";
     }
 
     // Set a form validator
@@ -63,11 +54,9 @@ public class RegisterController {
         if(target == null) {
             return;
         }
-
-        System.out.println("Target = " + target);
         if(target.getClass() == UserRegisterForm.class) {
             dataBinder.setValidator(userRegisterValidator);
-        }else if (target.getClass() == VendorForm.class) {
+        } else if(target.getClass() == VendorForm.class) {
             dataBinder.setValidator(vendorRegisterValidator);
         }
     }
@@ -82,20 +71,18 @@ public class RegisterController {
                            @ModelAttribute("user_form") @Validated UserRegisterForm userRegisterForm,
                            BindingResult result,
                            final RedirectAttributes redirectAttributes) {
-        // Validate result
         if (result.hasErrors()) {
             List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
-            model.addAttribute("province_list", provinceDtoList);
+            model.addAttribute("provinceList", provinceDtoList);
 //            model.addAttribute("user_form", userRegisterForm);
             return "register";
         }
         try {
             userService.createUser(userRegisterForm);
         }
-        // Other error!!
         catch (Exception e) {
             List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
-            model.addAttribute("province_list", provinceDtoList);
+            model.addAttribute("provinceList", provinceDtoList);
             model.addAttribute("errorMessage", "Error: " + e.getMessage());
             return "register";
         }
@@ -105,35 +92,36 @@ public class RegisterController {
         return "redirect:/registerSuccessful";
     }
 
-    @RequestMapping(value = "/saveVendor", method = RequestMethod.POST)
-    public String saveVendor(Model model,
-                           @ModelAttribute("vendor_form") @Validated VendorForm vendorForm,
-                           BindingResult result,
-                           final RedirectAttributes redirectAttributes) {
-        // Validate result
-        if (result.hasErrors()) {
-            List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
-            List<CategoryDto> categoryDtoList = categoryMapper.getAllCategory();
-            model.addAttribute("province_list", provinceDtoList);
-            model.addAttribute("category_list", categoryDtoList);
-            return "vendor/register";
-        }
-        try {
-            userService.createVendor(vendorForm);
-        }
-        // Other error!!
-        catch (Exception e) {
-            List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
-            List<CategoryDto> categoryDtoList = categoryMapper.getAllCategory();
-            model.addAttribute("province_list", provinceDtoList);
-            model.addAttribute("category_list", categoryDtoList);
-//            model.addAttribute("errorMessage", "Error: " + e.getMessage());
-            model.addAttribute("errorMessage", "Something wrong! Try again");
-            return "vendor/register";
-        }
-
-        redirectAttributes.addFlashAttribute("user", vendorForm);
-
-        return "redirect:/registerSuccessful";
+    @GetMapping(value = "/registerVendor")
+    public String initVendor(Model model) {
+        VendorForm vendorForm = new VendorForm();
+        List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
+        List<CategoryDto> categoryDtoList = categoryMapper.getAllCategory();
+        vendorForm.setAction("register");
+        model.addAttribute("provinceList", provinceDtoList);
+        model.addAttribute("categoryList", categoryDtoList);
+        model.addAttribute("vendorForm", vendorForm);
+        return "/vendor/register";
     }
+
+    @PostMapping(value = "/saveVendor")
+    public String saveVendor(Model model,
+                             @ModelAttribute("vendorForm") @Validated VendorForm vendorForm,
+                             BindingResult bindingResult,
+                             final RedirectAttributes redirectAttributes) {
+        // Validate bindingResult
+        vendorForm.setSubmitted(true);
+        if (bindingResult.hasErrors()) {
+            List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
+            List<CategoryDto> categoryDtoList = categoryMapper.getAllCategory();
+            model.addAttribute("provinceList", provinceDtoList);
+            model.addAttribute("categoryList", categoryDtoList);
+            return "/vendor/register";
+        }
+        Message result = vendorService.createVendor(vendorForm);
+        redirectAttributes.addFlashAttribute("message", result.getMessage());
+        redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
+        return "redirect:/login";
+    }
+
 }

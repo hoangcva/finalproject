@@ -28,7 +28,7 @@
                 <td>
                     <select id="province-select" th:field="*{provinceId}">
                         <option value=''>Select city</option>
-                        <option th:each="province : ${province_list}"
+                        <option th:each="province : ${provinceList}"
                                 th:value="${province.id}"
                                 th:text="${province.name}"
                                 th:selected="${province.id == address_form.provinceId}"></option>

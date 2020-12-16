@@ -69,7 +69,7 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
         orderDto.setBillTotal(cartInfoForm.getBillTotal());
         orderDto.setOrderStatus(Consts.ORDER_STATUS_PROGRESSING);
         orderDto.setDeliveryAddress(deliveryAddress);
-        orderDto.setNote(CommonUtils.nullToString(orderForm.getNote()));
+//        orderDto.setNote(CommonUtils.nullToString(orderForm.getNote()));
         orderDto.setNote(orderForm.getNote());
         orderDto.setFullName(customerAddressForm.getFullName());
         orderDto.setPhoneNumber(customerAddressForm.getPhoneNumber());
@@ -166,6 +166,7 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
         String hour = ((Integer)now.getHour()).toString();
         String minute = ((Integer)now.getMinute()).toString();
         String second = ((Integer)now.getSecond()).toString();
+        orderDspId.append('#');
         orderDspId.append(year);
         orderDspId.append(month);
         orderDspId.append(day);
@@ -191,6 +192,8 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
 
     @Override
     public OrderForm getOrderDetailCustomer(Long orderId) {
+        OrderForm orderForm = new OrderForm();
+        List<OrderDetailDto> orderDetailDtoList = orderMapper.getOrderDetailCustomer(orderId);
         return null;
     }
 }

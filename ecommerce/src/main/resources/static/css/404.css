@@ -6,3 +6,8 @@
     background-color: #cccccc;
     height: calc(100vh - 60px);
 }
+
+.container {
+    background-color: white;
+    min-height: calc(100vh - 60px);
+}

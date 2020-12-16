@@ -12,6 +12,7 @@ public class VendorDto extends UserDto {
     private String vendorName;
     private long vendorId;
 
+
     public long getVendorId() {
         return vendorId;
     }

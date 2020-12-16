@@ -24,8 +24,8 @@
                             <span class="money list-price" th:text="*{cartLine.productForm.listPrice}"></span>
                         </div>
                     </div>
-                    <div class="col-xl-2 change-quantity">
-                        <div id="decrease-btn"
+                    <div class="col-xl-2 change-quantity btn-group">
+                        <div id="decrease-btn" class="btn btn-minus"
                              th:onclick="|javascript:minus(*{cartLine.buyQuantity}, *{cartLine.productForm.quantity}, *{cartLine.id})|">
                             -
                         </div>
@@ -33,7 +33,7 @@
                                th:classappend="'edit'+*{cartLine.id}" name="buy-quantity"
                                th:value="*{cartLine.buyQuantity}"
                                th:onchange="|javascript:change(*{cartLine.id})|">
-                        <div id="increase-btn"
+                        <div id="increase-btn" class="btn btn-plus"
                              th:onclick="|javascript:plus(*{cartLine.buyQuantity}, *{cartLine.productForm.quantity}, *{cartLine.id})|">
                             +
                         </div>

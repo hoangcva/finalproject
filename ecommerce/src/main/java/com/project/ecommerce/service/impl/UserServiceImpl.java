@@ -10,7 +10,8 @@ import com.project.ecommerce.form.UserRegisterForm;
 import com.project.ecommerce.form.UserUpdateForm;
 import com.project.ecommerce.form.VendorForm;
 import com.project.ecommerce.service.IUserService;
-import org.apache.tomcat.util.bcel.Const;
+import com.project.ecommerce.util.Message;
+import com.project.ecommerce.util.MessageAccessor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -33,6 +34,8 @@ public class UserServiceImpl implements IUserService {
     private DataSourceTransactionManager transactionManager;
     @Autowired
     private CustomerAddressMapper customerAddressMapper;
+    @Autowired
+    private MessageAccessor messageAccessor;
 
     @Override
     public UserDetails loadUserByUsername(String username) {
@@ -57,7 +60,7 @@ public class UserServiceImpl implements IUserService {
             userDto.setPassword(encoder.encode(userRegisterForm.getPassword()));
             userDto.setEmail(userRegisterForm.getEmail());
             userDto.setFullName(userRegisterForm.getFullName());
-            userDto.setRole("ROLE_USER");
+            userDto.setRole(Consts.ROLE_USER);
             userMapper.createUser(userDto);
             transactionManager.commit(txStatus);
         } catch (Exception ex) {
@@ -106,22 +109,5 @@ public class UserServiceImpl implements IUserService {
             return false;
         }
         return true;
-    }
-
-    @Override
-    public void createVendor(VendorForm vendorForm) {
-        TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
-        try {
-            VendorDto vendorDto = new VendorDto();
-            BeanUtils.copyProperties(vendorForm, vendorDto);
-            vendorDto.setRole(Consts.ROLE_VENDOR);
-            vendorDto.setPassword(encoder.encode(vendorForm.getPassword()));
-            userMapper.createUser(vendorDto);
-            userMapper.createVendor(vendorDto);
-            transactionManager.commit(txStatus);
-        } catch (Exception ex) {
-            transactionManager.rollback(txStatus);
-            throw ex;
-        }
     }
 }

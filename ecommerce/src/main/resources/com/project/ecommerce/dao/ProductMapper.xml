@@ -163,7 +163,7 @@
     </select>
 
     <select id="getVendorListByProduct" resultMap="VendorResultMap" fetchSize="200">
-        SELECT vendorId, productId, product_quantity, product_price, product_rating, vendor_name FROM vendor_product vp
+        SELECT vp.vendorId, productId, product_quantity, product_price, product_rating, vendor_name FROM vendor_product vp
         INNER JOIN vendor_info vi ON vp.vendorId = vi.vendorId
         WHERE productId = #{productId}
     </select>

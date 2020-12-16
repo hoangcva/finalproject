@@ -155,7 +155,7 @@ public class ManageAddressController {
         List<ProvinceDto> provinceDtoList = customerAddressService.getProvinceList();
         List<DistrictDto> districtDtoList = customerAddressService.getDistrictList(null);
         List<WardDto> wardDtoList = customerAddressService.getWardList(null, null);
-        model.addAttribute("province_list", provinceDtoList);
+        model.addAttribute("provinceList", provinceDtoList);
         model.addAttribute("district_list", districtDtoList);
         model.addAttribute("ward_list", wardDtoList);
     }

@@ -12,7 +12,7 @@
     </script>
     <script>
         tinymce.init({
-            selector: 'textarea',
+            selector: '.textarea-custom',
             height: 500,
             menubar: false,
             plugins: ['a11ychecker advcode casechange formatpainter linkchecker autolink paste visualblocks insertdatetime help ',
@@ -41,7 +41,7 @@
 <body>
     <div th:fragment="display-error-message" class="row mb-2">
         <div th:if="${message != null and message != ''}"
-             class="error col-lg">
+             th:classappend="${isSuccess}?'alert-info':'alert-danger'" class="error col-lg alert">
             <img class="pb-1" th:src="@{/images/check.png}" th:if="${isSuccess}" style="max-height: 25px;">
             <img class="pb-1" th:src="@{/images/fail.png}" th:unless="${isSuccess}" style="max-height: 25px;">
             <span class="pt-1 pb-1 ml-2" th:classappend="${isSuccess}?'text-success':'text-danger'" th:text="${message}" style="font-size: 20px"></span>
@@ -63,9 +63,9 @@
 
     <div th:fragment="change-quantity(buyQuantity, quantity)" class="change-quantity">
         <div class="btn-group">
-            <div class="btn btn-plus" id="decrease-btn">-</div>
+            <div class="btn btn-minus" id="decrease-btn">-</div>
             <input type="text" class="buy-quantity" name="buy-quantity" th:value="${buyQuantity}">
-            <div class="btn btn-minus" id="increase-btn">+</div>
+            <div class="btn btn-plus" id="increase-btn">+</div>
         </div>
         <div>
             (

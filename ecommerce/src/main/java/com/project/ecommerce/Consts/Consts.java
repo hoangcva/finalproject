@@ -24,6 +24,8 @@ public class Consts {
     public static final String MSG_05_E = "MSG_05_E"; //Some products have changed quantity
     public static final String MSG_06_E = "MSG_06_E"; //Add sub-category fail!
     public static final String MSG_07_E = "MSG_07_E"; //Create product fail!
+    public static final String MSG_08_E = "MSG_08_E"; //Update vendor information fail!
+    public static final String MSG_09_E = "MSG_09_E"; //Register vendor fail!
 
 
 //-----------------------------------------------------------------------------------------------
@@ -34,4 +36,6 @@ public class Consts {
     public static final String MSG_05_I = "MSG_05_I"; //Order {0} has been created successful!
     public static final String MSG_06_I = "MSG_06_I"; //Add sub-category successful!
     public static final String MSG_07_I = "MSG_07_I"; //Product has been created successful!
+    public static final String MSG_08_I = "MSG_08_I"; //Vendor information has been updated successful!
+    public static final String MSG_09_I = "MSG_09_I"; //Vendor has been registered successful!
 }

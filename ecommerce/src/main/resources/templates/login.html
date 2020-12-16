@@ -1,33 +1,176 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/template :: head_input(~{::title})">
-    <title>Login</title>
+	<title>Login</title>
 </head>
 <body>
 <!-- Include _header.html -->
 <th:block th:include="/common/_header"></th:block>
-<h2>Login</h2>
-<h3><p th:text="${message}"></p></h3>
-<form name='login-form' th:action="@{/j_spring_security_login}" method='POST'>
-    <table>
-        <tr>
-            <td>Username:</td>
-            <td><input type='text' id="username" name='username' value='' autofocus="autofocus" placeholder="username"></td>
-        </tr>
-        <tr>
-            <td>Password:</td>
-            <td><input type='password' id="password" name='password' autocomplete="off" placeholder="password"/></td>
-        </tr>
-        <tr>
-            <td>Remember Me:</td>
-            <td><input type="checkbox" name="_spring_security_remember_me" autocomplete="off"/></td>
-        </tr>
-        <tr>
-        <tr>
-            <td><input name="submit" type="submit" value="submit" /></td>
-        </tr>
-    </table>
-<!--    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />-->
-</form>
+<div class="container" style="background-color: #f7f7f7;">
+	<div class="row">
+		<div class="col-lg-6 ml-auto mr-auto">
+			<span class="login100-form-title p-b-33">
+				Account Login
+			</span>
+<!--			<div th:replace="fragments/template :: display-error-message"/>-->
+				<div th:if="${message != null and message != ''}"
+				     th:classappend="${isSuccess}?'alert-info':'alert-danger'" class="error col-lg alert">
+					<img class="pb-1" th:src="@{/images/check.png}" th:if="${isSuccess}" style="max-height: 25px;">
+					<img class="pb-1" th:src="@{/images/fail.png}" th:unless="${isSuccess}" style="max-height: 25px;">
+					<span class="pt-1 pb-1 ml-2" th:classappend="${isSuccess}?'text-success':'text-danger'" th:text="${message}" style="font-size: 20px"></span>
+				</div>
+			</div>
+<!--			<div class="limiter">-->
+				<div class="container-login100">
+					<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
+						<form name='login-form' th:action="@{/j_spring_security_login}" method='POST'>
+							<div class="form-group">
+								<label for="username">Username</label>
+								<input type='text'
+								       id="username"
+								       name='username'
+								       autofocus="autofocus"
+								       autocomplete="chrome-off"
+								       class="form-control input100"
+								       placeholder="Username">
+							</div>
+							<div class="form-group">
+								<label for="password">Password</label>
+								<input type='password'
+								       id="password"
+								       name='password'
+								       class="form-control input100"
+								       autocomplete="chrome-off"
+								       placeholder="password"/>
+							</div>
+							<!--				<div class="form-check">-->
+							<!--					<input type="checkbox" class="form-check-input" id="_spring_security_remember_me" name="_spring_security_remember_me">-->
+							<!--					<label class="form-check-label" for="_spring_security_remember_me">Check me out</label>-->
+							<!--				</div>-->
+							<div class="text-center mb-3">
+					<span class="txt1">
+						Create an account?
+					</span>
+
+								<a th:href="@{/registerUser}" class="txt2 hov1">
+									Sign up
+								</a>
+							</div>
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-6 ml-auto mr-auto">
+										<input class="form-control btn btn-primary"
+										       name="submit" type="submit" value="Login"/>
+									</div>
+								</div>
+							</div>
+							<!--    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />-->
+						</form>
+					</div>
+				</div>
+<!--			</div>-->
+		</div>
+	</div>
+</div>
 </body>
+<!--<link rel="icon" type="image/png" href="../static/images/icons/favicon.ico"/>-->
+<!--<link rel="stylesheet" type="text/css" href="../static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">-->
+<!--<link rel="stylesheet" type="text/css" href="../static/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">-->
+<!--<link rel="stylesheet" type="text/css" href="../static/vendor/animate/animate.css">-->
+<!--<link rel="stylesheet" type="text/css" href="../static/vendor/css-hamburgers/hamburgers.min.css">-->
+<!--<link rel="stylesheet" type="text/css" href="../static/vendor/animsition/css/animsition.min.css">-->
+<!--<link rel="stylesheet" type="text/css" href="../static/vendor/select2/select2.min.css">-->
+<!--<link rel="stylesheet" type="text/css" href="../static/vendor/daterangepicker/daterangepicker.css">-->
+<link rel="stylesheet" type="text/css" href="../static/css/util.css" th:href="@{/css/util.css}">
+<link rel="stylesheet" type="text/css" href="../static/css/main.css" th:href="@{/css/main.css}">
 </html>
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head th:insert="fragments/template :: head_input(~{::title})">-->
+<!--	<title>Login V19</title>-->
+<!--	<meta charset="UTF-8">-->
+<!--	<meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!--</head>-->
+<!--<link rel="icon" type="image/png" href="../static/images/icons/favicon.ico"/>-->
+<!--<link rel="stylesheet" type="text/css" href="../static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">-->
+<!--<link rel="stylesheet" type="text/css" href="../static/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">-->
+<!--<link rel="stylesheet" type="text/css" href="../static/vendor/animate/animate.css">-->
+<!--<link rel="stylesheet" type="text/css" href="../static/vendor/css-hamburgers/hamburgers.min.css">-->
+<!--<link rel="stylesheet" type="text/css" href="../static/vendor/animsition/css/animsition.min.css">-->
+<!--<link rel="stylesheet" type="text/css" href="../static/vendor/select2/select2.min.css">-->
+<!--<link rel="stylesheet" type="text/css" href="../static/vendor/daterangepicker/daterangepicker.css">-->
+<!--<link rel="stylesheet" type="text/css" href="../static/css/util.css" th:href="@{/css/util.css}">-->
+<!--<link rel="stylesheet" type="text/css" href="../static/css/main.css" th:href="@{/css/main.css}">-->
+<!--<body>-->
+<!--<th:block th:include="/common/_header"></th:block>-->
+<!--<form name='login-form' th:action="@{/j_spring_security_login}" method='POST'>-->
+<!--	<div class="limiter">-->
+<!--		<div class="container-login100">-->
+<!--			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">-->
+<!--				<form class="login100-form validate-form">-->
+<!--					<span class="login100-form-title p-b-33">-->
+<!--						Account Login-->
+<!--					</span>-->
+
+<!--					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">-->
+<!--						<input type='text'-->
+<!--						       id="username"-->
+<!--						       name='username'-->
+<!--						       autofocus="autofocus"-->
+<!--						       autocomplete="chrome-off"-->
+<!--						       class="form-control input100"-->
+<!--						       placeholder="Username">-->
+<!--						<span class="focus-input100-1"></span>-->
+<!--						<span class="focus-input100-2"></span>-->
+<!--					</div>-->
+
+<!--					<div class="wrap-input100 rs1 validate-input" data-validate="Password is required">-->
+<!--						<input type='password'-->
+<!--						       id="password"-->
+<!--						       name='password'-->
+<!--						       class="form-control input100"-->
+<!--						       autocomplete="chrome-off"-->
+<!--						       placeholder="password"/>-->
+<!--						<span class="focus-input100-1"></span>-->
+<!--						<span class="focus-input100-2"></span>-->
+<!--					</div>-->
+
+<!--					<div class="container-login100-form-btn m-t-20">-->
+<!--						<button class="login100-form-btn" type="submit">-->
+<!--							Sign in-->
+<!--						</button>-->
+<!--					</div>-->
+
+<!--					<div class="text-center p-t-45 p-b-4">-->
+<!--						<span class="txt1">-->
+<!--							Forgot-->
+<!--						</span>-->
+
+<!--						<a href="#" class="txt2 hov1">-->
+<!--							Username / Password?-->
+<!--						</a>-->
+<!--					</div>-->
+
+<!--					<div class="text-center">-->
+<!--						<span class="txt1">-->
+<!--							Create an account?-->
+<!--						</span>-->
+
+<!--						<a th:href="@{/registerUser}" class="txt2 hov1">-->
+<!--							Sign up-->
+<!--						</a>-->
+<!--					</div>-->
+<!--				</form>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--	</div>-->
+<!--</form>-->
+<!--</body>-->
+<!--<script src="../static/vendor/animsition/js/animsition.min.js"></script>-->
+<!--<script src="../static/vendor/select2/select2.min.js"></script>-->
+<!--<script src="../static/vendor/daterangepicker/moment.min.js"></script>-->
+<!--<script src="../static/vendor/daterangepicker/daterangepicker.js"></script>-->
+<!--<script src="../static/vendor/countdowntime/countdowntime.js"></script>-->
+<!--<script src="../static/js/main.js"></script>-->
+<!--</html>-->

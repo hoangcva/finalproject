@@ -4,6 +4,7 @@ import com.project.ecommerce.dto.UserDto;
 import com.project.ecommerce.form.UserRegisterForm;
 import com.project.ecommerce.form.UserUpdateForm;
 import com.project.ecommerce.form.VendorForm;
+import com.project.ecommerce.util.Message;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -17,5 +18,5 @@ public interface IUserService extends UserDetailsService {
     void updateUser(UserUpdateForm userUpdateForm);
     List<UserDto> getAllUser();
     boolean deleteUser(Long userId);
-    void createVendor(VendorForm vendorForm);
+
 }

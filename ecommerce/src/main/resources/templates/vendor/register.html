@@ -1,81 +1,140 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/template :: head_input(~{::title})">
-    <title>Order success</title>
+	<title>Order success</title>
 </head>
 <body>
 <!-- Include _header.html -->
 <th:block th:include="/common/_header"></th:block>
-<h2>Create Account</h2>
-<div th:if="${errorMessage != null}"
-     th:utext="${errorMessage}" class="error">...</div>
-<form name="register" th:object="${vendor_form}" th:action="@{/saveVendor}" method="post">
-    <table>
-        <tr>
-            <td>Username</td>
-            <td><input th:field="*{userName}" type='text'></td>
-            <td th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></td>
-        </tr>
-        <tr>
-            <td>Fullname</td>
-            <td><input th:field="*{fullName}" type='text'></td>
-            <td th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></td>
-        </tr>
-        <tr>
-            <td>Phone number</td>
-            <td><input th:field="*{phoneNumber}" type='text'></td>
-            <td th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></td>
-        </tr>
-        <tr>
-            <td>Email</td>
-            <td><input th:field="*{email}" type='text'></td>
-            <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></td>
-        </tr>
-        <tr>
-            <td>Password</td>
-            <td><input th:field="*{password}" type='password' autocomplete="off"></td>
-            <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></td>
-        </tr>
-        <tr>
-            <td>Confirm password</td>
-            <td><input th:field="*{confirmPassword}" type='password' autocomplete="off"></td>
-            <td th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></td>
-        </tr>
-        <tr>
-            <td>Business code</td>
-            <td><input th:field="*{businessCode}" type='text'></td>
-            <td th:if="${#fields.hasErrors('businessCode')}" th:errors="*{businessCode}"></td>
-        </tr>
-        <tr>
-            <td>Category</td>
-            <td>
-                <select th:field="*{category}">
-                    <option th:each="category : ${category_list}" th:text="${category.name}" th:value="${category.id}"></option>
-                </select>
-            </td>
-            <td th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></td>
-        </tr>
-        <tr>
-            <td>City</td>
-            <td>
-                <select th:field="*{province}">
-<!--                    <option value="0" selected="true" text="&#45;&#45;"></option>-->
-                    <option th:each="province : ${province_list}" th:value="${province.id}" th:text="${province.name}"></option>
-                </select>
-            </td>
-            <td th:if="${#fields.hasErrors('province')}" th:errors="*{province}"></td>
-        </tr>
-        <tr>
-            <td>Detail</td>
-            <td>
-                <textarea th:field="*{addressDetail}"></textarea>
-            </td>
-            <td th:if="${#fields.hasErrors('addressDetail')}">
-                <span th:errors="*{addressDetail}"></span>
-            </td>
-        </tr>
-    </table>
-    <button type="submit" th:text="Submit"></button>
-</form>
+<div class="container">
+	<div class="row">
+		<h3>Update Vendor Information</h3>
+	</div>
+	<div class="row">
+		<div class="col-12">
+			<div th:replace="fragments/template :: display-error-message"/>
+			<form name="vendor_register" th:object="${vendorForm}" th:action="@{/saveVendor}" method="post" autocomplete="chrome-off">
+				<div class="form-group w-25">
+					<label for="userName">Username</label>
+					<input class="form-control" id="userName" type="text" th:field="*{userName}"
+					       placeholder="Enter username"
+					       th:classappend="${(#fields.hasErrors('userName')?'is-invalid':'')
+                               + (!#fields.hasErrors('userName') and vendorForm.isSubmitted() ? 'is-valid':'')}">
+					<label class="invalid-feedback" th:if="${#fields.hasErrors('userName')}"
+					       th:errors="*{userName}"></label>
+				</div>
+				<div class="form-group w-25">
+					<label for="businessCode">Business code</label>
+					<input class="form-control" id="businessCode" type="text" th:field="*{businessCode}"
+					       placeholder="Enter business code"
+					       th:classappend="${(#fields.hasErrors('businessCode')?'is-invalid':'')
+                               + (!#fields.hasErrors('businessCode') and vendorForm.isSubmitted() ? 'is-valid':'')}">
+					<label class="invalid-feedback" th:if="${#fields.hasErrors('businessCode')}"
+					       th:errors="*{businessCode}"></label>
+				</div>
+				<hr class="my-4">
+				<div class="form-row" th:if="${vendorForm.action eq 'register'}">
+					<div class="form-group col-3">
+						<label for="password">Password</label>
+						<input class="form-control" id="password" type='password'
+						       placeholder="Enter password" th:field="*{password}"
+						       th:classappend="${(#fields.hasErrors('password')?'is-invalid':'')
+                               + (!#fields.hasErrors('password') and vendorForm.isSubmitted() ? 'is-valid':'')}">
+						<label class="invalid-feedback" th:if="${#fields.hasErrors('password')}"
+						       th:errors="*{password}"></label>
+					</div>
+					<div class="form-group col-3">
+						<label for="confirmPassword">Confirm password</label>
+						<input class="form-control" id="confirmPassword" type='password'
+						       placeholder="Enter confirm password" th:field="*{confirmPassword}"
+						       th:classappend="${(#fields.hasErrors('confirmPassword')?'is-invalid':'')
+                               + (!#fields.hasErrors('confirmPassword') and vendorForm.isSubmitted() ? 'is-valid':'')}">
+						<label class="invalid-feedback" th:if="${#fields.hasErrors('confirmPassword')}"
+						       th:errors="*{confirmPassword}"></label>
+					</div>
+				</div>
+				<hr class="my-4">
+				<div class="form-row">
+					<div class="form-group col-3">
+						<label for="fullName">Full name</label>
+						<input class="form-control" id="fullName" type="text" th:field="*{fullName}"
+						       placeholder="Enter full name"
+						       th:classappend="${(#fields.hasErrors('fullName')?'is-invalid':'')
+                               + (!#fields.hasErrors('fullName') and vendorForm.isSubmitted() ? 'is-valid':'')}">
+						<label class="invalid-feedback" th:if="${#fields.hasErrors('fullName')}"
+						       th:errors="*{fullName}"></label>
+					</div>
+					<div class="form-group col-3">
+						<label for="vendorName">Store name</label>
+						<input class="form-control" id="vendorName" type="text" th:field="*{vendorName}"
+						       placeholder="Enter store name"
+						       th:classappend="${(#fields.hasErrors('vendorName')?'is-invalid':'')
+                               + (!#fields.hasErrors('vendorName') and vendorForm.isSubmitted() ? 'is-valid':'')}">
+						<label class="invalid-feedback" th:if="${#fields.hasErrors('vendorName')}"
+						       th:errors="*{vendorName}"></label>
+					</div>
+					<div class="form-group col-3">
+						<label for="categoryId">City</label>
+						<select class="form-control" th:field="*{categoryId}" id="categoryId">
+							<option th:each="category : ${categoryList}"
+							        th:value="${category.id}"
+							        th:text="${category.name}"></option>
+						</select>
+					</div>
+				</div>
+				<hr class="my-4">
+				<div class="form-row">
+					<div class="form-group col-3">
+						<label for="email">Email</label>
+						<input class="form-control" id="email" type="text" th:field="*{email}"
+						       placeholder="Enter email"
+						       th:classappend="${(#fields.hasErrors('email')?'is-invalid':'')
+                               + (!#fields.hasErrors('email') and vendorForm.isSubmitted() ? 'is-valid':'')}">
+						<label class="invalid-feedback" th:if="${#fields.hasErrors('email')}"
+						       th:errors="*{email}"></label>
+					</div>
+					<div class="form-group col-3">
+						<label for="phoneNumber">Phone number</label>
+						<input class="form-control" id="phoneNumber" type="text" th:field="*{phoneNumber}"
+						       placeholder="Enter phone number"
+						       th:classappend="${(#fields.hasErrors('phoneNumber')?'is-invalid':'')
+                               + (!#fields.hasErrors('phoneNumber') and vendorForm.isSubmitted() ? 'is-valid':'')}">
+						<label class="invalid-feedback" th:if="${#fields.hasErrors('phoneNumber')}"
+						       th:errors="*{phoneNumber}"></label>
+					</div>
+					<div class="form-group col-3">
+						<label for="province">City</label>
+						<select class="form-control" th:field="*{province}" id="province">
+							<option th:each="province : ${provinceList}"
+							        th:value="${province.id}"
+							        th:text="${province.name}"></option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group w-75">
+					<label for="addressDetail">Address detail</label>
+					<p th:classappend="${(#fields.hasErrors('addressDetail')?'border border-danger':'')
+	                               + (!#fields.hasErrors('addressDetail') and vendorForm.isSubmitted() ? 'border border-success':'')}">
+					<textarea class="form-control" id="addressDetail" type="text" th:field="*{addressDetail}"
+					          placeholder="Enter address detail"></textarea>
+					</p>
+					<label class="invalid-feedback" th:if="${#fields.hasErrors('addressDetail')}"
+					       th:errors="*{addressDetail}"></label>
+				</div>
+				<div class="form-group w-75">
+					<label for="description">Description</label>
+					<p th:classappend="${(#fields.hasErrors('description')?'border border-danger':'')
+	                               + (!#fields.hasErrors('description') and vendorForm.isSubmitted() ? 'border border-success':'')}">
+						<textarea class="form-control" id="description" type="text" th:field="*{description}"
+						          placeholder="Enter description"></textarea>
+					</p>
+					<label class="invalid-feedback" th:if="${#fields.hasErrors('description')}"
+					       th:errors="*{description}"></label>
+				</div>
+				<button type="submit" th:text="Update" class="btn btn-primary"></button>
+			</form>
+		</div>
+	</div>
+</div>
 </body>
 </html>

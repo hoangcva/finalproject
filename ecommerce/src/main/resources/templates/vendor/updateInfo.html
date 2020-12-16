@@ -5,34 +5,103 @@
 </head>
 <body>
 <th:block th:include="/common/_header"></th:block>
-	<div class="container">
-		<div class="row">
-			<h3>Update Vendor Information</h3>
-		</div>
-		<div class="row">
-			<div class="col-12">
-				<form name="update_user" th:object="${vendorForm}" th:action="@{/updateUser}" method="post">
-					<table>
-						<tr>
-							<td>Username</td>
-							<td><div th:text="*{userName}"></div></td>
-							<td><input type="hidden" th:field="*{userName}" th:value="*{userName}"></td>
-						</tr>
-						<tr>
-							<td>Fullname</td>
-							<td><input type='text' th:field="*{fullName}" th:value="*{fullName}"></td>
-							<td th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></td>
-						</tr>
-						<tr>
-							<td>Email</td>
-							<td><input th:field="*{email}" type='text' th:value="*{email}"></td>
-							<td th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></td>
-						</tr>
-					</table>
-					<button type="submit" th:text="Update"></button>
-				</form>
-			</div>
+<div class="container">
+	<div class="row">
+		<h3>Update Vendor Information</h3>
+	</div>
+	<div class="row">
+		<div class="col-12">
+			<form name="update_user" th:object="${vendorForm}" th:action="@{/vendor/info/update}" method="post">
+				<div class="form-group w-25">
+					<label for="userName">Username</label>
+					<!--					<span id="userName" type="text" th:text="*{userName}"></span>-->
+					<input type="text" th:field="*{userName}" class="form-control" id="userName" disabled>
+				</div>
+				<div class="form-group w-25">
+					<label for="businessCode">Business code</label>
+					<!--					<span id="businessCode" type="text" th:text="*{businessCode}"></span>-->
+					<input type="text" th:field="*{businessCode}" class="form-control" id="businessCode" disabled>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-3">
+						<label for="fullName">Full name</label>
+						<input class="form-control" id="fullName" type="text" th:field="*{fullName}"
+						       placeholder="Enter full name"
+						       th:classappend="${(#fields.hasErrors('fullName')?'is-invalid':'')
+                               + (!#fields.hasErrors('fullName') and vendorForm.isSubmitted() ? 'is-valid':'')}">
+						<label class="invalid-feedback" th:if="${#fields.hasErrors('fullName')}"
+						       th:errors="*{fullName}"></label>
+					</div>
+					<div class="form-group col-3">
+						<label for="vendorName">Store name</label>
+						<input class="form-control" id="vendorName" type="text" th:field="*{vendorName}"
+						       placeholder="Enter store name"
+						       th:classappend="${(#fields.hasErrors('vendorName')?'is-invalid':'')
+                               + (!#fields.hasErrors('vendorName') and vendorForm.isSubmitted() ? 'is-valid':'')}">
+						<label class="invalid-feedback" th:if="${#fields.hasErrors('vendorName')}"
+						       th:errors="*{vendorName}"></label>
+					</div>
+					<div class="form-group col-3">
+						<label for="categoryId">City</label>
+						<select class="form-control" th:field="*{categoryId}" id="categoryId">
+							<option th:each="category : ${categoryList}"
+							        th:value="${category.id}"
+							        th:text="${category.name}"></option>
+						</select>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-3">
+						<label for="email">Email</label>
+						<input class="form-control" id="email" type="text" th:field="*{email}"
+						       placeholder="Enter email"
+						       th:classappend="${(#fields.hasErrors('email')?'is-invalid':'')
+                               + (!#fields.hasErrors('email') and vendorForm.isSubmitted() ? 'is-valid':'')}">
+						<label class="invalid-feedback" th:if="${#fields.hasErrors('email')}"
+						       th:errors="*{email}"></label>
+					</div>
+					<div class="form-group col-3">
+						<label for="phoneNumber">Phone number</label>
+						<input class="form-control" id="phoneNumber" type="text" th:field="*{phoneNumber}"
+						       placeholder="Enter phone number"
+						       th:classappend="${(#fields.hasErrors('phoneNumber')?'is-invalid':'')
+                               + (!#fields.hasErrors('phoneNumber') and vendorForm.isSubmitted() ? 'is-valid':'')}">
+						<label class="invalid-feedback" th:if="${#fields.hasErrors('phoneNumber')}"
+						       th:errors="*{phoneNumber}"></label>
+					</div>
+					<div class="form-group col-3">
+						<label for="province">City</label>
+						<select class="form-control" th:field="*{province}" id="province">
+							<option th:each="province : ${provinceList}"
+							        th:value="${province.id}"
+							        th:text="${province.name}"></option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group w-75">
+					<label for="addressDetail">Address detail</label>
+					<p th:classappend="${(#fields.hasErrors('addressDetail')?'border border-danger':'')
+	                               + (!#fields.hasErrors('addressDetail') and vendorForm.isSubmitted() ? 'border border-success':'')}">
+					<textarea class="form-control" id="addressDetail" type="text" th:field="*{addressDetail}"
+					          placeholder="Enter address detail"></textarea>
+					</p>
+					<label class="invalid-feedback" th:if="${#fields.hasErrors('addressDetail')}"
+					       th:errors="*{addressDetail}"></label>
+				</div>
+				<div class="form-group w-75">
+					<label for="description">Description</label>
+					<p th:classappend="${(#fields.hasErrors('description')?'border border-danger':'')
+	                               + (!#fields.hasErrors('description') and vendorForm.isSubmitted() ? 'border border-success':'')}">
+						<textarea class="form-control" id="description" type="text" th:field="*{description}"
+						          placeholder="Enter description"></textarea>
+					</p>
+					<label class="invalid-feedback" th:if="${#fields.hasErrors('description')}"
+					       th:errors="*{description}"></label>
+				</div>
+				<button type="submit" th:text="Update" class="btn btn-primary"></button>
+			</form>
 		</div>
 	</div>
+</div>
 </body>
 </html>

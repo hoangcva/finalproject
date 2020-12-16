@@ -16,7 +16,7 @@ public class UserDto implements Serializable {
     private String role;
     private String fullName;
     private String email;
-    private Timestamp timestamp;
+    private Timestamp updateTime;
     private Timestamp createdTime;
 
     public Timestamp getCreatedTime() {
@@ -27,12 +27,12 @@ public class UserDto implements Serializable {
         this.createdTime = createdTime;
     }
 
-    public Timestamp getTimestamp() {
-        return timestamp;
+    public Timestamp getUpdateTime() {
+        return updateTime;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
     }
 
     public UserDto() {

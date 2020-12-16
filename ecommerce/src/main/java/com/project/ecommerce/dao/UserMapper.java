@@ -25,4 +25,7 @@ public interface UserMapper {
     int findVendorExist(@Param("userName") @Nullable String userName, @Param("email") @Nullable String email, @Param("businessCode") @Nullable String businessCode);
     void createVendor(VendorDto vendorDto);
     boolean deleteVendor(@Param("vendorId") Long vendorId);
+
+    VendorDto getVendorInfo(@Param("vendorId") Long vendorId);
+    void updateVendor(VendorDto vendorDto);
 }

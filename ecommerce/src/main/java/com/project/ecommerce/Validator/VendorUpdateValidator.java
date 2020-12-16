@@ -20,7 +20,7 @@ public class VendorUpdateValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return clazz == UserUpdateForm.class;
+        return clazz == VendorForm.class;
     }
 
     @Override

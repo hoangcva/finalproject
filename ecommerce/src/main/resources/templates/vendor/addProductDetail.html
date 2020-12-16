@@ -272,7 +272,7 @@
 						<label for="description">Description:</label>
 						<p th:classappend="${(#fields.hasErrors('description')?'border border-danger':'')
 	                               + (!#fields.hasErrors('description') and productForm.isSubmitted() ? 'border border-success':'')}">
-							<textarea class="form-control" id="description" name="description"></textarea>
+							<textarea class="form-control textarea-custom" id="description" name="description"></textarea>
 						</p>
 						<label class="invalid-feedback d-block" th:if="${#fields.hasErrors('description')}"
 						       th:errors="*{description}"></label>

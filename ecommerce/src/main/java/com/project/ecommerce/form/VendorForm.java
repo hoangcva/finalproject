@@ -8,9 +8,27 @@ public class VendorForm extends UserRegisterForm{
     private String description;
     private String addressDetail;
     private Boolean enable;
-    private int category;
+    private int categoryId;
     private long vendorId;
     private String vendorName;
+    private boolean isSubmitted = false;
+    private String action;
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public boolean isSubmitted() {
+        return isSubmitted;
+    }
+
+    public void setSubmitted(boolean submitted) {
+        isSubmitted = submitted;
+    }
 
     public String getVendorName() {
         return vendorName;
@@ -79,11 +97,11 @@ public class VendorForm extends UserRegisterForm{
         this.enable = enable;
     }
 
-    public int getCategory() {
-        return category;
+    public int getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(int category) {
-        this.category = category;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 }

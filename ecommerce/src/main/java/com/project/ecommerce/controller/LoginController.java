@@ -12,10 +12,12 @@ public class LoginController {
     public String login(@RequestParam(required = false) String message, Model model) throws Exception {
         if (message != null && !message.isEmpty()) {
             if (message.equals("logout")) {
-                model.addAttribute("message", "Logout!");
+                model.addAttribute("message", "You have been logged out!");
+                model.addAttribute("isSuccess", true);
             }
             else if (message.equals("error")) {
-                model.addAttribute("message", "Login Failed!");
+                model.addAttribute("message", "Invalid username or password!");
+                model.addAttribute("isSuccess", false);
             }
         }
 

@@ -66,21 +66,5 @@
             #{vendor_address_detail,jdbcType=VARCHAR}
         )
     </insert>
-
-    <update id="updateVendor" parameterType="com.project.ecommerce.dto.VendorDto">
-        UPDATE vendor_info
-        SET
-            vendor_name = #{vendorName},
-            vendor_phone = #{phoneNumber},
-            province = #{province},
-            vendor_address_detail = #{addressDetail},
-            category = #{categoryId},
-            description = #{description}
-        WHERE vendorId = #{id}
-    </update>
-
-    <select id="getInfo" resultType="VendorResultMap">
-        SELECT * FROM vendor_info WHERE vendorId = #{vendorId}
-    </select>
 </mapper>
 

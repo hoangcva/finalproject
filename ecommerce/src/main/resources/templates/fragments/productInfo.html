@@ -225,7 +225,7 @@
 <div th:fragment="edit-info-description" class="container">
 	<div class="form-group">
 		<label for="description"></label>
-		<textarea class="form-control" id="description" name="description" th:text="*{description}"
+		<textarea class="form-control textarea-custom" id="description" name="description" th:text="*{description}"
 		          th:classappend="${(#fields.hasErrors('description')?'is-invalid':'')
                                + (!#fields.hasErrors('description') and productForm.isSubmitted() ? 'is-valid':'')}"></textarea>
 		<label class="invalid-feedback" th:if="${#fields.hasErrors('description')}"

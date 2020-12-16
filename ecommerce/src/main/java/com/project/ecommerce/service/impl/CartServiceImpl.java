@@ -166,6 +166,8 @@ public class CartServiceImpl implements ICartService {
             cartMapper.clearCart(customerId);
             //commit
             transactionManager.commit(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_02_E, ""));
+            //todo
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_02_E, ""));
