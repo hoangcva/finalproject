@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +16,24 @@ public class UserDto implements Serializable {
     private String role;
     private String fullName;
     private String email;
-//    private String province;
-    private String gender;
+    private Timestamp timestamp;
+    private Timestamp createdTime;
 
+    public Timestamp getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(Timestamp createdTime) {
+        this.createdTime = createdTime;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
+    }
 
     public UserDto() {
     }
@@ -69,22 +85,6 @@ public class UserDto implements Serializable {
     public void setRole(String role) {
         this.role = role;
     }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-//    public String getProvince() {
-//        return province;
-//    }
-//
-//    public void setProvince(String province) {
-//        this.province = province;
-//    }
 
     public List<GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();

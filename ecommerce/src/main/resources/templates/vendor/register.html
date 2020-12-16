@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Register page</title>
+<head th:replace="fragments/template :: head_input(~{::title})">
+    <title>Order success</title>
 </head>
 <body>
 <!-- Include _header.html -->
@@ -54,7 +53,7 @@
                     <option th:each="category : ${category_list}" th:text="${category.name}" th:value="${category.id}"></option>
                 </select>
             </td>
-            <td th:if="${#fields.hasErrors('category')}" th:errors="*{gender}"></td>
+            <td th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></td>
         </tr>
         <tr>
             <td>City</td>
@@ -65,6 +64,15 @@
                 </select>
             </td>
             <td th:if="${#fields.hasErrors('province')}" th:errors="*{province}"></td>
+        </tr>
+        <tr>
+            <td>Detail</td>
+            <td>
+                <textarea th:field="*{addressDetail}"></textarea>
+            </td>
+            <td th:if="${#fields.hasErrors('addressDetail')}">
+                <span th:errors="*{addressDetail}"></span>
+            </td>
         </tr>
     </table>
     <button type="submit" th:text="Submit"></button>

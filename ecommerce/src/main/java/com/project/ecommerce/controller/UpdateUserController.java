@@ -37,7 +37,6 @@ public class UpdateUserController {
         UserUpdateForm user = new UserUpdateForm();
         user.setUserName(userDetails.getUsername());
         user.setFullName(userDetails.getUserDto().getFullName());
-        user.setGender(userDetails.getUserDto().getGender());
         user.setPassword(userDetails.getPassword());
         user.setEmail(userDetails.getUserDto().getEmail());
         user.nullToEmpty();

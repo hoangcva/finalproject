@@ -4,9 +4,7 @@ public class VendorDto extends UserDto {
     private static final long serialVersionUID = -8092566688474235512L;
     private String phoneNumber;
     private String businessCode;
-    private int district;
     private int province;
-    private int ward;
     private String description;
     private String addressDetail;
     private Boolean enable;
@@ -38,28 +36,12 @@ public class VendorDto extends UserDto {
         this.businessCode = businessCode;
     }
 
-    public int getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(int district) {
-        this.district = district;
-    }
-
     public int getProvince() {
         return province;
     }
 
     public void setProvince(int province) {
         this.province = province;
-    }
-
-    public int getWard() {
-        return ward;
-    }
-
-    public void setWard(int ward) {
-        this.ward = ward;
     }
 
     public String getDescription() {

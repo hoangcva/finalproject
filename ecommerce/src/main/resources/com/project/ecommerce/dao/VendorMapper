@@ -5,7 +5,7 @@
 
 <mapper namespace="com.project.ecommerce.dao.VendorMapper">
     <resultMap id="VendorResultMap" type="com.project.ecommerce.dto.VendorDto">
-        <id property="vendorId" column="id" />
+        <id property="vendorId" column="vendorId" />
         <result property="userName" column="username"/>
         <result property="fullName" column="vendor_name"/>
         <result property="phoneNumber" column="vendor_phone"/>
@@ -30,7 +30,7 @@
     <select id="findVendorExist" resultType="int" fetchSize="200">
         SELECT count(*)
         FROM users u
-        INNER JOIN vendor_info vi on u.id = vi.id
+        INNER JOIN vendor_info vi on u.id = vi.vendorId
         <where>
             <if test="userName != null">
                 AND username = #{userName}
@@ -47,7 +47,7 @@
     <insert id="createVendor" parameterType="com.project.ecommerce.dto.VendorDto">
         INSERT INTO vendor_info
         (
-            id,
+            vendorId,
             vendor_name,
             vendor_phone,
             province,
@@ -58,7 +58,7 @@
         VALUES
         (
             #{id,jdbcType=BIGINT},
-            #{fullName,jdbcType=VARCHAR},
+            #{vendorName,jdbcType=VARCHAR},
             #{phoneNumber,jdbcType=VARCHAR},
             #{province,jdbcType=INTEGER},
             #{businessCode,jdbcType=VARCHAR},
@@ -70,16 +70,17 @@
     <update id="updateVendor" parameterType="com.project.ecommerce.dto.VendorDto">
         UPDATE vendor_info
         SET
-            vendor_name = #{fullName},
-            vendor_phone = #{email},
+            vendor_name = #{vendorName},
+            vendor_phone = #{phoneNumber},
             province = #{province},
-            province = #{gender},
-            category = #{gender}
-        WHERE id = #{id}
+            vendor_address_detail = #{addressDetail},
+            category = #{categoryId},
+            description = #{description}
+        WHERE vendorId = #{id}
     </update>
 
     <select id="getInfo" resultType="VendorResultMap">
-        SELECT * FROM vendor_info WHERE id = #{id}
+        SELECT * FROM vendor_info WHERE vendorId = #{vendorId}
     </select>
 </mapper>
 

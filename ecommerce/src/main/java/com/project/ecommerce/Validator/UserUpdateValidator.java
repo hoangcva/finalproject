@@ -29,7 +29,6 @@ public class UserUpdateValidator implements Validator {
         // Kiểm tra các field của UserForm.
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fullName", "NotEmpty.UserForm.fullname");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty.UserForm.email");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "gender", "NotEmpty.UserForm.gender");
 
         if (!this.emailValidator.isValid(userUpdateForm.getEmail())) {
             // Email không hợp lệ.

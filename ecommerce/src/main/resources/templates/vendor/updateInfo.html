@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/template :: head_input(~{::title})">
+	<title>Add product</title>
+</head>
+<body>
+<th:block th:include="/common/_header"></th:block>
+	<div class="container">
+		<div class="row">
+			<h3>Update Vendor Information</h3>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<form name="update_user" th:object="${vendorForm}" th:action="@{/updateUser}" method="post">
+					<table>
+						<tr>
+							<td>Username</td>
+							<td><div th:text="*{userName}"></div></td>
+							<td><input type="hidden" th:field="*{userName}" th:value="*{userName}"></td>
+						</tr>
+						<tr>
+							<td>Fullname</td>
+							<td><input type='text' th:field="*{fullName}" th:value="*{fullName}"></td>
+							<td th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></td>
+						</tr>
+						<tr>
+							<td>Email</td>
+							<td><input th:field="*{email}" type='text' th:value="*{email}"></td>
+							<td th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></td>
+						</tr>
+					</table>
+					<button type="submit" th:text="Update"></button>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

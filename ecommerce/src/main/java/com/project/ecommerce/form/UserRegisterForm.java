@@ -8,7 +8,6 @@ public class UserRegisterForm implements Serializable {
     private String userName;
     private String password;
     private String fullName;
-    private String gender;
     private String email;
     private String confirmPassword;
 
@@ -21,14 +20,6 @@ public class UserRegisterForm implements Serializable {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public String getEmail() {
@@ -73,7 +64,6 @@ public class UserRegisterForm implements Serializable {
 
     public void nullToEmpty() {
         this.fullName = this.fullName == null ? "" : this.fullName;
-        this.gender = this.fullName == null ? "" : this.fullName;
         this.email = this.email == null ? "" : this.email;
     }
 }

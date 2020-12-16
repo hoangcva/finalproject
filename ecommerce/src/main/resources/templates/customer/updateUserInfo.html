@@ -30,17 +30,6 @@
             <td><input th:field="*{email}" type='text' th:value="*{email}"></td>
             <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></td>
         </tr>
-        <tr>
-            <td>Gender</td>
-            <td>
-                <select th:field="*{gender}">
-                    <option th:value="'M'" th:text="Male" th:selected="*{gender == 'M'}"></option>
-                    <option th:value="'F'" th:text="Female" th:selected="*{gender == 'F'}"></option>
-                    <option th:value="'O'" th:text="Other" th:selected="*{gender == 'O'}"></option>
-                </select>
-            </td>
-            <td th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></td>
-        </tr>
     </table>
     <button type="submit" th:text="Update"></button>
 </form>

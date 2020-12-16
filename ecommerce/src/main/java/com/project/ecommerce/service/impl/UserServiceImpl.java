@@ -76,7 +76,6 @@ public class UserServiceImpl implements IUserService {
             userDto.setUserName(userUpdateForm.getUserName());
             userDto.setEmail(userUpdateForm.getEmail());
             userDto.setFullName(userUpdateForm.getFullName());
-            userDto.setGender(userUpdateForm.getGender());
             userMapper.updateUser(userDto);
             transactionManager.commit(txStatus);
         } catch (Exception ex) {

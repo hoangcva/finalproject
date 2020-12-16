@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/template :: head_input(~{::title})">
+	<title>404</title>
+</head>
+<body>
+<th:block th:include="/common/_header"></th:block>
+<main>
+	<div class="container">
+		<div class="row justify-content-lg-center background-img">
+			<div class="col-auto">
+				<span>500</span>
+				<a class="btn btn-primary mt-5" th:href="@{/}">Back to main page</a>
+			</div>
+		</div>
+	</div>
+</main>
+</body>
+<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/404.css}"
+      href="../../css/404.css">
+</html>

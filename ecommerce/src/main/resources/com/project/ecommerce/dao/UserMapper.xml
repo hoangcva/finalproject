@@ -22,9 +22,6 @@
     <insert id="createUser" parameterType="com.project.ecommerce.dto.UserDto" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO users
             (
-            <if test="gender != null">
-             gender,
-            </if>
             username,
             password,
             fullname,
@@ -33,9 +30,6 @@
             )
         VALUES
             (
-            <if test="gender != null">
-             #{gender,jdbcType=VARCHAR},
-            </if>
              #{userName,jdbcType=VARCHAR},
              #{password,jdbcType=VARCHAR},
              #{fullName,jdbcType=VARCHAR},
@@ -51,7 +45,7 @@
         SET
             fullname = #{fullName},
             email = #{email},
-            gender = #{gender}
+            update_time = #{updateTime}
         WHERE username = #{userName}
     </update>
     <delete id="deleteUser" parameterType="Long">
@@ -86,7 +80,7 @@
     <select id="findVendorExist" resultType="int" fetchSize="200">
         SELECT count(*)
         FROM users u
-        INNER JOIN vendor_info vi on u.id = vi.id
+        INNER JOIN vendor_info vi on u.id = vi.vendorId
         <where>
             <if test="userName != null">
                 AND username = #{userName}
@@ -103,13 +97,14 @@
     <insert id="createVendor" parameterType="com.project.ecommerce.dto.VendorDto">
         INSERT INTO vendor_info
         (
-            id,
+            vendorId,
             vendor_name,
             vendor_phone,
             province,
             business_code,
             category,
-            vendor_address_detail
+            vendor_address_detail,
+            description
         )
         VALUES
         (
@@ -119,23 +114,13 @@
             #{province,jdbcType=INTEGER},
             #{businessCode,jdbcType=VARCHAR},
             #{categoryId,jdbcType=INTEGER},
-            #{addressDetail,jdbcType=VARCHAR}
+            #{addressDetail,jdbcType=VARCHAR},
+            #{description,jdbcType=VARCHAR}
         )
     </insert>
 
-    <update id="updateVendor" parameterType="com.project.ecommerce.dto.VendorDto">
-        UPDATE vendor_info
-        SET
-            vendor_name = #{fullName},
-            vendor_phone = #{email},
-            province = #{province},
-            province = #{gender},
-            category = #{gender}
-        WHERE id = #{id}
-    </update>
-
     <delete id="deleteVendor" parameterType="long">
-        DELETE FROM vendor_info WHERE id = #{vendorId}
+        DELETE FROM vendor_info WHERE vendorId = #{vendorId}
     </delete>
 </mapper>
 

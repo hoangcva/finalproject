@@ -9,7 +9,6 @@ public class UserUpdateForm implements Serializable {
     private String password;
     private String fullName;
     private Boolean enable;
-    private String gender;
     private String email;
     private String confirmPassword;
     private String province;
@@ -31,14 +30,6 @@ public class UserUpdateForm implements Serializable {
 
     public void setEnable(Boolean enable) {
         this.enable = enable;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public String getEmail() {
@@ -91,7 +82,6 @@ public class UserUpdateForm implements Serializable {
 
     public void nullToEmpty() {
         this.fullName = this.fullName == null ? "" : this.fullName;
-        this.gender = this.fullName == null ? "" : this.fullName;
         this.email = this.email == null ? "" : this.email;
         this.province = this.province == null ? "" : this.province;
     }

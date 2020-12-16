@@ -36,17 +36,6 @@
             <td><input th:field="*{confirmPassword}" type='password'></td>
             <td th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></td>
         </tr>
-        <tr>
-            <td>Gender</td>
-            <td>
-                <select th:field="*{gender}">
-                    <option th:value="'M'" th:text="Male"></option>
-                    <option th:value="'F'" th:text="Female"></option>
-                    <option th:value="'O'" th:text="Other"></option>
-                </select>
-            </td>
-            <td th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></td>
-        </tr>
     </table>
     <button type="submit" th:text="Submit"></button>
 </form>

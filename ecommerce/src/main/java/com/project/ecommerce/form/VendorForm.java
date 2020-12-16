@@ -4,14 +4,21 @@ public class VendorForm extends UserRegisterForm{
     private static final long serialVersionUID = -6026754792396613636L;
     private String phoneNumber;
     private String businessCode;
-    private int district;
     private int province;
-    private int ward;
     private String description;
     private String addressDetail;
     private Boolean enable;
     private int category;
     private long vendorId;
+    private String vendorName;
+
+    public String getVendorName() {
+        return vendorName;
+    }
+
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
+    }
 
     public long getVendorId() {
         return vendorId;
@@ -40,28 +47,12 @@ public class VendorForm extends UserRegisterForm{
         this.businessCode = businessCode;
     }
 
-    public int getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(int district) {
-        this.district = district;
-    }
-
     public int getProvince() {
         return province;
     }
 
     public void setProvince(int province) {
         this.province = province;
-    }
-
-    public int getWard() {
-        return ward;
-    }
-
-    public void setWard(int ward) {
-        this.ward = ward;
     }
 
     public String getDescription() {

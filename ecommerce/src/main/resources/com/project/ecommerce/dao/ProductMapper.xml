@@ -143,8 +143,8 @@
              WHERE p.id = #{productId}
                AND vp.vendorId = #{vendorId} ) t1
         LEFT JOIN
-                (SELECT vendor_name, id FROM vendor_info) t2
-                 ON t1.vendorId = t2.id;
+                (SELECT vendor_name, vendorId FROM vendor_info) t2
+                 ON t1.vendorId = t2.vendorId;
 #         LEFT JOIN
 #                 (SELECT size, material, color, productId FROM category1_fashion_detail) c1
 #                 ON c1.productId = t1.id
@@ -164,7 +164,7 @@
 
     <select id="getVendorListByProduct" resultMap="VendorResultMap" fetchSize="200">
         SELECT vendorId, productId, product_quantity, product_price, product_rating, vendor_name FROM vendor_product vp
-        INNER JOIN vendor_info vi ON vp.vendorId = vi.id
+        INNER JOIN vendor_info vi ON vp.vendorId = vi.vendorId
         WHERE productId = #{productId}
     </select>
 
