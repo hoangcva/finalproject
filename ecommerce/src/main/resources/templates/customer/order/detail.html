@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/template :: head_input(~{::title})">
+	<title>Order</title>
+</head>
+<body>
+<th:block th:include="/common/_header"></th:block>
+
+<div class="container">
+	<div class="row"></div>
+	<div class="row">
+		<div class="col-lg">
+			<table class="table">
+				<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Product</th>
+					<th scope="col">Price</th>
+					<th scope="col">Quantity</th>
+<!--					<th scope="col">Discount</th>-->
+					<th scope="col">Total</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr th:each="order,iStat  : ${orderForm.orderDetailList}">
+					<th scope="row" th:text="${iStat.count}"></th>
+					<td><a th:text="${order.productForm.productName}"
+					       th:href="@{/product/view/detail(productId = ${order.productForm.productId})}"></a>
+					</td>
+					<td class="money"th:text="${order.price}"></td>
+					<td th:text="${order.buyQuantity}"></td>
+<!--					<td></td>-->
+					<td class="bill-total money" th:text="${order.buyQuantity * order.price}"></td>
+				</tr>
+				</tbody>
+				<tfoot>
+<!--					<tr>-->
+<!--						<td>Temp</td>-->
+<!--						<td></td>-->
+<!--					</tr>-->
+<!--					<tr>-->
+<!--						<td>Discount</td>-->
+<!--						<td></td>-->
+<!--					</tr>-->
+					<tr>
+						<td>Total</td>
+						<td class="bill-total money" th:text="${orderForm.billTotal}"></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

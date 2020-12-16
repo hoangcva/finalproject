@@ -1,17 +1,15 @@
 package com.project.ecommerce.service.impl;
 
 import com.project.ecommerce.Consts.Consts;
-import com.project.ecommerce.dao.CartMapper;
-import com.project.ecommerce.dao.OrderMapper;
-import com.project.ecommerce.dao.ProductMapper;
+import com.project.ecommerce.dao.*;
 import com.project.ecommerce.dto.OrderDetailDto;
 import com.project.ecommerce.dto.OrderDto;
 import com.project.ecommerce.dto.UserDetailsDto;
+import com.project.ecommerce.dto.VendorDto;
 import com.project.ecommerce.form.*;
 import com.project.ecommerce.service.ICartService;
 import com.project.ecommerce.service.ICustomerAddressService;
 import com.project.ecommerce.service.IOrderCustomerService;
-import com.project.ecommerce.util.CommonUtils;
 import com.project.ecommerce.util.Message;
 import com.project.ecommerce.util.MessageAccessor;
 import org.springframework.beans.BeanUtils;
@@ -42,6 +40,8 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
     private MessageAccessor messageAccessor;
     @Autowired
     private CartMapper cartMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     /**
      * @param orderForm
@@ -193,7 +193,28 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
     @Override
     public OrderForm getOrderDetailCustomer(Long orderId) {
         OrderForm orderForm = new OrderForm();
-        List<OrderDetailDto> orderDetailDtoList = orderMapper.getOrderDetailCustomer(orderId);
-        return null;
+        List<OrderDetailForm> orderDetailFormList = new ArrayList<>();
+        List<ProductForm> productFormList = new ArrayList<>();
+        List<OrderDetailDto> orderDetailDtoList = orderMapper.getOrderProductList(orderId);
+        OrderDto orderDto = orderMapper.getOrderDetailCustomer(orderId);
+
+        BeanUtils.copyProperties(orderDto, orderForm);
+        for (OrderDetailDto orderDetailDto : orderDetailDtoList) {
+            ProductForm productForm = productMapper.getProductDetail(orderDetailDto.getProductId(),
+                                                                    orderDetailDto.getVendorId());
+
+            VendorDto vendorDto = userMapper.getVendorInfo(orderDetailDto.getVendorId());
+            VendorForm vendorForm = new VendorForm();
+            BeanUtils.copyProperties(vendorDto, vendorForm);
+            OrderDetailForm orderDetailForm = new OrderDetailForm();
+            BeanUtils.copyProperties(orderDetailDto, orderDetailForm);
+            orderDetailForm.setProductForm(productForm);
+            orderDetailForm.setVendorForm(vendorForm);
+            orderDetailFormList.add(orderDetailForm);
+            productFormList.add(productForm);
+        }
+        orderForm.setOrderDetailList(orderDetailFormList);
+//        orderForm.setProductFormList(productFormList);
+        return orderForm;
     }
 }

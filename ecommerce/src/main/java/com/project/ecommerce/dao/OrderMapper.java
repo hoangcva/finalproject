@@ -14,5 +14,7 @@ public interface OrderMapper {
     boolean createOrder(OrderDto orderDto);
     boolean createOrderDetail(OrderDetailDto orderDetailDto);
     List<OrderDto> getOrderListCustomer(@Param("customerId") Long customerId);
-    List<OrderDetailDto> getOrderDetailCustomer(@Param("orderId") Long orderId);
+    List<OrderDetailDto> getOrderProductList(@Param("orderId") Long orderId);
+    OrderDto getOrderDetailCustomer(@Param("orderId") Long orderId);
+
 }

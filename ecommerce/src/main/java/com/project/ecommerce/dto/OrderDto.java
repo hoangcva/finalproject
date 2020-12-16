@@ -1,7 +1,6 @@
 package com.project.ecommerce.dto;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class OrderDto implements Serializable {
@@ -9,7 +8,7 @@ public class OrderDto implements Serializable {
     //product info
     //order info
     private long id;
-    private Timestamp orderDate;
+    private LocalDateTime orderDate;
     private LocalDateTime deliveryDate;
     private String orderStatus;
     private Long shippingFee;
@@ -71,11 +70,11 @@ public class OrderDto implements Serializable {
         this.customerId = customerId;
     }
 
-    public Timestamp getOrderDate() {
+    public LocalDateTime getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Timestamp orderDate) {
+    public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
     }
 

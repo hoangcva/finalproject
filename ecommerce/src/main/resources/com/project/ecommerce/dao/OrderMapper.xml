@@ -39,9 +39,14 @@
         ORDER BY orderDate
     </select>
 
-    <select id="getOrderDetailCustomer" resultType="com.project.ecommerce.dto.OrderDetailDto">
+    <select id="getOrderProductList" resultType="com.project.ecommerce.dto.OrderDetailDto">
         SELECT * FROM order_products
         WHERE orderId = #{orderId}
+    </select>
+
+    <select id="getOrderDetailCustomer" resultType="com.project.ecommerce.dto.OrderDto">
+        SELECT * FROM orders
+        WHERE id = #{orderId}
     </select>
 
 </mapper>

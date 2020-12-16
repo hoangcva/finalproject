@@ -1,6 +1,7 @@
 package com.project.ecommerce.form;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class OrderForm implements Serializable {
@@ -9,8 +10,8 @@ public class OrderForm implements Serializable {
     private CartInfoForm cartInfoForm;
     private List<OrderDetailForm> orderDetailList;
     //order info
-    private String id;
-    private String orderDateTime;
+    private long id;
+    private LocalDateTime orderDateTime;
     private String orderStatus;
     private String note;
     private Long shippingFee;
@@ -22,6 +23,15 @@ public class OrderForm implements Serializable {
     private String deliveryAddress;
     private Long addressId;
     private CustomerAddressForm addressForm;
+    private List<ProductForm> productFormList;
+
+    public List<ProductForm> getProductFormList() {
+        return productFormList;
+    }
+
+    public void setProductFormList(List<ProductForm> productFormList) {
+        this.productFormList = productFormList;
+    }
 
     public List<OrderDetailForm> getOrderDetailList() {
         return orderDetailList;
@@ -111,19 +121,19 @@ public class OrderForm implements Serializable {
         this.cartInfoForm = cartInfoForm;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getOrderDateTime() {
+    public LocalDateTime getOrderDateTime() {
         return orderDateTime;
     }
 
-    public void setOrderDateTime(String orderDateTime) {
+    public void setOrderDateTime(LocalDateTime orderDateTime) {
         this.orderDateTime = orderDateTime;
     }
 

@@ -9,6 +9,33 @@ public class OrderDetailForm implements Serializable {
     private long vendorId;
     private long buyQuantity;
     private long price;
+    private byte[] image;
+    private ProductForm productForm;
+    private VendorForm vendorForm;
+
+    public ProductForm getProductForm() {
+        return productForm;
+    }
+
+    public void setProductForm(ProductForm productForm) {
+        this.productForm = productForm;
+    }
+
+    public VendorForm getVendorForm() {
+        return vendorForm;
+    }
+
+    public void setVendorForm(VendorForm vendorForm) {
+        this.vendorForm = vendorForm;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
 
     public long getOrderId() {
         return orderId;
