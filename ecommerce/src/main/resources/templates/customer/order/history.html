@@ -9,6 +9,13 @@
 <div class="container">
     <div class="row">
         <div class="col-lg">
+            <h3>My orders</h3>
+        </div>
+    </div>
+    <div class="row">
+        <th:block th:include="/common/_customer-sidebar-menu"></th:block>
+        <div class="col-lg-8">
+            <div th:replace="fragments/template :: display-error-message"/>
             <table class="table">
                 <thead>
                     <tr>
@@ -23,7 +30,7 @@
                     <tr th:each="order,iStat  : ${orderFormList}">
                         <th scope="row" th:text="${iStat.count}"></th>
                         <td ><a th:text="${order.orderDspId}" th:href="@{/customer/order/detail(orderId = ${order.id})}"></a></td>
-                        <td th:text="${order.orderDateTime}"></td>
+                        <td th:text="${order.orderDate}"></td>
                         <td class="bill-total money" th:text="${order.billTotal}"></td>
                         <td th:text="${order.orderStatus}"></td>
                     </tr>

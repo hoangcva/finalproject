@@ -1,12 +1,11 @@
 package com.project.ecommerce.controller;
 
+import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.Validator.CategoryValidator;
+import com.project.ecommerce.Validator.TransporterValidatior;
 import com.project.ecommerce.dto.CategoryDto;
 import com.project.ecommerce.dto.UserDto;
-import com.project.ecommerce.form.SubCategoryForm;
-import com.project.ecommerce.form.UserDeleteForm;
-import com.project.ecommerce.form.UserRegisterForm;
-import com.project.ecommerce.form.VendorForm;
+import com.project.ecommerce.form.*;
 import com.project.ecommerce.service.IAdminService;
 import com.project.ecommerce.service.IProductService;
 import com.project.ecommerce.service.impl.UserServiceImpl;
@@ -14,6 +13,7 @@ import com.project.ecommerce.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,6 +35,8 @@ public class AdminController {
     private IProductService productService;
     @Autowired
     private CategoryValidator categoryValidator;
+    @Autowired
+    private TransporterValidatior transporterValidatior;
 
     @GetMapping
     public String index(Model model) {
@@ -107,6 +109,49 @@ public class AdminController {
         System.out.println("Target = " + target);
         if(target.getClass() == SubCategoryForm.class) {
             dataBinder.setValidator(categoryValidator);
+        } else if(target.getClass() == TransporterForm.class) {
+            dataBinder.setValidator(transporterValidatior);
         }
+    }
+
+    @GetMapping("/transporter")
+    public String addTransporter(Model model) {
+        TransporterForm transporterForm = new TransporterForm();
+        model.addAttribute("transporterForm", transporterForm);
+        return "/admin/addTransporter";
+    }
+
+    @PostMapping("/transporter/add")
+    public String addTransporter(@ModelAttribute("transporterForm") @Validated TransporterForm transporterForm,
+                                 BindingResult bindingResult,
+                                 Model model,
+                                 final RedirectAttributes redirectAttributes,
+                                 Authentication auth) {
+        transporterForm.setSubmitted(true);
+        if (bindingResult.hasErrors()) {
+            return "/admin/addTransporter";
+        }
+        Message result = adminService.addTransporter(transporterForm, auth);
+        redirectAttributes.addFlashAttribute("message", result.getMessage());
+        redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
+        return "redirect:/admin";
+    }
+
+    @GetMapping("/orders")
+    public String viewOrderHistory(Model model, Authentication auth){
+        List<OrderForm> orderFormList = adminService.getOrderList(null);
+        model.addAttribute("orderFormList", orderFormList);
+        model.addAttribute("orderForm", new OrderForm());
+        return "/admin/order/history";
+    }
+
+    @PostMapping("/order/update")
+    public String updateOrderStatus(@ModelAttribute("orderForm") OrderForm orderForm,
+                                  Model model,
+                                  final RedirectAttributes redirectAttributes) {
+        Message result = adminService.updateOrderStatus(orderForm);
+        redirectAttributes.addFlashAttribute("message", result.getMessage());
+        redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
+        return "redirect:/admin/orders";
     }
 }

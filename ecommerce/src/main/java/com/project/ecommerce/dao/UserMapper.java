@@ -1,5 +1,6 @@
 package com.project.ecommerce.dao;
 
+import com.project.ecommerce.dto.TransporterDto;
 import com.project.ecommerce.dto.UserDto;
 import com.project.ecommerce.dto.VendorDto;
 import org.apache.ibatis.annotations.Mapper;
@@ -28,4 +29,9 @@ public interface UserMapper {
 
     VendorDto getVendorInfo(@Param("vendorId") Long vendorId);
     void updateVendor(VendorDto vendorDto);
+
+    void createTransporter(TransporterDto transporterDto);
+    List<TransporterDto> getTransporterList();
+    TransporterDto getTransporterInfo(@Param("transporterId") Long transporterId);
+    void updateTransporterInfo(TransporterDto transporterDto);
 }

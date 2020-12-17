@@ -282,4 +282,11 @@
         </if>
         WHERE productId = #{productId}
     </select>
+
+    <select id="getProductQuantity" resultType="long">
+        SELECT product_quantity
+        FROM vendor_product
+        WHERE productId = #{productId}
+            AND vendorId = #{vendorId}
+    </select>
 </mapper>

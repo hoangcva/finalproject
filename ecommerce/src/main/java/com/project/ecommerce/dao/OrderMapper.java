@@ -16,5 +16,6 @@ public interface OrderMapper {
     List<OrderDto> getOrderListCustomer(@Param("customerId") Long customerId);
     List<OrderDetailDto> getOrderProductList(@Param("orderId") Long orderId);
     OrderDto getOrderDetailCustomer(@Param("orderId") Long orderId);
-
+    boolean updateOrderStatus(OrderDto orderDto);
+    List<OrderDto> getOrderList(@Param("orderStatus") String orderStatus);
 }

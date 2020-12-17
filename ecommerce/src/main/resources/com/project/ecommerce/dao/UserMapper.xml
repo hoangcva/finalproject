@@ -139,5 +139,47 @@
         INNER JOIN users u on vi.vendorId = u.id
         WHERE vendorId = #{vendorId}
     </select>
+
+
+<!--=======================================================================================================================================-->
+    <insert id="createTransporter" parameterType="com.project.ecommerce.dto.TransporterDto">
+        INSERT INTO transporters
+        (
+            transporterId,
+            createdUser,
+            shippingFee,
+            description,
+            phoneNumber
+        )
+        VALUES
+        (
+            #{id,jdbcType=BIGINT},
+            #{createdUser,jdbcType=BIGINT},
+            #{shippingFee,jdbcType=BIGINT},
+            #{description,jdbcType=VARCHAR},
+            #{phoneNumber,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <select id="getTransporterList" resultType="com.project.ecommerce.dto.TransporterDto">
+        SELECT * FROM transporters t
+        INNER JOIN users u on t.transporterId = u.id
+    </select>
+
+    <select id="getTransporterInfo" resultType="com.project.ecommerce.dto.TransporterDto">
+        SELECT * FROM transporters t
+        INNER JOIN users u on t.transporterId = u.id
+        WHERE transporterId = #{transporterId}
+    </select>
+
+    <update id="updateTransporterInfo" parameterType="com.project.ecommerce.dto.TransporterDto">
+        UPDATE transporters
+        SET
+            updatedUser = #{updatedUser},
+            shippingFee = #{shippingFee},
+            description = #{description},
+            phoneNumber = #{phoneNumber}
+        WHERE transporterId = #{transporterId}
+    </update>
 </mapper>
 

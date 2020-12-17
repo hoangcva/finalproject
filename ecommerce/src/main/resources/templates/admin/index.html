@@ -14,19 +14,10 @@
 		</div>
 	</div>
 	<div class="row">
-		<div th:replace="fragments/template :: admin-sidebarmenu"></div>
+		<th:block th:include="/common/_admin-sidebar-menu"></th:block>
 
-		<div class="col-lg-9">
-			<h3>
-				Hello : <span th:utext="${#request.userPrincipal.name}"></span>
-			</h3>
-
-			<div th:if="${errorMessage != null}"
-			     th:utext="${errorMessage}" class="ui-state-error-text">...
-			</div>
-			<div th:if="${message != null}"
-			     th:utext="${message}" class="alert-info">...
-			</div>
+		<div class="col-lg-8">
+			<div th:replace="fragments/template :: display-error-message"/>
 			<table>
 				<thead>
 				<tr>

@@ -14,7 +14,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<div th:replace="fragments/template :: admin-sidebarmenu"></div>
+		<th:block th:include="/common/_admin-sidebar-menu"></th:block>
 		<div class="col-lg-9">
 			<div th:replace="fragments/template :: display-error-message"/>
 			<form th:object="${subCategoryForm}" th:action="@{/admin/category/add}" method="post">

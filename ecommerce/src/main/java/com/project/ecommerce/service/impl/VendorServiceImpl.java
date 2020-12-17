@@ -78,6 +78,7 @@ public class VendorServiceImpl implements IVendorService {
             vendorDto.setRole(Consts.ROLE_VENDOR);
             vendorDto.setPassword(encoder.encode(vendorForm.getPassword()));
             userMapper.createUser(vendorDto);
+//            vendorDto.setVendorId(vendorDto.getId());
             userMapper.createVendor(vendorDto);
             transactionManager.commit(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_09_I, ""));

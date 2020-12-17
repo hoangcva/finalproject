@@ -20,7 +20,15 @@ public class OrderDto implements Serializable {
     private String fullName;
     private String phoneNumber;
     private String deliveryAddress;
+    private long transporterId;
 
+    public long getTransporterId() {
+        return transporterId;
+    }
+
+    public void setTransporterId(long transporterId) {
+        this.transporterId = transporterId;
+    }
 
     public String getOrderDspId() {
         return orderDspId;

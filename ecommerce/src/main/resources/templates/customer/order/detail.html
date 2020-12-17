@@ -7,9 +7,36 @@
 <th:block th:include="/common/_header"></th:block>
 
 <div class="container">
-	<div class="row"></div>
 	<div class="row">
-		<div class="col-lg">
+		<div class="col-lg-8 d-flex">
+			<h4 th:text="'Order ' + ${orderForm.orderDspId} + ' detail'"></h4>
+			<h4> - <b th:text="${orderForm.orderStatus}"></b></h4>
+		</div>
+		<div class="col-2 mr-0 ml-auto" th:if="${orderForm.orderStatus eq 'PROGRESSING'}">
+			<form th:action="@{/customer/order/cancel}" method="post" th:object="${orderForm}">
+				<input type="hidden" th:field="*{id}">
+				<input type="hidden" th:field="*{orderDspId}">
+				<button type="submit" class="btn btn-danger">Cancel</button>
+			</form>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-4">
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-4"></div>
+	</div>
+	<div class="row">
+		<div class="col-4">
+
+		</div>
+	</div>
+	<div class="row">
+		<th:block th:include="/common/_customer-sidebar-menu"></th:block>
+		<div class="col-lg-8">
+			<div th:replace="fragments/template :: display-error-message"/>
 			<table class="table">
 				<thead>
 				<tr>

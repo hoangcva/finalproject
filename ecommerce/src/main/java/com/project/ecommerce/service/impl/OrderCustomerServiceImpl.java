@@ -2,10 +2,7 @@ package com.project.ecommerce.service.impl;
 
 import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.dao.*;
-import com.project.ecommerce.dto.OrderDetailDto;
-import com.project.ecommerce.dto.OrderDto;
-import com.project.ecommerce.dto.UserDetailsDto;
-import com.project.ecommerce.dto.VendorDto;
+import com.project.ecommerce.dto.*;
 import com.project.ecommerce.form.*;
 import com.project.ecommerce.service.ICartService;
 import com.project.ecommerce.service.ICustomerAddressService;
@@ -21,6 +18,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +40,7 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
     private CartMapper cartMapper;
     @Autowired
     private UserMapper userMapper;
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     /**
      * @param orderForm
@@ -75,6 +74,7 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
         orderDto.setPhoneNumber(customerAddressForm.getPhoneNumber());
         orderDto.setShippingFee(orderForm.getShippingFee() == null ? 0 : orderForm.getShippingFee());
         orderDto.setOrderDspId(orderDspId);
+        orderDto.setTransporterId(orderForm.getTransporterId());
 
         for (CartLineInfoForm cartLineInfoForm : cartInfoForm.getCartLines()) {
             OrderDetailDto orderDetailDto = new OrderDetailDto();
@@ -185,6 +185,8 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
         for (OrderDto orderDto : orderDtoList) {
             OrderForm orderForm = new OrderForm();
             BeanUtils.copyProperties(orderDto, orderForm);
+            orderForm.setOrderDate(orderDto.getOrderDate() == null ? "": orderDto.getOrderDate().format(formatter));
+            orderForm.setDeliveryDate(orderDto.getDeliveryDate() == null ? "": orderDto.getDeliveryDate().format(formatter));
             orderFormList.add(orderForm);
         }
         return orderFormList;
@@ -216,5 +218,41 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
         orderForm.setOrderDetailList(orderDetailFormList);
 //        orderForm.setProductFormList(productFormList);
         return orderForm;
+    }
+
+    @Override
+    public Message cancelOrder(OrderForm orderForm) {
+        Message result = new Message("", true);
+        TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        long newQuantity;
+        long vendorId;
+        long productId;
+        try {
+            OrderDto orderDto = new OrderDto();
+            BeanUtils.copyProperties(orderForm, orderDto);
+
+            // update quantity
+            List<OrderDetailDto> orderDetailDtoList = orderMapper.getOrderProductList(orderDto.getId());
+            for (OrderDetailDto orderDetailDto : orderDetailDtoList) {
+                vendorId = orderDetailDto.getVendorId();
+                productId = orderDetailDto.getProductId();
+                long currentQuantity = productMapper.getProductQuantity(productId, vendorId);
+                newQuantity = orderDetailDto.getBuyQuantity() + currentQuantity;
+                productMapper.updateProductQuantity(orderDetailDto.getProductId(),
+                        orderDetailDto.getVendorId(),
+                        newQuantity);
+            }
+
+            orderDto.setOrderStatus(Consts.ORDER_STATUS_CANCELED);
+            orderMapper.updateOrderStatus(orderDto);
+            //commit
+            transactionManager.commit(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_12_I, orderForm.getOrderDspId()));
+        } catch (Exception ex) {
+            transactionManager.rollback(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_12_E, ""));
+            result.setSuccess(false);
+        }
+        return result;
     }
 }

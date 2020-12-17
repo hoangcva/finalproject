@@ -6,6 +6,7 @@ public class Consts {
     public static final String ROLE_USER = "ROLE_USER";
     public static final String ROLE_VENDOR = "ROLE_VENDOR";
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
+    public static final String ROLE_SHIPPER = "ROLE_SHIPPER";
 
     public static final String ORDER_STATUS_PENDING = "PENDING";
     public static final String ORDER_STATUS_PROGRESSING = "PROGRESSING";
@@ -26,6 +27,10 @@ public class Consts {
     public static final String MSG_07_E = "MSG_07_E"; //Create product fail!
     public static final String MSG_08_E = "MSG_08_E"; //Update vendor information fail!
     public static final String MSG_09_E = "MSG_09_E"; //Register vendor fail!
+    public static final String MSG_10_E = "MSG_10_E"; //Register transporter fail!
+    public static final String MSG_11_E = "MSG_11_E"; //Update transporter information fail!
+    public static final String MSG_12_E = "MSG_12_E"; //Cancel order fail!
+    public static final String MSG_13_E = "MSG_13_E"; //Approve order fail!
 
 
 //-----------------------------------------------------------------------------------------------
@@ -38,4 +43,8 @@ public class Consts {
     public static final String MSG_07_I = "MSG_07_I"; //Product has been created successful!
     public static final String MSG_08_I = "MSG_08_I"; //Vendor information has been updated successful!
     public static final String MSG_09_I = "MSG_09_I"; //Vendor has been registered successful!
+    public static final String MSG_10_I = "MSG_10_I"; //Transporter has been registered successful!
+    public static final String MSG_11_I = "MSG_11_I"; //Transporter information has been updated successful!
+    public static final String MSG_12_I = "MSG_12_I"; //Order {0} has been canceled successful!
+    public static final String MSG_13_I = "MSG_13_I"; //Order {0} has been approved successful!
 }

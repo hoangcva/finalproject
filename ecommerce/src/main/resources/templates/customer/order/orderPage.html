@@ -14,32 +14,40 @@
                 <div class="container border ">
                     <div class="row">
                         <div class="col">
-                            <span>Payment method: </span>
+                            <span>Payment method</span>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
                                 <span class="icon"></span>
                                 <label class="form-check-label" for="exampleRadios1">
-                                    Default radio
+                                    Cash
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
                                 <span class="icon"></span>
                                 <label class="form-check-label" for="exampleRadios2">
-                                    Second default radio
+                                    ATM
                                 </label>
                             </div>
-            <!--                <div>-->
-            <!--                    <span class="radio-btn"></span>-->
-            <!--                    <span class="icon"></span>-->
-            <!--                    <span class="content"></span>-->
-            <!--                </div>-->
                         </div>
                     </div>
+                    <hr class="my-2">
                     <div class="row">
                         <div class="col">
-                            <label>Note: </label>
-                            <input type="text" th:field="*{note}">
+                            <span>Transporter unit</span>
+                            <div class="form-check" th:each="transporter : ${transporterFormList}">
+                                <input class="form-check-input" type="radio" name="transporterId" id="transporterId" th:value="${transporter.id}" checked>
+                                <span class="icon"></span>
+                                <label class="form-check-label" for="transporterId" th:text="${transporter.fullName}"></label>
+                                <span th:text="'(Shipping fee: ' + ${transporter.shippingFee} + ')'"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-2">
+                    <div class="row">
+                        <div class="col-12 form-group">
+                            <label for="note">Note: </label>
+                            <textarea class="form-control" id="note" type="text" th:field="*{note}" placeholder="Enter note"></textarea>
                         </div>
                     </div>
                 </div>

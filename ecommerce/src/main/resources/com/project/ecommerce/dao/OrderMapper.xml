@@ -6,7 +6,7 @@
 <mapper namespace="com.project.ecommerce.dao.OrderMapper">
     <insert id="createOrder" parameterType="com.project.ecommerce.dto.OrderDto" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO orders
-        (customerId, billTotal, order_status, deliveryAddress, note, fullName, phoneNumber, shippingFee, orderDspId)
+        (customerId, billTotal, order_status, deliveryAddress, note, fullName, phoneNumber, shippingFee, orderDspId, transporterId)
         VALUES
         (#{customerId, jdbcType=BIGINT},
          #{billTotal,jdbcType=BIGINT},
@@ -16,7 +16,8 @@
          #{fullName,jdbcType=VARCHAR},
          #{phoneNumber,jdbcType=VARCHAR},
          #{shippingFee,jdbcType=BIGINT},
-         #{orderDspId,jdbcType=VARCHAR})
+         #{orderDspId,jdbcType=VARCHAR},
+         #{transporterId,jdbcType=BIGINT})
         <selectKey keyProperty="id" resultType="Long" order="AFTER">
             SELECT LAST_INSERT_ID();
         </selectKey>
@@ -36,7 +37,7 @@
     <select id="getOrderListCustomer" resultType="com.project.ecommerce.dto.OrderDto" fetchSize="200">
         SELECT * FROM orders
         WHERE customerId = #{customerId}
-        ORDER BY orderDate
+        ORDER BY orderDate DESC
     </select>
 
     <select id="getOrderProductList" resultType="com.project.ecommerce.dto.OrderDetailDto">
@@ -47,6 +48,25 @@
     <select id="getOrderDetailCustomer" resultType="com.project.ecommerce.dto.OrderDto">
         SELECT * FROM orders
         WHERE id = #{orderId}
+    </select>
+
+    <update id="updateOrderStatus" parameterType="com.project.ecommerce.dto.OrderDto">
+        UPDATE orders
+        SET order_status = #{orderStatus}
+        <if test="orderStatus == 'SUCCESS'">
+            , deliveryDate = #{deliveryDate}
+        </if>
+        WHERE id = #{id}
+    </update>
+
+    <select id="getOrderList" resultType="com.project.ecommerce.dto.OrderDto" fetchSize="200">
+        SELECT * FROM orders
+        <where>
+            <if test="orderStatus != null and orderStatus != ''">
+                AND order_status = #{orderStatus}
+            </if>
+        </where>
+        ORDER BY orderDate DESC
     </select>
 
 </mapper>

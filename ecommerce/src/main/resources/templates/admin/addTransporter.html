@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments/template :: head_input(~{::title})">
+	<title>Add category</title>
+</head>
+<body>
+<!-- Include _header.html -->
+<th:block th:include="/common/_header"></th:block>
+<div class="container">
+	<div class="row">
+		<div class="col-lg">
+			<h2>Admin Page</h2>
+		</div>
+	</div>
+	<div class="row">
+		<th:block th:include="/common/_admin-sidebar-menu"></th:block>
+		<div class="col-lg-9">
+			<div th:replace="fragments/template :: display-error-message"/>
+			<form th:object="${transporterForm}" th:action="@{/admin/transporter/add}" method="post">
+				<div class="form-group w-25">
+					<label for="userName">Username</label>
+					<input class="form-control" id="userName" type="text" th:field="*{userName}"
+					       placeholder="Enter username"
+					       th:classappend="${(#fields.hasErrors('userName')?'is-invalid':'')
+                               + (!#fields.hasErrors('userName') and transporterForm.isSubmitted() ? 'is-valid':'')}">
+					<label class="invalid-feedback" th:if="${#fields.hasErrors('userName')}"
+					       th:errors="*{userName}"></label>
+				</div>
+				<hr class="my-4">
+				<div class="form-row">
+					<div class="form-group col-3">
+						<label for="password">Password</label>
+						<input class="form-control" id="password" type='password'
+						       placeholder="Enter password" th:field="*{password}"
+						       th:classappend="${(#fields.hasErrors('password')?'is-invalid':'')
+                               + (!#fields.hasErrors('password') and transporterForm.isSubmitted() ? 'is-valid':'')}">
+						<label class="invalid-feedback" th:if="${#fields.hasErrors('password')}"
+						       th:errors="*{password}"></label>
+					</div>
+					<div class="form-group col-3">
+						<label for="confirmPassword">Confirm password</label>
+						<input class="form-control" id="confirmPassword" type='password'
+						       placeholder="Enter confirm password" th:field="*{confirmPassword}"
+						       th:classappend="${(#fields.hasErrors('confirmPassword')?'is-invalid':'')
+                               + (!#fields.hasErrors('confirmPassword') and transporterForm.isSubmitted() ? 'is-valid':'')}">
+						<label class="invalid-feedback" th:if="${#fields.hasErrors('confirmPassword')}"
+						       th:errors="*{confirmPassword}"></label>
+					</div>
+				</div>
+				<hr class="my-4">
+				<div class="form-row">
+					<div class="form-group col-3">
+						<label for="fullName">Full name</label>
+						<input class="form-control" id="fullName" type="text" th:field="*{fullName}"
+						       placeholder="Enter full name"
+						       th:classappend="${(#fields.hasErrors('fullName')?'is-invalid':'')
+                               + (!#fields.hasErrors('fullName') and transporterForm.isSubmitted() ? 'is-valid':'')}">
+						<label class="invalid-feedback" th:if="${#fields.hasErrors('fullName')}"
+						       th:errors="*{fullName}"></label>
+					</div>
+				</div>
+				<hr class="my-4">
+				<div class="form-row">
+					<div class="form-group col-3">
+						<label for="email">Email</label>
+						<input class="form-control" id="email" type="text" th:field="*{email}"
+						       placeholder="Enter email"
+						       th:classappend="${(#fields.hasErrors('email')?'is-invalid':'')
+                               + (!#fields.hasErrors('email') and transporterForm.isSubmitted() ? 'is-valid':'')}">
+						<label class="invalid-feedback" th:if="${#fields.hasErrors('email')}"
+						       th:errors="*{email}"></label>
+					</div>
+					<div class="form-group col-3">
+						<label for="phoneNumber">Phone number</label>
+						<input class="form-control" id="phoneNumber" type="text" th:field="*{phoneNumber}"
+						       placeholder="Enter phone number"
+						       th:classappend="${(#fields.hasErrors('phoneNumber')?'is-invalid':'')
+                               + (!#fields.hasErrors('phoneNumber') and transporterForm.isSubmitted() ? 'is-valid':'')}">
+						<label class="invalid-feedback" th:if="${#fields.hasErrors('phoneNumber')}"
+						       th:errors="*{phoneNumber}"></label>
+					</div>
+					<div class="form-group col-3">
+						<label for="shippingFee">Shipping Fee</label>
+						<input class="form-control" id="shippingFee" type="number" th:field="*{shippingFee}"
+						       placeholder="Enter shipping fee"
+						       th:classappend="${(#fields.hasErrors('shippingFee')?'is-invalid':'')
+                               + (!#fields.hasErrors('shippingFee') and transporterForm.isSubmitted() ? 'is-valid':'')}">
+						<label class="invalid-feedback" th:if="${#fields.hasErrors('shippingFee')}"
+						       th:errors="*{shippingFee}"></label>
+					</div>
+				</div>
+				<div class="form-group w-75">
+					<label for="description">Description</label>
+					<p th:classappend="${(#fields.hasErrors('description')?'border border-danger':'')
+	                               + (!#fields.hasErrors('description') and transporterForm.isSubmitted() ? 'border border-success':'')}">
+						<textarea class="form-control" id="description" type="text" th:field="*{description}"
+						          placeholder="Enter description"></textarea>
+					</p>
+					<label class="invalid-feedback" th:if="${#fields.hasErrors('description')}"
+					       th:errors="*{description}"></label>
+				</div>
+				<input type="submit" class="btn btn-primary" value="Add">
+			</form>
+		</div>
+	</div>
+</div>
+</body>
+</html>

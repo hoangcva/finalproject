@@ -10,4 +10,5 @@ public interface IOrderCustomerService {
     Message createOrder(OrderForm orderForm, Authentication auth);
     List<OrderForm> getOrderListCustomer(Authentication auth);
     OrderForm getOrderDetailCustomer(Long orderId);
+    Message cancelOrder(OrderForm orderForm);
 }

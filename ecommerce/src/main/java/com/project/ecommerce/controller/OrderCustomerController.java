@@ -4,9 +4,11 @@ import com.project.ecommerce.dto.CustomerAddressDto;
 import com.project.ecommerce.dto.UserDetailsDto;
 import com.project.ecommerce.form.CartInfoForm;
 import com.project.ecommerce.form.OrderForm;
+import com.project.ecommerce.form.TransporterForm;
 import com.project.ecommerce.service.ICartService;
 import com.project.ecommerce.service.ICustomerAddressService;
 import com.project.ecommerce.service.IOrderCustomerService;
+import com.project.ecommerce.service.ITransporterService;
 import com.project.ecommerce.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,8 +31,10 @@ public class OrderCustomerController {
     private ICustomerAddressService addressService;
     @Autowired
     private IOrderCustomerService orderCustomerService;
+    @Autowired
+    private ITransporterService transporterService;
 
-    @RequestMapping("/")
+    @RequestMapping()
     public String init(Model model, Authentication auth) {
         OrderForm orderForm = new OrderForm();
         UserDetailsDto userDetails = (UserDetailsDto) auth.getPrincipal();
@@ -40,8 +44,11 @@ public class OrderCustomerController {
         orderForm.setCartInfoForm(cartInfoForm);
         CustomerAddressDto customerAddressDto = addressService.getDefault(customerId);
 
+        List<TransporterForm> transporterFormList = transporterService.getTransporterList();
+
         model.addAttribute("orderForm", orderForm);
         model.addAttribute("defaultAddress", customerAddressDto);
+        model.addAttribute("transporterFormList", transporterFormList);
         return "customer/order/orderPage";
     }
 
@@ -69,9 +76,19 @@ public class OrderCustomerController {
     }
 
     @GetMapping("/detail")
-    public String viewOrderDetail(@ModelAttribute("orderId") long orderId, Model model) {
+    public String viewOrderDetail(@ModelAttribute("orderId") Long orderId, Model model) {
         OrderForm orderForm = orderCustomerService.getOrderDetailCustomer(orderId);
         model.addAttribute("orderForm", orderForm);
         return "/customer/order/detail";
+    }
+
+    @PostMapping("/cancel")
+    public String cancelOrder(@ModelAttribute("orderForm") OrderForm orderForm,
+                              Model model,
+                              final RedirectAttributes redirectAttributes) {
+        Message result = orderCustomerService.cancelOrder(orderForm);
+        redirectAttributes.addFlashAttribute("message", result.getMessage());
+        redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
+        return "redirect:/customer/order/history";
     }
 }

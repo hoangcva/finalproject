@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/template :: head_input(~{::title})">
+	<title>Order</title>
+</head>
+<body>
+<th:block th:include="/common/_header"></th:block>
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg">
+			<h3>My orders</h3>
+		</div>
+	</div>
+	<div class="row">
+		<th:block th:include="/common/_admin-sidebar-menu"></th:block>
+		<div class="col-lg-8">
+			<div th:replace="fragments/template :: display-error-message"/>
+			<table class="table">
+				<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Code order</th>
+					<th scope="col">Order date</th>
+					<th scope="col">Order status</th>
+					<th scope="col">Action</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr th:each="order,iStat  : ${orderFormList}">
+					<th scope="row" th:text="${iStat.count}"></th>
+					<td ><a th:text="${order.orderDspId}" th:href="@{/admin/order/detail(orderId = ${order.id})}"></a></td>
+					<td th:text="${order.orderDate}"></td>
+					<td th:text="${order.orderStatus}"></td>
+					<td class="d-flex">
+						<form th:action="@{/admin/order/update}" method="post" th:object="${orderForm}" class="mr-1"
+						      th:if="${order.orderStatus eq 'PROGRESSING'}">
+							<input type="hidden" name="id" th:value="${order.id}">
+							<input type="hidden" name="orderDspId" th:value="${order.orderDspId}">
+							<input type="hidden" name="orderStatus" value="DELIVERING">
+							<button type="submit" class="btn btn-primary">Approve</button>
+						</form>
+
+						<form th:action="@{/admin/order/update}" method="post" th:object="${orderForm}"
+						      th:if="${order.orderStatus eq 'PROGRESSING' or order.orderStatus eq 'DELIVERING'}">
+							<input type="hidden" name="id" th:value="${order.id}">
+							<input type="hidden" name="orderDspId" th:value="${order.orderDspId}">
+							<input type="hidden" name="orderStatus" value="CANCELED">
+							<button type="submit" class="btn btn-danger">Cancel</button>
+						</form>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>
