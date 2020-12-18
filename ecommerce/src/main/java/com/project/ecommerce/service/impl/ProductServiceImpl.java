@@ -175,7 +175,10 @@ public class ProductServiceImpl implements IProductService {
     public List<ProductForm> getAllProduct(Integer categoryId, Integer subCategoryId, String keyword) {
         List<ProductForm> productFormList = productMapper.getAllProduct(categoryId, subCategoryId, keyword);
         for (ProductForm productForm : productFormList) {
-            List<ProductImageForm> productImageFormList = getProductImage(productForm.getProductId());
+//            List<ProductImageForm> productImageFormList = getProductImage(productForm.getProductId());
+            ProductImageForm productImageForm = getProductCover(productForm.getProductId());
+            List<ProductImageForm> productImageFormList = new ArrayList<>();
+            productImageFormList.add(productImageForm);
             productForm.setProductImageFormList(productImageFormList);
         }
         return productFormList;
@@ -299,12 +302,14 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public CategoryDto findCategory(Integer categoryId) {
-        return null;
+        CategoryDto categoryDto = categoryMapper.findCategory(categoryId);
+        return categoryDto;
     }
 
     @Override
-    public SubCategoryDto findSubCategory(Integer categoryId) {
-        return null;
+    public SubCategoryDto findSubCategory(Integer subCategoryId) {
+        SubCategoryDto subCategoryDto = categoryMapper.findSubCategory(subCategoryId);
+        return subCategoryDto;
     }
 
     /**
@@ -342,6 +347,14 @@ public class ProductServiceImpl implements IProductService {
             productImageFormList.add(productImageForm);
         }
         return productImageFormList;
+    }
+
+    @Override
+    public ProductImageForm getProductCover(long productId) {
+        ProductImageDto productImageDto = productMapper.getProductCover(productId);
+        ProductImageForm productImageForm = new ProductImageForm();
+        BeanUtils.copyProperties(productImageDto, productImageForm);
+        return  productImageForm;
     }
 
     @Override

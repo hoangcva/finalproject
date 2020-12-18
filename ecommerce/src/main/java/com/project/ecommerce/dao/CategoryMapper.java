@@ -3,6 +3,7 @@ package com.project.ecommerce.dao;
 import com.project.ecommerce.dto.CategoryDto;
 import com.project.ecommerce.dto.SubCategoryDto;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,8 +13,8 @@ import java.util.List;
 public interface CategoryMapper {
     List<CategoryDto> getAllCategory();
     List<SubCategoryDto> getALLSubCategory();
-    CategoryDto findCategory(Integer categoryId);
-    SubCategoryDto findSubCategory(Integer categoryId);
+    CategoryDto findCategory(@Param("categoryId") Integer categoryId);
+    SubCategoryDto findSubCategory(@Param("subCategoryId")Integer subCategoryId);
 
     boolean addSubCategory(SubCategoryDto subCategoryDto);
 }

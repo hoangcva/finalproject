@@ -1,38 +1,75 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/template :: head_input(~{::title})">
-    <title>Add product</title>
+<head th:replace="fragments/template :: head_input(~{::title})"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="../fragments">
+	<title>Add product</title>
 </head>
+<script>
+    tinymce.init({
+        selector: '.textarea-custom',
+        height: 500,
+        menubar: false,
+        plugins: ['a11ychecker advcode casechange formatpainter linkchecker autolink paste visualblocks insertdatetime help ',
+            'lists checklist media image mediaembed pageembed permanentpen powerpaste advtable tinymcespellchecker'],
+        toolbar: 'undo redo | formatselect fontsizeselect| ' +
+            'bold italic backcolor | alignleft aligncenter ' +
+            'alignright alignjustify | bullist numlist outdent indent | ' +
+            'removeformat | link image | help',
+        toolbar_mode: 'floating',
+        tinycomments_mode: 'embedded',
+        tinycomments_author: 'Author name',
+    });
+</script>
 <body>
 <th:block th:include="/common/_header"></th:block>
 
 <!--<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/vendor/addProduct.css}" href="../../vendor/addProduct.css">-->
 <h2>Choose Category</h2>
 
-<form th:action="@{/vendor/product/add/detail}" th:object="${productForm}" th:method="POST">
-    <div th:replace="fragments/template :: category-select-fragment"></div>
-    <button th:type="submit" th:text="Submit"></button>
+<form th:action="@{/vendor/product/add/detail}" th:object="${productForm}" th:method="GET">
+	<div th:replace="fragments/template :: category-select-fragment"></div>
+	<button th:type="submit" th:text="Submit"></button>
 </form>
 
 <div class="search">
-    <form th:action="@{/vendor/product/add/search}" th:method="GET">
-        <span text="Search product"></span>
-        <input type="text" th:id="keyword" th:name="keyword">
-        <input id="btn-search" type="submit" th:value="search">
-    </form>
+	<!--    <form th:action="@{/vendor/product/add/search}" th:method="GET">-->
+	<span text="Search product"></span>
+	<input type="text" th:id="keyword" th:name="keyword">
+	<button id="btn-search" type="submit" th:text="search" class="btn btn-primary"
+	        th:onclick="'loadSearchResult();'"></button>
+	<!--    </form>-->
 </div>
 <!--<form th:action="@{/vendor/product/add/detail}" th:object="${productForm}" th:method="POST">-->
-    <table th:if="${response ne null and response eq 'notEmpty'}">
-        <tbody>
-        <tr th:each="product,iterationStatus : ${productFormList}">
-            <td th:text="${iterationStatus.count}"></td>
-            <td><a th:href="@{/vendor/product/add/detailExtend(productId = ${product.productId}, vendorId = ${product.vendorId})}" th:text="${product.productName}"></a></td>
-            <td th:text="${product.price}"></td>
-            <td th:text="${product.rating}"></td>
-        </tr>
-        </tbody>
-    </table>
+<!--    <table th:if="${response ne null and response eq 'notEmpty'}">-->
+<div id="content"></div>
+<table  th:fragment="content">
+<!--       th:unless="${productFormList eq null or #lists.size(productFormList) <= 0}">-->
+	<tbody>
+	<tr th:each="product,iterationStatus : ${productFormList}">
+		<td th:text="${iterationStatus.count}"></td>
+		<td>
+			<a th:href="@{/vendor/product/add/detailExtend(productId = ${product.productId}, vendorId = ${product.vendorId})}"
+			   th:text="${product.productName}"></a></td>
+		<td th:text="${product.price}"></td>
+		<td th:text="${product.rating}"></td>
+	</tr>
+	</tbody>
+</table>
+<div id="display-error-message" th:fragment="display-error-message" class="row mb-2">
+	<div th:if="${message != null and message != ''}"
+	     th:classappend="${isSuccess}?'alert-info':'alert-danger'" class="error col-lg alert">
+		<img class="pb-1" th:src="@{/images/check.png}" th:if="${isSuccess}" style="max-height: 25px;">
+		<img class="pb-1" th:src="@{/images/fail.png}" th:unless="${isSuccess}" style="max-height: 25px;">
+		<span class="pt-1 pb-1 ml-2" th:classappend="${isSuccess}?'text-success':'text-danger'" th:text="${message}"
+		      style="font-size: 20px"></span>
+	</div>
+</div>
+
 <!--</form>-->
 <script type="text/javascript" th:src="@{/js/vendor/addProduct.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+
+</script>
 </body>
 </html>

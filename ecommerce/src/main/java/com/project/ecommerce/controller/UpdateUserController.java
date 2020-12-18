@@ -44,7 +44,7 @@ public class UpdateUserController {
         model.addAttribute("user_update_form", user);
         model.addAttribute("provinceList", provinceDtoList);
 //        session.setAttribute("user_update_form", user);
-        session.setAttribute("provinceList", provinceDtoList);
+//        session.setAttribute("provinceList", provinceDtoList);
 //        model.addAttribute("session", session);
         return "customer/updateUserInfo";
     }
@@ -69,13 +69,13 @@ public class UpdateUserController {
                            BindingResult result,
                            final RedirectAttributes redirectAttributes,
                            HttpSession session) {
-        List<ProvinceDto> provinceList = (List<ProvinceDto>) session.getAttribute("provinceList");
-        model.addAttribute("provinceList",  provinceList);
+//        List<ProvinceDto> provinceList = (List<ProvinceDto>) session.getAttribute("provinceList");
+        List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
+        model.addAttribute("provinceList",  provinceDtoList);
 
         if (result.hasErrors()) {
             return "customer/updateUserInfo";
         }
-
         try {
             userService.updateUser(userUpdateForm);
         }

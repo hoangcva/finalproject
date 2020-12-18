@@ -3,6 +3,10 @@
 <head th:replace="fragments/template :: head_input(~{::title})">
 	<title>Comment</title>
 </head>
+<script type="text/javascript" th:src="@{/js/common/bootstrap-rating.js}"></script>
+<script type="text/javascript" th:src="@{/js/common/bootstrap-rating.min.js}"></script>
+<link type="text/css" href="../../static/css/common/bootstrap-rating.css" th:href="@{/css/common/bootstrap-rating.css}" />
+<link type="text/css" href="../../static/css/customer/createComment.css" th:href="@{/css/customer/createComment.css}" />
 <body>
 <th:block th:include="/common/_header"></th:block>
 
@@ -22,7 +26,7 @@
 					<input class="form-control rating" id="rating" type="hidden" th:field="*{rating}"/>
 				</div>
 				<div class="form-group">
-					<label for="rating">Content</label>
+					<label for="content">Content</label>
 					<textarea class="form-control" id="content" placeholder="Enter comment" th:field="*{content}"></textarea>
 				</div>
 				<input type="hidden" th:field="*{id}">

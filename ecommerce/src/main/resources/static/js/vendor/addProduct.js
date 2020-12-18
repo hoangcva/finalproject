@@ -12,6 +12,34 @@ $(document).on('change', '#category-select',  function () {
     showSubCategory();
 });
 
+function loadSearchResult()
+{
+    var keyword = $('#keyword').val();
+    var data = {
+        "keyword" : keyword
+    }
+    // $.ajax({
+    //     type : "GET",
+    //     contentType : "application/json",
+    //     url : "/vendor/product/add/search",
+    //     data : data,
+    //     dataType : 'json',
+    //     timeout : 100000,
+    //     success : function(fragment) {
+    //         $("#content").replaceWith(fragment);
+    //     },
+    //     error : function(fragment) {
+    //         $("#display-error-message").replaceWith(fragment);
+    //     }
+    // });
+
+    $.get("/vendor/product/add/search",data).done(function(fragment) { // get from controller
+        $("#content").replaceWith(fragment); // update snippet of page
+    }).fail(function(fragment){
+        $("#display-error-message").replaceWith(fragment);
+    });
+}
+
 function showSubCategory() {
     var categoryId = $("#category-select option:selected").val();
     var childs = $('#sub-category-select').children();

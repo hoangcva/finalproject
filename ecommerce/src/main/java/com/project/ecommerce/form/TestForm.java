@@ -9,6 +9,15 @@ public class TestForm implements Serializable {
     private byte[] description;
     private String text;
     private int id;
+    private String keyword;
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
 
     public String getText() {
         return text;

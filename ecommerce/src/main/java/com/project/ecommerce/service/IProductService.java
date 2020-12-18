@@ -27,11 +27,12 @@ public interface IProductService {
     List<ProductForm> getProducts(Integer categoryId, Integer supCategoryId, String keyword);
     ProductForm getProductDetail(Long productId, Long vendorId);
 
-    CategoryDto findCategory(Integer  categoryId);
-    SubCategoryDto findSubCategory(Integer  categoryId);
+    CategoryDto findCategory(Integer categoryId);
+    SubCategoryDto findSubCategory(Integer subCategoryId);
     List<VendorProductForm> getVendorListByProduct(Long productId);
 
     void saveProductImage(List<ProductImageDto> productImageDtoList);
     List<ProductImageForm> getProductImage(long productId);
+    ProductImageForm getProductCover(long productId);
     List<CountriesDto> getCountries();
 }

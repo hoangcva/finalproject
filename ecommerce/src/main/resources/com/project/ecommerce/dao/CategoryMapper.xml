@@ -20,4 +20,12 @@
         #{categoryId,jdbcType=INTEGER},
         #{description,jdbcType=VARCHAR});
     </insert>
+
+    <select id="findCategory" resultType="com.project.ecommerce.dto.CategoryDto">
+        SELECT * FROM category WHERE id = #{categoryId}
+    </select>
+
+    <select id="findSubCategory" resultType="com.project.ecommerce.dto.SubCategoryDto">
+        SELECT * FROM sub_category WHERE id = #{subCategoryId}
+    </select>
 </mapper>

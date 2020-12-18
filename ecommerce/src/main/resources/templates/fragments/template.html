@@ -2,88 +2,138 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:fragment="head_input(title)">
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
-<!--    <script type="text/javascript" src="dist/js/tabulator.min.js"></script>-->
-    <script src='https://cdn.tiny.cloud/1/wowceb2jqq0dguc56nz2kvwllta9sriwgsbi1m50l3c7ah9v/tinymce/5/tinymce.min.js' referrerpolicy="origin">
-    </script>
-    <script>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script type="text/javascript"
+	        src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	<script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+	<!--    <script type="text/javascript" src="dist/js/tabulator.min.js"></script>-->
+	<script src='https://cdn.tiny.cloud/1/wowceb2jqq0dguc56nz2kvwllta9sriwgsbi1m50l3c7ah9v/tinymce/5/tinymce.min.js'
+	        referrerpolicy="origin">
+	</script>
+	<script>
         tinymce.init({
             selector: '.textarea-custom',
             height: 500,
             menubar: false,
             plugins: ['a11ychecker advcode casechange formatpainter linkchecker autolink paste visualblocks insertdatetime help ',
-                    'lists checklist media image mediaembed pageembed permanentpen powerpaste advtable tinymcespellchecker'],
+                'lists checklist media image mediaembed pageembed permanentpen powerpaste advtable'],
             toolbar: 'undo redo | formatselect fontsizeselect| ' +
-                    'bold italic backcolor | alignleft aligncenter ' +
-                    'alignright alignjustify | bullist numlist outdent indent | ' +
-                    'removeformat | link image | help',
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat | link image | help',
             toolbar_mode: 'floating',
             tinycomments_mode: 'embedded',
             tinycomments_author: 'Author name',
         });
-    </script>
+	</script>
 
-    <script type="text/javascript" th:src="@{/js/common/const.js}"></script>
-    <script type="text/javascript" th:src="@{/js/common/common.js}"></script>
+	<script>
+        tinymce.init({
+            selector: '.textarea-custom-readonly',
+            height: 500,
+            menubar: false,
+            plugins: ['a11ychecker advcode casechange formatpainter linkchecker autolink paste visualblocks insertdatetime help ',
+                'lists checklist media image mediaembed pageembed permanentpen powerpaste advtable'],
+            readonly: true
+        });
+	</script>
+	<script type="text/javascript" th:src="@{/js/common/const.js}"></script>
+	<script type="text/javascript" th:src="@{/js/common/common.js}"></script>
+	<script type="text/javascript" th:src="@{/js/common/bootstrap-rating.js}"></script>
 
 
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" />
-<!--    <link th:href="@{assets/bootstrap4-toggle/bootstrap4-toggle.min.css}"/>-->
-<!--    <link th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>-->
-    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
-<!--    <link href="dist/css/tabulator.min.css" rel="stylesheet">-->
-    <link rel="stylesheet" href="../../static/css/common/common.css" th:href="@{/css/common/common.css}" />
+	<link rel="stylesheet"
+	      href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css"/>
+	<!--    <link th:href="@{assets/bootstrap4-toggle/bootstrap4-toggle.min.css}"/>-->
+	<!--    <link th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>-->
+	<link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+	<!--    <link href="dist/css/tabulator.min.css" rel="stylesheet">-->
+	<link rel="stylesheet" type="text/css" href="../../static/css/common/common.css"
+	      th:href="@{/css/common/common.css}"/>
+	<link rel="stylesheet" type="text/css" href="../../static/css/common/bootstrap-rating.css"
+	      th:href="@{/css/common/bootstrap-rating.css}"/>
 </head>
 <body>
-    <div th:fragment="display-error-message" class="row mb-2">
-        <div th:if="${message != null and message != ''}"
-             th:classappend="${isSuccess}?'alert-info':'alert-danger'" class="error col-lg alert">
-            <img class="pb-1" th:src="@{/images/check.png}" th:if="${isSuccess}" style="max-height: 25px;">
-            <img class="pb-1" th:src="@{/images/fail.png}" th:unless="${isSuccess}" style="max-height: 25px;">
-            <span class="pt-1 pb-1 ml-2" th:classappend="${isSuccess}?'text-success':'text-danger'" th:text="${message}" style="font-size: 20px"></span>
-        </div>
-    </div>
+<div th:fragment="display-error-message" class="row mb-2">
+	<div th:if="${message != null and message != ''}"
+	     th:classappend="${isSuccess}?'alert-info':'alert-danger'" class="error col-lg alert">
+		<img class="pb-1" th:src="@{/images/check.png}" th:if="${isSuccess}" style="max-height: 25px;">
+		<img class="pb-1" th:src="@{/images/fail.png}" th:unless="${isSuccess}" style="max-height: 25px;">
+		<span class="pt-1 pb-1 ml-2" th:classappend="${isSuccess}?'text-success':'text-danger'" th:text="${message}"
+		      style="font-size: 20px"></span>
+	</div>
+</div>
 
-    <div th:fragment="change-quantity(buyQuantity, quantity)" class="change-quantity">
-        <div class="btn-group">
-            <div class="btn btn-minus" id="decrease-btn">-</div>
-            <input type="text" class="buy-quantity" name="buy-quantity" th:value="${buyQuantity}">
-            <div class="btn btn-plus" id="increase-btn">+</div>
-        </div>
-        <div class="text-center">
-            <span th:text="'( ' + ${quantity} +'products left)'"></span>
-        </div>
-        <span id="over-quantity text-danger" class="hide d-none" th:text="'You can\'t buy more than ' + ${quantity} + ' products'"></span>
-    </div>
-    <div th:fragment="common-redirect-form">
-        <form method="post" th:action="@{/}" id="common-redirect-form"></form>
-    </div>
-    <div th:fragment="overlay" class="overlay"></div>
+<div th:fragment="change-quantity(buyQuantity, quantity)" class="change-quantity">
+	<div class="btn-group">
+		<div class="btn btn-minus" id="decrease-btn">-</div>
+		<input type="text" class="buy-quantity" name="buy-quantity" th:value="${buyQuantity}">
+		<div class="btn btn-plus" id="increase-btn">+</div>
+	</div>
+	<div class="text-center">
+		<span th:text="'( ' + ${quantity} +'products left)'"></span>
+	</div>
+	<span id="over-quantity text-danger" class="hide d-none"
+	      th:text="'You can\'t buy more than ' + ${quantity} + ' products'"></span>
+</div>
+<div th:fragment="common-redirect-form">
+	<form method="post" th:action="@{/}" id="common-redirect-form"></form>
+</div>
+<div th:fragment="overlay" class="overlay"></div>
 
-    <div th:fragment="category-select-fragment" class="category-select-fragment form-row">
-        <div class="custom-select-div col-3 form-group">
-            <span for="category-select">Category</span>
-            <select class="custom-select" id="category-select" th:field="*{categoryId}">
-                <option value="0" selected disabled text="category"></option>
-                <option th:each="category : ${categories}"
-                        th:value="${category.id}"
-                        th:text="${category.name}"></option>
-            </select>
-        </div>
-        <div class="custom-select-div2 col-3 form-group">
-            <span for="sub-category-select">Sub category</span>
-            <select class="custom-select" id="sub-category-select" th:field="*{subCategoryId}">
-                <option class="hide"
-                        th:each="subCategory : ${subCategories}"
-                        th:value="${subCategory.id}"
-                        th:text="${subCategory.name}"
-                        th:attr="data-categoryId=${subCategory.categoryId}"></option>
-            </select>
-        </div>
-    </div>
+<div th:fragment="category-select-fragment" class="category-select-fragment form-row">
+	<div class="custom-select-div col-3 form-group">
+		<span for="category-select">Category</span>
+		<select class="custom-select" id="category-select" th:field="*{categoryId}">
+			<option value="0" selected disabled text="category"></option>
+			<option th:each="category : ${categories}"
+			        th:value="${category.id}"
+			        th:text="${category.name}"></option>
+		</select>
+	</div>
+	<div class="custom-select-div2 col-3 form-group">
+		<span for="sub-category-select">Sub category</span>
+		<select class="custom-select" id="sub-category-select" th:field="*{subCategoryId}">
+			<option class="hide"
+			        th:each="subCategory : ${subCategories}"
+			        th:value="${subCategory.id}"
+			        th:text="${subCategory.name}"
+			        th:attr="data-categoryId=${subCategory.categoryId}"></option>
+		</select>
+	</div>
+</div>
+
+<!--pagination-->
+<div th:if="${page.totalNumberOfItems > 0 and page.numberOfItems > 0}" class="pagination-wrapper"
+     th:fragment="pagination" xmlns:th="http://www.thymeleaf.org">
+	<div class="valign-wrapper right">
+		<div id="items_per_page_wrapper">
+			<div class="valign-wrapper">
+				<span th:text="#{ui.pagination.rows.per.page.label}" style="padding-right: 10px">Rows per page:</span>
+				<select id="items_per_page_select" name="itemsPerPage">
+					<option th:each="items_per_page : ${page.ITEMS_PER_PAGE_OPTIONS_LIST}" th:text="${items_per_page}"
+					        th:value="${items_per_page}" th:selected="${items_per_page} == ${page.itemsPerPage}">10
+					</option>
+				</select>
+			</div>
+		</div>
+		<label class="current_page_info"
+		       th:text="#{ui.pagination.current.page.info(${page.currentPageFirstItemNumber}, ${page.currentPageLastItemNumber}, ${page.totalNumberOfItems})}"></label>
+		<ul class="pagination right">
+			<li th:classappend="${page.pageNumber > 0 } ? '' : 'disabled'">
+				<a id="previous_page_link" href="javascript:void(0)">
+					<i class="material-icons">navigate_before</i>
+				</a>
+			</li>
+			<li th:classappend="${page.currentPageLastItemNumber == page.totalNumberOfItems} ? 'disabled' : ''">
+				<a id="next_page_link" href="javascript:void(0)">
+					<i class="material-icons">navigate_next</i>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
 </body>
 </html>
