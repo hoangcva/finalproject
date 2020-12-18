@@ -2,6 +2,7 @@ package com.project.ecommerce.service.impl;
 
 import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.dao.CategoryMapper;
+import com.project.ecommerce.dao.CommentMapper;
 import com.project.ecommerce.dao.ProductMapper;
 import com.project.ecommerce.dto.*;
 import com.project.ecommerce.form.*;
@@ -17,6 +18,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +35,8 @@ public class ProductServiceImpl implements IProductService {
     private MessageAccessor messageAccessor;
     @Autowired
     private CategoryMapper categoryMapper;
+    @Autowired
+    private CommentMapper commentMapper;
 
     /**
      * @param productForm
@@ -240,6 +244,16 @@ public class ProductServiceImpl implements IProductService {
     public ProductForm getProductDetail(Long productId, Long vendorId) {
         ProductForm productForm = productMapper.getProductDetail(productId, vendorId);
         ProductForm productDetail = productMapper.getProductDetailBaseOnCategory(productForm);
+        List<CommentDto> commentDtoList = commentMapper.getCommentByProduct(productId, vendorId);
+        List<CommentForm> commentFormList= new ArrayList<>();
+        for (CommentDto commentDto : commentDtoList) {
+            CommentForm commentForm = new CommentForm();
+            BeanUtils.copyProperties(commentDto, commentForm);
+            commentForm.setCreatedTime(new SimpleDateFormat(Consts.TIME_FORMAT_MMddyyyyHHmmss).format(commentDto.getCreatedTime()));
+            commentForm.setUpdatedTime(new SimpleDateFormat(Consts.TIME_FORMAT_MMddyyyyHHmmss).format(commentDto.getUpdateTime()));
+            commentFormList.add(commentForm);
+        }
+        productForm.setCommentFormList(commentFormList);
         productForm = setDetail(productDetail, productForm);
         List<ProductImageForm> productImageFormList = getProductImage(productForm.getProductId());
         productForm.setProductImageFormList(productImageFormList);

@@ -85,6 +85,7 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
             orderDetailDto.setVendorId(cartLineInfoForm.getProductForm().getVendorId());
             orderDetailDto.setBuyQuantity(buyQuantity);
             orderDetailDto.setPrice(cartLineInfoForm.getProductForm().getPrice());
+            orderDetailDto.setProductName(cartLineInfoForm.getProductForm().getProductName());
             orderDetailDtoList.add(orderDetailDto);
 
             ProductForm productForm = productMapper.getVendorProduct(productId);
@@ -260,9 +261,6 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
     public Message finishOrder(OrderForm orderForm) {
         Message result = new Message("", true);
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
-        long newQuantity;
-        long vendorId;
-        long productId;
         try {
             OrderDto orderDto = new OrderDto();
             BeanUtils.copyProperties(orderForm, orderDto);
@@ -271,10 +269,10 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
             orderMapper.updateOrderStatus(orderDto);
             //commit
             transactionManager.commit(txStatus);
-            result.setMessage(messageAccessor.getMessage(Consts.MSG_12_I, orderForm.getOrderDspId()));
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_16_I, orderForm.getOrderDspId()));
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
-            result.setMessage(messageAccessor.getMessage(Consts.MSG_12_E, ""));
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_16_E, ""));
             result.setSuccess(false);
         }
         return result;

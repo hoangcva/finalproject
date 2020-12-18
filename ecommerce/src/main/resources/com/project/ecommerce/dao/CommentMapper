@@ -24,7 +24,7 @@
         WHERE id = #{id}
     </update>
 
-    <select id="getCommentByProduct" parameterType="com.project.ecommerce.dto.CommentDto">
+    <select id="getCommentByProduct" parameterType="Long">
         SELECT * FROM comment
         WHERE productId = #{productId}
         AND vendorId = #{vendorId}

@@ -56,6 +56,16 @@ public class ProductForm implements Serializable {
     private String delete2;
     private boolean isSubmitted = false;
 
+    private List<CommentForm> commentFormList;
+
+    public List<CommentForm> getCommentFormList() {
+        return commentFormList;
+    }
+
+    public void setCommentFormList(List<CommentForm> commentFormList) {
+        this.commentFormList = commentFormList;
+    }
+
     public String getModel() {
         return model;
     }

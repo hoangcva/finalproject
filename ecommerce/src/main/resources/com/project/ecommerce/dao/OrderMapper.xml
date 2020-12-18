@@ -25,13 +25,14 @@
 
     <insert id="createOrderDetail" parameterType="com.project.ecommerce.dto.OrderDetailDto">
         INSERT INTO order_products
-            (orderId, productId, vendorId, buyQuantity, price)
+            (orderId, productId, vendorId, buyQuantity, price, productName)
         VALUES
         (#{orderId, jdbcType=BIGINT},
          #{productId,jdbcType=BIGINT},
          #{vendorId,jdbcType=BIGINT},
          #{buyQuantity,jdbcType=BIGINT},
-         #{price,jdbcType=BIGINT})
+         #{price,jdbcType=BIGINT},
+         #{productName,jdbcType=VARCHAR})
     </insert>
 
     <select id="getOrderListCustomer" resultType="com.project.ecommerce.dto.OrderDto" fetchSize="200">

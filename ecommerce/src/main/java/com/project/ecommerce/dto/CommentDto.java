@@ -12,6 +12,15 @@ public class CommentDto implements Serializable {
     private String content;
     private Float rating;
     private Timestamp createdTime;
+    private Timestamp updateTime;
+
+    public Timestamp getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
+    }
 
     public Long getId() {
         return id;

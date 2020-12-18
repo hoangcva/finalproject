@@ -3,12 +3,10 @@ package com.project.ecommerce.controller;
 import com.project.ecommerce.dto.CustomerAddressDto;
 import com.project.ecommerce.dto.UserDetailsDto;
 import com.project.ecommerce.form.CartInfoForm;
+import com.project.ecommerce.form.CommentForm;
 import com.project.ecommerce.form.OrderForm;
 import com.project.ecommerce.form.TransporterForm;
-import com.project.ecommerce.service.ICartService;
-import com.project.ecommerce.service.ICustomerAddressService;
-import com.project.ecommerce.service.IOrderCustomerService;
-import com.project.ecommerce.service.ITransporterService;
+import com.project.ecommerce.service.*;
 import com.project.ecommerce.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +31,8 @@ public class OrderCustomerController {
     private IOrderCustomerService orderCustomerService;
     @Autowired
     private ITransporterService transporterService;
+    @Autowired
+    private ICustomerService customerService;
 
     @RequestMapping()
     public String init(Model model, Authentication auth) {
@@ -102,12 +102,16 @@ public class OrderCustomerController {
                               @RequestParam("orderDspId") String orderDspId,
                               @RequestParam("orderStatus") String orderStatus,
                               Model model,
-                              final RedirectAttributes redirectAttributes) {
+                              final RedirectAttributes redirectAttributes,
+                              Authentication auth) {
         OrderForm orderForm = new OrderForm();
         orderForm.setId(id);
         orderForm.setOrderDspId(orderDspId);
         orderForm.setOrderStatus(orderStatus);
         Message result = orderCustomerService.finishOrder(orderForm);
+//        if (result.isSuccess()) {
+//            customerService.createComment(id, auth);
+//        }
         redirectAttributes.addFlashAttribute("message", result.getMessage());
         redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
         return "redirect:/customer/order/history";

@@ -73,7 +73,12 @@
 								<p>
 									Provided by
 									<a th:href="@{/}"><strong th:text="${order.productForm.vendorName}"></strong></a>
-									<!--TODO-->
+									<!--TODO: vendorPage-->
+								</p>
+								<p>
+									<a th:href="@{/customer/comment(productId = ${order.productForm.productId},
+																	vendorId = ${order.productForm.vendorId})}"
+										class="btn btn-outline-primary">Add comment</a>
 								</p>
 							</div>
 						</div>

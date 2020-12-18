@@ -1,7 +1,7 @@
 package com.project.ecommerce.form;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+
 
 public class CommentForm implements Serializable {
     private static final long serialVersionUID = -8610550914505978624L;
@@ -11,7 +11,16 @@ public class CommentForm implements Serializable {
     private Long vendorId;
     private String content;
     private Float rating;
-    private Timestamp createdTime;
+    private String createdTime;
+    private String updatedTime;
+
+    public String getUpdatedTime() {
+        return updatedTime;
+    }
+
+    public void setUpdatedTime(String updatedTime) {
+        this.updatedTime = updatedTime;
+    }
 
     public Long getId() {
         return id;
@@ -61,11 +70,11 @@ public class CommentForm implements Serializable {
         this.rating = rating;
     }
 
-    public Timestamp getCreatedTime() {
+    public String getCreatedTime() {
         return createdTime;
     }
 
-    public void setCreatedTime(Timestamp createdTime) {
+    public void setCreatedTime(String createdTime) {
         this.createdTime = createdTime;
     }
 }

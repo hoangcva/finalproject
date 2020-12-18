@@ -9,6 +9,15 @@ public class OrderDetailDto implements Serializable {
     private long vendorId;
     private long buyQuantity;
     private long price;
+    private String productName;
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 
     public long getOrderId() {
         return orderId;

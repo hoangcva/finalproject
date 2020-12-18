@@ -12,6 +12,6 @@ import java.util.List;
 public interface CommentMapper {
     boolean createComment(CommentDto commentDto);
     boolean saveComment(CommentDto commentDto);
-    List<CommentDto> getCommentByProduct(CommentDto commentDto);
+    List<CommentDto> getCommentByProduct(@Param("productId") Long productId, @Param("vendorId") Long vendorId);
     boolean deleteComment(@Param("id") Long commentId);
 }

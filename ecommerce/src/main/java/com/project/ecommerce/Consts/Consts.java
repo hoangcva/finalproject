@@ -2,6 +2,7 @@ package com.project.ecommerce.Consts;
 
 public class Consts {
     public static final String EMPTY = "";
+    public static final String TIME_FORMAT_MMddyyyyHHmmss="MM/dd/yyyy HH:mm:ss";
     public static final Integer DEFAULT_VALUE_0 = 0;
     public static final String ROLE_USER = "ROLE_USER";
     public static final String ROLE_VENDOR = "ROLE_VENDOR";
@@ -33,6 +34,9 @@ public class Consts {
     public static final String MSG_11_E = "MSG_11_E"; //Update transporter information fail!
     public static final String MSG_12_E = "MSG_12_E"; //Cancel order fail!
     public static final String MSG_13_E = "MSG_13_E"; //Approve order fail!
+    public static final String MSG_14_E = "MSG_14_E"; //Can't comment on product {0}!
+    public static final String MSG_15_E = "MSG_15_E"; //Create review fail!
+    public static final String MSG_16_E = "MSG_16_E"; //Receive order fail!
 
 
 //-----------------------------------------------------------------------------------------------
@@ -49,4 +53,6 @@ public class Consts {
     public static final String MSG_11_I = "MSG_11_I"; //Transporter information has been updated successful!
     public static final String MSG_12_I = "MSG_12_I"; //Order {0} has been canceled successful!
     public static final String MSG_13_I = "MSG_13_I"; //Order {0} has been approved successful!
+    public static final String MSG_15_I = "MSG_15_I"; //Review has been saved successful!
+    public static final String MSG_16_I = "MSG_16_I"; //Order {0} has been received!
 }
