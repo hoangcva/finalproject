@@ -12,14 +12,32 @@ public class CommentForm implements Serializable {
     private String content;
     private Float rating;
     private String createdTime;
-    private String updatedTime;
+    private String customerName;
+    private Long orderId;
+    private String vendorName;
 
-    public String getUpdatedTime() {
-        return updatedTime;
+    public String getVendorName() {
+        return vendorName;
     }
 
-    public void setUpdatedTime(String updatedTime) {
-        this.updatedTime = updatedTime;
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
     public Long getId() {

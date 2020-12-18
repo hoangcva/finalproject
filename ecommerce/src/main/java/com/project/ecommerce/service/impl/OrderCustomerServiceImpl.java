@@ -7,6 +7,7 @@ import com.project.ecommerce.form.*;
 import com.project.ecommerce.service.ICartService;
 import com.project.ecommerce.service.ICustomerAddressService;
 import com.project.ecommerce.service.IOrderCustomerService;
+import com.project.ecommerce.service.IProductService;
 import com.project.ecommerce.util.Message;
 import com.project.ecommerce.util.MessageAccessor;
 import org.springframework.beans.BeanUtils;
@@ -40,6 +41,8 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
     private CartMapper cartMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private IProductService productService;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     /**
@@ -205,7 +208,8 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
         for (OrderDetailDto orderDetailDto : orderDetailDtoList) {
             ProductForm productForm = productMapper.getProductDetail(orderDetailDto.getProductId(),
                                                                     orderDetailDto.getVendorId());
-
+            List<ProductImageForm> productImageFormList = productService.getProductImage(orderDetailDto.getProductId());
+            productForm.setProductImageFormList(productImageFormList);
             VendorDto vendorDto = userMapper.getVendorInfo(orderDetailDto.getVendorId());
             VendorForm vendorForm = new VendorForm();
             BeanUtils.copyProperties(vendorDto, vendorForm);
@@ -214,7 +218,7 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
             orderDetailForm.setProductForm(productForm);
             orderDetailForm.setVendorForm(vendorForm);
             orderDetailFormList.add(orderDetailForm);
-            productFormList.add(productForm);
+//            productFormList.add(productForm);
         }
         orderForm.setOrderDetailList(orderDetailFormList);
 //        orderForm.setProductFormList(productFormList);

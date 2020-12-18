@@ -250,7 +250,6 @@ public class ProductServiceImpl implements IProductService {
             CommentForm commentForm = new CommentForm();
             BeanUtils.copyProperties(commentDto, commentForm);
             commentForm.setCreatedTime(new SimpleDateFormat(Consts.TIME_FORMAT_MMddyyyyHHmmss).format(commentDto.getCreatedTime()));
-            commentForm.setUpdatedTime(new SimpleDateFormat(Consts.TIME_FORMAT_MMddyyyyHHmmss).format(commentDto.getUpdateTime()));
             commentFormList.add(commentForm);
         }
         productForm.setCommentFormList(commentFormList);
@@ -285,6 +284,8 @@ public class ProductServiceImpl implements IProductService {
                 target.setPower(source.getPower());
                 target.setVoltage(source.getVoltage());
                 target.setSize(source.getSize());
+            } else {
+
             }
         } else if (target.getCategoryId() == 3) {
             target.setAuthor(source.getAuthor());

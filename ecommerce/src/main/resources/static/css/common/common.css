@@ -121,6 +121,7 @@ input.buy-quantity {
 body {
     background-color: #f7f7f7;
     /*background-color: #aec6cf;*/
+    font-size: 85%;
 }
 
 .container {

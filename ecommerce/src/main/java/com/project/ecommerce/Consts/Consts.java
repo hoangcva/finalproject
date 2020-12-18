@@ -53,6 +53,7 @@ public class Consts {
     public static final String MSG_11_I = "MSG_11_I"; //Transporter information has been updated successful!
     public static final String MSG_12_I = "MSG_12_I"; //Order {0} has been canceled successful!
     public static final String MSG_13_I = "MSG_13_I"; //Order {0} has been approved successful!
+    public static final String MSG_14_I = "MSG_14_I"; //Review has been created successful!
     public static final String MSG_15_I = "MSG_15_I"; //Review has been saved successful!
     public static final String MSG_16_I = "MSG_16_I"; //Order {0} has been received!
 }

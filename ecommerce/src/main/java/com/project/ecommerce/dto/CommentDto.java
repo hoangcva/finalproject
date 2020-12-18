@@ -12,14 +12,32 @@ public class CommentDto implements Serializable {
     private String content;
     private Float rating;
     private Timestamp createdTime;
-    private Timestamp updateTime;
+    private String customerName;
+    private Long orderId;
+    private String vendorName;
 
-    public Timestamp getUpdateTime() {
-        return updateTime;
+    public String getVendorName() {
+        return vendorName;
     }
 
-    public void setUpdateTime(Timestamp updateTime) {
-        this.updateTime = updateTime;
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
     public Long getId() {

@@ -97,7 +97,7 @@ public class OrderCustomerController {
         return "redirect:/customer/order/history";
     }
 
-    @GetMapping("/success")
+    @GetMapping("/receive")
     public String finishOrder(@RequestParam("id") Long id,
                               @RequestParam("orderDspId") String orderDspId,
                               @RequestParam("orderStatus") String orderStatus,

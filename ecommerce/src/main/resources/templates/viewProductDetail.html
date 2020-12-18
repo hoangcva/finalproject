@@ -7,9 +7,9 @@
 <body>
 <th:block th:include="/common/_header"></th:block>
 <div class="container">
-	<form th:action="@{/product/view/detail}" th:object="${productForm}" th:method="POST">
+	<form action="@{/product/view/detail}" th:object="${productForm}" th:method="POST">
 		<div class="row pt-lg-3 mb-lg-4">
-			<div class="col-md-5">
+			<div class="col-md-4 bg-light ml-3">
 				<div id="carouselExampleIndicators" class="carousel slide d-flex" data-ride="carousel"
 				     style="height: 400px;">
 					<ol class="carousel-indicators">
@@ -48,152 +48,171 @@
 					</a>
 				</div>
 			</div>
-			<div class="col-md-7">
-				<h3 class="d-block mb-lg-5" th:text="*{productName}"></h3>
-				<div class="container">
-					<div class="row">
-						<div class="d-flex flex-column align-items-end w-75 col-sm-7">
-							<div class="mb-lg-2">
-								<h3 class="d-block font-weight-bold money " th:text="*{price}"></h3>
-								<div class="d-inline-flex money list-price" th:text="*{listPrice}"></div>
-								<div class="d-inline-flex discount"
-								     th:text="'-' + *{(listPrice - price) * 100 / listPrice + '%'}"></div>
-							</div>
-							<div class="mb-lg-3 ">
-								<div th:replace="fragments/template :: change-quantity(0, ${productForm.quantity})"></div>
-							</div>
-							<input class="btn btn-primary d-inline-block" id="btn-submit" type="button" value="Buy"
-							       onclick="addProductToCart()" style="width: 250px" sec:authorize="isAuthenticated()">
-							<a class="nav-link" th:href="@{/login}">
-								<button class="btn btn-primary d-inline-block" id="btn-login"
-								        style="width: 250px" sec:authorize="!isAuthenticated()">Buy
-								</button>
-							</a>
+			<div class="col-md-7 bg-light ">
+				<div class="row mb-lg-4 text-break"><h3 th:text="*{productName}"></h3></div>
+<!--				<div class="row">-->
+					<div class="d-flex flex-column align-items-end w-75 col-sm-7 pb-lg-3" style="position : absolute; bottom : 0">
+						<div class="mb-lg-2 mr-3">
+							<h3 class="d-block font-weight-bold money " th:text="*{price}"></h3>
+							<div class="justify-content-end d-flex money list-price" th:text="*{listPrice}"></div>
+							<div class="justify-content-end d-flex discount"
+							     th:text="'-' + *{(listPrice - price) * 100 / listPrice + '%'}"></div>
 						</div>
-						<div class="col-sm-5">
-							<div th:text="${vendorForm.fullName}"></div>
+						<div class="mb-lg-3 mr-3 pb-lg-3">
+							<div th:replace="fragments/template :: change-quantity(0, ${productForm.quantity})"></div>
 						</div>
+						<input class="btn btn-primary d-inline-block" id="btn-submit" type="button" value="Buy"
+						       onclick="addProductToCart()" style="width: 250px" sec:authorize="isAuthenticated()">
+						<a class="nav-link" th:href="@{/login}">
+							<button class="btn btn-primary d-inline-block" id="btn-login"
+							        style="width: 250px" sec:authorize="!isAuthenticated()">Buy
+							</button>
+						</a>
 					</div>
-				</div>
+					<div class="col-sm-5" style="position : absolute; right : 0">
+						<div class="font-weight-bolder" th:text="${vendorForm.vendorName}"></div>
+						<div class="text-truncate" th:text="${vendorForm.description}"></div>
+					</div>
+<!--				</div>-->
 			</div>
 		</div>
 		<div class="row mb-lg-4">
 			<div class="col-lg-8">
-				<h3>Detail Information</h3>
-				<table class="table borderless" style="font-size: 15px">
-					<tbody>
-					<tr>
-						<th scope="row" class="table-active">SKU</th>
-						<td th:text="*{SKU}"></td>
-					</tr>
-					<tr>
-						<th scope="row" class="table-active">Origin</th>
-						<td th:text="*{origin}"></td>
-					</tr>
-					<tr>
-						<th scope="row" class="table-active">Brand</th>
-						<td th:text="*{brand}"></td>
-					</tr>
-					</tbody>
-					<tbody th:if="*{categoryId eq 1}">
-					<tr>
-						<th scope="row" class="table-active">Size</th>
-						<td th:text="*{size}"></td>
-					</tr>
-					<tr>
-						<th scope="row" class="table-active">Color</th>
-						<td th:text="*{color}"></td>
-					</tr>
-					<tr>
-						<th scope="row" class="table-active">Material</th>
-						<td th:text="*{material}"></td>
-					</tr>
-					</tbody>
-					<tbody th:if="*{categoryId eq 2}">
-					<tr th:if="*{subCategoryId eq 1 or subCategoryId eq 3}">
-						<th scope="row" class="table-active">Size</th>
-						<td th:text="*{size}"></td>
-					</tr>
-					<tr>
-						<th scope="row" class="table-active">Model</th>
-						<td th:text="*{model}"></td>
-					</tr>
-					<tr th:if="*{subCategoryId eq 1}">
-						<th scope="row" class="table-active">Type</th>
-						<td th:text="*{type}"></td>
-					</tr>
-					<tr th:if="*{subCategoryId eq 1}">
-						<th scope="row" class="table-active">Frames per second</th>
-						<td th:text="*{framePerSecond}"></td>
-					</tr>
-					<tr th:if="*{subCategoryId eq 1}">
-						<th scope="row" class="table-active">Weight</th>
-						<td th:text="*{weight}"></td>
-					</tr>
-					<tr th:if="*{subCategoryId eq 1}">
-						<th scope="row" class="table-active">Connection ports</th>
-						<td th:text="*{connectionPorts}"></td>
-					</tr>
-					<tr>
-						<th scope="row" class="table-active">Voltage</th>
-						<td th:text="*{voltage}"></td>
-					</tr>
-					<tr th:if="*{subCategoryId eq 2 or subCategoryId eq 3}">
-						<th scope="row" class="table-active">Capacity</th>
-						<td th:text="*{capacity}"></td>
-					</tr>
-					<tr th:if="*{subCategoryId eq 2}">
-						<th scope="row" class="table-active">Power</th>
-						<td th:text="*{power}"></td>
-					</tr>
-					</tbody>
-					<tbody th:if="*{categoryId eq 3}">
-					<tr>
-						<th scope="row" class="table-active">Author</th>
-						<td th:text="*{author}"></td>
-					</tr>
-					<tr>
-						<th scope="row" class="table-active">Release date</th>
-						<td th:text="*{releaseDate}"></td>
-						<!--TODO-->
-					</tr>
-					<tr>
-						<th scope="row" class="table-active">Number of pages
-						</td>
-						<td th:text="*{numberOfPages}"></td>
-					</tr>
-					<tr>
-						<th scope="row" class="table-active">Language</th>
-						<td th:text="*{language}"></td>
-					</tr>
-					<tr>
-						<th scope="row" class="table-active">Publisher</th>
-						<td th:text="*{publisher}"></td>
-					</tr>
-					</tbody>
-				</table>
+				<div class="d-block mb-lg-3">
+					<h3>Detail Information</h3>
+				</div>
+				<div class="bg-light p-lg-2">
+					<table class="table borderless" style="font-size: 15px">
+						<tbody>
+						<tr>
+							<th scope="row" class="table-active">SKU</th>
+							<td th:text="*{SKU}"></td>
+						</tr>
+						<tr>
+							<th scope="row" class="table-active">Origin</th>
+							<td th:text="*{origin}"></td>
+						</tr>
+						<tr>
+							<th scope="row" class="table-active">Brand</th>
+							<td th:text="*{brand}"></td>
+						</tr>
+						</tbody>
+						<tbody th:if="*{categoryId eq 1}">
+						<tr>
+							<th scope="row" class="table-active">Size</th>
+							<td th:text="*{size}"></td>
+						</tr>
+						<tr>
+							<th scope="row" class="table-active">Color</th>
+							<td th:text="*{color}"></td>
+						</tr>
+						<tr>
+							<th scope="row" class="table-active">Material</th>
+							<td th:text="*{material}"></td>
+						</tr>
+						</tbody>
+						<tbody th:if="*{categoryId eq 2}">
+						<tr th:if="*{subCategoryId eq 1 or subCategoryId eq 3}">
+							<th scope="row" class="table-active">Size</th>
+							<td th:text="*{size}"></td>
+						</tr>
+						<tr>
+							<th scope="row" class="table-active">Model</th>
+							<td th:text="*{model}"></td>
+						</tr>
+						<tr th:if="*{subCategoryId eq 1}">
+							<th scope="row" class="table-active">Type</th>
+							<td th:text="*{type}"></td>
+						</tr>
+						<tr th:if="*{subCategoryId eq 1}">
+							<th scope="row" class="table-active">Frames per second</th>
+							<td th:text="*{framePerSecond}"></td>
+						</tr>
+						<tr th:if="*{subCategoryId eq 1}">
+							<th scope="row" class="table-active">Weight</th>
+							<td th:text="*{weight}"></td>
+						</tr>
+						<tr th:if="*{subCategoryId eq 1}">
+							<th scope="row" class="table-active">Connection ports</th>
+							<td th:text="*{connectionPorts}"></td>
+						</tr>
+						<tr>
+							<th scope="row" class="table-active">Voltage</th>
+							<td th:text="*{voltage}"></td>
+						</tr>
+						<tr th:if="*{subCategoryId eq 2 or subCategoryId eq 3}">
+							<th scope="row" class="table-active">Capacity</th>
+							<td th:text="*{capacity}"></td>
+						</tr>
+						<tr th:if="*{subCategoryId eq 2}">
+							<th scope="row" class="table-active">Power</th>
+							<td th:text="*{power}"></td>
+						</tr>
+						</tbody>
+						<tbody th:if="*{categoryId eq 3}">
+						<tr>
+							<th scope="row" class="table-active">Author</th>
+							<td th:text="*{author}"></td>
+						</tr>
+						<tr>
+							<th scope="row" class="table-active">Release date</th>
+							<td th:text="*{releaseDate}"></td>
+							<!--TODO-->
+						</tr>
+						<tr>
+							<th scope="row" class="table-active">Number of pages</th>
+							<td th:text="*{numberOfPages}"></td>
+						</tr>
+						<tr>
+							<th scope="row" class="table-active">Language</th>
+							<td th:text="*{language}"></td>
+						</tr>
+						<tr>
+							<th scope="row" class="table-active">Publisher</th>
+							<td th:text="*{publisher}"></td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
-			<div class="col-lg-2">
-				<ul th:each="vendor: ${vendorList}">
-					<li th:unless="${vendor.vendorId eq vendorId}">
-						<a th:href="@{/product/view/detail(productId = ${vendor.productId}, vendorId = ${vendor.vendorId})}">
-							<span th:text="${vendor.fullName}"></span>
-							<span th:value="${vendor.price}"></span>
-						</a>
-					</li>
-				</ul>
+			<div class="col-lg-4" th:if="${#lists.size(vendorList) > 1}">
+				<div class="d-block mb-lg-3">
+					<h4>Other vendor</h4>
+				</div>
+				<div class="bg-light p-lg-2">
+					<ul th:each="vendor: ${vendorList}">
+						<li th:unless="${vendor.vendorId eq vendorId}">
+							<a th:href="@{/product/view/detail(productId = ${vendor.productId}, vendorId = ${vendor.vendorId})}">
+								<span class="d-block mb-lg-1" th:text="${vendor.fullName}"></span>
+								<span th:value="${vendor.price}"></span>
+							</a>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-lg-11">
+		<div class="row mb-lg-4">
+			<div class="col-lg-12">
 				<div class="d-block mb-lg-3"><h3>Product Description</h3></div>
 				<div class="bg-light p-lg-2" th:utext="*{description}"></div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-lg-11">
-				<div class="d-block mb-lg-3"><h3>Product Description</h3></div>
-				<div class="bg-light p-lg-2" th:utext="*{description}"></div>
+		<div class="row" >
+			<div class="col-lg-12">
+				<div class="d-block mb-lg-3"><h3>Review</h3></div>
+				<div class="bg-light p-lg-2" th:each="comment : *{commentFormList}">
+					<div>
+						<b><span th:text="${comment.customerName}" class="d-block"></span></b>
+						<span class="text-secondary" th:text="'Reviewed at ' + ${comment.createdTime}"></span>
+						<span class="text-secondary" th:text="'Buyed from ' + ${comment.vendorName}"></span>
+					</div>
+					<div>
+						<span class="text-break" th:text="${comment.content}"></span>
+					</div>
+				</div>
+				<div class="bg-light p-lg-2 text-center" th:if="*{#lists.size(commentFormList) eq 0}">
+					<span class="font-weight-bolder text-secondary h4">No Review</span>
+				</div>
 			</div>
 		</div>
 

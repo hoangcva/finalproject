@@ -6,33 +6,43 @@
 <mapper namespace="com.project.ecommerce.dao.CommentMapper">
     <insert id="createComment" parameterType="com.project.ecommerce.dto.CommentDto" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO comment
-        (productId, vendorId, customerId)
+        (productId, vendorId, customerId, customerName, orderId, vendorName)
         VALUES
         (#{productId, jdbcType=BIGINT},
-         #{vendorId,jdbcType=BIGINT},
-         #{customerId,jdbcType=BIGINT})
+        #{vendorId,jdbcType=BIGINT},
+        #{customerId,jdbcType=BIGINT},
+        #{customerName,jdbcType=VARCHAR},
+        #{orderId,jdbcType=BIGINT},
+        #{vendorName,jdbcType=VARCHAR})
         <selectKey keyProperty="id" resultType="Long" order="AFTER">
             SELECT LAST_INSERT_ID();
         </selectKey>
     </insert>
-    
+
     <update id="updateComment" parameterType="com.project.ecommerce.dto.CommentDto">
         UPDATE comment
         SET content = #{content},
-            rating = #{rating},
-            updatedTime = #{updatedTime}
+            rating = #{rating}
         WHERE id = #{id}
     </update>
 
-    <select id="getCommentByProduct" parameterType="Long">
+    <select id="getCommentByProduct" parameterType="Long" resultType="com.project.ecommerce.dto.CommentDto">
         SELECT * FROM comment
         WHERE productId = #{productId}
-        AND vendorId = #{vendorId}
+          AND vendorId = #{vendorId}
         ORDER BY rating DESC, createdTime
     </select>
 
-    <delete id="deleteComment" parameterType="Lont">
+    <delete id="deleteComment" parameterType="Long">
         DELETE FROM comment
         WHERE id = #{id}
     </delete>
+
+    <select id="getComment" resultType="com.project.ecommerce.dto.CommentDto" parameterType="com.project.ecommerce.dto.CommentDto">
+        SELECT * FROM comment
+        WHERE productId = #{productId}
+        AND vendorId = #{vendorId}
+        AND customerId = #{customerId}
+        AND orderId = #{orderId}
+    </select>
 </mapper>

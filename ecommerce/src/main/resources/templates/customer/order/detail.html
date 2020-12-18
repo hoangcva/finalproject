@@ -20,7 +20,7 @@
 			<!--			</form>-->
 			<a type="submit" class="btn btn-primary" role="button"
 			   th:if="${orderForm.orderStatus eq 'DELIVERING'}"
-			   th:href="@{/customer/order/success(id=${orderForm.id}, orderDspId=${orderForm.orderDspId}, orderStatus='SUCCESS')}">Received</a>
+			   th:href="@{/customer/order/receive(id=${orderForm.id}, orderDspId=${orderForm.orderDspId}, orderStatus='SUCCESS')}">Received</a>
 
 			<a type="submit" class="btn btn-danger" role="button"
 			   th:if="${orderForm.orderStatus eq 'PROGRESSING'}"
@@ -58,26 +58,27 @@
 				</tr>
 				</thead>
 				<tbody>
-				<tr th:each="order,iStat  : ${orderForm.orderDetailList}">
+				<tr th:each="product,iStat  : ${orderForm.orderDetailList}">
 					<th scope="row" th:text="${iStat.count}"></th>
 					<td>
-						<div>
-							<img class="img-thumbnail"
+						<div class="d-flex">
+							<img class="img-thumbnail mr-2" style="height: 60px"
 								 th:src="@{'data:image/jpeg;base64,'
-								            +${order.productForm.productImageFormList[0].generateBase64Image()}}"/>
+								            +${product.productForm.productImageFormList[0].generateBase64Image()}}"/>
 							<div>
 								<p>
-									<a th:text="${order.productForm.productName}"
-									   th:href="@{/product/view/detail(productId = ${order.productForm.productId})}"></a>
+									<a th:text="${product.productForm.productName}"
+									   th:href="@{/product/view/detail(productId = ${product.productForm.productId})}"></a>
 								</p>
 								<p>
 									Provided by
-									<a th:href="@{/}"><strong th:text="${order.productForm.vendorName}"></strong></a>
+									<a th:href="@{/}"><strong th:text="${product.productForm.vendorName}"></strong></a>
 									<!--TODO: vendorPage-->
 								</p>
-								<p>
-									<a th:href="@{/customer/comment(productId = ${order.productForm.productId},
-																	vendorId = ${order.productForm.vendorId})}"
+								<p th:if="${orderForm.orderStatus eq 'SUCCESS'}">
+									<a th:href="@{/customer/comment(productId = ${product.productForm.productId},
+																	vendorId = ${product.productForm.vendorId},
+																	orderId = ${orderForm.id})}"
 										class="btn btn-outline-primary">Add comment</a>
 								</p>
 							</div>
@@ -85,10 +86,10 @@
 
 
 					</td>
-					<td class="money" th:text="${order.price}"></td>
-					<td th:text="${order.buyQuantity}"></td>
+					<td class="money" th:text="${product.price}"></td>
+					<td th:text="${product.buyQuantity}"></td>
 					<!--					<td></td>-->
-					<td class="bill-total money" th:text="${order.buyQuantity * order.price}"></td>
+					<td class="bill-total money" th:text="${product.buyQuantity * product.price}"></td>
 				</tr>
 				</tbody>
 				<tfoot>

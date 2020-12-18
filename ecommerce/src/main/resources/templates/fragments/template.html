@@ -54,11 +54,8 @@
             <input type="text" class="buy-quantity" name="buy-quantity" th:value="${buyQuantity}">
             <div class="btn btn-plus" id="increase-btn">+</div>
         </div>
-        <div>
-            (
-            <span th:text="${quantity}" class=""></span>
-            product left
-            )
+        <div class="text-center">
+            <span th:text="'( ' + ${quantity} +'products left)'"></span>
         </div>
         <span id="over-quantity text-danger" class="hide d-none" th:text="'You can\'t buy more than ' + ${quantity} + ' products'"></span>
     </div>

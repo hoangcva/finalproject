@@ -3,11 +3,12 @@ package com.project.ecommerce.service.impl;
 import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.dao.CommentMapper;
 import com.project.ecommerce.dao.OrderMapper;
-import com.project.ecommerce.dto.CommentDto;
-import com.project.ecommerce.dto.OrderDetailDto;
-import com.project.ecommerce.dto.UserDetailsDto;
+import com.project.ecommerce.dao.UserMapper;
+import com.project.ecommerce.dao.VendorMapper;
+import com.project.ecommerce.dto.*;
 import com.project.ecommerce.form.CommentForm;
 import com.project.ecommerce.service.ICustomerService;
+import com.project.ecommerce.service.IUserService;
 import com.project.ecommerce.util.Message;
 import com.project.ecommerce.util.MessageAccessor;
 import org.springframework.beans.BeanUtils;
@@ -19,7 +20,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Service
@@ -32,6 +33,10 @@ public class CustomerServiceImpl implements ICustomerService {
     private CommentMapper commentMapper;
     @Autowired
     private OrderMapper orderMapper;
+    @Autowired
+    private IUserService userService;
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public Message createComment(Long orderId, Authentication auth) {
@@ -61,15 +66,24 @@ public class CustomerServiceImpl implements ICustomerService {
     }
 
     @Override
-    public Message createComment(CommentForm commentForm) {
+    public Message createComment(CommentForm commentForm, Authentication auth) {
         Message result = new Message("", true);
+        Long customerId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
             CommentDto commentDto = new CommentDto();
             BeanUtils.copyProperties(commentForm, commentDto);
+            //get customer name
+            UserDto userDto = userMapper.findUserById(customerId);
+            commentDto.setCustomerName(userDto.getFullName());
+            //get vendor name
+            VendorDto vendorDto = userMapper.getVendorInfo(commentForm.getVendorId());
+            commentDto.setVendorName(vendorDto.getVendorName());
+            commentDto.setCustomerId(customerId);
             commentMapper.createComment(commentDto);
             //commit
             transactionManager.commit(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_14_I, ""));
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_14_E, ""));
@@ -85,8 +99,8 @@ public class CustomerServiceImpl implements ICustomerService {
         try {
             CommentDto commentDto = new CommentDto();
             BeanUtils.copyProperties(commentForm, commentDto);
-            commentDto.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-            commentMapper.saveComment(commentDto);
+            commentDto.setCreatedTime(new Timestamp(System.currentTimeMillis()));
+            commentMapper.updateComment(commentDto);
             //commit
             transactionManager.commit(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_15_I, ""));
@@ -96,5 +110,17 @@ public class CustomerServiceImpl implements ICustomerService {
             result.setSuccess(false);
         }
         return result;
+    }
+
+    @Override
+    public CommentForm getComment(CommentForm commentForm) {
+        CommentDto commentDto = new CommentDto();
+        BeanUtils.copyProperties(commentForm, commentDto);
+        commentDto = commentMapper.getComment(commentDto);
+        if (commentDto != null) {
+            BeanUtils.copyProperties(commentDto, commentForm);
+            commentForm.setCreatedTime(new SimpleDateFormat(Consts.TIME_FORMAT_MMddyyyyHHmmss).format(commentDto.getCreatedTime()));
+        }
+        return commentForm;
     }
 }
