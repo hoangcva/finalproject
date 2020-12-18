@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.ecommerce.dao.CommentMapper">
+    <insert id="createComment" parameterType="com.project.ecommerce.dto.CommentDto" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO comment
+        (productId, vendorId, customerId)
+        VALUES
+        (#{productId, jdbcType=BIGINT},
+         #{vendorId,jdbcType=BIGINT},
+         #{customerId,jdbcType=BIGINT})
+        <selectKey keyProperty="id" resultType="Long" order="AFTER">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+    
+    <update id="updateComment" parameterType="com.project.ecommerce.dto.CommentDto">
+        UPDATE comment
+        SET content = #{content},
+            rating = #{rating},
+            updatedTime = #{updatedTime}
+        WHERE id = #{id}
+    </update>
+
+    <select id="getCommentByProduct" parameterType="com.project.ecommerce.dto.CommentDto">
+        SELECT * FROM comment
+        WHERE productId = #{productId}
+        AND vendorId = #{vendorId}
+        ORDER BY rating DESC, createdTime
+    </select>
+
+    <delete id="deleteComment" parameterType="Lont">
+        DELETE FROM comment
+        WHERE id = #{id}
+    </delete>
+</mapper>

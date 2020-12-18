@@ -12,12 +12,12 @@
 			<h4 th:text="'Order ' + ${orderForm.orderDspId} + ' detail'"></h4>
 			<h4> - <b th:text="${orderForm.orderStatus}"></b></h4>
 		</div>
-		<div class="col-2 mr-0 ml-auto" >
-<!--			<form th:action="@{/customer/order/cancel}" method="post" th:object="${orderForm}">-->
-<!--				<input type="hidden" th:field="*{id}">-->
-<!--				<input type="hidden" th:field="*{orderDspId}">-->
-<!--				<button type="submit" class="btn btn-danger">Cancel</button>-->
-<!--			</form>-->
+		<div class="col-2 mr-0 ml-auto">
+			<!--			<form th:action="@{/customer/order/cancel}" method="post" th:object="${orderForm}">-->
+			<!--				<input type="hidden" th:field="*{id}">-->
+			<!--				<input type="hidden" th:field="*{orderDspId}">-->
+			<!--				<button type="submit" class="btn btn-danger">Cancel</button>-->
+			<!--			</form>-->
 			<a type="submit" class="btn btn-primary" role="button"
 			   th:if="${orderForm.orderStatus eq 'DELIVERING'}"
 			   th:href="@{/customer/order/success(id=${orderForm.id}, orderDspId=${orderForm.orderDspId}, orderStatus='SUCCESS')}">Received</a>
@@ -53,38 +53,55 @@
 					<th scope="col">Product</th>
 					<th scope="col">Price</th>
 					<th scope="col">Quantity</th>
-<!--					<th scope="col">Discount</th>-->
+					<!--					<th scope="col">Discount</th>-->
 					<th scope="col">Total</th>
 				</tr>
 				</thead>
 				<tbody>
 				<tr th:each="order,iStat  : ${orderForm.orderDetailList}">
 					<th scope="row" th:text="${iStat.count}"></th>
-					<td><a th:text="${order.productForm.productName}"
-					       th:href="@{/product/view/detail(productId = ${order.productForm.productId})}"></a>
+					<td>
+						<div>
+							<img class="img-thumbnail"
+								 th:src="@{'data:image/jpeg;base64,'
+								            +${order.productForm.productImageFormList[0].generateBase64Image()}}"/>
+							<div>
+								<p>
+									<a th:text="${order.productForm.productName}"
+									   th:href="@{/product/view/detail(productId = ${order.productForm.productId})}"></a>
+								</p>
+								<p>
+									Provided by
+									<a th:href="@{/}"><strong th:text="${order.productForm.vendorName}"></strong></a>
+									<!--TODO-->
+								</p>
+							</div>
+						</div>
+
+
 					</td>
-					<td class="money"th:text="${order.price}"></td>
+					<td class="money" th:text="${order.price}"></td>
 					<td th:text="${order.buyQuantity}"></td>
-<!--					<td></td>-->
+					<!--					<td></td>-->
 					<td class="bill-total money" th:text="${order.buyQuantity * order.price}"></td>
 				</tr>
 				</tbody>
 				<tfoot>
-<!--					<tr>-->
-<!--						<td>Temp</td>-->
-<!--						<td></td>-->
-<!--					</tr>-->
-<!--					<tr>-->
-<!--						<td>Discount</td>-->
-<!--						<td></td>-->
-<!--					</tr>-->
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>Total</td>
-						<td class="bill-total money" th:text="${orderForm.billTotal}"></td>
-					</tr>
+				<!--					<tr>-->
+				<!--						<td>Temp</td>-->
+				<!--						<td></td>-->
+				<!--					</tr>-->
+				<!--					<tr>-->
+				<!--						<td>Discount</td>-->
+				<!--						<td></td>-->
+				<!--					</tr>-->
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>Total</td>
+					<td class="bill-total money" th:text="${orderForm.billTotal}"></td>
+				</tr>
 				</tfoot>
 			</table>
 		</div>
