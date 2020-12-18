@@ -12,25 +12,34 @@
 			<h4 th:text="'Order ' + ${orderForm.orderDspId} + ' detail'"></h4>
 			<h4> - <b th:text="${orderForm.orderStatus}"></b></h4>
 		</div>
-		<div class="col-2 mr-0 ml-auto" th:if="${orderForm.orderStatus eq 'PROGRESSING'}">
-			<form th:action="@{/customer/order/cancel}" method="post" th:object="${orderForm}">
-				<input type="hidden" th:field="*{id}">
-				<input type="hidden" th:field="*{orderDspId}">
-				<button type="submit" class="btn btn-danger">Cancel</button>
-			</form>
+		<div class="col-2 mr-0 ml-auto" >
+<!--			<form th:action="@{/customer/order/cancel}" method="post" th:object="${orderForm}">-->
+<!--				<input type="hidden" th:field="*{id}">-->
+<!--				<input type="hidden" th:field="*{orderDspId}">-->
+<!--				<button type="submit" class="btn btn-danger">Cancel</button>-->
+<!--			</form>-->
+			<a type="submit" class="btn btn-primary" role="button"
+			   th:if="${orderForm.orderStatus eq 'DELIVERING'}"
+			   th:href="@{/customer/order/success(id=${orderForm.id}, orderDspId=${orderForm.orderDspId}, orderStatus='SUCCESS')}">Received</a>
+
+			<a type="submit" class="btn btn-danger" role="button"
+			   th:if="${orderForm.orderStatus eq 'PROGRESSING'}"
+			   th:href="@{/customer/order/cancel(id=${orderForm.id}, orderDspId=${orderForm.orderDspId}, orderStatus='CANCELED')}">Cancel</a>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-4">
-
+			Address
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-4"></div>
+		<div class="col-4">
+			Transporter
+		</div>
 	</div>
 	<div class="row">
 		<div class="col-4">
-
+			Payment method
 		</div>
 	</div>
 	<div class="row">
@@ -70,6 +79,9 @@
 <!--						<td></td>-->
 <!--					</tr>-->
 					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
 						<td>Total</td>
 						<td class="bill-total money" th:text="${orderForm.billTotal}"></td>
 					</tr>

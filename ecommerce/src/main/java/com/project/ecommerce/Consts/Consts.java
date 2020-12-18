@@ -13,6 +13,8 @@ public class Consts {
     public static final String ORDER_STATUS_DELIVERING = "DELIVERING";
     public static final String ORDER_STATUS_SUCCESS = "SUCCESS";
     public static final String ORDER_STATUS_CANCELED = "CANCELED";
+    public static final String ORDER_STATUS_READY = "READY";
+
 
     public static final Integer IMG_ORDER_1 = 1;
     public static final Integer IMG_ORDER_2 = 2;

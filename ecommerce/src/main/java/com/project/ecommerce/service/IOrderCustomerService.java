@@ -11,4 +11,5 @@ public interface IOrderCustomerService {
     List<OrderForm> getOrderListCustomer(Authentication auth);
     OrderForm getOrderDetailCustomer(Long orderId);
     Message cancelOrder(OrderForm orderForm);
+    Message finishOrder(OrderForm orderForm);
 }

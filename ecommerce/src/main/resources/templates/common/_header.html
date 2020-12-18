@@ -6,7 +6,13 @@
       href="../../static/css/common/_header.css">
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-lg-2">
-	<a class="navbar-brand" th:href="@{/}">###</a>
+	<th:block sec:authorize="isAuthenticated()">
+		<a class="navbar-brand" th:href="@{/admin}" sec:authorize="hasRole('ADMIN')">###</a>
+		<a class="navbar-brand" th:href="@{/}" sec:authorize="hasRole('USER')">###</a>
+		<a class="navbar-brand" th:href="@{/vendor}" sec:authorize="hasRole('VENDOR')">###</a>
+		<a class="navbar-brand" th:href="@{/transporter/orders}" sec:authorize="hasRole('SHIPPER')">###</a>
+	</th:block>
+	<a class="navbar-brand" th:href="@{/}" sec:authorize="!isAuthenticated()">###</a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
 	        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
@@ -24,6 +30,9 @@
 			</li>
 			<li sec:authorize="hasRole('VENDOR')" class="nav-item active">
 				<a class="nav-link" th:href="@{/vendor}">Hello: <span sec:authentication="name"></span></a>
+			</li>
+			<li sec:authorize="hasRole('SHIPPER')" class="nav-item active">
+				<a class="nav-link" th:href="@{/transporter/orders}">Hello: <span sec:authentication="name"></span></a>
 			</li>
 		</ul>
 		<ul class="navbar-nav mr-0 ml-auto" sec:authorize="isAuthenticated()">
@@ -50,47 +59,6 @@
 		</ul>
 	</div>
 </nav>
-
-
-<!--<div style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">-->
-<!--    <a th:href="@{/}">Home</a>-->
-<!--    <span sec:authorize="!isAuthenticated()">-->
-<!--        | &nbsp;-->
-<!--        <a th:href="@{/login}">Login</a>-->
-<!--        | &nbsp;-->
-<!--        <a th:href="@{/register}">Register</a>-->
-<!--        | &nbsp;-->
-<!--        <a th:href="@{/vendorRegister}">Vendor Register</a>-->
-<!--    </span>-->
-<!--    <span sec:authorize="isAuthenticated()">-->
-<!--        <span sec:authorize="hasRole('ADMIN')">-->
-<!--&lt;!&ndash;            |&ndash;&gt;-->
-<!--&lt;!&ndash;            <a th:href="@{/members}">Members</a>&ndash;&gt;-->
-<!--            |-->
-<!--            Hello: <a th:href="@{/admin}"><span sec:authentication="name"></span></a>-->
-<!--        </span>-->
-<!--        <span sec:authorize="hasRole('USER')">-->
-<!--            | &nbsp;-->
-<!--            <a th:href="@{/members}">Members</a>-->
-<!--            |-->
-<!--            Hello: <a th:href="@{/user}"><span sec:authentication="name"></span></a>-->
-<!--                        | &nbsp;-->
-<!--            <a th:href="@{/customer/cart/view}">Cart</a>-->
-<!--        </span>-->
-<!--        <span sec:authorize="hasRole('VENDOR')">-->
-<!--            |-->
-<!--            Hello: <a th:href="@{/vendor}"><span sec:authentication="name"></span></a>-->
-<!--        </span>-->
-<!--        |-->
-<!--        Role: <span sec:authentication="principal.authorities"></span>-->
-<!--        | &nbsp;-->
-<!--        <a th:href="@{/user/update}">update info</a>-->
-<!--        |-->
-<!--        <span>-->
-<!--            <a href="#" th:text="Logout" th:onclick="|javascript:logout()|"></a>-->
-<!--        </span>-->
-<!--    </span>-->
-<!--</div>-->
 <form method="post" th:action="@{/j_spring_security_logout}" id="logout">
 	<!--    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
 </form>

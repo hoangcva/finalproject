@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:replace="fragments/template :: head_input(~{::title})">
 	<title th:text="${productForm.productName}"></title>
 </head>
@@ -62,7 +63,12 @@
 								<div th:replace="fragments/template :: change-quantity(0, ${productForm.quantity})"></div>
 							</div>
 							<input class="btn btn-primary d-inline-block" id="btn-submit" type="button" value="Buy"
-							       onclick="addProductToCart()" style="width: 250px">
+							       onclick="addProductToCart()" style="width: 250px" sec:authorize="isAuthenticated()">
+							<a class="nav-link" th:href="@{/login}">
+								<button class="btn btn-primary d-inline-block" id="btn-login"
+								        style="width: 250px" sec:authorize="!isAuthenticated()">Buy
+								</button>
+							</a>
 						</div>
 						<div class="col-sm-5">
 							<div th:text="${vendorForm.fullName}"></div>
@@ -76,92 +82,94 @@
 				<h3>Detail Information</h3>
 				<table class="table borderless" style="font-size: 15px">
 					<tbody>
-						<tr>
-							<th scope="row" class="table-active">SKU</th>
-							<td th:text="*{SKU}"></td>
-						</tr>
-						<tr>
-							<th scope="row" class="table-active">Origin</th>
-							<td th:text="*{origin}"></td>
-						</tr>
-						<tr>
-							<th scope="row" class="table-active">Brand</th>
-							<td th:text="*{brand}"></td>
-						</tr>
+					<tr>
+						<th scope="row" class="table-active">SKU</th>
+						<td th:text="*{SKU}"></td>
+					</tr>
+					<tr>
+						<th scope="row" class="table-active">Origin</th>
+						<td th:text="*{origin}"></td>
+					</tr>
+					<tr>
+						<th scope="row" class="table-active">Brand</th>
+						<td th:text="*{brand}"></td>
+					</tr>
 					</tbody>
 					<tbody th:if="*{categoryId eq 1}">
-						<tr>
-							<th scope="row" class="table-active">Size</th>
-							<td th:text="*{size}"></td>
-						</tr>
-						<tr>
-							<th scope="row" class="table-active">Color</th>
-							<td th:text="*{color}"></td>
-						</tr>
-						<tr>
-							<th scope="row" class="table-active">Material</th>
-							<td th:text="*{material}"></td>
-						</tr>
+					<tr>
+						<th scope="row" class="table-active">Size</th>
+						<td th:text="*{size}"></td>
+					</tr>
+					<tr>
+						<th scope="row" class="table-active">Color</th>
+						<td th:text="*{color}"></td>
+					</tr>
+					<tr>
+						<th scope="row" class="table-active">Material</th>
+						<td th:text="*{material}"></td>
+					</tr>
 					</tbody>
 					<tbody th:if="*{categoryId eq 2}">
-						<tr th:if="*{subCategoryId eq 1 or subCategoryId eq 3}">
-							<th scope="row" class="table-active">Size</th>
-							<td th:text="*{size}"></td>
-						</tr>
-						<tr>
-							<th scope="row" class="table-active">Model</th>
-							<td th:text="*{model}"></td>
-						</tr>
-						<tr th:if="*{subCategoryId eq 1}">
-							<th scope="row" class="table-active">Type</th>
-							<td th:text="*{type}"></td>
-						</tr>
-						<tr th:if="*{subCategoryId eq 1}">
-							<th scope="row" class="table-active">Frames per second</th>
-							<td th:text="*{framePerSecond}"></td>
-						</tr>
-						<tr th:if="*{subCategoryId eq 1}">
-							<th scope="row" class="table-active">Weight</th>
-							<td th:text="*{weight}"></td>
-						</tr>
-						<tr th:if="*{subCategoryId eq 1}">
-							<th scope="row" class="table-active">Connection ports</th>
-							<td th:text="*{connectionPorts}"></td>
-						</tr>
-						<tr>
-							<th scope="row" class="table-active">Voltage</th>
-							<td th:text="*{voltage}"></td>
-						</tr>
-						<tr th:if="*{subCategoryId eq 2 or subCategoryId eq 3}">
-							<th scope="row" class="table-active">Capacity</th>
-							<td th:text="*{capacity}"></td>
-						</tr>
-						<tr th:if="*{subCategoryId eq 2}">
-							<th scope="row" class="table-active">Power</th>
-							<td th:text="*{power}"></td>
-						</tr>
+					<tr th:if="*{subCategoryId eq 1 or subCategoryId eq 3}">
+						<th scope="row" class="table-active">Size</th>
+						<td th:text="*{size}"></td>
+					</tr>
+					<tr>
+						<th scope="row" class="table-active">Model</th>
+						<td th:text="*{model}"></td>
+					</tr>
+					<tr th:if="*{subCategoryId eq 1}">
+						<th scope="row" class="table-active">Type</th>
+						<td th:text="*{type}"></td>
+					</tr>
+					<tr th:if="*{subCategoryId eq 1}">
+						<th scope="row" class="table-active">Frames per second</th>
+						<td th:text="*{framePerSecond}"></td>
+					</tr>
+					<tr th:if="*{subCategoryId eq 1}">
+						<th scope="row" class="table-active">Weight</th>
+						<td th:text="*{weight}"></td>
+					</tr>
+					<tr th:if="*{subCategoryId eq 1}">
+						<th scope="row" class="table-active">Connection ports</th>
+						<td th:text="*{connectionPorts}"></td>
+					</tr>
+					<tr>
+						<th scope="row" class="table-active">Voltage</th>
+						<td th:text="*{voltage}"></td>
+					</tr>
+					<tr th:if="*{subCategoryId eq 2 or subCategoryId eq 3}">
+						<th scope="row" class="table-active">Capacity</th>
+						<td th:text="*{capacity}"></td>
+					</tr>
+					<tr th:if="*{subCategoryId eq 2}">
+						<th scope="row" class="table-active">Power</th>
+						<td th:text="*{power}"></td>
+					</tr>
 					</tbody>
 					<tbody th:if="*{categoryId eq 3}">
-						<tr>
-							<th scope="row" class="table-active">Author</th>
-							<td th:text="*{author}"></td>
-						</tr>
-						<tr>
-							<th scope="row" class="table-active">Release date</th>
-							<td th:text="*{releaseDate}"></td>
-						</tr>
-						<tr>
-							<th scope="row" class="table-active">Number of pages/td>
-							<td th:text="*{numberOfPages}"></td>
-						</tr>
-						<tr>
-							<th scope="row" class="table-active">Language</th>
-							<td th:text="*{language}"></td>
-						</tr>
-						<tr>
-							<th scope="row" class="table-active">Publisher</th>
-							<td th:text="*{publisher}"></td>
-						</tr>
+					<tr>
+						<th scope="row" class="table-active">Author</th>
+						<td th:text="*{author}"></td>
+					</tr>
+					<tr>
+						<th scope="row" class="table-active">Release date</th>
+						<td th:text="*{releaseDate}"></td>
+						<!--TODO-->
+					</tr>
+					<tr>
+						<th scope="row" class="table-active">Number of pages
+						</td>
+						<td th:text="*{numberOfPages}"></td>
+					</tr>
+					<tr>
+						<th scope="row" class="table-active">Language</th>
+						<td th:text="*{language}"></td>
+					</tr>
+					<tr>
+						<th scope="row" class="table-active">Publisher</th>
+						<td th:text="*{publisher}"></td>
+					</tr>
 					</tbody>
 				</table>
 			</div>
@@ -177,13 +185,13 @@
 			</div>
 		</div>
 		<div class="row">
-<!--			<div class="col-lg-10 collapse">-->
-<!--						<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">-->
-<!--				Button with data-target-->
-<!--			</button>-->
+			<!--			<div class="col-lg-10 collapse">-->
+			<!--						<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">-->
+			<!--				Button with data-target-->
+			<!--			</button>-->
 			<div class="col-lg-11">
 				<div class="d-block mb-lg-3"><h3>Product Description</h3></div>
-<!--				<div th:utext="*{description}" id="collapseExample" th:remove="tag"></div>-->
+				<!--				<div th:utext="*{description}" id="collapseExample" th:remove="tag"></div>-->
 				<div class="bg-light p-lg-2" th:utext="*{description}"></div>
 			</div>
 		</div>

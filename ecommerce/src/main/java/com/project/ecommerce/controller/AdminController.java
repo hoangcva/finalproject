@@ -22,6 +22,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -145,13 +146,27 @@ public class AdminController {
         return "/admin/order/history";
     }
 
-    @PostMapping("/order/update")
-    public String updateOrderStatus(@ModelAttribute("orderForm") OrderForm orderForm,
+    @GetMapping("/order/update")
+    public String updateOrderStatus(@RequestParam("id") Long id,
+                                    @RequestParam("orderDspId") String orderDspId,
+                                    @RequestParam("orderStatus") String orderStatus,
+//            @ModelAttribute("orderForm") OrderForm orderForm,
                                   Model model,
                                   final RedirectAttributes redirectAttributes) {
+        OrderForm orderForm = new OrderForm();
+        orderForm.setId(id);
+        orderForm.setOrderDspId(orderDspId);
+        orderForm.setOrderStatus(orderStatus);
         Message result = adminService.updateOrderStatus(orderForm);
         redirectAttributes.addFlashAttribute("message", result.getMessage());
         redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
+//        HashMap<String, Object> message = new HashMap<>();
+//        message.put("msg", result.getMessage());
+//        if (result.isSuccess()) {
+//            return new ResponseEntity<>(message, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+//        }
         return "redirect:/admin/orders";
     }
 }

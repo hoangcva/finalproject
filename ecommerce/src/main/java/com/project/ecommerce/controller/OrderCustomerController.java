@@ -82,11 +82,32 @@ public class OrderCustomerController {
         return "/customer/order/detail";
     }
 
-    @PostMapping("/cancel")
-    public String cancelOrder(@ModelAttribute("orderForm") OrderForm orderForm,
+    @GetMapping("/cancel")
+    public String cancelOrder(@RequestParam("id") Long id,
+                              @RequestParam("orderDspId") String orderDspId,
+                              @RequestParam("orderStatus") String orderStatus,
                               Model model,
                               final RedirectAttributes redirectAttributes) {
+        OrderForm orderForm = new OrderForm();
+        orderForm.setId(id);
+        orderForm.setOrderDspId(orderDspId);
         Message result = orderCustomerService.cancelOrder(orderForm);
+        redirectAttributes.addFlashAttribute("message", result.getMessage());
+        redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
+        return "redirect:/customer/order/history";
+    }
+
+    @GetMapping("/success")
+    public String finishOrder(@RequestParam("id") Long id,
+                              @RequestParam("orderDspId") String orderDspId,
+                              @RequestParam("orderStatus") String orderStatus,
+                              Model model,
+                              final RedirectAttributes redirectAttributes) {
+        OrderForm orderForm = new OrderForm();
+        orderForm.setId(id);
+        orderForm.setOrderDspId(orderDspId);
+        orderForm.setOrderStatus(orderStatus);
+        Message result = orderCustomerService.finishOrder(orderForm);
         redirectAttributes.addFlashAttribute("message", result.getMessage());
         redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
         return "redirect:/customer/order/history";

@@ -9,6 +9,6 @@ import java.util.List;
 public interface ITransporterService {
     List<TransporterForm> getTransporterList();
     TransporterForm getTransporterInfo(Long transporterId);
-    List<OrderForm> getOrderList(String orderStatus);
+    List<OrderForm> getOrderList(String orderStatus, Long transporterId);
     Message updateOrderStatus(OrderForm orderForm);
 }

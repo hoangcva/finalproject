@@ -1,5 +1,7 @@
 package com.project.ecommerce.controller;
 
+import com.project.ecommerce.Consts.Consts;
+import com.project.ecommerce.dto.UserDetailsDto;
 import com.project.ecommerce.form.OrderForm;
 import com.project.ecommerce.service.ITransporterService;
 import com.project.ecommerce.util.Message;
@@ -23,10 +25,11 @@ public class TransporterController {
 
     @GetMapping("/orders")
     public String viewOrderHistory(Model model, Authentication auth){
-        List<OrderForm> orderFormList = transporterService.getOrderList(null);
+        Long id = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
+        List<OrderForm> orderFormList = transporterService.getOrderList(Consts.ORDER_STATUS_DELIVERING, id);
         model.addAttribute("orderFormList", orderFormList);
         model.addAttribute("orderForm", new OrderForm());
-        return "/admin/order/history";
+        return "/transporter/orders";
     }
 
     @PostMapping("/order/update")
@@ -36,6 +39,6 @@ public class TransporterController {
         Message result = transporterService.updateOrderStatus(orderForm);
         redirectAttributes.addFlashAttribute("message", result.getMessage());
         redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
-        return "redirect:/admin/orders";
+        return "redirect:/transporter/orders";
     }
 }

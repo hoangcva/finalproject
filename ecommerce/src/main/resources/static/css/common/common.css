@@ -1,3 +1,4 @@
+
 .hide {
     display: none;
 }
@@ -119,6 +120,7 @@ input.buy-quantity {
 
 body {
     background-color: #f7f7f7;
+    /*background-color: #aec6cf;*/
 }
 
 .container {

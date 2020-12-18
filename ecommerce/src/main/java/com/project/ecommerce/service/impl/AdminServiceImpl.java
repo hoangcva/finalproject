@@ -121,7 +121,7 @@ public class AdminServiceImpl implements IAdminService {
 
     @Override
     public List<OrderForm> getOrderList(String orderStatus) {
-        List<OrderDto> orderDtoList = orderMapper.getOrderList(orderStatus);
+        List<OrderDto> orderDtoList = orderMapper.getOrderList(orderStatus, null);
         List<OrderForm> orderFormList = new ArrayList<>();
         for (OrderDto orderDto : orderDtoList) {
             OrderForm orderForm = new OrderForm();
@@ -164,14 +164,14 @@ public class AdminServiceImpl implements IAdminService {
             transactionManager.commit(txStatus);
             if (Consts.ORDER_STATUS_CANCELED.equals(orderStatus)) {
                 result.setMessage(messageAccessor.getMessage(Consts.MSG_12_I, orderForm.getOrderDspId()));
-            } else if (Consts.ORDER_STATUS_DELIVERING.equals(orderStatus)) {
+            } else if (Consts.ORDER_STATUS_READY.equals(orderStatus)) {
                 result.setMessage(messageAccessor.getMessage(Consts.MSG_13_I, orderForm.getOrderDspId()));
             }
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             if (Consts.ORDER_STATUS_CANCELED.equals(orderStatus)) {
                 result.setMessage(messageAccessor.getMessage(Consts.MSG_12_E, ""));
-            } else if (Consts.ORDER_STATUS_DELIVERING.equals(orderStatus)) {
+            } else if (Consts.ORDER_STATUS_READY.equals(orderStatus)) {
                 result.setMessage(messageAccessor.getMessage(Consts.MSG_13_E, ""));
             }
             result.setSuccess(false);

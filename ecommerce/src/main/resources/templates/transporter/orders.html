@@ -33,21 +33,16 @@
 					<td th:text="${order.orderDate}"></td>
 					<td th:text="${order.orderStatus}"></td>
 					<td class="d-flex">
-						<form th:action="@{/admin/order/update}" method="post" th:object="${orderForm}" class="mr-1"
-						      th:if="${order.orderStatus eq 'PROGRESSING'}">
+						<form th:action="@{/transporter/order/update}" method="post" th:object="${orderForm}" class="mr-1">
 							<input type="hidden" name="id" th:value="${order.id}">
 							<input type="hidden" name="orderDspId" th:value="${order.orderDspId}">
 							<input type="hidden" name="orderStatus" value="DELIVERING">
-							<button type="submit" class="btn btn-primary">Approve</button>
+							<button type="submit" class="btn btn-primary"
+							        th:classappend="${order.orderStatus ne 'READY'}?'disabled btn-outline-primary':''">Deliver</button>
 						</form>
-
-						<form th:action="@{/admin/order/update}" method="post" th:object="${orderForm}"
-						      th:if="${order.orderStatus eq 'PROGRESSING' or order.orderStatus eq 'DELIVERING'}">
-							<input type="hidden" name="id" th:value="${order.id}">
-							<input type="hidden" name="orderDspId" th:value="${order.orderDspId}">
-							<input type="hidden" name="orderStatus" value="CANCELED">
-							<button type="submit" class="btn btn-danger">Cancel</button>
-						</form>
+<!--						<a type="submit" class="btn btn-primary" role="button"-->
+<!--						   th:href="@{/transporter/order/update(id=${order.id}, orderDspId=${order.orderDspId}, orderStatus='DELIVERING')}"-->
+<!--						   th:classappend="${order.orderStatus ne 'READY'}?'disabled btn-outline-primary':''">Deliver</a>-->
 					</td>
 				</tr>
 				</tbody>

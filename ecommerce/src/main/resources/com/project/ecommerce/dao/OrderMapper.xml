@@ -65,7 +65,19 @@
             <if test="orderStatus != null and orderStatus != ''">
                 AND order_status = #{orderStatus}
             </if>
+            <if test="transporterId != null and transporterId != ''">
+                AND transporterId = #{transporterId}
+            </if>
         </where>
+        ORDER BY orderDate DESC
+    </select>
+
+    <select id="getOrderListTransporter" resultType="com.project.ecommerce.dto.OrderDto" fetchSize="200">
+        SELECT * FROM orders
+        WHERE transporterId = #{transporterId}
+        AND (order_status = 'READY'
+            OR order_status = 'DELIVERING'
+            OR order_status = 'SUCCESS')
         ORDER BY orderDate DESC
     </select>
 

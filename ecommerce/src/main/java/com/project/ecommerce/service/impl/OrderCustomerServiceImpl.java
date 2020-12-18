@@ -255,4 +255,29 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
         }
         return result;
     }
+
+    @Override
+    public Message finishOrder(OrderForm orderForm) {
+        Message result = new Message("", true);
+        TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        long newQuantity;
+        long vendorId;
+        long productId;
+        try {
+            OrderDto orderDto = new OrderDto();
+            BeanUtils.copyProperties(orderForm, orderDto);
+            orderDto.setDeliveryDate(LocalDateTime.now());
+            orderDto.setOrderStatus(Consts.ORDER_STATUS_SUCCESS);
+            orderMapper.updateOrderStatus(orderDto);
+            //commit
+            transactionManager.commit(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_12_I, orderForm.getOrderDspId()));
+        } catch (Exception ex) {
+            transactionManager.rollback(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_12_E, ""));
+            result.setSuccess(false);
+        }
+        return result;
+    }
+
 }

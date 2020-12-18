@@ -41,14 +41,21 @@ function showWarning() {
     $('#over-quantity').removeClass('none');
     $('#over-quantity').addClass('d-block');
     $('#over-quantity').addClass('show');
-}
+};
 
 function hideWarning() {
     $('#over-quantity').removeClass('d-block');
     $('#over-quantity').removeClass('show');
     $('#over-quantity').addClass('d-none');
     $('#over-quantity').addClass('none');
-}
+};
+
+function login() {
+    $.ajax({
+        type:'get',
+        url: '/login',
+    });
+};
 
 function addProductToCart() {
     var productId = $('#productId').val();
