@@ -18,3 +18,15 @@ function loadSearchResult()
                 $("#content").html(fragment);
         });
 }
+
+function loadSearchResultCategory(categoryId, subCategoryId)
+{
+        var data = {
+                "categoryId" : categoryId,
+                "subCategoryId" : subCategoryId
+        }
+
+        $.get("/product/view/byCategory",data).done(function(fragment) { // get from controller
+                $("#content").html(fragment);
+        });
+}

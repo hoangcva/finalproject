@@ -206,14 +206,14 @@ public class ProductController {
         return null;
     }
 
-    @GetMapping(value = "/product/view/byCategory")
-    public String showAllProduct(Model model, @ModelAttribute("categoryId") int categoryId, @ModelAttribute("subCategoryId") int subCategoryId) {
-        List<CategoryForm> categoryForms = productService.getCategory();
-        List<ProductForm> productFormList = productService.getProducts(categoryId, subCategoryId, null);
-        model.addAttribute("productFormList", productFormList);
-        model.addAttribute("categories", categoryForms);
-        return "viewProductList";
-    }
+//    @GetMapping(value = "/product/view/byCategory")
+//    public String showAllProduct(Model model, @ModelAttribute("categoryId") int categoryId, @ModelAttribute("subCategoryId") int subCategoryId) {
+//        List<CategoryForm> categoryForms = productService.getCategory();
+//        List<ProductForm> productFormList = productService.getProducts(categoryId, subCategoryId, null);
+//        model.addAttribute("productFormList", productFormList);
+//        model.addAttribute("categories", categoryForms);
+//        return "viewProductList";
+//    }
 
     @GetMapping(value = {"/", "/product/view/list"})
     public String showAllProduct(Model model) {
@@ -338,4 +338,24 @@ public class ProductController {
         return "/fragments/template :: table-produt-grid";
     }
 
+
+    @GetMapping(value = "/product/view/byCategory")
+    public String showAllProduct(HttpServletRequest request, Model model,
+                                 @RequestParam(value = "categoryId", required = false) Integer categoryId,
+                                 @RequestParam(value = "subCategoryId", required = false) Integer subCategoryId,
+                                 ModelMap modelMap
+    ) {
+        List<CategoryForm> categoryForms = productService.getCategory();
+        List<ProductForm> productFormList = productService.getProducts(categoryId, subCategoryId, null);
+
+        if (productFormList.size() == 0) {
+            Message result = new Message("Product not found!", false);
+            modelMap.addAttribute("message", result.getMessage());
+            modelMap.addAttribute("isSuccess", result.isSuccess());
+            return "/fragments/template :: display-error-message";
+        }
+
+        modelMap.addAttribute("productFormList", productFormList);
+        return "/fragments/template :: table-produt-grid";
+    }
 }

@@ -15,20 +15,28 @@
 					<!--    <div th:each="category,iterationStatus : ${categories}">-->
 					<div class="list-group-item border-0" th:each="category,iterationStatus : ${categories}"
 					     th:id="'dropbtn'+${iterationStatus.count}">
-						<a th:href="@{/product/view/byCategory(categoryId = ${category.id}, subCategoryId = 0)}"
-						   th:text="${category.name}"></a>
+<!--						<a th:href="@{/product/view/byCategory(categoryId = ${category.id}, subCategoryId = 0)}"-->
+<!--						   th:text="${category.name}"></a>-->
+						<a th:onclick="|javascript:loadSearchResultCategory(${category.id},null)|"
+						   th:text="${category.name}" href=""></a>
 						<script th:inline="javascript">
                             /*<![CDATA[*/
                             $('#dropbtn' + id).hover(function () {
                                 showSubCategoryMenu(/*[[${iterationStatus.count}]]*/'');
                             })
                             /*]]>*/
+
+
+                            /*<![CDATA[*/
+                            /*]]>*/
 						</script>
 						<div class="list-group">
 							<div class="list-group-item border-0"
 							     th:classappend="'show-content'+${iterationStatus.count}"
 							     th:each="subCategory : ${category.subCategoryForms}">
-								<a th:href="@{/product/view/byCategory(categoryId = ${category.id}, subCategoryId = ${subCategory.id})}"
+<!--								<a th:href="@{/product/view/byCategory(categoryId = ${category.id}, subCategoryId = ${subCategory.id})}"-->
+<!--								   th:text="${subCategory.name}"></a>-->
+								<a href="" th:onclick="|javascript:loadSearchResultCategory(${category.id},${subCategory.id})|"
 								   th:text="${subCategory.name}"></a>
 							</div>
 						</div>
