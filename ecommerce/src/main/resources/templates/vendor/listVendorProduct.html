@@ -8,19 +8,23 @@
 <main>
     <div class="container-fluid">
         <div class="row">
+            <div class="col-2"></div>
+            <div class="col-auto">
+                <h3>Product manager</h3>
+            </div>
+        </div>
+        <div class="row">
             <th:block th:include="/common/_vendor-sidebar-menu"></th:block>
             <div class="col-lg-8">
-                <div class="d-inline-flex flex-wrap">
-                    <div class="outer" th:each="product,iterationStatus : ${productFormList}">
-                        <a class="product-thumbnail text-decoration-none"
-                           th:href="@{/vendor/product/edit(productId = ${product.productId})}">
-                            <div th:replace="fragments/productInfo :: view-product-list"></div>
-                        </a>
-                    </div>
+                <div th:replace="fragments/template :: search-bar-custom"></div>
+                <div id="content">
+                    <div th:replace="fragments/template :: customError"></div>
+                    <div th:replace="fragments/template :: table-produt-grid-custom"></div>
                 </div>
             </div>
         </div>
     </div>
 </main>
 </body>
+<script type="text/javascript" th:src="@{/js/vendor/listVendorProduct.js}"></script>
 </html>

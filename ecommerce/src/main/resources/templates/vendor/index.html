@@ -8,17 +8,28 @@
 <!-- Include _header.html -->
 <th:block th:include="/common/_header"></th:block>
 <main>
-    <div class="container-fluid">
+    <div class="container">
+        <div class="row"><h3>Vendor page</h3></div>
         <div class="row">
             <th:block th:include="/common/_vendor-sidebar-menu"></th:block>
             <div class="col-lg-8">
                 <div th:replace="fragments/template :: display-error-message"/>
+                <div class="row">
+                    <div class="d-inline-flex flex-wrap col-12">
+                        <div th:fragment="view-product-list" class="view-product-list outer" th:each="product,iterationStatus : ${productFormList}">
+                            <a class="product-thumbnail text-decoration-none"
+                               th:href="@{/product/view/detail(productId = ${product.productId}, vendorId = ${product.vendorId})}">
+                                <div th:replace="fragments/productInfo :: view-product-list"></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </main>
 <!--<a th:href="@{/vendor/show/category}">Add product</a><br>-->
-<!--<a th:href="@{/vendor/product/view/byVendor}">Show all vendor product</a><br>-->
+<!--<a th:href="@{/vendor/product/view}">Show all vendor product</a><br>-->
 <!--<a th:href="@{/showProducts}">Show all product</a><br>-->
 <!--<br/><br/>-->
 <!--<form th:action="@{/j_spring_security_logout}" method="post">-->

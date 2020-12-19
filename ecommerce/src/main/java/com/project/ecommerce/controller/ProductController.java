@@ -133,7 +133,7 @@ public class ProductController {
         }
     }
 
-    @PostMapping(value = "/vendor/product/add/detail/add")
+    @PostMapping(value = "/vendor/product/add/detail")
     public String addProduct(@ModelAttribute("productForm") @Validated ProductForm productForm,
                              BindingResult bindingResult,
                              Model model,
@@ -160,7 +160,7 @@ public class ProductController {
         return "/vendor/success";
     }
 
-    @GetMapping(value = "/vendor/product/view/byVendor")
+    @GetMapping(value = "/vendor/product/view")
     public String getAllProductByVendorId(Model model, Authentication auth) {
         Long vendorId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
         List<ProductForm> productFormList = productService.getAllProductByVendorId(vendorId);
@@ -197,7 +197,7 @@ public class ProductController {
             return "vendor/editProduct";
         }
         productService.updateProduct(productForm);
-        return "redirect:/vendor/product/view/byVendor";
+        return "redirect:/vendor/product/view";
     }
 
     @PostMapping(value = "/vendor/product/delete")
@@ -266,16 +266,76 @@ public class ProductController {
     public String showAllProductByKeyWord(HttpServletRequest request,Model model,
                                           @RequestParam(value = "keyword", required = false) String keyword,
                                           final RedirectAttributes redirectAttributes,
-                                          ModelMap modelMap) {
+                                          ModelMap modelMap,
+                                          Authentication auth) {
         List<ProductForm> productFormList = productService.getProducts(null, null, keyword);
+        List<ProductForm> tempList = new ArrayList<>();
+
+        if (productFormList.size() > 0) {
+            Long vendorId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
+
+            for (ProductForm productForm : productFormList) {
+                if (!vendorId.equals(productForm.getVendorId())) {
+                    tempList.add(productForm);
+                }
+            }
+        }
+
         if (productFormList.size() == 0) {
             Message result = new Message("Product not found!", false);
             modelMap.addAttribute("message", result.getMessage());
             modelMap.addAttribute("isSuccess", result.isSuccess());
-            return "/vendor/addProduct :: display-error-message";
+            return "/fragments/template :: display-error-message";
         }
+
+        modelMap.addAttribute("productFormList", tempList);
+        return "/fragments/template :: table-product";
+    }
+
+    @GetMapping(value = "/vendor/product/view/search")
+    public String searchProductVendor(HttpServletRequest request,Model model,
+                                          @RequestParam(value = "keyword", required = false) String keyword,
+                                          final RedirectAttributes redirectAttributes,
+                                          ModelMap modelMap,
+                                          Authentication auth) {
+        List<ProductForm> productFormList = productService.getProducts(null, null, keyword);
+        List<ProductForm> tempList = new ArrayList<>();
+        if (productFormList.size() > 0) {
+            Long vendorId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
+            for (ProductForm productForm : productFormList) {
+                if (vendorId.equals(productForm.getVendorId())) {
+                    tempList.add(productForm);
+                }
+            }
+        }
+        if (productFormList.size() == 0) {
+            Message result = new Message("Product not found!", false);
+            modelMap.addAttribute("message", result.getMessage());
+            modelMap.addAttribute("isSuccess", result.isSuccess());
+            return "/fragments/template :: display-error-message";
+        }
+
+        modelMap.addAttribute("productFormList", tempList);
+        return "/fragments/template :: table-produt-grid";
+    }
+
+    @GetMapping(value = "/product/view/list/search")
+    public String searchProduct(HttpServletRequest request,Model model,
+                                      @RequestParam(value = "keyword", required = false) String keyword,
+                                      final RedirectAttributes redirectAttributes,
+                                      ModelMap modelMap,
+                                      Authentication auth) {
+        List<ProductForm> productFormList = productService.getProducts(null, null, keyword);
+
+        if (productFormList.size() == 0) {
+            Message result = new Message("Product not found!", false);
+            modelMap.addAttribute("message", result.getMessage());
+            modelMap.addAttribute("isSuccess", result.isSuccess());
+            return "/fragments/template :: display-error-message";
+        }
+
         modelMap.addAttribute("productFormList", productFormList);
-        return "/vendor/addProduct :: content";
+        return "/fragments/template :: table-produt-grid";
     }
 
 }

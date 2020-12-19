@@ -81,13 +81,13 @@ public class ProductValidator implements Validator {
         }
 
         if (!errors.hasFieldErrors("price")) {
-            if (productForm.getQuantity() <= 0) {
+            if (productForm.getPrice() <= 0) {
                 errors.rejectValue("price", "Invalid.productForm.price");
             }
         }
 
         if (!errors.hasFieldErrors("listPrice")) {
-            if (productForm.getQuantity() <= 0) {
+            if (productForm.getListPrice() <= 0) {
                 errors.rejectValue("listPrice", "Invalid.productForm.listPrice");
             }
         }

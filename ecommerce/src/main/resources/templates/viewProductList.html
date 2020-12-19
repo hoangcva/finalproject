@@ -1,46 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/template :: head_input(~{::title})">
-    <title>Product list</title>
-    <script type="text/javascript" th:src="@{/js/viewProductList.js}"></script>
+	<title>Product list</title>
+	<script type="text/javascript" th:src="@{/js/viewProductList.js}"></script>
 </head>
 <!--    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/viewProductList.css}" href="../../css/viewProductList.css">-->
 <body>
-    <th:block th:include="/common/_header"></th:block>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="list-group">
-                <!--    <div th:each="category,iterationStatus : ${categories}">-->
-                    <div class="list-group-item" th:each="category,iterationStatus : ${categories}" th:id="'dropbtn'+${iterationStatus.count}">
-                        <a th:href="@{/product/view/byCategory(categoryId = ${category.id}, subCategoryId = 0)}" th:text="${category.name}"></a>
-                        <script th:inline="javascript">
+<th:block th:include="/common/_header"></th:block>
+<main>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-2">
+				<div class="list-group">
+					<!--    <div th:each="category,iterationStatus : ${categories}">-->
+					<div class="list-group-item border-0" th:each="category,iterationStatus : ${categories}"
+					     th:id="'dropbtn'+${iterationStatus.count}">
+						<a th:href="@{/product/view/byCategory(categoryId = ${category.id}, subCategoryId = 0)}"
+						   th:text="${category.name}"></a>
+						<script th:inline="javascript">
                             /*<![CDATA[*/
-                            $('#dropbtn'+id).hover(function() {
+                            $('#dropbtn' + id).hover(function () {
                                 showSubCategoryMenu(/*[[${iterationStatus.count}]]*/'');
                             })
                             /*]]>*/
-                        </script>
-                        <div class="list-group">
-                            <div class="list-group-item" th:classappend="'show-content'+${iterationStatus.count}" th:each="subCategory : ${category.subCategoryForms}">
-                                <a th:href="@{/product/view/byCategory(categoryId = ${category.id}, subCategoryId = ${subCategory.id})}" th:text="${subCategory.name}"></a>
-                            </div>
-                        </div>
-                    </div>
-                <!--    </div>-->
-                </div>
-            </div>
-            <div class="col-sm-9">
-                <div class="d-inline-flex flex-wrap">
-                    <div th:fragment="view-product-list" class="view-product-list outer" th:each="product,iterationStatus : ${productFormList}">
-                        <a class="product-thumbnail text-decoration-none"
-                           th:href="@{/product/view/detail(productId = ${product.productId}, vendorId = ${product.vendorId})}">
-                            <div th:replace="fragments/productInfo :: view-product-list"></div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+						</script>
+						<div class="list-group">
+							<div class="list-group-item border-0"
+							     th:classappend="'show-content'+${iterationStatus.count}"
+							     th:each="subCategory : ${category.subCategoryForms}">
+								<a th:href="@{/product/view/byCategory(categoryId = ${category.id}, subCategoryId = ${subCategory.id})}"
+								   th:text="${subCategory.name}"></a>
+							</div>
+						</div>
+					</div>
+					<!--    </div>-->
+				</div>
+			</div>
+			<div class="col-lg-8">
+				<div th:replace="fragments/template :: search-bar-custom"></div>
+				<div id="content">
+					<div th:replace="fragments/template :: customError"></div>
+					<div th:replace="fragments/template :: table-produt-grid-custom"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
 </body>
+<script type="text/javascript" th:src="@{/js/viewProductList.js}"></script>
 </html>

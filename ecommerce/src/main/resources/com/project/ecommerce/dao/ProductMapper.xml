@@ -109,7 +109,8 @@
     </update>
 
     <select id="getAllProduct" parameterType="map" resultMap="ProductResultMap" fetchSize="200">
-        SELECT p.id, p.productName, p.categoryId, p.subCategoryId, p.listPrice, p.createdBy, p.created_time,
+        SELECT p.id, p.productName, p.categoryId, p.subCategoryId, p.listPrice,
+               p.createdBy, p.created_time, p.origin, p.brand, p.SKU,
                vp.vendorId, vp.price, vp.quantity, vp.rating, vp.productId, vp.createdTime, vp.updatedTime
         FROM product p
         INNER JOIN
@@ -126,7 +127,8 @@
                 AND subCategoryId = #{subCategoryId}
             </if>
             <if test="keyword != null">
-                AND productName LIKE #{keyword}
+                AND (productName LIKE #{keyword}
+                    OR SKU LIKE #{keyword})
             </if>
         </where>
         ORDER BY RAND()

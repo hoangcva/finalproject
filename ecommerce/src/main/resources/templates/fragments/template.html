@@ -56,15 +56,19 @@
 	      th:href="@{/css/common/bootstrap-rating.css}"/>
 </head>
 <body>
-<div th:fragment="display-error-message" class="row mb-2">
-	<div th:if="${message != null and message != ''}"
-	     th:classappend="${isSuccess}?'alert-info':'alert-danger'" class="error col-lg alert">
-		<img class="pb-1" th:src="@{/images/check.png}" th:if="${isSuccess}" style="max-height: 25px;">
-		<img class="pb-1" th:src="@{/images/fail.png}" th:unless="${isSuccess}" style="max-height: 25px;">
-		<span class="pt-1 pb-1 ml-2" th:classappend="${isSuccess}?'text-success':'text-danger'" th:text="${message}"
-		      style="font-size: 20px"></span>
+
+<div th:fragment="customError">
+	<div id="display-error-message" th:fragment="display-error-message" class="row mb-2">
+		<div th:if="${message != null and message != ''}"
+		     th:classappend="${isSuccess}?'alert-info':'alert-danger'" class="error col-lg alert">
+			<img class="pb-1" th:src="@{/images/check.png}" th:if="${isSuccess}" style="max-height: 25px;">
+			<img class="pb-1" th:src="@{/images/fail.png}" th:unless="${isSuccess}" style="max-height: 25px;">
+			<span class="pt-1 pb-1 ml-2" th:classappend="${isSuccess}?'text-success':'text-danger'" th:text="${message}"
+			      style="font-size: 20px"></span>
+		</div>
 	</div>
 </div>
+
 
 <div th:fragment="change-quantity(buyQuantity, quantity)" class="change-quantity">
 	<div class="btn-group">
@@ -105,6 +109,66 @@
 	</div>
 </div>
 
+<div th:fragment="table-product-search">
+	<div class="mb-2 table-responsive" th:fragment="table-product">
+		<table class="table border"
+		       th:if="${productFormList ne null and #lists.size(productFormList) > 0}">
+			<thead>
+			<tr class="d-flex">
+				<th scope="col" class="col-auto">#</th>
+				<th scope="col" class="col-1"></th>
+				<th scope="col" class="col-5">Product name</th>
+				<th scope="col" class="col-1">List price</th>
+				<th scope="col" class="col-1">Price</th>
+				<th scope="col" class="col-1">Brand</th>
+				<th scope="col" class="col-1">Country</th>
+				<th scope="col" class="col-1"></th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr th:each="product,iterationStatus : ${productFormList}" class="d-flex">
+				<th class="col-auto" scope="row" th:text="${iterationStatus.count}"></th>
+				<td class="col-1">
+					<img class="img-thumbnail mr-2" style="height: 60px"
+					     th:src="@{'data:image/jpeg;base64,'
+					            +${product.productImageFormList[0].generateBase64Image()}}"/>
+				</td>
+				<td class="text-break col-5" th:text="${product.productName}"></td>
+				<td class="col-1 money" th:text="${{product.listPrice}}"></td>
+				<td class="col-1 money" th:text="${{product.price}}"></td>
+				<td class="col-1" th:text="${product.brand}"></td>
+				<td class="col-1" th:text="${product.origin}"></td>
+				<td class="col-1">
+					<a th:href="@{/vendor/product/add/detailExtend(productId = ${product.productId}, vendorId = ${product.vendorId})}"
+					   class="btn btn-primary" role="button">Select</a>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div th:fragment="search-bar-custom">
+	<div class="search form-row mb-4 pl-2">
+		<label for="keyword" text="Search product"></label>
+		<input class="form-control col-6 mr-2" type="text" id="keyword" th:name="keyword"
+		       placeholder="Enter product name/SKU">
+		<button id="btn-search" type="submit" th:text="search" class="btn btn-primary"
+		        th:onclick="'loadSearchResult();'"></button>
+	</div>
+</div>
+
+<div th:fragment="table-produt-grid-custom">
+	<div class="d-inline-flex flex-wrap" th:fragment="table-produt-grid">
+		<div class="outer" th:each="product,iterationStatus : ${productFormList}">
+			<a class="product-thumbnail text-decoration-none"
+			   th:href="@{/vendor/product/edit(productId = ${product.productId})}">
+				<div th:replace="fragments/productInfo :: view-product-list"></div>
+			</a>
+		</div>
+	</div>
+</div>
+
 <!--pagination-->
 <div th:if="${page.totalNumberOfItems > 0 and page.numberOfItems > 0}" class="pagination-wrapper"
      th:fragment="pagination" xmlns:th="http://www.thymeleaf.org">
@@ -135,5 +199,7 @@
 		</ul>
 	</div>
 </div>
+
+
 </body>
 </html>

@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    $('.money').each(function() {
+        $(this).text(commafy($(this).text()));
+    });
     showSubCategory();
     // setCategorySelect()
     // customSelectbox(2);
@@ -15,6 +18,10 @@ $(document).on('change', '#category-select',  function () {
 function loadSearchResult()
 {
     var keyword = $('#keyword').val();
+    if (keyword.replace(/\s/g,'') === '') {
+        alert("Please enter keyword!");
+        return;
+    }
     var data = {
         "keyword" : keyword
     }
@@ -34,9 +41,8 @@ function loadSearchResult()
     // });
 
     $.get("/vendor/product/add/search",data).done(function(fragment) { // get from controller
-        $("#content").replaceWith(fragment); // update snippet of page
-    }).fail(function(fragment){
-        $("#display-error-message").replaceWith(fragment);
+        // $("#content").replaceWith(fragment);
+        $("#content").html(fragment);
     });
 }
 
