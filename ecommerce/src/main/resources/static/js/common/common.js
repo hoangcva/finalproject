@@ -42,6 +42,8 @@ $(document).on({
 });
 
 $(document).ready(function() {
+    $.fn.rating.defaults.filled = 'fas fa-star';
+    $.fn.rating.defaults.empty = 'far fa-star';
     $('.money').each(function() {
         $(this).text(commafy($(this).text()));
     });
@@ -52,6 +54,16 @@ $(document).ready(function() {
         }, function() {
             $(this).removeClass('shadow-lg');
         });
+
+    $('#dtBasicExample').DataTable();
+    $('.dataTables_length').addClass('bs-select');
+    $('#rateMe1').mdbRate();
+
+    $('.rating').rating({
+        filled: 'fas fa-star',
+        empty: 'far fa-star'
+    });
+
 });
 
 function commafy(num) {

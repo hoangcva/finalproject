@@ -46,5 +46,7 @@ public class WebConfiguration implements WebMvcConfigurer {
         registry.addResourceHandler("/jquery-ui/**") //
                 .addResourceLocations("classpath:/META-INF/resources/webjars/jquery-ui/1.12.1/");
 
+        registry.addResourceHandler("/mdb/**") //
+                .addResourceLocations("classpath:/resources/mdb/");
     }
 }

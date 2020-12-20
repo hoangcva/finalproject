@@ -7,16 +7,17 @@
 <th:block th:include="/common/_header"></th:block>
 
 <div class="container">
+    <div class="col-lg-2"></div>
     <div class="row">
-        <div class="col-lg">
-            <h3>My orders</h3>
+        <div class="col-lg-8">
+            <h3>Order history</h3>
         </div>
     </div>
     <div class="row">
         <th:block th:include="/common/_customer-sidebar-menu"></th:block>
         <div class="col-lg-8">
             <div th:replace="fragments/template :: display-error-message"/>
-            <table class="table">
+            <table  class="table table-bordered" id="dtBasicExample">
                 <thead>
                     <tr>
                         <th scope="col">#</th>

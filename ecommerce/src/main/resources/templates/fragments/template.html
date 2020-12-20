@@ -9,16 +9,25 @@
 <!--	        src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>-->
 <!--	<link rel="stylesheet"-->
 <!--	      href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css"/>-->
-	<script th:src="@{/jquery/jquery.min.js}"></script>
-	<script th:src="@{/jquery-ui/jquery-ui.min.js}"></script>
-	<script th:src="@{/popper/popper.min.js}"></script>
-	<script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+<!--	<script th:src="@{/jquery/jquery.min.js}"></script>-->
+<!--	<script th:src="@{/jquery-ui/jquery-ui.min.js}"></script>-->
+<!--	<script th:src="@{/popper/popper.min.js}"></script>-->
+<!--	<script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>-->
+	<!-- JQuery -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!-- Bootstrap tooltips -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+	<!-- Bootstrap core JavaScript -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	<!-- MDB core JavaScript -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
 	<!--font Awesome-->
 	<script src="https://kit.fontawesome.com/0f849e8e8f.js" crossorigin="anonymous"></script>
 	<!--tiny-->
 	<script src='https://cdn.tiny.cloud/1/wowceb2jqq0dguc56nz2kvwllta9sriwgsbi1m50l3c7ah9v/tinymce/5/tinymce.min.js'
 	        referrerpolicy="origin">
 	</script>
+
 	<script>
         tinymce.init({
             selector: '.textarea-custom',
@@ -50,13 +59,29 @@
 	<script type="text/javascript" th:src="@{/js/common/common.js}"></script>
 	<script type="text/javascript" th:src="@{/js/common/bootstrap-rating.js}"></script>
 
-	<link th:href="@{/bootstrap/css/bootstrap.css}" type="text/css" rel="stylesheet" media="screen"/>
+<!--	<link th:href="@{/bootstrap/css/bootstrap.css}" type="text/css" rel="stylesheet" media="screen"/>-->
+<!--	<link th:href="@{/bootstrap/css/bootstrap.min.css}" type="text/css" rel="stylesheet" media="screen"/>-->
 	<link th:href="@{/jquery-ui/jquery-ui.min.css}" type="text/css" rel="stylesheet" media="screen"/>
-	<link th:href="@{/bootstrap/css/bootstrap.min.css}" type="text/css" rel="stylesheet" media="screen"/>
 	<link rel="stylesheet" type="text/css" href="../../static/css/common/common.css"
 	      th:href="@{/css/common/common.css}"/>
 	<link rel="stylesheet" type="text/css" href="../../static/css/common/bootstrap-rating.css"
 	      th:href="@{/css/common/bootstrap-rating.css}"/>
+
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+	<!-- Bootstrap core CSS -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+
+	<!-- MDBootstrap Datatables  -->
+	<link th:href="@{/css/mdb/css/addons/datatables2.min.css}" rel="stylesheet" type="text/css">
+<!--	<link th:href="@{/css/mdb/css/addons/datatables.min.css}" rel="stylesheet" type="text/css">-->
+	<!-- MDBootstrap Datatables  -->
+	<script type="text/javascript" th:src="@{/js/addons/datatables2.min.js}"></script>
+
+	<!-- MDBootstrap Rating  -->
+	<link th:href="@{/css/mdb/css/addons/rating.min.css}" rel="stylesheet" type="text/css">
+	<script type="text/javascript" th:src="@{/js/addons/rating.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery-rating.js}"></script>
 </head>
 <body>
 
@@ -480,7 +505,7 @@
 <div th:fragment="vendor-table-custom">
 	<div th:fragment="vendor-table">
 		<div th:replace="fragments/template :: display-error-message"/>
-		<table class="table" th:if="${#lists.size(vendorFormList) > 0}">
+		<table class="table table-bordered" th:if="${#lists.size(vendorFormList) > 0}" id="dtBasicExample">
 			<thead>
 			<tr>
 				<th scope="col" th:text="No"></th>
@@ -523,7 +548,7 @@
 <div th:fragment="transporter-table-custom">
 	<div th:fragment="transporter-table">
 		<div th:replace="fragments/template :: display-error-message"/>
-		<table class="table" th:if="${#lists.size(transporterFormList) > 0}">
+		<table cellspacing="0" class="table table-bordered" th:if="${#lists.size(transporterFormList) > 0}" id="dtBasicExample">
 			<thead>
 			<tr>
 				<th scope="col" th:text="No"></th>

@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "jquery": "^3.5.1",
+    "mdbootstrap": "^4.19.2",
     "tabulator-tables": "^4.8.4"
   },
   "devDependencies": {},

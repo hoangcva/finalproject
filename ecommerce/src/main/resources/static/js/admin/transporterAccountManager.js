@@ -1,5 +1,7 @@
-$(document).ready(function (){
-})
+$(document).ready(function () {
+    $('#dtBasicExample').DataTable();
+    $('.dataTables_length').addClass('bs-select');
+});
 
 function deleteUser(userId) {
     let result = confirm("Do you want to delete this user?");
