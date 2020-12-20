@@ -10,7 +10,8 @@ public class Consts {
     public static final String ROLE_SHIPPER = "ROLE_SHIPPER";
     public static final Boolean ACCOUNT_STATUS_DEACTIVATE = false;
     public static final Boolean ACCOUNT_STATUS_ACTIVATE = true;
-
+    public static final String ACTION_REGISTER = "register";
+    public static final String ACTION_UPDATE = "update";
 
     public static final String ORDER_STATUS_PENDING = "PENDING";
     public static final String ORDER_STATUS_PROGRESSING = "PROGRESSING";

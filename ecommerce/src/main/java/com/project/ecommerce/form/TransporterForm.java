@@ -2,13 +2,22 @@ package com.project.ecommerce.form;
 
 public class TransporterForm extends UserForm {
     private static final long serialVersionUID = 2283551327108612344L;
-    private long transportedId;
+    private long transporterId;
     private long createdUser;
     private long updatedUser;
     private Long shippingFee;
     private String description;
     private boolean isSubmitted;
     private String phoneNumber;
+    private String action;
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -26,12 +35,12 @@ public class TransporterForm extends UserForm {
         isSubmitted = submitted;
     }
 
-    public long getTransportedId() {
-        return transportedId;
+    public long getTransporterId() {
+        return transporterId;
     }
 
-    public void setTransportedId(long transportedId) {
-        this.transportedId = transportedId;
+    public void setTransporterId(long transporterId) {
+        this.transporterId = transporterId;
     }
 
     public long getCreatedUser() {

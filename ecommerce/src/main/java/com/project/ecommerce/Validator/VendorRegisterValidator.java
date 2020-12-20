@@ -1,5 +1,6 @@
 package com.project.ecommerce.Validator;
 
+import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.dao.UserMapper;
 import com.project.ecommerce.form.VendorForm;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -35,7 +36,7 @@ public class VendorRegisterValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "NotEmpty.VendorForm.description");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "vendorName", "NotEmpty.VendorForm.vendorName");
 
-        if ("register".equals(vendorForm.getAction())) {
+        if (Consts.ACTION_REGISTER.equals(vendorForm.getAction())) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty.UserForm.password");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "NotEmpty.UserForm.confirmPassword");
             if (!errors.hasFieldErrors("userName")) {

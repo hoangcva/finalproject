@@ -4,12 +4,13 @@
 <head th:fragment="head_input(title)">
 	<meta charset="UTF-8">
 	<title>Title</title>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<script type="text/javascript"
-	        src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-	<link rel="stylesheet"
-	      href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css"/>
+<!--	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
+<!--	<script type="text/javascript"-->
+<!--	        src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>-->
+<!--	<link rel="stylesheet"-->
+<!--	      href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css"/>-->
 	<script th:src="@{/jquery/jquery.min.js}"></script>
+	<script th:src="@{/jquery-ui/jquery-ui.min.js}"></script>
 	<script th:src="@{/popper/popper.min.js}"></script>
 	<script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
 	<!--font Awesome-->
@@ -49,10 +50,9 @@
 	<script type="text/javascript" th:src="@{/js/common/common.js}"></script>
 	<script type="text/javascript" th:src="@{/js/common/bootstrap-rating.js}"></script>
 
-
-	<!--    <link th:href="@{assets/bootstrap4-toggle/bootstrap4-toggle.min.css}"/>-->
-	<!--    <link th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>-->
-	<link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+	<link th:href="@{/bootstrap/css/bootstrap.css}" type="text/css" rel="stylesheet" media="screen"/>
+	<link th:href="@{/jquery-ui/jquery-ui.min.css}" type="text/css" rel="stylesheet" media="screen"/>
+	<link th:href="@{/bootstrap/css/bootstrap.min.css}" type="text/css" rel="stylesheet" media="screen"/>
 	<link rel="stylesheet" type="text/css" href="../../static/css/common/common.css"
 	      th:href="@{/css/common/common.css}"/>
 	<link rel="stylesheet" type="text/css" href="../../static/css/common/bootstrap-rating.css"
@@ -501,14 +501,14 @@
 				<td>
 					<a class="btn_delete btn btn-danger" type="button"
 					   th:text="Delete"
-					   th:id="'btn_delete' + ${iterationStatus.count}"
+					   th:id="'btn_delete' + ${iterationStatus.count}" href=""
 					   th:onclick="|javascript:deleteUser(${vendor.id})|"></a>
 					<a class="btn_delete btn btn-primary" type="button"
 					   th:text="Active"
-					   th:id="'btn_active' + ${iterationStatus.count}"
+					   th:id="'btn_active' + ${iterationStatus.count}" href=""
 					   th:onclick="|javascript:activeAccount(${vendor.id}, true)|"
 					   th:if="${vendor.enable eq false}"></a>
-					<a class="btn_delete btn btn-primary" type="button"
+					<a class="btn_delete btn btn-primary" type="button" href=""
 					   th:text="Lock"
 					   th:id="'btn_active' + ${iterationStatus.count}"
 					   th:onclick="|javascript:activeAccount(${vendor.id}, false)|"
@@ -540,7 +540,11 @@
 			<tbody>
 			<tr th:each="transporter,iterationStatus : ${transporterFormList}">
 				<td th:text="${iterationStatus.count}"></td>
-				<td><span th:text="${transporter.userName}"></span></td>
+				<td>
+					<a th:href="@{/admin/account/transporter/edit(transporterId= ${transporter.transporterId})}">
+						<span th:text="${transporter.userName}"></span>
+					</a>
+				</td>
 				<td><span th:text="${transporter.fullName}"></span></td>
 				<td><span th:text="${transporter.email}"></span></td>
 				<td><span th:text="${transporter.phoneNumber}"></span></td>
@@ -548,7 +552,7 @@
 				<td><span th:text="${transporter.updatedTime}"></span></td>
 				<td><span class="money" th:text="${transporter.shippingFee}"></span></td>
 				<td>
-					<a class="btn_delete btn btn-danger" type="button"
+					<a class="btn_delete btn btn-danger" type="button" href=""
 					   th:text="Delete"
 					   th:id="'btn_delete' + ${iterationStatus.count}"
 					   th:onclick="|javascript:deleteUser(${transporter.id})|"></a>

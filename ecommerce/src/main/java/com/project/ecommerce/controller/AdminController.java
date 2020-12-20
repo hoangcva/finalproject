@@ -45,6 +45,22 @@ public class AdminController {
     @Autowired
     private ITransporterService transporterService;
 
+    // Set a form validator
+    @InitBinder
+    protected void initBinder(WebDataBinder dataBinder) {
+        Object target = dataBinder.getTarget();
+        if(target == null) {
+            return;
+        }
+
+        System.out.println("Target = " + target);
+        if(target.getClass() == SubCategoryForm.class) {
+            dataBinder.setValidator(categoryValidator);
+        } else if(target.getClass() == TransporterForm.class) {
+            dataBinder.setValidator(transporterValidatior);
+        }
+    }
+
     @GetMapping
     public String index(Model model) {
         List<UserDto> userDtoList = userService.getAllUser();
@@ -140,7 +156,7 @@ public class AdminController {
 
     @PostMapping(value = "/account/transporter/delete")
     public String deleteTransporter(@RequestBody TransporterForm transporterForm, Model model) {
-        Message result = userService.deleteUser(transporterForm.getTransportedId());
+        Message result = userService.deleteUser(transporterForm.getTransporterId());
         List<TransporterForm> transporterFormList = new ArrayList<>();
         transporterFormList = transporterService.getTransporterList();
         model.addAttribute("transporterFormList", transporterFormList);
@@ -185,25 +201,10 @@ public class AdminController {
         return "redirect:/admin/category/add";
     }
 
-    // Set a form validator
-    @InitBinder
-    protected void initBinder(WebDataBinder dataBinder) {
-        Object target = dataBinder.getTarget();
-        if(target == null) {
-            return;
-        }
-
-        System.out.println("Target = " + target);
-        if(target.getClass() == SubCategoryForm.class) {
-            dataBinder.setValidator(categoryValidator);
-        } else if(target.getClass() == TransporterForm.class) {
-            dataBinder.setValidator(transporterValidatior);
-        }
-    }
-
     @GetMapping("/transporter")
     public String addTransporter(Model model) {
         TransporterForm transporterForm = new TransporterForm();
+        transporterForm.setAction(Consts.ACTION_REGISTER);
         model.addAttribute("transporterForm", transporterForm);
         return "/admin/addTransporter";
     }
@@ -254,5 +255,30 @@ public class AdminController {
 //            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
 //        }
         return "redirect:/admin/orders";
+    }
+
+    @GetMapping("/account/transporter/edit")
+    public String editTransporter(Model model,
+                                  @ModelAttribute("transporterId") Long transporterId) {
+        TransporterForm transporterForm = transporterService.getTransporterInfo(transporterId);
+        transporterForm.setAction(Consts.ACTION_UPDATE);
+        model.addAttribute("transporterForm", transporterForm);
+        return "/admin/account/editTransporter";
+
+    }
+
+    @PostMapping("/account/transporter/edit")
+    public String editTransporter(@ModelAttribute("transporterForm") @Validated TransporterForm TransporterForm,
+                                  BindingResult bindingResult,
+                                  Model model,
+                                  final RedirectAttributes redirectAttributes,
+                                  Authentication auth) {
+        if (bindingResult.hasErrors()) {
+            return "/admin/account/editTransporter";
+        }
+        Message result = adminService.updateTransporterInfo(TransporterForm, auth);
+        redirectAttributes.addFlashAttribute("message", result.getMessage());
+        redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
+        return "redirect:/admin/account/transporter";
     }
 }

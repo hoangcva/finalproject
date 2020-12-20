@@ -1,5 +1,6 @@
 package com.project.ecommerce.Validator;
 
+import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.dao.UserMapper;
 import com.project.ecommerce.dto.UserDto;
 import com.project.ecommerce.form.TransporterForm;
@@ -30,36 +31,40 @@ public class TransporterValidatior implements Validator {
         // Kiểm tra các field của UserForm.
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userName", "NotEmpty.UserForm.userName");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty.UserForm.email");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty.UserForm.password");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "NotEmpty.UserForm.confirmPassword");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fullName", "NotEmpty.UserForm.fullName");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phoneNumber", "NotEmpty.TransporterForm.phoneNumber");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "NotEmpty.TransporterForm.description");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shippingFee", "NotEmpty.TransporterForm.shippingFee");
 
-        if (!errors.hasFieldErrors("email")) {
-            if (!this.emailValidator.isValid(transporterForm.getEmail())) {
-                // Email không hợp lệ.
-                errors.rejectValue("email", "Pattern.UserForm.email");
-            } else if (transporterForm.getId() == null) {
-                UserDto userDto = userMapper.findUserByEmail(transporterForm.getEmail());
+        if (Consts.ACTION_REGISTER.equals(transporterForm.getAction())) {
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty.UserForm.password");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "NotEmpty.UserForm.confirmPassword");
+
+            if (!errors.hasFieldErrors("userName")) {
+                UserDto userDto = userMapper.findUserByUserName(transporterForm.getUserName());
                 if (userDto != null) {
-                    // Email đã được sử dụng bởi tài khoản khác.
-                    errors.rejectValue("email", "Duplicate.UserForm.email");
+                    // Tên tài khoản đã bị sử dụng bởi người khác.
+                    errors.rejectValue("userName", "Duplicate.UserForm.userName");
+                }
+            }
+
+            if (!errors.hasFieldErrors("confirmPassword")) {
+                if (!transporterForm.getConfirmPassword().equals(transporterForm.getPassword())) {
+                    errors.rejectValue("confirmPassword", "Match.usersForm.confirmPassword");
                 }
             }
         }
 
-        if (!errors.hasFieldErrors("userName")) {
-            UserDto userDto = userMapper.findUserByUserName(transporterForm.getUserName());
-            if (userDto != null) {
-                // Tên tài khoản đã bị sử dụng bởi người khác.
-                errors.rejectValue("userName", "Duplicate.UserForm.userName");
-            }
-        }
-        if (!errors.hasErrors()) {
-            if (!transporterForm.getConfirmPassword().equals(transporterForm.getPassword())) {
-                errors.rejectValue("confirmPassword", "Match.usersForm.confirmPassword");
+        if (!errors.hasFieldErrors("email")) {
+            if (!this.emailValidator.isValid(transporterForm.getEmail())) {
+                // Email không hợp lệ.
+                errors.rejectValue("email", "Pattern.UserForm.email");
+            } else {
+                UserDto userDto = userMapper.findUserByEmail(transporterForm.getEmail());
+                if (userDto != null && !userDto.getId().equals(transporterForm.getTransporterId())) {
+                    // Email đã được sử dụng bởi tài khoản khác.
+                    errors.rejectValue("email", "Duplicate.UserForm.email");
+                }
             }
         }
     }

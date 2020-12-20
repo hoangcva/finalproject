@@ -81,7 +81,7 @@ public class AdminServiceImpl implements IAdminService {
             transporterDto.setRole(Consts.ROLE_SHIPPER);
             transporterDto.setPassword(encoder.encode(transporterForm.getPassword()));
             userMapper.createUser(transporterDto);
-//            transporterDto.setTransportedId(transporterDto.getId());
+//            transporterDto.setTransporterId(transporterDto.getId());
             userMapper.createTransporter(transporterDto);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_10_I, ""));
             //commit

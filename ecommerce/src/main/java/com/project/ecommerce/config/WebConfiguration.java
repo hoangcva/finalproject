@@ -29,19 +29,22 @@ public class WebConfiguration implements WebMvcConfigurer {
         // http://somedomain/SomeContextPath/jquery/jquery.min.css
         //
         registry.addResourceHandler("/jquery/**") //
-                .addResourceLocations("classpath:/META-INF/resources/webjars/jquery/3.4.1-1/");
+                .addResourceLocations("classpath:/META-INF/resources/webjars/jquery/3.4.1/");
 
         //
         // http://somedomain/SomeContextPath/popper/popper.min.js
         //
         registry.addResourceHandler("/popper/**") //
-                .addResourceLocations("classpath:/META-INF/resources/webjars/popper.js/1.14.1/umd/");
+                .addResourceLocations("classpath:/META-INF/resources/webjars/popper.js/1.14.3/umd/");
 
         // http://somedomain/SomeContextPath/bootstrap/css/bootstrap.min.css
         // http://somedomain/SomeContextPath/bootstrap/js/bootstrap.min.js
         //
         registry.addResourceHandler("/bootstrap/**") //
                 .addResourceLocations("classpath:/META-INF/resources/webjars/bootstrap/4.3.1/");
+
+        registry.addResourceHandler("/jquery-ui/**") //
+                .addResourceLocations("classpath:/META-INF/resources/webjars/jquery-ui/1.12.1/");
 
     }
 }

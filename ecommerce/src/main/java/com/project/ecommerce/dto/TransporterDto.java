@@ -1,13 +1,8 @@
 package com.project.ecommerce.dto;
 
-import org.apache.tomcat.jni.User;
-
-import java.io.Serializable;
-import java.sql.Timestamp;
-
 public class TransporterDto extends UserDto {
     private static final long serialVersionUID = -1177264913158729687L;
-    private long transportedId;
+    private long transporterId;
     private long createdUser;
     private long updatedUser;
     private long shippingFee;
@@ -22,12 +17,12 @@ public class TransporterDto extends UserDto {
         this.phoneNumber = phoneNumber;
     }
 
-    public long getTransportedId() {
-        return transportedId;
+    public long getTransporterId() {
+        return transporterId;
     }
 
-    public void setTransportedId(long transportedId) {
-        this.transportedId = transportedId;
+    public void setTransporterId(long transporterId) {
+        this.transporterId = transporterId;
     }
 
     public long getCreatedUser() {
