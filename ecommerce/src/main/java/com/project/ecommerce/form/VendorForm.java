@@ -1,6 +1,6 @@
 package com.project.ecommerce.form;
 
-public class VendorForm extends UserRegisterForm{
+public class VendorForm extends UserForm{
     private static final long serialVersionUID = -6026754792396613636L;
     private String phoneNumber;
     private String businessCode;
@@ -13,6 +13,15 @@ public class VendorForm extends UserRegisterForm{
     private String vendorName;
     private boolean isSubmitted = false;
     private String action;
+    private String radioType;
+
+    public String getRadioType() {
+        return radioType;
+    }
+
+    public void setRadioType(String radioType) {
+        this.radioType = radioType;
+    }
 
     public String getAction() {
         return action;

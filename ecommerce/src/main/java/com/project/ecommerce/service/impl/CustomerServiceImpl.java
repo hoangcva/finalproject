@@ -4,7 +4,6 @@ import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.dao.CommentMapper;
 import com.project.ecommerce.dao.OrderMapper;
 import com.project.ecommerce.dao.UserMapper;
-import com.project.ecommerce.dao.VendorMapper;
 import com.project.ecommerce.dto.*;
 import com.project.ecommerce.form.CommentForm;
 import com.project.ecommerce.service.ICustomerService;

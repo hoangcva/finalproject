@@ -116,7 +116,7 @@ public class ManageAddressController {
         return "redirect:/customer/address/manageAddress";
     }
 
-    @PostMapping(value = "/delete")
+    @PostMapping(value = "/account/delete")
     public ResponseEntity<?> deleteAddress(@RequestBody CustomerAddressForm customerAddressForm) {
         Message result = customerAddressService.deleteAddress(customerAddressForm.getId());
         HashMap<String, Object> message = new HashMap<>();

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments/template :: head_input(~{::title})">
+	<title>Admin Page</title>
+</head>
+<body>
+<!-- Include _header.html -->
+<th:block th:include="/common/_header"></th:block>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-2"></div>
+		<div class="col-lg-8">
+			<h3>Admin Page</h3>
+		</div>
+	</div>
+	<div class="row">
+		<th:block th:include="/common/_admin-sidebar-menu"></th:block>
+		<div class="col-lg-8">
+			<div id="content">
+				<div th:replace="/fragments/template :: transporter-table-custom"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<form method="GET" th:action="@{/admin/account/vendor}" id="reload"></form>
+</body>
+<script type="text/javascript" th:src="@{/js/admin/transporterAccountManager.js}"></script>
+</html>

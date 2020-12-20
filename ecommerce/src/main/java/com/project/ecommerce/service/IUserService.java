@@ -5,6 +5,7 @@ import com.project.ecommerce.form.UserRegisterForm;
 import com.project.ecommerce.form.UserUpdateForm;
 import com.project.ecommerce.form.VendorForm;
 import com.project.ecommerce.util.Message;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -17,6 +18,7 @@ public interface IUserService extends UserDetailsService {
     UserDto getUserByUserName(String userName);
     void updateUser(UserUpdateForm userUpdateForm);
     List<UserDto> getAllUser();
-    boolean deleteUser(Long userId);
-
+    Message deleteUser(Long userId);
+    List<VendorForm> getVendorList(@Nullable Boolean enable);
+    Message activeVendor(Long vendorId, Boolean enable);
 }

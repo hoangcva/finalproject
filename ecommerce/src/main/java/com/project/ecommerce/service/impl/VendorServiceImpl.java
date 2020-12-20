@@ -2,7 +2,6 @@ package com.project.ecommerce.service.impl;
 
 import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.dao.UserMapper;
-import com.project.ecommerce.dao.VendorMapper;
 import com.project.ecommerce.dto.UserDetailsDto;
 import com.project.ecommerce.dto.UserDto;
 import com.project.ecommerce.dto.VendorDto;
@@ -25,8 +24,6 @@ import java.sql.Timestamp;
 public class VendorServiceImpl implements IVendorService {
     @Autowired
     private BCryptPasswordEncoder encoder;
-    @Autowired
-    private VendorMapper vendorMapper;
     @Autowired
     private DataSourceTransactionManager transactionManager;
     @Autowired

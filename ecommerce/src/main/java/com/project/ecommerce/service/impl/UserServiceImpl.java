@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -90,7 +91,8 @@ public class UserServiceImpl implements IUserService {
         return userMapper.getAllUser();
     }
 
-    public boolean deleteUser(Long userId) {
+    public Message deleteUser(Long userId) {
+        Message result = new Message("", true);
         UserDto userDto = userMapper.findUserById(userId);
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
@@ -100,14 +102,65 @@ public class UserServiceImpl implements IUserService {
             } else if (Consts.ROLE_VENDOR.equals(userDto.getRole())) {
                 userMapper.deleteVendor(userId);
                 userMapper.deleteUser(userId);
+            } else if (Consts.ROLE_SHIPPER.equals(userDto.getRole())) {
+                userMapper.deleteTransporter(userId);
+                userMapper.deleteUser(userId);
             } else {
-                return false;
+                transactionManager.rollback(txStatus);
+                result.setMessage(messageAccessor.getMessage(Consts.MSG_20_E));
+                result.setSuccess(false);
+                return result;
             }
             transactionManager.commit(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_20_I));
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
-            return false;
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_20_E));
+            result.setSuccess(false);
         }
-        return true;
+        return result;
+    }
+
+    @Override
+    public List<VendorForm> getVendorList(Boolean enable) {
+        List<VendorDto> vendorDtoList = userMapper.getVendorList(enable);
+        List<VendorForm> vendorFormList = new ArrayList<>();
+        for (VendorDto vendorDto : vendorDtoList) {
+            VendorForm vendorForm = new VendorForm();
+            BeanUtils.copyProperties(vendorDto, vendorForm);
+            vendorFormList.add(vendorForm);
+        }
+        return vendorFormList;
+    }
+
+    @Override
+    public Message activeVendor(Long vendorId, Boolean enable) {
+        Message result = new Message("", true);
+        TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        VendorDto vendorDto = userMapper.getVendorInfo(vendorId);
+        try {
+            if (!vendorDto.getEnable()) {
+                userMapper.activeVendor(vendorId);
+            } else {
+                userMapper.lockVendor(vendorId);
+            }
+            //commit
+            transactionManager.commit(txStatus);
+
+        } catch (Exception ex) {
+            transactionManager.rollback(txStatus);
+            if (enable) {
+                result.setMessage(messageAccessor.getMessage(Consts.MSG_18_E, vendorDto.getUserName()));
+            } else {
+                result.setMessage(messageAccessor.getMessage(Consts.MSG_19_E, vendorDto.getUserName()));
+            }
+            result.setSuccess(false);
+        }
+        if (enable) {
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_18_I, vendorDto.getUserName()));
+        } else {
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_19_I, vendorDto.getUserName()));
+        }
+        return result;
     }
 }

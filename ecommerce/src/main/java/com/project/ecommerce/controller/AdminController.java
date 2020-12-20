@@ -8,6 +8,8 @@ import com.project.ecommerce.dto.UserDto;
 import com.project.ecommerce.form.*;
 import com.project.ecommerce.service.IAdminService;
 import com.project.ecommerce.service.IProductService;
+import com.project.ecommerce.service.ITransporterService;
+import com.project.ecommerce.service.IVendorService;
 import com.project.ecommerce.service.impl.UserServiceImpl;
 import com.project.ecommerce.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -38,6 +40,10 @@ public class AdminController {
     private CategoryValidator categoryValidator;
     @Autowired
     private TransporterValidatior transporterValidatior;
+    @Autowired
+    private IVendorService vendorService;
+    @Autowired
+    private ITransporterService transporterService;
 
     @GetMapping
     public String index(Model model) {
@@ -46,8 +52,8 @@ public class AdminController {
         return "/admin/index";
     }
 
-//    @PostMapping(value = "/delete")
-////    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+//    @PostMapping(value = "/account/delete")
+////    @RequestMapping(value = "/account/delete", method = RequestMethod.DELETE)
 //    public String deleteUser(@RequestParam Long userId, Model model, final RedirectAttributes redirectAttributes) {
 ////    public ResponseEntity<String> deleteUser(@PathVariable String userName) {
 //        boolean isRemoved = userService.deleteUser(userId);
@@ -63,13 +69,93 @@ public class AdminController {
 //        return "redirect:/admin";
 //    }
 
-    @PostMapping(value = "/delete")
-    public ResponseEntity<?> deleteUser(@RequestBody UserDeleteForm user) {
-        boolean isRemoved = userService.deleteUser(user.getUserId());
-        if(!isRemoved) {
-            return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
+    @GetMapping("/account/transporter")
+    public String transporterAccountManager(Model model) {
+        List<TransporterForm> transporterFormList = transporterService.getTransporterList();
+        model.addAttribute("transporterFormList", transporterFormList);
+        return "/admin/account/transporterAccountManager";
+    }
+
+    @GetMapping("/account/vendor")
+    public String vendorAccountManager(Model model,
+                                       @RequestParam(value = "type", required = false) String type) {
+        List<VendorForm> vendorFormList = new ArrayList<>();
+        if ("all".equals(type) || type == null) {
+            vendorFormList = userService.getVendorList(null);
+        } else if ("deactivated".equals(type)) {
+            vendorFormList = userService.getVendorList(Consts.ACCOUNT_STATUS_DEACTIVATE);
+        } else if ("active".equals(type)) {
+            vendorFormList = userService.getVendorList(Consts.ACCOUNT_STATUS_ACTIVATE);
         }
-        return new ResponseEntity<>("success", HttpStatus.OK);
+        model.addAttribute("vendorFormList", vendorFormList);
+
+        if (type == null) {
+            return "/admin/account/vendorAccountManager";
+        } else {
+            return "/fragments/template :: vendor-table";
+        }
+    }
+
+    @PostMapping(value = "/account/vendor/active")
+    public String activeVendor(@RequestBody VendorForm vendorForm, Model model) {
+        Message result = userService.activeVendor(vendorForm.getVendorId(), vendorForm.getEnable());
+
+        List<VendorForm> vendorFormList = new ArrayList<>();
+
+        String type = vendorForm.getRadioType();
+        if ("all".equals(type)) {
+            vendorFormList = userService.getVendorList(null);
+        } else if ("deactivated".equals(type)) {
+            vendorFormList = userService.getVendorList(Consts.ACCOUNT_STATUS_DEACTIVATE);
+        } else if ("active".equals(type)) {
+            vendorFormList = userService.getVendorList(Consts.ACCOUNT_STATUS_ACTIVATE);
+        }
+        model.addAttribute("vendorFormList", vendorFormList);
+        model.addAttribute("message", result.getMessage());
+        model.addAttribute("isSuccess", result.isSuccess());
+        return "/fragments/template :: vendor-table";
+//        if(!result.isSuccess()) {
+//            return new ResponseEntity<>(result.getMessage(), HttpStatus.BAD_REQUEST);
+//        }
+//        return new ResponseEntity<>(result.getMessage(), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/account/vendor/delete")
+    public String deleteVendor(@RequestBody VendorForm vendorForm, Model model) {
+        Message result = userService.deleteUser(vendorForm.getVendorId());
+        List<VendorForm> vendorFormList = new ArrayList<>();
+        String type = vendorForm.getRadioType();
+        if ("all".equals(type)) {
+            vendorFormList = userService.getVendorList(null);
+        } else if ("deactivated".equals(type)) {
+            vendorFormList = userService.getVendorList(Consts.ACCOUNT_STATUS_DEACTIVATE);
+        } else if ("active".equals(type)) {
+            vendorFormList = userService.getVendorList(Consts.ACCOUNT_STATUS_ACTIVATE);
+        }
+        model.addAttribute("vendorFormList", vendorFormList);
+        model.addAttribute("message", result.getMessage());
+        model.addAttribute("isSuccess", result.isSuccess());
+        return "/fragments/template :: vendor-table";
+    }
+
+    @PostMapping(value = "/account/transporter/delete")
+    public String deleteTransporter(@RequestBody TransporterForm transporterForm, Model model) {
+        Message result = userService.deleteUser(transporterForm.getTransportedId());
+        List<TransporterForm> transporterFormList = new ArrayList<>();
+        transporterFormList = transporterService.getTransporterList();
+        model.addAttribute("transporterFormList", transporterFormList);
+        model.addAttribute("message", result.getMessage());
+        model.addAttribute("isSuccess", result.isSuccess());
+        return "/fragments/template :: transporter-table";
+    }
+
+    @PostMapping(value = "/account/delete")
+    public ResponseEntity<?> deleteUser(@RequestBody UserDeleteForm user, Model model) {
+        Message result = userService.deleteUser(user.getUserId());
+        if(!result.isSuccess()) {
+            return new ResponseEntity<>(result.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(result.getMessage(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/category/add")

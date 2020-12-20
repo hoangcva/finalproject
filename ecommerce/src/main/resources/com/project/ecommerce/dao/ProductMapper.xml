@@ -27,7 +27,7 @@
         <result property="type" column="type"/>
         <result property="framePerSecond" column="framePerSecond"/>
         <result property="weight" column="weight"/>
-        <result property="connectionPorts" column="connectionPorts"/>
+        <result property="connectionPorts" column="connectionports"/>
         <result property="voltage" column="voltage"/>
         <result property="capacity" column="capacity"/>
         <result property="power" column="power"/>
@@ -233,9 +233,9 @@
         (#{productId,jdbcType=BIGINT},
          #{model,jdbcType=VARCHAR},
          #{type,jdbcType=VARCHAR},
-         #{framepersecond,jdbcType=VARCHAR},
+         #{framePerSecond,jdbcType=VARCHAR},
          #{weight,jdbcType=VARCHAR},
-         #{connectionports,jdbcType=VARCHAR},
+         #{connectionPorts,jdbcType=VARCHAR},
          #{size,jdbcType=VARCHAR},
          #{voltage,jdbcType=VARCHAR});
     </insert>

@@ -173,11 +173,25 @@ public class ProductController {
         List<CategoryDto> categoryDtoList= productService.getAllCategory();
         List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
         ProductForm productForm = productService.getVendorProduct(productId);
+
+        String categoryName = categoryDtoList.stream()
+                .filter(category -> productForm.getCategoryId().equals(category.getId()))
+                .findAny()
+                .map(category -> category.getName())
+                .orElse("");
+        String subCategoryName = subCategoryDtoList.stream()
+                .filter(subCategory -> productForm.getSubCategoryId().equals(subCategory.getId()))
+                .findAny()
+                .map(subCategory -> subCategory.getName())
+                .orElse("");
+
         List<CountriesDto> countriesDtoList = productService.getCountries();
         model.addAttribute("productForm", productForm);
         model.addAttribute("categories", categoryDtoList);
         model.addAttribute("countriesDtoList", countriesDtoList);
         model.addAttribute("subCategories", subCategoryDtoList);
+        model.addAttribute("categoryName", categoryName);
+        model.addAttribute("subCategoryName", subCategoryName);
         return "vendor/editProduct";
     }
 
@@ -316,7 +330,7 @@ public class ProductController {
         }
 
         modelMap.addAttribute("productFormList", tempList);
-        return "/fragments/template :: table-produt-grid";
+        return "/fragments/template :: table-product-grid";
     }
 
     @GetMapping(value = "/product/view/list/search")
@@ -335,7 +349,7 @@ public class ProductController {
         }
 
         modelMap.addAttribute("productFormList", productFormList);
-        return "/fragments/template :: table-produt-grid";
+        return "/fragments/template :: table-product-grid";
     }
 
 
@@ -356,6 +370,6 @@ public class ProductController {
         }
 
         modelMap.addAttribute("productFormList", productFormList);
-        return "/fragments/template :: table-produt-grid";
+        return "/fragments/template :: table-product-grid";
     }
 }

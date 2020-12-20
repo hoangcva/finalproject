@@ -1,6 +1,6 @@
 package com.project.ecommerce.form;
 
-public class TransporterForm extends UserRegisterForm {
+public class TransporterForm extends UserForm {
     private static final long serialVersionUID = 2283551327108612344L;
     private long transportedId;
     private long createdUser;

@@ -64,7 +64,7 @@ body.loading .overlay{
 }
 
 .card {
-    width: 16rem;
+    width: 13rem;
 }
 
 .card img {
@@ -130,4 +130,34 @@ body {
 
 .borderless td, .borderless th {
     border: none;
+}
+
+.card-img-top {
+    height: 11vw;
+    overflow: hidden;
+    padding: .25rem;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;
+}
+
+.add-img-box{
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+}
+
+.add-img-btn {
+    max-height: 60%;
+    margin: 20% auto;
+}
+
+.card-text {
+    height: 3em;
+    /* max-height: 3em; */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }

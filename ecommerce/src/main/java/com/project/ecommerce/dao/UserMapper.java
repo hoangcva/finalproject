@@ -26,7 +26,9 @@ public interface UserMapper {
     int findVendorExist(@Param("userName") @Nullable String userName, @Param("email") @Nullable String email, @Param("businessCode") @Nullable String businessCode);
     void createVendor(VendorDto vendorDto);
     boolean deleteVendor(@Param("vendorId") Long vendorId);
-
+    List<VendorDto> getVendorList(@Param("enable") @Nullable Boolean enable);
+    boolean activeVendor(@Param("vendorId") Long vendorId);
+    boolean lockVendor(@Param("vendorId") Long vendorId);
     VendorDto getVendorInfo(@Param("vendorId") Long vendorId);
     void updateVendor(VendorDto vendorDto);
 
@@ -34,4 +36,5 @@ public interface UserMapper {
     List<TransporterDto> getTransporterList();
     TransporterDto getTransporterInfo(@Param("transporterId") Long transporterId);
     void updateTransporterInfo(TransporterDto transporterDto);
+    boolean deleteTransporter(@Param("transporterId") Long transporterId);
 }

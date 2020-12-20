@@ -181,5 +181,32 @@
             phoneNumber = #{phoneNumber}
         WHERE transporterId = #{transporterId}
     </update>
+
+    <select id="getVendorList" resultMap="VendorInfoResultMap" fetchSize="200">
+        SELECT * FROM vendor_info vi
+          INNER JOIN users u on vi.vendorId = u.id
+        <where>
+            AND role = 'ROLE_VENDOR'
+            <if test="enable != null">
+                AND enable = #{enable}
+            </if>
+        </where>
+    </select>
+
+    <update id="activeVendor" parameterType="Long">
+        UPDATE vendor_info
+        SET enable = true
+        WHERE vendorId = #{vendorId}
+    </update>
+
+    <update id="lockVendor" parameterType="Long">
+        UPDATE vendor_info
+        SET enable = false
+        WHERE vendorId = #{vendorId}
+    </update>
+
+    <delete id="deleteTransporter" parameterType="Long">
+        DELETE FROM transporters WHERE transporterId = #{transporterId}
+    </delete>
 </mapper>
 

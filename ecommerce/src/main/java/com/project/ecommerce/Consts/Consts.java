@@ -8,6 +8,9 @@ public class Consts {
     public static final String ROLE_VENDOR = "ROLE_VENDOR";
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
     public static final String ROLE_SHIPPER = "ROLE_SHIPPER";
+    public static final Boolean ACCOUNT_STATUS_DEACTIVATE = false;
+    public static final Boolean ACCOUNT_STATUS_ACTIVATE = true;
+
 
     public static final String ORDER_STATUS_PENDING = "PENDING";
     public static final String ORDER_STATUS_PROGRESSING = "PROGRESSING";
@@ -37,6 +40,11 @@ public class Consts {
     public static final String MSG_14_E = "MSG_14_E"; //Can't comment on product {0}!
     public static final String MSG_15_E = "MSG_15_E"; //Create review fail!
     public static final String MSG_16_E = "MSG_16_E"; //Receive order fail!
+    public static final String MSG_17_E = "MSG_17_E"; //This account has not been approved!
+    public static final String MSG_18_E = "MSG_18_E"; //Failed to approve account {0}!
+    public static final String MSG_19_E = "MSG_19_E"; //Failed to lock account {0}!
+    public static final String MSG_20_E = "MSG_20_E"; //Failed to remove account {0}!
+
 
 
 //-----------------------------------------------------------------------------------------------
@@ -56,4 +64,7 @@ public class Consts {
     public static final String MSG_14_I = "MSG_14_I"; //Review has been created successful!
     public static final String MSG_15_I = "MSG_15_I"; //Review has been saved successful!
     public static final String MSG_16_I = "MSG_16_I"; //Order {0} has been received!
+    public static final String MSG_18_I = "MSG_18_I"; //Account {0} has been approved successful!
+    public static final String MSG_19_I = "MSG_19_I"; //Account {0} has been locked successful!
+    public static final String MSG_20_I = "MSG_20_I"; //Account {0} has been removed successful!
 }

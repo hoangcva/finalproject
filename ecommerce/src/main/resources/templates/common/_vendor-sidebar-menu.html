@@ -7,11 +7,13 @@
 	        Vendor Page
         </a>
 		<a id="add-product" th:href="@{/vendor/show/category}"
-		   class="list-group-item list-group-item-action">
+		   class="list-group-item list-group-item-action"
+		   th:classappend="${vendorForm.enable eq 0}?'disabled':''">
 			Add product
 		</a>
 		<a id="view-product-list" th:href="@{/vendor/product/view}"
-		   class="list-group-item list-group-item-action">
+		   class="list-group-item list-group-item-action"
+		   th:classappend="${vendorForm.enable eq 0}?'disabled':''">
 			Show all vendor product
 		</a>
 		<a id="edit-profile" th:href="@{/vendor/info}"

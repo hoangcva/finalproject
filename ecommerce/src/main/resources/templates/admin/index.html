@@ -7,26 +7,26 @@
 <body>
 <!-- Include _header.html -->
 <th:block th:include="/common/_header"></th:block>
-<div class="container">
+<div class="container-fluid">
 	<div class="row">
-		<div class="col-lg">
-			<h2>Admin Page</h2>
+		<div class="col-lg-2"></div>
+		<div class="col-lg-8">
+			<h3>Admin Page</h3>
 		</div>
 	</div>
 	<div class="row">
 		<th:block th:include="/common/_admin-sidebar-menu"></th:block>
-
 		<div class="col-lg-8">
 			<div th:replace="fragments/template :: display-error-message"/>
-			<table>
+			<table class="table">
 				<thead>
 				<tr>
-					<th th:text="No"></th>
-					<th th:text="UserName"></th>
-					<th th:text="FullName"></th>
-					<th th:text="Email"></th>
-					<th th:text="Role"></th>
-					<th th:text="Action"></th>
+					<th scope="col" th:text="No"></th>
+					<th scope="col" th:text="UserName"></th>
+					<th scope="col" th:text="FullName"></th>
+					<th scope="col" th:text="Email"></th>
+					<th scope="col" th:text="Role"></th>
+					<th scope="col" th:text="Action"></th>
 				</tr>
 				</thead>
 				<tbody>

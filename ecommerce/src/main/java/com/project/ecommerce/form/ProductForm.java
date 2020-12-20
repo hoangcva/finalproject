@@ -1,7 +1,6 @@
 package com.project.ecommerce.form;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.List;
 
 public class ProductForm implements Serializable {
@@ -30,7 +29,7 @@ public class ProductForm implements Serializable {
     private String voltage;
 
     private String author;
-    private LocalDate releaseDate;
+    private String releaseDate;
     private Integer numberOfPages;
     private String language;
     private String publisher;
@@ -138,11 +137,11 @@ public class ProductForm implements Serializable {
         this.author = author;
     }
 
-    public LocalDate getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(LocalDate releaseDate) {
+    public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
 

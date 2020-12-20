@@ -1,5 +1,6 @@
 package com.project.ecommerce.controller;
 
+import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.Validator.VendorRegisterValidator;
 import com.project.ecommerce.dao.AddressMapper;
 import com.project.ecommerce.dao.CategoryMapper;
@@ -9,6 +10,7 @@ import com.project.ecommerce.dto.UserDetailsDto;
 import com.project.ecommerce.form.VendorForm;
 import com.project.ecommerce.service.IVendorService;
 import com.project.ecommerce.util.Message;
+import com.project.ecommerce.util.MessageAccessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -32,9 +34,19 @@ public class VendorController {
     private IVendorService vendorService;
     @Autowired
     private CategoryMapper categoryMapper;
+    @Autowired
+    private MessageAccessor messageAccessor;
 
     @GetMapping
-    public String index(Model model) {
+    public String index(Model model, Authentication auth) {
+        Long vendorId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
+        VendorForm vendorForm = vendorService.getInfo(vendorId);
+        Message result = new Message("", true);
+        if (!vendorForm.getEnable()) {
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_17_E));
+            result.setSuccess(false);
+        }
+        model.addAttribute("vendorForm", vendorForm);
         return "/vendor/index";
     }
 
