@@ -156,7 +156,7 @@ public class CustomerServiceImpl implements ICustomerService {
         Message result = new Message("", true);
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
-            favoriteMapper.removeItem(id);
+            favoriteMapper.removeItem1(id);
             //commit
             transactionManager.commit(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_23_I, ""));
@@ -166,5 +166,29 @@ public class CustomerServiceImpl implements ICustomerService {
             result.setSuccess(false);
         }
         return result;
+    }
+
+    @Override
+    public Message removeItem(Long productId, Long vendorId, Long customerId) {
+        Message result = new Message("", true);
+        TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        try {
+            favoriteMapper.removeItem2(productId, vendorId, customerId);
+            //commit
+            transactionManager.commit(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_23_I, ""));
+        } catch (Exception ex) {
+            transactionManager.rollback(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_23_E, ""));
+            result.setSuccess(false);
+        }
+        return result;
+    }
+
+    @Override
+    public boolean isLiked(Long productId, Long vendorId, Long customerId) {
+        int count = favoriteMapper.isLiked(productId, vendorId, customerId);
+        boolean isLiked = count > 0 ? true : false;
+        return isLiked;
     }
 }

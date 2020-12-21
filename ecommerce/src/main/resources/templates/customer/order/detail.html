@@ -6,8 +6,9 @@
 <body>
 <th:block th:include="/common/_header"></th:block>
 
-<div class="container">
+<div class="container-fluid">
 	<div class="row">
+		<div class="col-lg-2"></div>
 		<div class="col-lg-8 d-flex">
 			<h4 th:text="'Order ' + ${orderForm.orderDspId} + ' detail'"></h4>
 			<h4> - <b th:text="${orderForm.orderStatus}"></b></h4>

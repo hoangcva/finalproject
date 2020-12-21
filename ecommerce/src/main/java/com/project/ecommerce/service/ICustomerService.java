@@ -15,4 +15,6 @@ public interface ICustomerService {
     Message addProductToFavorite(Authentication auth, Long productId, Long vendorId);
     List<FavoriteForm> getFavorite(Long customerId);
     Message removeItem(Long id);
+    Message removeItem(Long productId, Long vendorId, Long customerId);
+    boolean isLiked(Long productId, Long vendorId, Long customerId);
 }

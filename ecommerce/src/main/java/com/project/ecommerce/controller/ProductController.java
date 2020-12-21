@@ -4,6 +4,7 @@ import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.Validator.ProductValidator;
 import com.project.ecommerce.dto.*;
 import com.project.ecommerce.form.*;
+import com.project.ecommerce.service.ICustomerService;
 import com.project.ecommerce.service.IProductService;
 import com.project.ecommerce.service.IUserService;
 import com.project.ecommerce.service.IVendorService;
@@ -35,6 +36,8 @@ public class ProductController {
     private ProductValidator productValidator;
     @Autowired
     private IVendorService vendorService;
+    @Autowired
+    private ICustomerService customerService;
 
     @GetMapping(value = "/vendor/show/category")
     public String showCategory(Model model, @ModelAttribute("vendorForm") VendorForm vendorForm) {
@@ -262,8 +265,14 @@ public class ProductController {
     @GetMapping(value = "/product/view/detail")
     public String viewProductDetail(Model model,
                                     @ModelAttribute("productId") Long productId,
-                                    @ModelAttribute("vendorId") Long vendorId) {
+                                    @ModelAttribute("vendorId") Long vendorId,
+                                    Authentication auth) {
         ProductForm productForm = productService.getProductDetail(productId, vendorId);
+        if (auth != null) {
+            Long customerId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
+            boolean isLiked = customerService.isLiked(productId, vendorId, customerId);
+            productForm.setLiked(isLiked);
+        }
         List<VendorProductForm> vendorList = productService.getVendorListByProduct(productId);
         VendorForm vendorForm = vendorService.getInfo(vendorId);
         model.addAttribute("vendorId", vendorId);

@@ -15,5 +15,11 @@ public interface FavoriteMapper {
                               @Param("customerId") Long customerId);
 
     List<FavoriteForm> getFavorite(@Param("customerId") Long customerId);
-    void removeItem(@Param("id") Long id);
+    void removeItem1(@Param("id") Long id);
+    void removeItem2(@Param("productId") Long productId,
+                     @Param("vendorId") Long vendorId,
+                     @Param("customerId") Long customerId);
+    int isLiked(@Param("productId") Long productId,
+                @Param("vendorId") Long vendorId,
+                @Param("customerId") Long customerId);
 }

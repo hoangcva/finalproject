@@ -107,11 +107,41 @@ function addProductToFavorite() {
         data: JSON.stringify(dataRequest),
         success : function (result) {
             alert(result.msg);
-            alert(result.responseJSON.msg);
+            // alert(result.responseJSON.msg);
+            $('#favorite-add').hide();
+            $('#favorite-remove').show();
         },
         error: function (result) {
             alert(result.msg);
-            alert(result.responseJSON.msg);
+            // alert(result.responseJSON.msg);
+        },
+    });
+}
+
+function removeProductFromFavorite() {
+    var productId = $('#productId').val();
+    var vendorId = $('#vendorId').val();
+
+    var dataRequest = {
+        productId: productId,
+        vendorId: vendorId,
+    };
+    $.ajax({
+        type:'POST',
+        url: '/customer/favorite/remove',
+        // headers: { 'X-CSRF-TOKEN': $("input[name='_csrf']").val()},
+        contentType: 'application/json',
+        dataType : 'json',
+        data: JSON.stringify(dataRequest),
+        success : function (result) {
+            alert(result.msg);
+            // alert(result.responseJSON.msg);
+            $('#favorite-add').show();
+            $('#favorite-remove').hide();
+        },
+        error: function (result) {
+            alert(result.msg);
+            // alert(result.responseJSON.msg);
         },
     });
 }

@@ -18,6 +18,9 @@ table.dataTable thead .sorting_desc_disabled:before {
 .show {
     display: block;
 }
+.show-inline {
+    display: inline-block;
+}
 
 .buy-quantity {
     width: auto;

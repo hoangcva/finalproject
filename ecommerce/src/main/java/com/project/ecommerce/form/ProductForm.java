@@ -55,7 +55,16 @@ public class ProductForm implements Serializable {
     private String delete2;
     private boolean isSubmitted = false;
     private String action;
+    private boolean isLiked;
 
+
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
+    }
 
     public String getAction() {
         return action;

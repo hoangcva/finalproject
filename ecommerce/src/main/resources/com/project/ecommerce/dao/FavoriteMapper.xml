@@ -4,25 +4,54 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.ecommerce.dao.FavoriteMapper">
-    <insert id="addProductToFavorite" parameterType="long" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    <resultMap id="ProductResultMap" type="com.project.ecommerce.form.FavoriteForm">
+        <id property="favoriteId" column="id" />
+        <result property="productId" column="productId" />
+        <result property="productName" column="productName"/>
+        <result property="SKU" column="SKU"/>
+        <result property="vendorId" column="vendorId"/>
+        <result property="vendorName" column="vendorName"/>
+        <result property="quantity" column="quantity"/>
+        <result property="price" column="price"/>
+        <result property="listPrice" column="listPrice"/>
+        <result property="rating" column="rating"/>
+        <result property="thumbnail" column="content"/>
+    </resultMap>
+
+    <insert id="addProductToFavorite" parameterType="long" useGeneratedKeys="true" keyColumn="id">
         INSERT INTO favorite (customerId, productId, vendorId)
         VALUES (#{customerId, jdbcType=BIGINT},
                 #{productId, jdbcType=BIGINT},
                 #{vendorId, jdbcType=BIGINT})
     </insert>
 
-    <select id="getFavorite" parameterType="Long">
+    <select id="getFavorite" parameterType="Long" resultMap="ProductResultMap">
         SELECT * FROM favorite f
         INNER JOIN (SELECT price, quantity, productId, vendorId FROM vendor_product) vp
             on vp.productId = f.productId AND vp.vendorId = f.vendorId
         INNER JOIN (SELECT productName, id, listPrice FROM product) p on p.id = f.productId
         INNER JOIN (SELECT vendorId, vendorName FROM vendor_info) v on v.vendorId = f.vendorId
+        INNER JOIN (SELECT content, productId FROM image where imageOrder = 1) i on i.productId = f.productId
         WHERE customerId = #{customerId}
     </select>
 
-    <delete id="removeItem" parameterType="Long">
+    <delete id="removeItem1" parameterType="Long">
         DELETE FROM favorite WHERE id = #{id}
     </delete>
+
+    <delete id="removeItem2" parameterType="Long">
+        DELETE FROM favorite
+        WHERE customerId = #{customerId}
+        AND vendorId = #{vendorId}
+        AND productId = #{productId}
+    </delete>
+
+    <select id="isLiked" parameterType="Long" resultType="int">
+        SELECT count(*) FROM favorite
+        WHERE customerId = #{customerId}
+          AND vendorId = #{vendorId}
+          AND productId = #{productId}
+    </select>
 
 </mapper>
 

@@ -74,14 +74,15 @@ public class CustomerController {
     }
 
     @PostMapping(value = "/favorite/add")
-    public ResponseEntity<?> addProductToCart(@RequestParam(value = "productId", required = false) Long productId,
-                                              @RequestParam(value = "vendorId", required = false) Long vendorId,
+    public ResponseEntity<?> addProductToFavorite(@RequestBody FavoriteForm favoriteForm,
                                               Authentication auth) {
-        Message result = customerService.addProductToFavorite(auth, productId, vendorId);
+        Message result = customerService.addProductToFavorite(auth, favoriteForm.getProductId(), favoriteForm.getVendorId());
+        HashMap<String, Object> message = new HashMap<>();
+        message.put("msg", result.getMessage());
         if (result.isSuccess()) {
-            return new ResponseEntity<>(result.getMessage(), HttpStatus.OK);
+            return new ResponseEntity<>(message, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(result.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -97,7 +98,21 @@ public class CustomerController {
             model.addAttribute("favoriteFormList", favoriteFormList);
         }
 
-        return "/customer/favorite";
+        return "/customer/favoritePage";
+    }
+
+    @PostMapping(value = "/favorite/remove")
+    public ResponseEntity<?> removeProductFromFavorite(@RequestBody FavoriteForm favoriteForm,
+                                              Authentication auth) {
+        Long customerId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
+        Message result = customerService.removeItem(favoriteForm.getProductId(), favoriteForm.getVendorId(), customerId);
+        HashMap<String, Object> message = new HashMap<>();
+        message.put("msg", result.getMessage());
+        if (result.isSuccess()) {
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

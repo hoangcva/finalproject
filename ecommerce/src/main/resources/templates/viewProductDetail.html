@@ -62,13 +62,22 @@
 							<div th:replace="fragments/template :: change-quantity(0, ${productForm.quantity})"></div>
 						</div>
 						<div>
-							<span onclick="addProductToFavorite()"><i class="far fa-heart"></i></span>
+							<span id="favorite-add" th:classappend="${productForm.liked eq true} ? 'hide' : 'show-inline'"
+							      onclick="addProductToFavorite()">
+								<i class="far fa-heart"></i>
+							</span>
+							<span id="favorite-remove" th:classappend="${productForm.liked eq true} ? 'show-inline' : 'hide'"
+							      onclick="removeProductFromFavorite()">
+								<i class="fas fa-heart text-danger"></i>
+							</span>
 							<input class="btn btn-primary d-inline-block" id="btn-submit" type="button" value="Buy"
 							       onclick="addProductToCart()" style="width: 250px" sec:authorize="isAuthenticated()">
-							<a class="nav-link" th:href="@{/login}">
-								<button class="btn btn-primary d-inline-block" id="btn-login"
-								        style="width: 250px" sec:authorize="!isAuthenticated()">Buy
-								</button>
+							<a th:href="@{/login}" class="btn btn-primary d-inline-block" id="btn-login"
+							   style="width: 250px" sec:authorize="!isAuthenticated()" role="button">
+<!--								<button class="btn btn-primary d-inline-block" id="btn-login"-->
+<!--								        style="width: 250px" sec:authorize="!isAuthenticated()">Buy-->
+<!--								</button>-->
+								Buy
 							</a>
 						</div>
 
@@ -221,6 +230,7 @@
 					</div>
 					<div>
 						<span class="text-break" th:text="${comment.content}"></span>
+						<input class="rating" type="hidden" th:field="*{rating}" data-readonly>
 					</div>
 				</div>
 				<div class="bg-light p-lg-2 text-center" th:if="*{#lists.size(commentFormList) eq 0}">
