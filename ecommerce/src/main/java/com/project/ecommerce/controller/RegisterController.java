@@ -43,7 +43,7 @@ public class RegisterController {
         UserRegisterForm userRegisterForm = new UserRegisterForm();
         List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
         model.addAttribute("provinceList", provinceDtoList);
-        model.addAttribute("user_form", userRegisterForm);
+        model.addAttribute("userRegisterForm", userRegisterForm);
         return "register";
     }
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.ecommerce.dao.FavoriteMapper">
+    <insert id="addProductToFavorite" parameterType="long" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO favorite (customerId, productId, vendorId)
+        VALUES (#{customerId, jdbcType=BIGINT},
+                #{productId, jdbcType=BIGINT},
+                #{vendorId, jdbcType=BIGINT})
+    </insert>
+
+    <select id="getFavorite" parameterType="Long">
+        SELECT * FROM favorite f
+        INNER JOIN (SELECT price, quantity, productId, vendorId FROM vendor_product) vp
+            on vp.productId = f.productId AND vp.vendorId = f.vendorId
+        INNER JOIN (SELECT productName, id, listPrice FROM product) p on p.id = f.productId
+        INNER JOIN (SELECT vendorId, vendorName FROM vendor_info) v on v.vendorId = f.vendorId
+        WHERE customerId = #{customerId}
+    </select>
+
+    <delete id="removeItem" parameterType="Long">
+        DELETE FROM favorite WHERE id = #{id}
+    </delete>
+
+</mapper>
+

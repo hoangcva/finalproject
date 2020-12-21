@@ -13,7 +13,9 @@
             <div class="col-lg-2"></div>
             <div class="col-lg-8">
                 <h3 class="d-block">Vendor page</h3>
-                <h5 th:if="${vendorForm.enable eq 0}"></h5>
+                <h5 th:if="${vendorForm.enable eq false}" class="alert-danger">
+                    Vendor haven't been approved yet!
+                </h5>
             </div>
         </div>
         <div class="row">

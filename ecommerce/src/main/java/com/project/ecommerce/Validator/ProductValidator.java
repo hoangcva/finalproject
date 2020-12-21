@@ -1,5 +1,6 @@
 package com.project.ecommerce.Validator;
 
+import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.dto.UserDto;
 import com.project.ecommerce.form.ProductForm;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,27 @@ public class ProductValidator implements Validator {
         ProductForm productForm = (ProductForm) target;
         int categoryId = productForm.getCategoryId();
         int subCategoryId = productForm.getSubCategoryId();
+
+        if (Consts.ACTION_ADDEXTEND.equals(productForm.getAction())) {
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "quantity", "NotEmpty.productForm.quantity");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "price", "NotEmpty.productForm.price");
+
+            if (!errors.hasFieldErrors("price")) {
+                if (productForm.getListPrice() < productForm.getPrice()) {
+                    errors.rejectValue("price", "Greater.productForm.Price");
+                } else if (productForm.getPrice() <= 0) {
+                    errors.rejectValue("price", "Invalid.productForm.price");
+                }
+            }
+
+            if (!errors.hasFieldErrors("quantity")) {
+                if (productForm.getQuantity() <= 0) {
+                    errors.rejectValue("quantity", "Invalid.productForm.quantity");
+                }
+            }
+
+            return;
+        }
 
         switch (categoryId) {
             case 1:

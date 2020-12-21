@@ -208,5 +208,11 @@
     <delete id="deleteTransporter" parameterType="Long">
         DELETE FROM transporters WHERE transporterId = #{transporterId}
     </delete>
+
+    <update id="changePassword" parameterType="com.project.ecommerce.dto.UserDto">
+        UPDATE users
+        SET password = #{password}
+        WHERE id = #{id}
+    </update>
 </mapper>
 

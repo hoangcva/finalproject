@@ -12,6 +12,7 @@ public class Consts {
     public static final Boolean ACCOUNT_STATUS_ACTIVATE = true;
     public static final String ACTION_REGISTER = "register";
     public static final String ACTION_UPDATE = "update";
+    public static final String ACTION_ADDEXTEND = "extend";
 
     public static final String ORDER_STATUS_PENDING = "PENDING";
     public static final String ORDER_STATUS_PROGRESSING = "PROGRESSING";
@@ -45,6 +46,9 @@ public class Consts {
     public static final String MSG_18_E = "MSG_18_E"; //Failed to approve account {0}!
     public static final String MSG_19_E = "MSG_19_E"; //Failed to lock account {0}!
     public static final String MSG_20_E = "MSG_20_E"; //Failed to remove account {0}!
+    public static final String MSG_21_E = "MSG_21_E"; //Failed to update password!
+    public static final String MSG_22_E = "MSG_22_E"; //Failed to add product to favorite!
+    public static final String MSG_23_E = "MSG_23_E"; //Failed to remove product!
 
 
 
@@ -65,7 +69,11 @@ public class Consts {
     public static final String MSG_14_I = "MSG_14_I"; //Review has been created successful!
     public static final String MSG_15_I = "MSG_15_I"; //Review has been saved successful!
     public static final String MSG_16_I = "MSG_16_I"; //Order {0} has been received!
+    public static final String MSG_17_I = "MSG_17_I"; //Favorite list empty!
     public static final String MSG_18_I = "MSG_18_I"; //Account {0} has been approved successful!
     public static final String MSG_19_I = "MSG_19_I"; //Account {0} has been locked successful!
     public static final String MSG_20_I = "MSG_20_I"; //Account {0} has been removed successful!
+    public static final String MSG_21_I = "MSG_21_I"; //Password has been updated successful!
+    public static final String MSG_22_I = "MSG_22_I"; //Product has been added to favorite successful!
+    public static final String MSG_23_I = "MSG_23_I"; //Product has been removed successful!
 }

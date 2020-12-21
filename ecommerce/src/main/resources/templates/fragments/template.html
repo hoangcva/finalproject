@@ -100,9 +100,9 @@
 
 <div th:fragment="change-quantity(buyQuantity, quantity)" class="change-quantity">
 	<div class="btn-group">
-		<div class="btn btn-minus" id="decrease-btn">-</div>
-		<input type="text" class="buy-quantity" name="buy-quantity" th:value="${buyQuantity}">
-		<div class="btn btn-plus" id="increase-btn">+</div>
+		<div class="btn btn-minus mr-0" id="decrease-btn"><i class="fas fa-minus"></i></div>
+		<input type="text" class="buy-quantity my-1" name="buy-quantity" th:value="${buyQuantity}">
+		<div class="btn btn-plus ml-0" id="increase-btn"><i class="fas fa-plus"></i></div>
 	</div>
 	<div class="text-center">
 		<span th:text="'( ' + ${quantity} +'products left)'"></span>
@@ -180,9 +180,12 @@
 	<div class="search form-row mb-4 pl-2">
 		<label for="keyword" text="Search product"></label>
 		<input class="form-control col-6 mr-2" type="text" id="keyword" th:name="keyword"
-		       placeholder="Enter product name/SKU">
-		<button id="btn-search" type="submit" th:text="search" class="btn btn-primary"
-		        th:onclick="'loadSearchResult();'"></button>
+		       placeholder="Enter product name/SKU" style="margin: 0.55em 0">
+		<button id="btn-search" type="submit" class="btn btn-primary"
+		        th:onclick="'loadSearchResult();'">
+			<i class="fas fa-search"></i>
+			search
+		</button>
 	</div>
 </div>
 

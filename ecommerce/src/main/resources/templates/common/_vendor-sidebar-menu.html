@@ -8,17 +8,21 @@
         </a>
 		<a id="add-product" th:href="@{/vendor/show/category}"
 		   class="list-group-item list-group-item-action"
-		   th:classappend="${vendorForm.enable eq 0}?'disabled':''">
+		   th:classappend="${vendorForm.enable eq false}?'disabled':''">
 			Add product
 		</a>
 		<a id="view-product-list" th:href="@{/vendor/product/view}"
 		   class="list-group-item list-group-item-action"
-		   th:classappend="${vendorForm.enable eq 0}?'disabled':''">
+		   th:classappend="${vendorForm.enable eq false}?'disabled':''">
 			Show all vendor product
 		</a>
 		<a id="edit-profile" th:href="@{/vendor/info}"
 		   class="list-group-item list-group-item-action">
 			Update profile
+		</a>
+		<a id="change-password" th:href="@{/user/update/password}"
+		   class="list-group-item list-group-item-action">
+			Change password
 		</a>
 		<!--			<a id="show-all-vendor-product" th:href="@{/showProducts}" class="list-group-item list-group-item-action">Show all product</a>-->
 	</div>

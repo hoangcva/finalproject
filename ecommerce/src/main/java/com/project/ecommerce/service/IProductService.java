@@ -15,6 +15,7 @@ import java.util.List;
 
 public interface IProductService {
     Message addProduct(ProductForm productForm, Long vendorId);
+    Message addProductExtend(ProductForm productForm, Long id);
     List<CategoryDto> getAllCategory();
     List<SubCategoryDto> getALLSubCategory();
     void updateProduct(ProductForm productForm);
@@ -26,6 +27,7 @@ public interface IProductService {
     List<CategoryForm> getCategory();
     List<ProductForm> getProducts(Integer categoryId, Integer supCategoryId, String keyword);
     ProductForm getProductDetail(Long productId, Long vendorId);
+    ProductForm getProductDetailExtend(Long productId);
 
     CategoryDto findCategory(Integer categoryId);
     SubCategoryDto findSubCategory(Integer subCategoryId);

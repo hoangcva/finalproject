@@ -54,6 +54,16 @@ public class ProductForm implements Serializable {
     private UploadImageForm uploadImage3;
     private String delete2;
     private boolean isSubmitted = false;
+    private String action;
+
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
 
     private List<CommentForm> commentFormList;
 

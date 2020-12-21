@@ -90,4 +90,28 @@ function addProductToCart() {
     });
 }
 
+function addProductToFavorite() {
+    var productId = $('#productId').val();
+    var vendorId = $('#vendorId').val();
 
+    var dataRequest = {
+        productId: productId,
+        vendorId: vendorId,
+    };
+    $.ajax({
+        type:'POST',
+        url: '/customer/favorite/add',
+        // headers: { 'X-CSRF-TOKEN': $("input[name='_csrf']").val()},
+        contentType: 'application/json',
+        dataType : 'json',
+        data: JSON.stringify(dataRequest),
+        success : function (result) {
+            alert(result.msg);
+            alert(result.responseJSON.msg);
+        },
+        error: function (result) {
+            alert(result.msg);
+            alert(result.responseJSON.msg);
+        },
+    });
+}

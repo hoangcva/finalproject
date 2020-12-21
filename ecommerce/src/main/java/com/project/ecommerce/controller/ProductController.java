@@ -1,5 +1,6 @@
 package com.project.ecommerce.controller;
 
+import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.Validator.ProductValidator;
 import com.project.ecommerce.dto.*;
 import com.project.ecommerce.form.*;
@@ -36,7 +37,7 @@ public class ProductController {
     private IVendorService vendorService;
 
     @GetMapping(value = "/vendor/show/category")
-    public String showCategory(Model model) {
+    public String showCategory(Model model, @ModelAttribute("vendorForm") VendorForm vendorForm) {
         // load danh sach category
         List<CategoryDto> categoryDtoList= productService.getAllCategory();
         // load danh sach sub-category
@@ -67,7 +68,10 @@ public class ProductController {
 //    }
 
     @GetMapping(value = "/vendor/product/add/detail")
-    public String showDetail(@ModelAttribute("productForm") ProductForm productForm, Model model, HttpServletRequest request) {
+    public String showDetail(@ModelAttribute("productForm") ProductForm productForm,
+                             @ModelAttribute("vendorForm") VendorForm vendorForm,
+                             Model model,
+                             HttpServletRequest request) {
 //        List<CategoryDto> categoryDtoList = (List<CategoryDto>) request.getSession().getAttribute("categoryDtoList");
 //        List<SubCategoryDto> subCategoryDtoList = (List<SubCategoryDto>) request.getSession().getAttribute("subCategoryDtoList");
 
@@ -100,9 +104,10 @@ public class ProductController {
     @GetMapping(value = "/vendor/product/add/detailExtend")
     public String showDetail(@ModelAttribute("productId") Long productId,
                              @ModelAttribute("vendorId") Long vendorId,
+                             @ModelAttribute("vendorForm") VendorForm vendorForm,
                              Model model,
                              HttpServletRequest request) {
-        ProductForm productForm = productService.getProductDetail(productId, vendorId);
+        ProductForm productForm = productService.getProductDetailExtend(productId);
 
         CategoryDto categoryDto = productService.findCategory(productForm.getCategoryId());
         SubCategoryDto subCategoryDto = productService.findSubCategory(productForm.getSubCategoryId());
@@ -112,6 +117,7 @@ public class ProductController {
         List<CountriesDto> countriesDtoList = productService.getCountries();
         productForm.setCategoryName(categoryName);
         productForm.setSubCategoryName(subCategoryName);
+        productForm.setAction(Consts.ACTION_ADDEXTEND);
         model.addAttribute("categoryName", categoryName);
         model.addAttribute("subCategoryName", subCategoryName);
         model.addAttribute("productForm", productForm);
@@ -135,6 +141,7 @@ public class ProductController {
 
     @PostMapping(value = "/vendor/product/add/detail")
     public String addProduct(@ModelAttribute("productForm") @Validated ProductForm productForm,
+                             @ModelAttribute("vendorForm") VendorForm vendorForm,
                              BindingResult bindingResult,
                              Model model,
                              final RedirectAttributes redirectAttributes,
@@ -149,19 +156,27 @@ public class ProductController {
             model.addAttribute("subCategoryName", productForm.getSubCategoryName());
             return "vendor/addProductDetail";
         }
-        Message result = productService.addProduct(productForm, id);
+        Message result = new Message("", true);
+        if (Consts.ACTION_ADDEXTEND.equals(productForm.getAction())) {
+            result = productService.addProductExtend(productForm, id);
+        } else {
+            result = productService.addProduct(productForm, id);
+        }
         redirectAttributes.addFlashAttribute("message", result.getMessage());
         redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
         return "redirect:/vendor/success";
     }
 
     @GetMapping("/vendor/success")
-    public String success(Model model) {
+    public String success(Model model,
+                          @ModelAttribute("vendorForm") VendorForm vendorForm) {
         return "/vendor/success";
     }
 
     @GetMapping(value = "/vendor/product/view")
-    public String getAllProductByVendorId(Model model, Authentication auth) {
+    public String getAllProductByVendorId(Model model,
+                                          Authentication auth,
+                                          @ModelAttribute("vendorForm") VendorForm vendorForm) {
         Long vendorId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
         List<ProductForm> productFormList = productService.getAllProductByVendorId(vendorId);
         model.addAttribute("productFormList", productFormList);
@@ -169,7 +184,9 @@ public class ProductController {
     }
 
     @GetMapping(value = "/vendor/product/edit")
-    public String getEditProduct(@ModelAttribute("productId") Long productId, Model model, Authentication auth) {
+    public String getEditProduct(@ModelAttribute("productId") Long productId,
+                                 @ModelAttribute("vendorForm") VendorForm vendorForm,
+                                 Model model, Authentication auth) {
         List<CategoryDto> categoryDtoList= productService.getAllCategory();
         List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
         ProductForm productForm = productService.getVendorProduct(productId);
@@ -197,6 +214,7 @@ public class ProductController {
 
     @PostMapping(value = "/vendor/product/edit")
     public String editProduct(@ModelAttribute("productForm") @Validated ProductForm productForm,
+                              @ModelAttribute("vendorForm") VendorForm vendorForm,
                               BindingResult result,
                               Model model,
                               final RedirectAttributes redirectAttributes,
@@ -215,7 +233,8 @@ public class ProductController {
     }
 
     @PostMapping(value = "/vendor/product/delete")
-    public String deleteProduct(@RequestParam Long productId) {
+    public String deleteProduct(@RequestParam Long productId,
+                                @ModelAttribute("vendorForm") VendorForm vendorForm) {
         productService.deleteProduct(productId);
         return null;
     }
@@ -241,7 +260,9 @@ public class ProductController {
     }
 
     @GetMapping(value = "/product/view/detail")
-    public String viewProductDetail(Model model, @ModelAttribute("productId") Long productId, @ModelAttribute("vendorId") Long vendorId ) {
+    public String viewProductDetail(Model model,
+                                    @ModelAttribute("productId") Long productId,
+                                    @ModelAttribute("vendorId") Long vendorId) {
         ProductForm productForm = productService.getProductDetail(productId, vendorId);
         List<VendorProductForm> vendorList = productService.getVendorListByProduct(productId);
         VendorForm vendorForm = vendorService.getInfo(vendorId);
@@ -281,7 +302,8 @@ public class ProductController {
                                           @RequestParam(value = "keyword", required = false) String keyword,
                                           final RedirectAttributes redirectAttributes,
                                           ModelMap modelMap,
-                                          Authentication auth) {
+                                          Authentication auth,
+                                          @ModelAttribute("vendorForm") VendorForm vendorForm) {
         List<ProductForm> productFormList = productService.getProducts(null, null, keyword);
         List<ProductForm> tempList = new ArrayList<>();
 
@@ -308,10 +330,11 @@ public class ProductController {
 
     @GetMapping(value = "/vendor/product/view/search")
     public String searchProductVendor(HttpServletRequest request,Model model,
-                                          @RequestParam(value = "keyword", required = false) String keyword,
-                                          final RedirectAttributes redirectAttributes,
-                                          ModelMap modelMap,
-                                          Authentication auth) {
+                                      @RequestParam(value = "keyword", required = false) String keyword,
+                                      final RedirectAttributes redirectAttributes,
+                                      ModelMap modelMap,
+                                      Authentication auth,
+                                      @ModelAttribute("vendorForm") VendorForm vendorForm) {
         List<ProductForm> productFormList = productService.getProducts(null, null, keyword);
         List<ProductForm> tempList = new ArrayList<>();
         if (productFormList.size() > 0) {

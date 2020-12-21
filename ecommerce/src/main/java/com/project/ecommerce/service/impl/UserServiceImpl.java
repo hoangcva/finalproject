@@ -6,6 +6,7 @@ import com.project.ecommerce.dao.UserMapper;
 import com.project.ecommerce.dto.UserDetailsDto;
 import com.project.ecommerce.dto.UserDto;
 import com.project.ecommerce.dto.VendorDto;
+import com.project.ecommerce.form.PasswordForm;
 import com.project.ecommerce.form.UserRegisterForm;
 import com.project.ecommerce.form.UserUpdateForm;
 import com.project.ecommerce.form.VendorForm;
@@ -15,6 +16,7 @@ import com.project.ecommerce.util.MessageAccessor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -160,6 +162,27 @@ public class UserServiceImpl implements IUserService {
             result.setMessage(messageAccessor.getMessage(Consts.MSG_18_I, vendorDto.getUserName()));
         } else {
             result.setMessage(messageAccessor.getMessage(Consts.MSG_19_I, vendorDto.getUserName()));
+        }
+        return result;
+    }
+
+    @Override
+    public Message changePassword(PasswordForm passwordForm, Authentication auth) {
+        Message result = new Message("", true);
+        Long userId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
+        TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        try {
+            UserDto userDto = new UserDto();
+            userDto.setId(userId);
+            userDto.setPassword(encoder.encode(passwordForm.getNewPassword()));
+            userMapper.changePassword(userDto);
+            //commit
+            transactionManager.commit(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_21_I));
+        } catch (Exception ex) {
+            transactionManager.rollback(txStatus);
+            result.setSuccess(false);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_21_E));
         }
         return result;
     }

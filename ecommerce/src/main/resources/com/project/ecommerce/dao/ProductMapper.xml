@@ -111,7 +111,7 @@
     <select id="getAllProduct" parameterType="map" resultMap="ProductResultMap" fetchSize="200">
         SELECT p.id, p.productName, p.categoryId, p.subCategoryId, p.listPrice,
                p.createdBy, p.created_time, p.origin, p.brand, p.SKU,
-               vp.vendorId, vp.price, vp.quantity, vp.rating, vp.productId, vp.createdTime, vp.updatedTime
+            vp.vendorId, vp.price, vp.quantity, vp.rating, vp.productId, vp.createdTime, vp.updatedTime
         FROM product p
         INNER JOIN
             ( SELECT v.vendorId, v.quantity, v.rating, v.price, v.productId, v.createdTime, v.updatedTime
@@ -131,6 +131,7 @@
                     OR SKU LIKE #{keyword})
             </if>
         </where>
+#         GROUP BY p.id, vp.productId
         ORDER BY RAND()
         LIMIT 100
     </select>
@@ -148,21 +149,12 @@
         LEFT JOIN
                 (SELECT vendorName, vendorId FROM vendor_info) t2
                  ON t1.vendorId = t2.vendorId;
-#         LEFT JOIN
-#                 (SELECT size, material, color, productId FROM category1_fashion_detail) c1
-#                 ON c1.productId = t1.id
-#         LEFT JOIN
-#                 (SELECT model, type, framePerSecond, weight, size, voltage, productId FROM category2_sub1_tivi_detail) c2
-#                 ON c2.productId = t1.id
-#         LEFT JOIN
-#                 (SELECT productId, model, capacity, power, voltage FROM category2_sub2_cooker_detail) c3
-#                 ON c3.productId = t1.id
-#         LEFT JOIN
-#                 (SELECT size, model, voltage, capacity, productId FROM category2_sub3_fridge_detail) c4
-#                 ON c4.productId = t1.id
-#         LEFT JOIN
-#                 (SELECT author, releaseDate, numberOfPages, language, publisher, productId FROM category3_book_detail) c5
-#                 ON c5.productId = t1.id
+    </select>
+
+    <select id="getProductDetailExtend" resultMap="ProductResultMap" fetchSize="200">
+        SELECT *
+        FROM  product p
+        WHERE p.id = #{productId}
     </select>
 
     <select id="getVendorListByProduct" resultMap="VendorResultMap" fetchSize="200">

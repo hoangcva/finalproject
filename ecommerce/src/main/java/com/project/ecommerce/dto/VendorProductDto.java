@@ -9,24 +9,16 @@ public class VendorProductDto implements Serializable {
     private Long quantity;
     private Long price;
     private Integer rating;
-    private String size;
-    private String color;
-    private String subjectAge;
-    private String material;
 
     public VendorProductDto() {
     }
 
-    public VendorProductDto(Long vendorId, Long productId, Long quantity, Long price, Integer rating, String size, String color, String subjectAge, String material) {
+    public VendorProductDto(Long vendorId, Long productId, Long quantity, Long price, Integer rating) {
         this.vendorId = vendorId;
         this.productId = productId;
         this.quantity = quantity;
         this.price = price;
         this.rating = rating;
-        this.size = size;
-        this.color = color;
-        this.subjectAge = subjectAge;
-        this.material = material;
     }
 
     public Long getVendorId() {
@@ -71,37 +63,5 @@ public class VendorProductDto implements Serializable {
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public String getSubjectAge() {
-        return subjectAge;
-    }
-
-    public void setSubjectAge(String subjectAge) {
-        this.subjectAge = subjectAge;
-    }
-
-    public String getMaterial() {
-        return material;
-    }
-
-    public void setMaterial(String material) {
-        this.material = material;
     }
 }

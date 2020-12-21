@@ -2,10 +2,12 @@ package com.project.ecommerce.service.impl;
 
 import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.dao.CommentMapper;
+import com.project.ecommerce.dao.FavoriteMapper;
 import com.project.ecommerce.dao.OrderMapper;
 import com.project.ecommerce.dao.UserMapper;
 import com.project.ecommerce.dto.*;
 import com.project.ecommerce.form.CommentForm;
+import com.project.ecommerce.form.FavoriteForm;
 import com.project.ecommerce.service.ICustomerService;
 import com.project.ecommerce.service.IUserService;
 import com.project.ecommerce.util.Message;
@@ -36,6 +38,8 @@ public class CustomerServiceImpl implements ICustomerService {
     private IUserService userService;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private FavoriteMapper favoriteMapper;
 
     @Override
     public Message createComment(Long orderId, Authentication auth) {
@@ -121,5 +125,46 @@ public class CustomerServiceImpl implements ICustomerService {
             commentForm.setCreatedTime(new SimpleDateFormat(Consts.TIME_FORMAT_MMddyyyyHHmmss).format(commentDto.getCreatedTime()));
         }
         return commentForm;
+    }
+
+    @Override
+    public Message addProductToFavorite(Authentication auth, Long productId, Long vendorId) {
+        Message result = new Message("", true);
+        Long customerId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
+        TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        try {
+            favoriteMapper.addProductToFavorite(productId, vendorId, customerId);
+            //commit
+            transactionManager.commit(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_22_I, ""));
+        } catch (Exception ex) {
+            transactionManager.rollback(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_22_E, ""));
+            result.setSuccess(false);
+        }
+        return result;
+    }
+
+    @Override
+    public List<FavoriteForm> getFavorite(Long customerId) {
+        List<FavoriteForm> favoriteFormList = favoriteMapper.getFavorite(customerId);
+        return favoriteFormList;
+    }
+
+    @Override
+    public Message removeItem(Long id) {
+        Message result = new Message("", true);
+        TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        try {
+            favoriteMapper.removeItem(id);
+            //commit
+            transactionManager.commit(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_23_I, ""));
+        } catch (Exception ex) {
+            transactionManager.rollback(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_23_E, ""));
+            result.setSuccess(false);
+        }
+        return result;
     }
 }

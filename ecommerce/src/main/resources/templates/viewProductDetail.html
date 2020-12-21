@@ -61,13 +61,17 @@
 						<div class="mb-lg-3 mr-3 pb-lg-3">
 							<div th:replace="fragments/template :: change-quantity(0, ${productForm.quantity})"></div>
 						</div>
-						<input class="btn btn-primary d-inline-block" id="btn-submit" type="button" value="Buy"
-						       onclick="addProductToCart()" style="width: 250px" sec:authorize="isAuthenticated()">
-						<a class="nav-link" th:href="@{/login}">
-							<button class="btn btn-primary d-inline-block" id="btn-login"
-							        style="width: 250px" sec:authorize="!isAuthenticated()">Buy
-							</button>
-						</a>
+						<div>
+							<span onclick="addProductToFavorite()"><i class="far fa-heart"></i></span>
+							<input class="btn btn-primary d-inline-block" id="btn-submit" type="button" value="Buy"
+							       onclick="addProductToCart()" style="width: 250px" sec:authorize="isAuthenticated()">
+							<a class="nav-link" th:href="@{/login}">
+								<button class="btn btn-primary d-inline-block" id="btn-login"
+								        style="width: 250px" sec:authorize="!isAuthenticated()">Buy
+								</button>
+							</a>
+						</div>
+
 					</div>
 					<div class="col-sm-5" style="position : absolute; right : 0">
 						<div class="font-weight-bolder" th:text="${vendorForm.vendorName}"></div>
@@ -180,14 +184,20 @@
 					<h4>Other vendor</h4>
 				</div>
 				<div class="bg-light p-lg-2">
-					<ul th:each="vendor: ${vendorList}">
-						<li th:unless="${vendor.vendorId eq vendorId}">
-							<a th:href="@{/product/view/detail(productId = ${vendor.productId}, vendorId = ${vendor.vendorId})}">
-								<span class="d-block mb-lg-1" th:text="${vendor.fullName}"></span>
-								<span th:value="${vendor.price}"></span>
-							</a>
-						</li>
-					</ul>
+					<table class="table border-0">
+						<tbody>
+						<tr th:each="vendor: ${vendorList}" th:unless="${vendor.vendorId eq vendorId}">
+							<td>
+								<a th:href="@{/product/view/detail(productId = ${vendor.productId}, vendorId = ${vendor.vendorId})}">
+									<span class="d-block mb-lg-1" th:text="${vendor.fullName}"></span>
+								</a>
+							</td>
+							<td>
+								<span class="money" th:text="${vendor.price}"></span>
+							</td>
+						</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>
@@ -226,7 +236,7 @@
 </div>
 
 </body>
-<script type="text/javascript" th:src="@{/js/customer/viewProductDetail.js}"></script>
+<script type="text/javascript" th:src="@{/js/viewProductDetail.js}"></script>
 <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/customer/viewProductDetail.css}"
       href="../../css/customer/viewProductDetail.css">
 </html>

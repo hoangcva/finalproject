@@ -30,6 +30,7 @@ public interface ProductMapper {
 
     ProductForm getProductDetail(@Param("productId") long productId,
                                  @Param("vendorId") long vendorId);
+    ProductForm getProductDetailExtend(@Param("productId") long productId);
 
     List<VendorProductForm> getVendorListByProduct(@Param("productId") Long productId);
 

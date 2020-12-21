@@ -11,9 +11,10 @@
 }
 
 .symbol-filled {
-  background-color: yellow;
+  background-color: black;
 }
 
-.fa-star {
-  background-color: yellow;
+.star-filled {
+  /*background-color: yellow;*/
+  color: #ffc107;
 }

@@ -20,6 +20,7 @@ public interface UserMapper {
     void createUser(UserDto userDto);
     void updateUser(UserDto userDto);
     boolean deleteUser(@Param("userId") Long userId);
+    void changePassword(UserDto userDto);
 
     VendorDto findVendorByEmail(@Param("email") String email);
     int findVendorByUserName(@Param("userName") String userName);

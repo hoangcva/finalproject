@@ -65,11 +65,7 @@ public class ProductServiceImpl implements IProductService {
                                                                     productDto.getId(),
                                                                     productForm.getQuantity(),
                                                                     productForm.getPrice(),
-                                                                    productForm.getRating(),
-                                                                    productForm.getSize(),
-                                                                    productForm.getColor(),
-                                                                    productForm.getSubjectAge(),
-                                                                    productForm.getMaterial());
+                                                                    productForm.getRating());
             productMapper.insertVendorProduct(vendorProductDto);
             int categoryId = productForm.getCategoryId();
             int subCategoryId = productForm.getSubCategoryId();
@@ -87,6 +83,27 @@ public class ProductServiceImpl implements IProductService {
                 productMapper.insertDetailCategory3(productForm);
             }
             doUploadImage(productForm);
+            transactionManager.commit(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_07_I));
+        } catch (Exception ex) {
+            transactionManager.rollback(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_07_E));
+            result.setSuccess(false);
+        }
+        return result;
+    }
+
+    @Override
+    public Message addProductExtend(ProductForm productForm, Long id) {
+        Message result = new Message("", true);
+        TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        try {
+            VendorProductDto vendorProductDto = new VendorProductDto( id,
+                                                                    productForm.getProductId(),
+                                                                    productForm.getQuantity(),
+                                                                    productForm.getPrice(),
+                                                                    null);
+            productMapper.insertVendorProduct(vendorProductDto);
             transactionManager.commit(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_07_I));
         } catch (Exception ex) {
@@ -256,6 +273,16 @@ public class ProductServiceImpl implements IProductService {
             commentFormList.add(commentForm);
         }
         productForm.setCommentFormList(commentFormList);
+        productForm = setDetail(productDetail, productForm);
+        List<ProductImageForm> productImageFormList = getProductImage(productForm.getProductId());
+        productForm.setProductImageFormList(productImageFormList);
+        return productForm ;
+    }
+
+    @Override
+    public ProductForm getProductDetailExtend(Long productId) {
+        ProductForm productForm = productMapper.getProductDetailExtend(productId);
+        ProductForm productDetail = productMapper.getProductDetailBaseOnCategory(productForm);
         productForm = setDetail(productDetail, productForm);
         List<ProductImageForm> productImageFormList = getProductImage(productForm.getProductId());
         productForm.setProductImageFormList(productImageFormList);

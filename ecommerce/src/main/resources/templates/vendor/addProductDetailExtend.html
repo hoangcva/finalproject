@@ -12,246 +12,259 @@
 			<form th:action="@{/vendor/product/add/detail}" th:object="${productForm}" th:method="POST"
 			      enctype="multipart/form-data">
 				<div class="main-content container">
-					<fieldset disabled>
-						<div class="form-group">
-							<label for="category">Category:</label>
-							<div class="form-control" style="display: inline-block" id="category">
-								<span th:text="${categoryName}"></span>
-								<span> > </span>
-								<span th:text="${subCategoryName}"></span>
-							</div>
-							<input type="hidden" th:field="*{categoryId}">
-							<input type="hidden" th:field="*{subCategoryId}">
-							<input type="hidden" name="categoryName" th:field="*{categoryName}">
-							<input type="hidden" name="subCategoryName" th:field="*{subCategoryName}">
+					<div class="form-group">
+						<label for="category">Category:</label>
+						<div class="form-control" style="display: inline-block" id="category">
+							<span th:text="${categoryName}"></span>
+							<span> > </span>
+							<span th:text="${subCategoryName}"></span>
 						</div>
-						<div class="form-group">
-							<label for="productName">Product name:</label>
-							<input class="form-control" placeholder="Enter product name"
-							       th:classappend="${(#fields.hasErrors('productName')?'is-invalid':'')
+						<input type="hidden" th:field="*{categoryId}">
+						<input type="hidden" th:field="*{subCategoryId}">
+						<input type="hidden" name="categoryName" th:field="*{categoryName}">
+						<input type="hidden" name="subCategoryName" th:field="*{subCategoryName}">
+					</div>
+					<div class="form-group">
+						<label for="productName">Product name:</label>
+						<input class="form-control" placeholder="Enter product name" disabled
+						       th:classappend="${(#fields.hasErrors('productName')?'is-invalid':'')
                            + (!#fields.hasErrors('productName') and productForm.isSubmitted() ? 'is-valid':'')}"
-							       type="text" id="productName" name="productName" th:field="*{productName}">
-							<label class="invalid-feedback" th:if="${#fields.hasErrors('productName')}"
-							       th:errors="*{productName}"></label>
-						</div>
-						<hr class="my-4">
-						<div class="form-row">
-							<div class="form-group col-3">
-								<label for="brand">Brand:</label>
-								<input class="form-control" type="text" id="brand" name="brand"
-								       placeholder="Enter brand" th:field="*{brand}"
-								       th:classappend="${(#fields.hasErrors('brand')?'is-invalid':'')
+						       type="text" id="productName" name="productName" th:field="*{productName}">
+						<label class="invalid-feedback" th:if="${#fields.hasErrors('productName')}"
+						       th:errors="*{productName}"></label>
+<!--						<input type="hidden" th:field="*{productName}">-->
+					</div>
+					<hr class="my-4">
+					<div class="form-row">
+						<div class="form-group col-3">
+							<label for="brand">Brand:</label>
+							<input class="form-control" type="text" id="brand" name="brand"
+							       placeholder="Enter brand" th:field="*{brand}" disabled
+							       th:classappend="${(#fields.hasErrors('brand')?'is-invalid':'')
                                + (!#fields.hasErrors('brand') and productForm.isSubmitted() ? 'is-valid':'')}">
-								<label class="invalid-feedback" th:if="${#fields.hasErrors('brand')}"
-								       th:errors="*{brand}"></label>
-							</div>
-							<div class="form-group col-3">
-								<label for="origin">Origin:</label>
-								<select class="custom-select form-control" id="origin" name="origin"
-								        th:field="*{origin}"
-								        th:classappend="${(#fields.hasErrors('origin')?'is-invalid':'')
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('brand')}"
+							       th:errors="*{brand}"></label>
+<!--							<input type="hidden" th:field="*{brand}">-->
+						</div>
+						<div class="form-group col-3">
+							<label for="origin">Origin:</label>
+							<select class="custom-select form-control" id="origin" name="origin"
+							        th:field="*{origin}" disabled
+							        th:classappend="${(#fields.hasErrors('origin')?'is-invalid':'')
                                + (!#fields.hasErrors('origin') and productForm.isSubmitted() ? 'is-valid':'')}">
-									<option value="0" selected disabled text="Country"></option>
-									<option th:each="country : ${countriesDtoList}"
-									        th:value="${country.name}"
-									        th:text="${country.name}"></option>
-								</select>
-								<label class="invalid-feedback" th:if="${#fields.hasErrors('origin')}"
-								       th:errors="*{origin}"></label>
-							</div>
+								<option value="0" selected disabled text="Country"></option>
+								<option th:each="country : ${countriesDtoList}"
+								        th:value="${country.name}"
+								        th:text="${country.name}"></option>
+							</select>
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('origin')}"
+							       th:errors="*{origin}"></label>
+<!--							<input type="hidden" th:field="*{origin}">-->
 						</div>
+					</div>
 
-						<div class="form-row" th:if="*{categoryId eq 1}">
-							<div class="form-group col">
-								<label for="size">Size:</label>
-								<input class="form-control" type="text" id="size" name="size"
-								       placeholder="Enter size" th:field="*{size}"
-								       th:classappend="${(#fields.hasErrors('size')?'is-invalid':'')
+					<div class="form-row" th:if="*{categoryId eq 1}">
+						<div class="form-group col">
+							<label for="size">Size:</label>
+							<input class="form-control" type="text" id="size" name="size"
+							       placeholder="Enter size" th:field="*{size}" disabled
+							       th:classappend="${(#fields.hasErrors('size')?'is-invalid':'')
                                 + (!#fields.hasErrors('size') and productForm.isSubmitted() ? 'is-valid':'')}">
-								<label class="invalid-feedback" th:if="${#fields.hasErrors('size')}"
-								       th:errors="*{size}"></label>
-							</div>
-							<div class="form-group col">
-								<label for="color">Color:</label>
-								<input class="form-control" type="text" id="color" name="color"
-								       placeholder="Enter color" th:field="*{color}"
-								       th:classappend="${(#fields.hasErrors('color')?'is-invalid':'')
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('size')}"
+							       th:errors="*{size}"></label>
+<!--							<input type="hidden" th:field="*{size}">-->
+						</div>
+						<div class="form-group col">
+							<label for="color">Color:</label>
+							<input class="form-control" type="text" id="color" name="color"
+							       placeholder="Enter color" th:field="*{color}" disabled
+							       th:classappend="${(#fields.hasErrors('color')?'is-invalid':'')
                                 + (!#fields.hasErrors('color') and productForm.isSubmitted() ? 'is-valid':'')}">
-								<label class="invalid-feedback" th:if="${#fields.hasErrors('color')}"
-								       th:errors="*{color}"></label>
-							</div>
-							<div class="form-group col">
-								<label for="material">Material:</label>
-								<input class="form-control" type="text" id="material" name="material"
-								       placeholder="Enter material" th:field="*{material}"
-								       th:classappend="${(#fields.hasErrors('material')?'is-invalid':'')
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('color')}"
+							       th:errors="*{color}"></label>
+<!--							<input type="hidden" th:field="*{color}">-->
+						</div>
+						<div class="form-group col">
+							<label for="material">Material:</label>
+							<input class="form-control" type="text" id="material" name="material"
+							       placeholder="Enter material" th:field="*{material}" disabled
+							       th:classappend="${(#fields.hasErrors('material')?'is-invalid':'')
                                 + (!#fields.hasErrors('material') and productForm.isSubmitted() ? 'is-valid':'')}">
-								<label class="invalid-feedback" th:if="${#fields.hasErrors('material')}"
-								       th:errors="*{material}"></label>
-							</div>
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('material')}"
+							       th:errors="*{material}"></label>
+<!--							<input type="hidden" th:field="*{material}">-->
 						</div>
+					</div>
 
-						<div class="form-row" th:if="*{categoryId eq 2}">
-							<div class="form-group col" th:if="*{subCategoryId eq 1 or subCategoryId eq 3}">
-								<label for="size3">Size:</label>
-								<input class="form-control" type="text" id="size3" name="size3"
-								       placeholder="Enter size" th:field="*{size}"
-								       th:classappend="${(#fields.hasErrors('size')?'is-invalid':'')
+					<div class="form-row" th:if="*{categoryId eq 2}">
+						<div class="form-group col" th:if="*{subCategoryId eq 1 or subCategoryId eq 3}">
+							<label for="size3">Size:</label>
+							<input class="form-control" type="text" id="size3" name="size3"
+							       placeholder="Enter size" th:field="*{size}" disabled
+							       th:classappend="${(#fields.hasErrors('size')?'is-invalid':'')
                                 + (!#fields.hasErrors('size') and productForm.isSubmitted() ? 'is-valid':'')}">
-								<label class="invalid-feedback" th:if="${#fields.hasErrors('size')}"
-								       th:errors="*{size}"></label>
-							</div>
-							<div class="form-group col">
-								<label for="model">Model:</label>
-								<input class="form-control" type="text" id="model" name="model"
-								       placeholder="Enter model" th:field="*{model}"
-								       th:classappend="${(#fields.hasErrors('model')?'is-invalid':'')
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('size')}"
+							       th:errors="*{size}"></label>
+<!--							<input type="hidden" th:field="*{size}">-->
+						</div>
+						<div class="form-group col">
+							<label for="model">Model:</label>
+							<input class="form-control" type="text" id="model" name="model"
+							       placeholder="Enter model" th:field="*{model}" disabled
+							       th:classappend="${(#fields.hasErrors('model')?'is-invalid':'')
                                 + (!#fields.hasErrors('model') and productForm.isSubmitted() ? 'is-valid':'')}">
-								<label class="invalid-feedback" th:if="${#fields.hasErrors('model')}"
-								       th:errors="*{model}"></label>
-							</div>
-							<div class="form-group col" th:if="*{subCategoryId eq 1}">
-								<label for="type">Type:</label>
-								<input class="form-control" type="text" id="type" name="type"
-								       placeholder="Enter type" th:field="*{type}"
-								       th:classappend="${(#fields.hasErrors('type')?'is-invalid':'')
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('model')}"
+							       th:errors="*{model}"></label>
+<!--							<input type="hidden" th:field="*{model}">-->
+						</div>
+						<div class="form-group col" th:if="*{subCategoryId eq 1}">
+							<label for="type">Type:</label>
+							<input class="form-control" type="text" id="type" name="type"
+							       placeholder="Enter type" th:field="*{type}" disabled
+							       th:classappend="${(#fields.hasErrors('type')?'is-invalid':'')
                                 + (!#fields.hasErrors('type') and productForm.isSubmitted() ? 'is-valid':'')}">
-								<label class="invalid-feedback" th:if="${#fields.hasErrors('type')}"
-								       th:errors="*{type}"></label>
-							</div>
-							<div class="form-group col" th:if="*{subCategoryId eq 1}">
-								<label for="framePerSecond">Frame/second:</label>
-								<input class="form-control" type="text" id="framePerSecond" name="framePerSecond"
-								       placeholder="Enter frame/second" th:field="*{framePerSecond}"
-								       th:classappend="${(#fields.hasErrors('framePerSecond')?'is-invalid':'')
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('type')}"
+							       th:errors="*{type}"></label>
+<!--							<input type="hidden" th:field="*{type}">-->
+						</div>
+						<div class="form-group col" th:if="*{subCategoryId eq 1}">
+							<label for="framePerSecond">Frame/second:</label>
+							<input class="form-control" type="text" id="framePerSecond" name="framePerSecond"
+							       placeholder="Enter frame/second" th:field="*{framePerSecond}" disabled
+							       th:classappend="${(#fields.hasErrors('framePerSecond')?'is-invalid':'')
                                 + (!#fields.hasErrors('framePerSecond') and productForm.isSubmitted() ? 'is-valid':'')}">
-								<label class="invalid-feedback" th:if="${#fields.hasErrors('framePerSecond')}"
-								       th:errors="*{framePerSecond}"></label>
-							</div>
-							<div class="form-group col" th:if="*{subCategoryId eq 1}">
-								<label for="weight">Weight:</label>
-								<input class="form-control" type="text" id="weight" name="weight"
-								       placeholder="Enter weight" th:field="*{weight}"
-								       th:classappend="${(#fields.hasErrors('weight')?'is-invalid':'')
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('framePerSecond')}"
+							       th:errors="*{framePerSecond}"></label>
+<!--							<input type="hidden" th:field="*{framePerSecond}">-->
+						</div>
+						<div class="form-group col" th:if="*{subCategoryId eq 1}">
+							<label for="weight">Weight:</label>
+							<input class="form-control" type="text" id="weight" name="weight"
+							       placeholder="Enter weight" th:field="*{weight}" disabled
+							       th:classappend="${(#fields.hasErrors('weight')?'is-invalid':'')
                                 + (!#fields.hasErrors('weight') and productForm.isSubmitted() ? 'is-valid':'')}">
-								<label class="invalid-feedback" th:if="${#fields.hasErrors('weight')}"
-								       th:errors="*{weight}"></label>
-							</div>
-							<div class="form-group col" th:if="*{subCategoryId eq 1}">
-								<label for="connectionPorts">Connection ports:</label>
-								<input class="form-control" type="text" id="connectionPorts" name="connectionPorts"
-								       placeholder="Enter connection ports" th:field="*{connectionPorts}"
-								       th:classappend="${(#fields.hasErrors('connectionPorts')?'is-invalid':'')
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('weight')}"
+							       th:errors="*{weight}"></label>
+<!--							<input type="hidden" th:field="*{weight}">-->
+						</div>
+						<div class="form-group col" th:if="*{subCategoryId eq 1}">
+							<label for="connectionPorts">Connection ports:</label>
+							<input class="form-control" type="text" id="connectionPorts" name="connectionPorts"
+							       placeholder="Enter connection ports" th:field="*{connectionPorts}" disabled
+							       th:classappend="${(#fields.hasErrors('connectionPorts')?'is-invalid':'')
                                 + (!#fields.hasErrors('connectionPorts') and productForm.isSubmitted() ? 'is-valid':'')}">
-								<label class="invalid-feedback" th:if="${#fields.hasErrors('connectionPorts')}"
-								       th:errors="*{connectionPorts}"></label>
-							</div>
-							<div class="form-group col">
-								<label for="voltage">Voltage:</label>
-								<input class="form-control" type="text" id="voltage" name="voltage"
-								       placeholder="Enter voltage" th:field="*{voltage}"
-								       th:classappend="${(#fields.hasErrors('voltage')?'is-invalid':'')
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('connectionPorts')}"
+							       th:errors="*{connectionPorts}"></label>
+<!--							<input type="hidden" th:field="*{connectionPorts}">-->
+						</div>
+						<div class="form-group col">
+							<label for="voltage">Voltage:</label>
+							<input class="form-control" type="text" id="voltage" name="voltage"
+							       placeholder="Enter voltage" th:field="*{voltage}" disabled
+							       th:classappend="${(#fields.hasErrors('voltage')?'is-invalid':'')
                                 + (!#fields.hasErrors('voltage') and productForm.isSubmitted() ? 'is-valid':'')}">
-								<label class="invalid-feedback" th:if="${#fields.hasErrors('voltage')}"
-								       th:errors="*{voltage}"></label>
-							</div>
-							<div class="form-group col" th:if="*{subCategoryId eq 2 or subCategoryId eq 3}">
-								<label for="capacity">Capacity:</label>
-								<input class="form-control" type="text" id="capacity" name="capacity"
-								       placeholder="Enter capacity" th:field="*{capacity}"
-								       th:classappend="${(#fields.hasErrors('capacity')?'is-invalid':'')
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('voltage')}"
+							       th:errors="*{voltage}"></label>
+<!--							<input type="hidden" th:field="*{voltage}">-->
+						</div>
+						<div class="form-group col" th:if="*{subCategoryId eq 2 or subCategoryId eq 3}">
+							<label for="capacity">Capacity:</label>
+							<input class="form-control" type="text" id="capacity" name="capacity"
+							       placeholder="Enter capacity" th:field="*{capacity}" disabled
+							       th:classappend="${(#fields.hasErrors('capacity')?'is-invalid':'')
                                 + (!#fields.hasErrors('capacity') and productForm.isSubmitted() ? 'is-valid':'')}">
-								<label class="invalid-feedback" th:if="${#fields.hasErrors('capacity')}"
-								       th:errors="*{capacity}"></label>
-							</div>
-							<div class="form-group col" th:if="*{subCategoryId eq 2}">
-								<label for="power">Power:</label>
-								<input class="form-control" type="text" id="power" name="power"
-								       placeholder="Enter power" th:field="*{power}"
-								       th:classappend="${(#fields.hasErrors('power')?'is-invalid':'')
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('capacity')}"
+							       th:errors="*{capacity}"></label>
+<!--							<input type="hidden" th:field="*{capacity}">-->
+						</div>
+						<div class="form-group col" th:if="*{subCategoryId eq 2}">
+							<label for="power">Power:</label>
+							<input class="form-control" type="text" id="power" name="power"
+							       placeholder="Enter power" th:field="*{power}" disabled
+							       th:classappend="${(#fields.hasErrors('power')?'is-invalid':'')
                                 + (!#fields.hasErrors('power') and productForm.isSubmitted() ? 'is-valid':'')}">
-								<label class="invalid-feedback" th:if="${#fields.hasErrors('power')}"
-								       th:errors="*{power}"></label>
-							</div>
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('power')}"
+							       th:errors="*{power}"></label>
+<!--							<input type="hidden" th:field="*{power}">-->
 						</div>
+					</div>
 
-						<div class="form-row" th:if="*{categoryId eq 3}">
-							<div class="form-group col">
-								<label for="author">Author:</label>
-								<input class="form-control" type="text" id="author" name="author"
-								       placeholder="Enter author" th:field="*{author}"
-								       th:classappend="${(#fields.hasErrors('author')?'is-invalid':'')
+					<div class="form-row" th:if="*{categoryId eq 3}">
+						<div class="form-group col">
+							<label for="author">Author:</label>
+							<input class="form-control" type="text" id="author" name="author"
+							       placeholder="Enter author" th:field="*{author}" disabled
+							       th:classappend="${(#fields.hasErrors('author')?'is-invalid':'')
                                 + (!#fields.hasErrors('author') and productForm.isSubmitted() ? 'is-valid':'')}">
-								<label class="invalid-feedback" th:if="${#fields.hasErrors('author')}"
-								       th:errors="*{author}"></label>
-							</div>
-							<div class="form-group col">
-								<label for="releaseDate">Release date:</label>
-								<input class="form-control" type="text" id="releaseDate" name="releaseDate"
-								       placeholder="Enter release date" th:field="*{releaseDate}"
-								       th:classappend="${(#fields.hasErrors('releaseDate')?'is-invalid':'')
-                                + (!#fields.hasErrors('releaseDate') and productForm.isSubmitted() ? 'is-valid':'')}">
-								<label class="invalid-feedback" th:if="${#fields.hasErrors('releaseDate')}"
-								       th:errors="*{releaseDate}"></label>
-							</div>
-							<div class="form-group col">
-								<label for="numberOfPages">Number of pages:</label>
-								<input class="form-control" type="number" id="numberOfPages" name="numberOfPages"
-								       placeholder="Enter number of pages" th:field="*{numberOfPages}"
-								       th:classappend="${(#fields.hasErrors('numberOfPages')?'is-invalid':'')
-                                + (!#fields.hasErrors('numberOfPages') and productForm.isSubmitted() ? 'is-valid':'')}">
-								<label class="invalid-feedback" th:if="${#fields.hasErrors('numberOfPages')}"
-								       th:errors="*{numberOfPages}"></label>
-							</div>
-							<div class="form-group col">
-								<label for="language">Language:</label>
-								<input class="form-control" type="text" id="language" name="language"
-								       placeholder="Enter language" th:field="*{language}"
-								       th:classappend="${(#fields.hasErrors('language')?'is-invalid':'')
-                                + (!#fields.hasErrors('language') and productForm.isSubmitted() ? 'is-valid':'')}">
-								<label class="invalid-feedback" th:if="${#fields.hasErrors('language')}"
-								       th:errors="*{language}"></label>
-							</div>
-							<div class="form-group col">
-								<label for="publisher">Publisher:</label>
-								<input class="form-control" type="text" id="publisher" name="publisher"
-								       placeholder="Enter publisher" th:field="*{publisher}"
-								       th:classappend="${(#fields.hasErrors('publisher')?'is-invalid':'')
-                                + (!#fields.hasErrors('publisher') and productForm.isSubmitted() ? 'is-valid':'')}">
-								<label class="invalid-feedback" th:if="${#fields.hasErrors('publisher')}"
-								       th:errors="*{publisher}"></label>
-							</div>
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('author')}"
+							       th:errors="*{author}"></label>
+<!--							<input type="hidden" th:field="*{author}">-->
 						</div>
-					</fieldset>
+						<div class="form-group col">
+							<label for="releaseDate">Release date:</label>
+							<input class="form-control" type="text" id="releaseDate" name="releaseDate"
+							       placeholder="Enter release date" th:field="*{releaseDate}" disabled
+							       th:classappend="${(#fields.hasErrors('releaseDate')?'is-invalid':'')
+                                + (!#fields.hasErrors('releaseDate') and productForm.isSubmitted() ? 'is-valid':'')}">
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('releaseDate')}"
+							       th:errors="*{releaseDate}"></label>
+<!--							<input type="hidden" th:field="*{releaseDate}">-->
+						</div>
+						<div class="form-group col">
+							<label for="numberOfPages">Number of pages:</label>
+							<input class="form-control" type="number" id="numberOfPages" name="numberOfPages"
+							       placeholder="Enter number of pages" th:field="*{numberOfPages}" disabled
+							       th:classappend="${(#fields.hasErrors('numberOfPages')?'is-invalid':'')
+                                + (!#fields.hasErrors('numberOfPages') and productForm.isSubmitted() ? 'is-valid':'')}">
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('numberOfPages')}"
+							       th:errors="*{numberOfPages}"></label>
+<!--							<input type="hidden" th:field="*{releaseDate}">-->
+						</div>
+						<div class="form-group col">
+							<label for="language">Language:</label>
+							<input class="form-control" type="text" id="language" name="language"
+							       placeholder="Enter language" th:field="*{language}" disabled
+							       th:classappend="${(#fields.hasErrors('language')?'is-invalid':'')
+                                + (!#fields.hasErrors('language') and productForm.isSubmitted() ? 'is-valid':'')}">
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('language')}"
+							       th:errors="*{language}"></label>
+						</div>
+						<div class="form-group col">
+							<label for="publisher">Publisher:</label>
+							<input class="form-control" type="text" id="publisher" name="publisher"
+							       placeholder="Enter publisher" th:field="*{publisher}" disabled
+							       th:classappend="${(#fields.hasErrors('publisher')?'is-invalid':'')
+                                + (!#fields.hasErrors('publisher') and productForm.isSubmitted() ? 'is-valid':'')}">
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('publisher')}"
+							       th:errors="*{publisher}"></label>
+						</div>
+					</div>
 				</div>
 
 				<hr class="my-4">
 				<div class="extra-content container">
-					<fieldset disabled>
 					<div class="form-row">
 						<div class="form-group col-4">
 							<label for="SKU">SKU:</label>
 							<input class="form-control" type="text" id="SKU" name="SKU"
-							       placeholder="Enter SKU" th:field="*{SKU}"
+							       placeholder="Enter SKU" th:field="*{SKU}" disabled
 							       th:classappend="${(#fields.hasErrors('SKU')?'is-invalid':'')
                                + (!#fields.hasErrors('SKU') and productForm.isSubmitted() ? 'is-valid':'')}">
 							<label class="invalid-feedback" th:if="${#fields.hasErrors('SKU')}"
 							       th:errors="*{SKU}"></label>
 						</div>
 					</div>
-					</fieldset>
 					<div class="form-row">
-						<fieldset disabled>
 						<div class="form-group col-3">
 							<label for="listPrice">List price:</label>
 							<input class="form-control" type="number" id="listPrice" name="listPrice"
-							       placeholder="Enter list price" th:field="*{listPrice}"
+							       placeholder="Enter list price" th:field="*{listPrice}" disabled
 							       th:classappend="${(#fields.hasErrors('listPrice')?'is-invalid':'')
                                + (!#fields.hasErrors('listPrice') and productForm.isSubmitted() ? 'is-valid':'')}">
 							<label class="invalid-feedback" th:if="${#fields.hasErrors('listPrice')}"
 							       th:errors="*{listPrice}"></label>
+							<input type="hidden" th:field="*{listPrice}">
 						</div>
-						</fieldset>
 						<div class="form-group col-3">
 							<label for="price">price:</label>
 							<input class="form-control" type="number" id="price" name="price"
@@ -280,7 +293,8 @@
 						<label for="description">Description:</label>
 						<p th:classappend="${(#fields.hasErrors('description')?'border border-danger':'')
 	                               + (!#fields.hasErrors('description') and productForm.isSubmitted() ? 'border border-success':'')}">
-							<textarea class="form-control textarea-custom-readonly" id="description" th:field="*{description}"
+							<textarea class="form-control textarea-custom-readonly" id="description"
+							          th:field="*{description}" disabled
 							          name="description"></textarea>
 						</p>
 						<label class="invalid-feedback d-block" th:if="${#fields.hasErrors('description')}"
@@ -305,7 +319,8 @@
 							<img class="delete-btn-img" id="delete-btn-img1" th:src="@{/images/trash.png}">
 						</div>
 						<div class="img-manager">
-							<div style="width: 100px; height: 100px" th:unless="${#lists.size(productForm.productImageFormList) < 2}">
+							<div style="width: 100px; height: 100px"
+							     th:unless="${#lists.size(productForm.productImageFormList) < 2}">
 								<img class="previous-img img-thumbnail" id="previous-img-2"
 								     th:src="@{'data:image/jpeg;base64,'+${productForm.productImageFormList[1].generateBase64Image()}}"/>
 								<img class="add-img-btn" id="add-img-btn2" th:src="@{/images/add-image.png}"
@@ -332,7 +347,9 @@
 						</div>
 					</div>
 				</div>
-				<input type="submit" value="Submit">
+				<input type="hidden" th:field="*{productId}">
+				<input type="hidden" th:field="*{action}">
+				<input type="submit" value="Submit" class="btn btn-primary">
 			</form>
 		</div>
 	</div>

@@ -10,6 +10,15 @@ public class UserRegisterForm implements Serializable {
     private String fullName;
     private String email;
     private String confirmPassword;
+    private boolean isSubmitted;
+
+    public boolean isSubmitted() {
+        return isSubmitted;
+    }
+
+    public void setSubmitted(boolean submitted) {
+        isSubmitted = submitted;
+    }
 
     public UserRegisterForm() {
     }

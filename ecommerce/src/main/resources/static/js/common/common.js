@@ -57,13 +57,12 @@ $(document).ready(function() {
 
     $('#dtBasicExample').DataTable();
     $('.dataTables_length').addClass('bs-select');
+
     $('#rateMe1').mdbRate();
-
-    $('.rating').rating({
-        filled: 'fas fa-star',
-        empty: 'far fa-star'
-    });
-
+    // $('.rating').rating({
+    //     filled: 'fas fa-star star-filled',
+    //     empty: 'far fa-star'
+    // });
 });
 
 function commafy(num) {
