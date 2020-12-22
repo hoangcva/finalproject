@@ -17,7 +17,7 @@ public interface IUserService extends UserDetailsService {
     UserDetails loadUserByUsername(String username);
     void createUser(UserRegisterForm userRegisterForm);
     UserDto findUserByEmail(String email);
-    void updateUser(UserUpdateForm userUpdateForm);
+    Message updateUser(UserUpdateForm userUpdateForm);
     List<UserDto> getAllUser();
     Message deleteUser(Long userId);
     List<VendorForm> getVendorList(@Nullable Boolean enable);

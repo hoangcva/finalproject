@@ -5,15 +5,16 @@
 </head>
 <body>
 <th:block th:include="/common/_header"></th:block>
-<div class="container">
+<div class="container-fluid">
 	<div class="row">
 		<div class="col-2"></div>
 		<div class="col-auto">
-			<h3>Add product</h3>
+			<h2>Add product</h2>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-lg">
+		<th:block th:include="/common/_vendor-sidebar-menu"></th:block>
+		<div class="col-lg-8">
 			<form th:action="@{/vendor/product/add/detail}" th:object="${productForm}" th:method="POST"
 			      enctype="multipart/form-data">
 				<div th:replace="fragments/template :: detail-product-input"></div>

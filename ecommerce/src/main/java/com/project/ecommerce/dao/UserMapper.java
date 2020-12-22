@@ -24,7 +24,10 @@ public interface UserMapper {
 
     VendorDto findVendorByEmail(@Param("email") String email);
     int findVendorByUserName(@Param("userName") String userName);
-    int findVendorExist(@Param("userName") @Nullable String userName, @Param("email") @Nullable String email, @Param("businessCode") @Nullable String businessCode);
+    int findVendorExist(@Param("userName") @Nullable String userName,
+                        @Param("email") @Nullable String email,
+                        @Param("businessCode") @Nullable String businessCode,
+                        @Param("vendorId") @Nullable Long vendorId);
     void createVendor(VendorDto vendorDto);
     boolean deleteVendor(@Param("vendorId") Long vendorId);
     List<VendorDto> getVendorList(@Param("enable") @Nullable Boolean enable);

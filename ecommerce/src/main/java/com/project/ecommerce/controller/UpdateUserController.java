@@ -48,9 +48,9 @@ public class UpdateUserController {
         user.setEmail(userDetails.getUserDto().getEmail());
         user.nullToEmpty();
         List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
-        model.addAttribute("user_update_form", user);
+        model.addAttribute("userUpdateForm", user);
         model.addAttribute("provinceList", provinceDtoList);
-//        session.setAttribute("user_update_form", user);
+//        session.setAttribute("userUpdateForm", user);
 //        session.setAttribute("provinceList", provinceDtoList);
 //        model.addAttribute("session", session);
         return "customer/updateUserInfo";
@@ -63,8 +63,6 @@ public class UpdateUserController {
         if(target == null) {
             return;
         }
-
-        System.out.println("Target = " + target);
         if(target.getClass() == UserUpdateForm.class) {
             dataBinder.setValidator(validator);
         } else if(target.getClass() == PasswordForm.class) {
@@ -74,28 +72,21 @@ public class UpdateUserController {
 
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
     public String updateUser(Model model,
-                           @ModelAttribute("user_update_form") @Validated UserUpdateForm userUpdateForm,
-                           BindingResult result,
+                           @ModelAttribute("userUpdateForm") @Validated UserUpdateForm userUpdateForm,
+                           BindingResult bindingResult,
                            final RedirectAttributes redirectAttributes,
                            HttpSession session) {
 //        List<ProvinceDto> provinceList = (List<ProvinceDto>) session.getAttribute("provinceList");
-        List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
-        model.addAttribute("provinceList",  provinceDtoList);
-
-        if (result.hasErrors()) {
+        userUpdateForm.setSubmitted(true);
+        if (bindingResult.hasErrors()) {
+            List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
+            model.addAttribute("provinceList",  provinceDtoList);
             return "customer/updateUserInfo";
         }
-        try {
-            userService.updateUser(userUpdateForm);
-        }
-        // Other error!!
-        catch (Exception e) {
-            model.addAttribute("errorMessage", "Error: " + e.getMessage());
-            return "customer/updateUserInfo";
-        }
-
-        model.addAttribute("message", "update successfully");
-        return "customer/updateUserInfo";
+        Message result = userService.updateUser(userUpdateForm);
+        redirectAttributes.addFlashAttribute("message", result.getMessage());
+        redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
+        return "redirect:/user/update";
     }
 
     @GetMapping("/user/update/password")

@@ -49,6 +49,7 @@ public class Consts {
     public static final String MSG_21_E = "MSG_21_E"; //Failed to update password!
     public static final String MSG_22_E = "MSG_22_E"; //Failed to add product to favorite!
     public static final String MSG_23_E = "MSG_23_E"; //Failed to remove product!
+    public static final String MSG_24_E = "MSG_24_E"; //Failed to update user information!
 
 
 
@@ -76,4 +77,5 @@ public class Consts {
     public static final String MSG_21_I = "MSG_21_I"; //Password has been updated successful!
     public static final String MSG_22_I = "MSG_22_I"; //Product has been added to favorite successful!
     public static final String MSG_23_I = "MSG_23_I"; //Product has been removed successful!
+    public static final String MSG_24_I = "MSG_24_I"; //User information has been updated successful!
 }

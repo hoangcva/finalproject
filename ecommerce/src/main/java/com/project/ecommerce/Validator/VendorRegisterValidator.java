@@ -35,19 +35,19 @@ public class VendorRegisterValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "addressDetail", "NotEmpty.VendorForm.addressDetail");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "NotEmpty.VendorForm.description");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "vendorName", "NotEmpty.VendorForm.vendorName");
-
+        Long vendorId = vendorForm.getVendorId();
         if (Consts.ACTION_REGISTER.equals(vendorForm.getAction())) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty.UserForm.password");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "NotEmpty.UserForm.confirmPassword");
             if (!errors.hasFieldErrors("userName")) {
-                int count = userMapper.findVendorExist(vendorForm.getUserName(),null,null);
+                int count = userMapper.findVendorExist(vendorForm.getUserName(),null,null, vendorId);
                 if (count > 0) {
                     // Tên tài khoản đã bị sử dụng bởi người khác.
                     errors.rejectValue("userName", "Duplicate.UserForm.userName");
                 }
             }
             if (!errors.hasFieldErrors("businessCode")) {
-                int count = userMapper.findVendorExist(null,null, vendorForm.getBusinessCode());
+                int count = userMapper.findVendorExist(null,null, vendorForm.getBusinessCode(), vendorId);
                 if (count > 0) {
                     // Tên tài khoản đã bị sử dụng bởi người khác.
                     errors.rejectValue("businessCode", "Duplicate.VendorForm.businessCode");
@@ -64,7 +64,7 @@ public class VendorRegisterValidator implements Validator {
             // Email không hợp lệ.
             errors.rejectValue("email", "Pattern.UserForm.email");
         } else if (vendorForm.getId() == null) {
-            int count = userMapper.findVendorExist(null,vendorForm.getEmail(), null);
+            int count = userMapper.findVendorExist(null,vendorForm.getEmail(), null, vendorId);
             if (count > 0) {
                 // Email đã được sử dụng bởi tài khoản khác.
                 errors.rejectValue("email", "Duplicate.VendorForm.email");

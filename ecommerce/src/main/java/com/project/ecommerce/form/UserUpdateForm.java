@@ -12,6 +12,15 @@ public class UserUpdateForm implements Serializable {
     private String email;
     private String confirmPassword;
     private String province;
+    private boolean isSubmitted;
+
+    public boolean isSubmitted() {
+        return isSubmitted;
+    }
+
+    public void setSubmitted(boolean submitted) {
+        isSubmitted = submitted;
+    }
 
     public UserUpdateForm() {
     }

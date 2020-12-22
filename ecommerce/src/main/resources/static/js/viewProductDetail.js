@@ -1,4 +1,9 @@
 $(document).ready(function () {
+    $('#rating').rating({
+            filled: 'fas fa-star star-filled',
+            empty: 'far fa-star'
+        });
+
     var quantity = parseInt($('#quantity').val(), 10);
     $('.change-quantity').on('change', '.buy-quantity', function () {
         var buyQuantity = parseInt($('.buy-quantity').val(), 10);

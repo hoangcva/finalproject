@@ -90,6 +90,7 @@
             <if test="businessCode != null">
                 AND business_code = #{businessCode}
             </if>
+            AND id != #{vendorId}
         </where>
     </select>
 

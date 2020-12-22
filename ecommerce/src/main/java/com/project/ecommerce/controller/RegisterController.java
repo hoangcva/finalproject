@@ -68,9 +68,10 @@ public class RegisterController {
 
     @RequestMapping(value = "/saveUser", method = RequestMethod.POST)
     public String saveUser(Model model,
-                           @ModelAttribute("user_form") @Validated UserRegisterForm userRegisterForm,
+                           @ModelAttribute("userRegisterForm") @Validated UserRegisterForm userRegisterForm,
                            BindingResult result,
                            final RedirectAttributes redirectAttributes) {
+        userRegisterForm.setSubmitted(true);
         if (result.hasErrors()) {
             List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
             model.addAttribute("provinceList", provinceDtoList);

@@ -75,7 +75,8 @@ public class UserServiceImpl implements IUserService {
         return userMapper.findUserByUserName(userName);
     }
 
-    public void updateUser(UserUpdateForm userUpdateForm) {
+    public Message updateUser(UserUpdateForm userUpdateForm) {
+        Message result = new Message("", true);
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
             UserDto userDto = new UserDto();
@@ -84,9 +85,13 @@ public class UserServiceImpl implements IUserService {
             userDto.setFullName(userUpdateForm.getFullName());
             userMapper.updateUser(userDto);
             transactionManager.commit(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_24_I));
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_24_E));
+            result.setSuccess(false);
         }
+        return  result;
     }
 
     public List<UserDto> getAllUser() {

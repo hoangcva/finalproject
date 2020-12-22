@@ -61,6 +61,9 @@
 						<div class="mb-lg-3 mr-3 pb-lg-3">
 							<div th:replace="fragments/template :: change-quantity(0, ${productForm.quantity})"></div>
 						</div>
+						<div class="mb-lg-3 mr-3 pb-lg-3">
+							<input class="d-block" id="rating" type="hidden" value="3">
+						</div>
 						<div>
 							<span id="favorite-add" th:classappend="${productForm.liked eq true} ? 'hide' : 'show-inline'"
 							      onclick="addProductToFavorite()">
@@ -74,9 +77,6 @@
 							       onclick="addProductToCart()" style="width: 250px" sec:authorize="isAuthenticated()">
 							<a th:href="@{/login}" class="btn btn-primary d-inline-block" id="btn-login"
 							   style="width: 250px" sec:authorize="!isAuthenticated()" role="button">
-<!--								<button class="btn btn-primary d-inline-block" id="btn-login"-->
-<!--								        style="width: 250px" sec:authorize="!isAuthenticated()">Buy-->
-<!--								</button>-->
 								Buy
 							</a>
 						</div>
@@ -223,7 +223,8 @@
 					<div>
 						<b class="d-block">
 							<span th:text="${comment.customerName}"></span>
-							<span class="ml-1"><input class="rating" type="hidden" th:field="*{rating}" data-readonly></span>
+<!--							<span class="ml-1"><input class="rating" type="hidden" th:field="*{rating}" data-readonly></span>-->
+							<span class="ml-1"><input class="rating" type="hidden" value="3" data-readonly></span>
 						</b>
 						<span class="text-secondary" th:text="'Reviewed at ' + ${comment.createdTime}"></span>
 						<span class="text-secondary" th:text="'Buyed from ' + ${comment.vendorName}"></span>
