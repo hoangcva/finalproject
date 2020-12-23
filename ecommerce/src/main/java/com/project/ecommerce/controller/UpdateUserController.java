@@ -3,14 +3,19 @@ package com.project.ecommerce.controller;
 import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.Validator.PassWordValidator;
 import com.project.ecommerce.Validator.UserUpdateValidator;
+import com.project.ecommerce.Validator.VendorRegisterValidator;
 import com.project.ecommerce.dao.AddressMapper;
+import com.project.ecommerce.dao.CategoryMapper;
+import com.project.ecommerce.dto.CategoryDto;
 import com.project.ecommerce.dto.ProvinceDto;
 import com.project.ecommerce.dto.UserDetailsDto;
 import com.project.ecommerce.dto.UserDto;
 import com.project.ecommerce.form.PasswordForm;
 import com.project.ecommerce.form.UserForm;
 import com.project.ecommerce.form.UserUpdateForm;
+import com.project.ecommerce.form.VendorForm;
 import com.project.ecommerce.service.IUserService;
+import com.project.ecommerce.service.IVendorService;
 import com.project.ecommerce.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -37,6 +42,12 @@ public class UpdateUserController {
     private AddressMapper addressMapper;
     @Autowired
     private PassWordValidator passWordValidator;
+    @Autowired
+    private CategoryMapper categoryMapper;
+    @Autowired
+    private IVendorService vendorService;
+    @Autowired
+    private VendorRegisterValidator vendorRegisterValidator;
 
     @RequestMapping(value = "/user/update", method = RequestMethod.GET)
     public String init(Model model, HttpSession session, Authentication auth) {
@@ -67,15 +78,19 @@ public class UpdateUserController {
             dataBinder.setValidator(validator);
         } else if(target.getClass() == PasswordForm.class) {
             dataBinder.setValidator(passWordValidator);
+        } else         if(target.getClass() == VendorForm.class) {
+            dataBinder.setValidator(vendorRegisterValidator);
         }
     }
 
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
     public String updateUser(Model model,
-                           @ModelAttribute("userUpdateForm") @Validated UserUpdateForm userUpdateForm,
-                           BindingResult bindingResult,
-                           final RedirectAttributes redirectAttributes,
-                           HttpSession session) {
+                             @ModelAttribute("userUpdateForm") @Validated UserUpdateForm userUpdateForm,
+                             BindingResult bindingResult,
+                             final RedirectAttributes redirectAttributes,
+                             HttpSession session,
+                             Authentication auth,
+                             @ModelAttribute("userName") String userName) {
 //        List<ProvinceDto> provinceList = (List<ProvinceDto>) session.getAttribute("provinceList");
         userUpdateForm.setSubmitted(true);
         if (bindingResult.hasErrors()) {
@@ -86,6 +101,9 @@ public class UpdateUserController {
         Message result = userService.updateUser(userUpdateForm);
         redirectAttributes.addFlashAttribute("message", result.getMessage());
         redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
+        if (Consts.ROLE_ADMIN.equals(((UserDetailsDto) auth.getPrincipal()).getUserDto().getRole())) {
+            return "redirect:/admin";
+        }
         return "redirect:/user/update";
     }
 
@@ -124,5 +142,29 @@ public class UpdateUserController {
             return "redirect:/admin/index";
         }
         return "redirect:success";
+    }
+
+    @RequestMapping(value = "/user/update/vendor", method = RequestMethod.POST)
+    public String update(Model model,
+                         @ModelAttribute("vendorForm") @Validated VendorForm vendorForm,
+                         BindingResult bindingResult,
+                         final RedirectAttributes redirectAttributes,
+                         Authentication auth,
+                         @ModelAttribute("userName") String userName) {
+        vendorForm.setSubmitted(true);
+        if (bindingResult.hasErrors()) {
+            List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
+            List<CategoryDto> categoryDtoList = categoryMapper.getAllCategory();
+            model.addAttribute("provinceList",  provinceDtoList);
+            model.addAttribute("provinceList", provinceDtoList);
+            return "/vendor/updateInfo";
+        }
+        Message result = vendorService.updateVendor(vendorForm, auth);
+        redirectAttributes.addFlashAttribute("message", result.getMessage());
+        redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
+        if (Consts.ROLE_ADMIN.equals(((UserDetailsDto) auth.getPrincipal()).getUserDto().getRole())) {
+            return "redirect:/admin";
+        }
+        return "redirect:/vendor/info";
     }
 }

@@ -18,15 +18,11 @@
 		<th:block th:include="/common/_admin-sidebar-menu"></th:block>
 		<div class="col-lg-8">
 			<div th:replace="fragments/template :: display-error-message"/>
-			<form th:object="${transporterForm}" th:action="@{/admin/account/transporter/edit}" method="post">
+			<form th:object="${transporterForm}" th:action="@{/admin/account/transporter/editTransporter}" method="post">
 				<div class="form-group w-25">
 					<label for="userName">Username</label>
-					<input class="form-control" id="userName" type="text" th:field="*{userName}"
-					       placeholder="Enter username"
-					       th:classappend="${(#fields.hasErrors('userName')?'is-invalid':'')
-                               + (!#fields.hasErrors('userName') and transporterForm.isSubmitted() ? 'is-valid':'')}">
-					<label class="invalid-feedback" th:if="${#fields.hasErrors('userName')}"
-					       th:errors="*{userName}"></label>
+					<input class="form-control" id="userName" type="text" th:value="*{userName}" disabled>
+					<input type="hidden" th:field="*{userName}">
 				</div>
 				<hr class="my-4">
 				<div class="form-row">

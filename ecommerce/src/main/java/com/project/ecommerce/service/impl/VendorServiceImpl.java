@@ -44,7 +44,8 @@ public class VendorServiceImpl implements IVendorService {
         Message result = new Message("", true);
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
-            Long userId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
+//            Long userId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
+            Long userId = vendorForm.getVendorId();
             VendorDto vendorDto = new VendorDto();
             BeanUtils.copyProperties(vendorForm, vendorDto);
             vendorDto.setVendorId(userId);

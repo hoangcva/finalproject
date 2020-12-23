@@ -14,7 +14,7 @@
 		<th:block th:include="/common/_vendor-sidebar-menu"></th:block>
 		<div class="col-8">
 			<div th:replace="fragments/template :: display-error-message"/>
-			<form name="update_user" th:object="${vendorForm}" th:action="@{/vendor/info/update}" method="post">
+			<form name="update_user" th:object="${vendorForm}" th:action="@{/user/update/vendor}" method="post">
 				<div class="form-group w-25">
 					<label for="userName">Username</label>
 					<!--					<span id="userName" type="text" th:text="*{userName}"></span>-->

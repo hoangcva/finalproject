@@ -28,7 +28,7 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-4">
-                            <label for="fullName">Fullname</label>
+                            <label for="fullName">Full name</label>
                             <input class="form-control" id="fullName" type='text' placeholder="Enter full name"
                                    th:field="*{fullName}" th:classappend="${(#fields.hasErrors('fullName')?'is-invalid':'')
                                    + (!#fields.hasErrors('fullName') and userUpdateForm.isSubmitted() ? 'is-valid':'')}">

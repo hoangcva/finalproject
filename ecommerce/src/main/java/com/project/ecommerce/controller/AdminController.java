@@ -3,7 +3,11 @@ package com.project.ecommerce.controller;
 import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.Validator.CategoryValidator;
 import com.project.ecommerce.Validator.TransporterValidatior;
+import com.project.ecommerce.dao.AddressMapper;
+import com.project.ecommerce.dao.CategoryMapper;
 import com.project.ecommerce.dto.CategoryDto;
+import com.project.ecommerce.dto.ProvinceDto;
+import com.project.ecommerce.dto.UserDetailsDto;
 import com.project.ecommerce.dto.UserDto;
 import com.project.ecommerce.form.*;
 import com.project.ecommerce.service.IAdminService;
@@ -24,6 +28,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +49,10 @@ public class AdminController {
     private IVendorService vendorService;
     @Autowired
     private ITransporterService transporterService;
+    @Autowired
+    private AddressMapper addressMapper;
+    @Autowired
+    private CategoryMapper categoryMapper;
 
     // Set a form validator
     @InitBinder
@@ -267,7 +276,7 @@ public class AdminController {
 
     }
 
-    @PostMapping("/account/transporter/edit")
+    @PostMapping("/account/transporter/editTransporter")
     public String editTransporter(@ModelAttribute("transporterForm") @Validated TransporterForm TransporterForm,
                                   BindingResult bindingResult,
                                   Model model,
@@ -280,5 +289,41 @@ public class AdminController {
         redirectAttributes.addFlashAttribute("message", result.getMessage());
         redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
         return "redirect:/admin/account/transporter";
+    }
+
+    @RequestMapping(value = "/account/update", method = RequestMethod.GET)
+    public String init(Model model,
+                       @ModelAttribute("userName") String userName,
+                       Authentication auth) {
+        UserDto userDto = userService.getUserByUserName(userName);
+        if(Consts.ROLE_USER.equals(userDto.getRole())) {
+            UserUpdateForm userUpdateForm = new UserUpdateForm();
+            userUpdateForm.setUserName(userName);
+            userUpdateForm.setFullName(userDto.getFullName());
+            userUpdateForm.setPassword(userDto.getPassword());
+            userUpdateForm.setEmail(userDto.getEmail());
+            userUpdateForm.setEmail(userDto.getEmail());
+            userUpdateForm.nullToEmpty();
+            List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
+            model.addAttribute("userUpdateForm", userUpdateForm);
+            model.addAttribute("provinceList", provinceDtoList);
+            return "customer/updateUserInfo";
+        } else if(Consts.ROLE_VENDOR.equals(userDto.getRole())) {
+            List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
+            List<CategoryDto> categoryDtoList = categoryMapper.getAllCategory();
+            VendorForm vendorForm = vendorService.getInfo(userDto.getId());
+            vendorForm.setAction("update");
+            model.addAttribute("vendorForm", vendorForm);
+            model.addAttribute("provinceList", provinceDtoList);
+            model.addAttribute("categoryList", categoryDtoList);
+            return "/vendor/updateInfo";
+        } else if(Consts.ROLE_SHIPPER.equals(userDto.getRole())) {
+            TransporterForm transporterForm = transporterService.getTransporterInfo(userDto.getId());
+            transporterForm.setAction(Consts.ACTION_UPDATE);
+            model.addAttribute("transporterForm", transporterForm);
+            return "/admin/account/editTransporter";
+        }
+
+        return "/admin/index";
     }
 }

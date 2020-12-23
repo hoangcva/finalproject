@@ -75,23 +75,26 @@ public class VendorController {
         return "/vendor/updateInfo";
     }
 
-    @RequestMapping(value = "/info/update", method = RequestMethod.POST)
-    public String update(Model model,
-                         @ModelAttribute("vendorForm") @Validated VendorForm vendorForm,
-                         BindingResult bindingResult,
-                         final RedirectAttributes redirectAttributes,
-                         Authentication auth) {
-        vendorForm.setSubmitted(true);
-        if (bindingResult.hasErrors()) {
-            List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
-            List<CategoryDto> categoryDtoList = categoryMapper.getAllCategory();
-            model.addAttribute("provinceList",  provinceDtoList);
-            model.addAttribute("provinceList", provinceDtoList);
-            return "/vendor/updateInfo";
-        }
-        Message result = vendorService.updateVendor(vendorForm, auth);
-        redirectAttributes.addFlashAttribute("message", result.getMessage());
-        redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
-        return "redirect:/vendor/info";
-    }
+//    @RequestMapping(value = "/info/update", method = RequestMethod.POST)
+//    public String update(Model model,
+//                         @ModelAttribute("vendorForm") @Validated VendorForm vendorForm,
+//                         BindingResult bindingResult,
+//                         final RedirectAttributes redirectAttributes,
+//                         Authentication auth) {
+//        vendorForm.setSubmitted(true);
+//        if (bindingResult.hasErrors()) {
+//            List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
+//            List<CategoryDto> categoryDtoList = categoryMapper.getAllCategory();
+//            model.addAttribute("provinceList",  provinceDtoList);
+//            model.addAttribute("provinceList", provinceDtoList);
+//            return "/vendor/updateInfo";
+//        }
+//        Message result = vendorService.updateVendor(vendorForm, auth);
+//        redirectAttributes.addFlashAttribute("message", result.getMessage());
+//        redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
+//        if (Consts.ROLE_ADMIN.equals(((UserDetailsDto) auth.getPrincipal()).getUserDto().getRole())) {
+//            return "redirect:/admin";
+//        }
+//        return "redirect:/vendor/info";
+//    }
 }

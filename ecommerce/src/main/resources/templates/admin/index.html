@@ -32,7 +32,8 @@
 				<tbody>
 				<tr th:each="user,iterationStatus : ${user_list}">
 					<td th:text="${iterationStatus.count}"></td>
-					<td><span th:text="${user.userName}"></span></td>
+					<td th:unless="${user.role eq 'ROLE_ADMIN'}"><a th:href="@{/admin/account/update(userName = ${user.userName})}"><span th:text="${user.userName}"></span></a></td>
+					<td th:if="${user.role eq 'ROLE_ADMIN'}"><span th:text="${user.userName}"></span></td>
 					<td><span th:text="${user.fullName}"></span></td>
 					<td><span th:text="${user.email}"></span></td>
 					<td><span th:text="${user.role}"></span></td>
