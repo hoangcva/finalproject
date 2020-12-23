@@ -18,14 +18,14 @@ public interface IProductService {
     Message addProductExtend(ProductForm productForm, Long id);
     List<CategoryDto> getAllCategory();
     List<SubCategoryDto> getALLSubCategory();
-    void updateProduct(ProductForm productForm);
+    Message updateProduct(ProductForm productForm);
     void deleteProduct(Long productId);
     List<ProductForm> getAllProductByVendorId(Long vendorId);
-    ProductForm getVendorProduct(Long productId);
+    ProductForm getVendorProduct(Long productId, Long vendorId);
 
-    List<ProductForm> getAllProduct(@Nullable Integer categoryId, @Nullable Integer subCategoryId, String keyword);
+    List<ProductForm> getAllProduct(@Nullable Integer categoryId, @Nullable Integer subCategoryId, String keyword, Boolean enable);
     List<CategoryForm> getCategory();
-    List<ProductForm> getProducts(Integer categoryId, Integer supCategoryId, String keyword);
+    List<ProductForm> getProducts(Integer categoryId, Integer supCategoryId, String keyword, Boolean enable);
     ProductForm getProductDetail(Long productId, Long vendorId);
     ProductForm getProductDetailExtend(Long productId);
 
@@ -37,4 +37,5 @@ public interface IProductService {
     List<ProductImageForm> getProductImage(long productId);
     ProductImageForm getProductCover(long productId);
     List<CountriesDto> getCountries();
+    Message activateProduct(VendorProductForm vendorProductForm);
 }

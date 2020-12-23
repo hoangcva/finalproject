@@ -21,7 +21,7 @@ public class ProductValidator implements Validator {
         int categoryId = productForm.getCategoryId();
         int subCategoryId = productForm.getSubCategoryId();
 
-        if (Consts.ACTION_ADDEXTEND.equals(productForm.getAction())) {
+        if (Consts.ACTION_ADDEXTEND.equals(productForm.getAction()) || Consts.ACTION_UPDATEEXTEND.equals(productForm.getAction())) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "quantity", "NotEmpty.productForm.quantity");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "price", "NotEmpty.productForm.price");
 

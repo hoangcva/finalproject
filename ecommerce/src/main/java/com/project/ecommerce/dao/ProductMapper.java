@@ -2,7 +2,6 @@ package com.project.ecommerce.dao;
 
 import com.project.ecommerce.dto.*;
 import com.project.ecommerce.form.ProductForm;
-import com.project.ecommerce.form.ProductImageForm;
 import com.project.ecommerce.form.VendorProductForm;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -20,12 +19,12 @@ public interface ProductMapper {
     void insertVendorProduct(VendorProductDto vendorProductDto);
     List<ProductForm> getAllProductByVendorId(@Param("vendorId") Long vendorId);
 //    List<VendorProductDto> getAllVendorProductByVendorId(@Param("vendorId") Long vendorId);
-    ProductForm getVendorProduct(@Param("productId") long productId);
+    ProductForm getVendorProduct(@Param("productId") long productId,@Param("vendorId") long vendorId);
     Long getProductQuantity(@Param("productId") long productId, @Param("vendorId") long vendorId);
 
     List<ProductForm> getAllProduct(@Param("categoryId") Integer categoryId,
                                     @Param("subCategoryId") Integer subCategoryId,
-                                    @Param("keyword") String keyword);
+                                    @Param("keyword") String keyword,@Param("enable") Boolean enable);
 
 
     ProductForm getProductDetail(@Param("productId") long productId,
@@ -51,4 +50,11 @@ public interface ProductMapper {
     boolean insertDetailCategory3(ProductForm productForm);
 
     ProductForm getProductDetailBaseOnCategory(ProductForm productForm);
+
+    void activateProduct(VendorProductForm vendorProductForm);
+
+    List<ProductForm> getAllProductMainPage(@Param("categoryId") Integer categoryId,
+                                            @Param("subCategoryId") Integer subCategoryId,
+                                            @Param("keyword") String keyword);
+
 }

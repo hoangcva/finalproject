@@ -83,15 +83,15 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
             OrderDetailDto orderDetailDto = new OrderDetailDto();
             buyQuantity = cartLineInfoForm.getBuyQuantity();
             productId = cartLineInfoForm.getProductForm().getProductId();
-
+            Long vendorId = cartLineInfoForm.getProductForm().getVendorId();
             orderDetailDto.setProductId(productId);
-            orderDetailDto.setVendorId(cartLineInfoForm.getProductForm().getVendorId());
+            orderDetailDto.setVendorId(vendorId);
             orderDetailDto.setBuyQuantity(buyQuantity);
             orderDetailDto.setPrice(cartLineInfoForm.getProductForm().getPrice());
             orderDetailDto.setProductName(cartLineInfoForm.getProductForm().getProductName());
             orderDetailDtoList.add(orderDetailDto);
 
-            ProductForm productForm = productMapper.getVendorProduct(productId);
+            ProductForm productForm = productMapper.getVendorProduct(productId, vendorId);
             currentQuantity = productForm.getQuantity();
             newQuantity = currentQuantity - buyQuantity;
 

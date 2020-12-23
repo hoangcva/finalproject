@@ -10,9 +10,12 @@ public class Consts {
     public static final String ROLE_SHIPPER = "ROLE_SHIPPER";
     public static final Boolean ACCOUNT_STATUS_DEACTIVATE = false;
     public static final Boolean ACCOUNT_STATUS_ACTIVATE = true;
+    public static final Boolean PRODUCT_STATUS_DEACTIVATE = false;
+    public static final Boolean PRODUCT_STATUS_ACTIVATE = true;
     public static final String ACTION_REGISTER = "register";
     public static final String ACTION_UPDATE = "update";
     public static final String ACTION_ADDEXTEND = "extend";
+    public static final String ACTION_UPDATEEXTEND = "extend";
 
     public static final String ORDER_STATUS_PENDING = "PENDING";
     public static final String ORDER_STATUS_PROGRESSING = "PROGRESSING";
@@ -50,6 +53,9 @@ public class Consts {
     public static final String MSG_22_E = "MSG_22_E"; //Failed to add product to favorite!
     public static final String MSG_23_E = "MSG_23_E"; //Failed to remove product!
     public static final String MSG_24_E = "MSG_24_E"; //Failed to update user information!
+    public static final String MSG_25_E = "MSG_25_E"; //Failed to update product!
+    public static final String MSG_26_E = "MSG_26_E"; //Failed to activate product!
+    public static final String MSG_27_E = "MSG_27_E"; //Failed to deactivate product!
 
 
 
@@ -78,4 +84,7 @@ public class Consts {
     public static final String MSG_22_I = "MSG_22_I"; //Product has been added to favorite successful!
     public static final String MSG_23_I = "MSG_23_I"; //Product has been removed successful!
     public static final String MSG_24_I = "MSG_24_I"; //User information has been updated successful!
+    public static final String MSG_25_I = "MSG_25_I"; //Product has been updated successful!
+    public static final String MSG_26_I = "MSG_26_I"; //Product has been activated successful!
+    public static final String MSG_27_I = "MSG_27_I"; //Product has been deactivated successful!
 }

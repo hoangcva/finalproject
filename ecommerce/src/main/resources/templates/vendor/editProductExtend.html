@@ -20,7 +20,7 @@
 				<form th:action="@{/vendor/product/edit}" th:object="${productForm}" th:method="POST" id="save-product-form"
 				      enctype="multipart/form-data">
 					<div class="container">
-						<div th:replace="fragments/template :: detail-product-input"></div>
+						<div th:replace="fragments/template :: detail-extend-product-input"></div>
 						<hr class="my-4">
 						<div class="image-content container d-inline-flex flex-wrap">
 							<label for="img-manager-section">Add images:</label>
@@ -34,12 +34,8 @@
 										     th:classappend="${(#lists.size(productForm.productImageFormList) eq 0) ? '':'hide'}">
 										<input class="input-image" id="imageFile1" th:field="*{uploadImage1.uploadFile}"
 										       type="file" accept="image/png, image/jpeg"/>
-										<img class="img-thumbnail border-0 hide" id="thumbnail1" alt="Product image preview">
-										<input type="hidden" id="delete1" name="delete1" th:value="*{uploadImage1.delete}">
 									</div>
 									<span>Image 1</span>
-									<img class="delete-btn-img" id="delete-btn-img1" th:src="@{/images/trash.png}"
-									     th:classappend="${(#lists.size(productForm.productImageFormList) eq 0) ? 'hide':''}">
 								</div>
 								<div class="img-manager">
 									<div class="add-img-box">
@@ -50,12 +46,8 @@
 										     th:classappend="${(#lists.size(productForm.productImageFormList) < 2) ? '':'hide'}">
 										<input class="input-image" id="imageFile2" th:field="*{uploadImage2.uploadFile}" type="file"
 										       accept="image/png, image/jpeg"/>
-										<img class="img-thumbnail border-0 hide" id="thumbnail2" alt="Product image preview">
-										<input type="hidden" id="delete2" name="delete2" th:value="*{delete2}">
 									</div>
 									<span>Image 2</span>
-									<img class="delete-btn-img" id="delete-btn-img2" th:src="@{/images/trash.png}"
-									     th:classappend="${(#lists.size(productForm.productImageFormList) < 2) ? 'hide':''}">
 								</div>
 								<div class="img-manager">
 									<div class="add-img-box">
@@ -66,18 +58,15 @@
 										     th:classappend="${(#lists.size(productForm.productImageFormList) < 3) ? '':'hide'}">
 										<input class="input-image" id="imageFile3" th:field="*{uploadImage3.uploadFile}" type="file"
 										       accept="image/png, image/jpeg"/>
-										<img class="img-thumbnail border-0 hide" id="thumbnail3" alt="Product image preview">
-										<input type="hidden" id="delete3" name="delete3" th:field="*{uploadImage1.delete}">
 									</div>
 									<span>Image 3</span>
-									<img class="delete-btn-img" id="delete-btn-img3" th:src="@{/images/trash.png}"
-									     th:classappend="${(#lists.size(productForm.productImageFormList) < 3) ? 'hide':''}">
 								</div>
 							</div>
 						</div>
 						<input type="hidden" name="vendorId" th:field="*{vendorId}">
 						<input type="hidden" name="productId" th:field="*{productId}">
 						<input type="hidden" name="createdBy" th:field="*{createdBy}">
+						<input type="hidden" name="createdBy" th:field="*{action}">
 						<button type="submit" class="btn btn-primary btn-save">Save product</button>
 					</div>
 				</form>
@@ -85,7 +74,9 @@
 		</div>
 	</div>
 </main>
-<script type="text/javascript" th:src="@{/js/vendor/editProduct.js}"></script>
+
+
+<script type="text/javascript" th:src="@{/js/vendor/editProductDetailExtend.js}"></script>
 <link rel="stylesheet" href="../../static/css/vendor/editProduct.css" th:href="@{/css/vendor/editProduct.css}"/>
 <link rel="stylesheet" href="../../static/css/common/productImage.css" th:href="@{/css/common/productImage.css}"/>
 </body>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/template :: head_input(~{::title})">
+	<title>Edit product</title>
+</head>
+<body>
+<th:block th:include="/common/_header"></th:block>
+<main>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-2"></div>
+			<div class="col-auto">
+				<h2>Product manager</h2>
+			</div>
+		</div>
+		<div class="row">
+			<th:block th:include="/common/_admin-sidebar-menu"></th:block>
+			<div class="col-lg-8">
+				<div th:replace="fragments/template :: category-select-fragment"></div>
+				<div th:replace="fragments/template :: search-bar-custom"></div>
+				<div class="form-row">
+					<div class="form-check-inline">
+						<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="all" checked>
+						<label class="form-check-label" for="exampleRadios1">
+							All
+						</label>
+					</div>
+					<div class="form-check-inline">
+						<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="deactivated">
+						<label class="form-check-label" for="exampleRadios2">
+							Deactivated
+						</label>
+					</div>
+					<div class="form-check-inline">
+						<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="active">
+						<label class="form-check-label" for="exampleRadios2">
+							Activated
+						</label>
+					</div>
+				</div>
+				<div id="content">
+					<div th:replace="fragments/template :: customError"></div>
+					<div th:replace="fragments/template :: table-product-admin-custom"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+</body>
+<script type="text/javascript" th:src="@{/js/admin/allProduct.js}"></script>
+</html>

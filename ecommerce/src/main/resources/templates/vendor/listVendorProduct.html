@@ -17,9 +17,29 @@
             <th:block th:include="/common/_vendor-sidebar-menu"></th:block>
             <div class="col-lg-8">
                 <div th:replace="fragments/template :: search-bar-custom"></div>
+                <div class="form-row">
+                    <div class="form-check-inline">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="all" checked>
+                        <label class="form-check-label" for="exampleRadios1">
+                            All
+                        </label>
+                    </div>
+                    <div class="form-check-inline">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="deactivated">
+                        <label class="form-check-label" for="exampleRadios2">
+                            Deactivated
+                        </label>
+                    </div>
+                    <div class="form-check-inline">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="active">
+                        <label class="form-check-label" for="exampleRadios2">
+                            Activated
+                        </label>
+                    </div>
+                </div>
                 <div id="content">
                     <div th:replace="fragments/template :: customError"></div>
-                    <div th:replace="fragments/template :: table-product-grid-custom"></div>
+                    <div th:replace="fragments/template :: table-vendor-product-custom"></div>
                 </div>
             </div>
         </div>

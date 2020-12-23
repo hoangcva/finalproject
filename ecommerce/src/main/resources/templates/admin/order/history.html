@@ -34,29 +34,6 @@
 					<td th:text="${order.orderDate}"></td>
 					<td th:text="${order.orderStatus}"></td>
 					<td class="d-flex">
-<!--						<form th:action="@{/admin/order/update}" method="post" th:object="${orderForm}" class="mr-1"-->
-<!--						      th:if="${order.orderStatus eq 'PROGRESSING'}">-->
-<!--							<input type="hidden" name="id" th:value="${order.id}">-->
-<!--							<input type="hidden" name="orderDspId" th:value="${order.orderDspId}">-->
-<!--							<input type="hidden" name="orderStatus" value="READY">-->
-<!--							<button type="submit" class="btn btn-primary">Approve</button>-->
-<!--						</form>-->
-
-<!--						<form th:action="@{/admin/order/update}" method="post" th:object="${orderForm}"-->
-<!--						      th:if="${order.orderStatus eq 'PROGRESSING' or order.orderStatus eq 'DELIVERING' or order.orderStatus eq 'READY'}">-->
-<!--							<input type="hidden" name="id" th:value="${order.id}">-->
-<!--							<input type="hidden" name="orderDspId" th:value="${order.orderDspId}">-->
-<!--							<input type="hidden" name="orderStatus" value="CANCELED">-->
-<!--						<a type="submit" class="btn btn-primary" role="button" href=""-->
-<!--						   th:data-id="${order.id}"-->
-<!--						   th:data-orderDspId="${order.orderDspId}"-->
-<!--						   th:data-status="'READY'"-->
-<!--						   th:onclick="|javascript:cancelOrder(this.getAttribute('data-id'), this.getAttribute('data-orderDspId'), this.getAttribute('data-status'))|"-->
-<!--						   th:classappend="${order.orderStatus ne 'PROGRESSING'}?'disabled':''">Approve</a>-->
-<!--							<button type="submit" class="btn btn-danger"-->
-<!--							        th:onclick="|javascript:cancelOrder(${order.id}, ${order.orderDspId}, 'CANCELED')|"-->
-<!--									th:classappend="${order.orderStatus eq 'CANCELED'}?'disabled':''">Cancel</button>-->
-<!--						</form>-->
 						<a type="submit" class="btn btn-primary" role="button"
 						   th:href="@{/admin/order/update(id=${order.id}, orderDspId=${order.orderDspId}, orderStatus='READY')}"
 						   th:classappend="${order.orderStatus ne 'PROGRESSING'}?'disabled btn-outline-primary':''">Approve</a>

@@ -11,7 +11,6 @@ import com.project.ecommerce.service.IVendorService;
 import com.project.ecommerce.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -183,16 +181,18 @@ public class ProductController {
         Long vendorId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
         List<ProductForm> productFormList = productService.getAllProductByVendorId(vendorId);
         model.addAttribute("productFormList", productFormList);
+//        model.addAttribute("vendorId", vendorId);
         return "vendor/listVendorProduct";
     }
 
     @GetMapping(value = "/vendor/product/edit")
     public String getEditProduct(@ModelAttribute("productId") Long productId,
+                                 @ModelAttribute("vendorId") Long vendorId,
                                  @ModelAttribute("vendorForm") VendorForm vendorForm,
                                  Model model, Authentication auth) {
         List<CategoryDto> categoryDtoList= productService.getAllCategory();
         List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
-        ProductForm productForm = productService.getVendorProduct(productId);
+        ProductForm productForm = productService.getVendorProduct(productId, vendorId);
 
         String categoryName = categoryDtoList.stream()
                 .filter(category -> productForm.getCategoryId().equals(category.getId()))
@@ -212,17 +212,22 @@ public class ProductController {
         model.addAttribute("subCategories", subCategoryDtoList);
         model.addAttribute("categoryName", categoryName);
         model.addAttribute("subCategoryName", subCategoryName);
+        if (productForm.getCreatedBy() != vendorId) {
+            productForm.setAction(Consts.ACTION_UPDATEEXTEND);
+            return "vendor/editProductExtend";
+        }
         return "vendor/editProduct";
     }
 
     @PostMapping(value = "/vendor/product/edit")
     public String editProduct(@ModelAttribute("productForm") @Validated ProductForm productForm,
                               @ModelAttribute("vendorForm") VendorForm vendorForm,
-                              BindingResult result,
+                              BindingResult bindingResult,
                               Model model,
                               final RedirectAttributes redirectAttributes,
                               Authentication auth) {
-        if (result.hasErrors()) {
+        productForm.setSubmitted(true);
+        if (bindingResult.hasErrors()) {
             List<CategoryDto> categoryDtoList= productService.getAllCategory();
             List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
             List<CountriesDto> countriesDtoList = productService.getCountries();
@@ -231,7 +236,9 @@ public class ProductController {
             model.addAttribute("subCategories", subCategoryDtoList);
             return "vendor/editProduct";
         }
-        productService.updateProduct(productForm);
+        Message result = productService.updateProduct(productForm);
+        redirectAttributes.addFlashAttribute("message", result.getMessage());
+        redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
         return "redirect:/vendor/product/view";
     }
 
@@ -255,7 +262,7 @@ public class ProductController {
     public String showAllProduct(Model model) {
         List<CategoryForm> categoryForms = productService.getCategory();
 
-        List<ProductForm> productFormList = productService.getProducts(null, null, null);
+        List<ProductForm> productFormList = productService.getProducts(null, null, null, null);
 
         model.addAttribute("productFormList", productFormList);
         model.addAttribute("categories", categoryForms);
@@ -313,7 +320,7 @@ public class ProductController {
                                           ModelMap modelMap,
                                           Authentication auth,
                                           @ModelAttribute("vendorForm") VendorForm vendorForm) {
-        List<ProductForm> productFormList = productService.getProducts(null, null, keyword);
+        List<ProductForm> productFormList = productService.getProducts(null, null, keyword, null);
         List<ProductForm> tempList = new ArrayList<>();
 
         if (productFormList.size() > 0) {
@@ -334,7 +341,7 @@ public class ProductController {
         }
 
         modelMap.addAttribute("productFormList", tempList);
-        return "/fragments/template :: table-product";
+        return "/fragments/template :: table-product-search";
     }
 
     @GetMapping(value = "/vendor/product/view/search")
@@ -344,7 +351,7 @@ public class ProductController {
                                       ModelMap modelMap,
                                       Authentication auth,
                                       @ModelAttribute("vendorForm") VendorForm vendorForm) {
-        List<ProductForm> productFormList = productService.getProducts(null, null, keyword);
+        List<ProductForm> productFormList = productService.getProducts(null, null, keyword, null);
         List<ProductForm> tempList = new ArrayList<>();
         if (productFormList.size() > 0) {
             Long vendorId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
@@ -362,7 +369,7 @@ public class ProductController {
         }
 
         modelMap.addAttribute("productFormList", tempList);
-        return "/fragments/template :: table-product-grid";
+        return "/fragments/template :: table-vendor-product";
     }
 
     @GetMapping(value = "/product/view/list/search")
@@ -371,7 +378,7 @@ public class ProductController {
                                       final RedirectAttributes redirectAttributes,
                                       ModelMap modelMap,
                                       Authentication auth) {
-        List<ProductForm> productFormList = productService.getProducts(null, null, keyword);
+        List<ProductForm> productFormList = productService.getProducts(null, null, keyword, null);
 
         if (productFormList.size() == 0) {
             Message result = new Message("Product not found!", false);
@@ -392,7 +399,7 @@ public class ProductController {
                                  ModelMap modelMap
     ) {
         List<CategoryForm> categoryForms = productService.getCategory();
-        List<ProductForm> productFormList = productService.getProducts(categoryId, subCategoryId, null);
+        List<ProductForm> productFormList = productService.getProducts(categoryId, subCategoryId, null, null);
 
         if (productFormList.size() == 0) {
             Message result = new Message("Product not found!", false);
@@ -403,5 +410,107 @@ public class ProductController {
 
         modelMap.addAttribute("productFormList", productFormList);
         return "/fragments/template :: table-product-grid";
+    }
+
+    @PostMapping(value = "/vendor/product/activate")
+    public String activateProductVendor(Model model,@RequestBody VendorProductForm vendorProductForm, Authentication auth) {
+        Long vendorId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
+        String role = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getRole();
+        vendorProductForm.setVendorId(vendorId);
+        Message result = productService.activateProduct(vendorProductForm);
+        if (result.isSuccess() == false) {
+            model.addAttribute("message", result.getMessage());
+            model.addAttribute("isSuccess", result.isSuccess());
+            return "/fragments/template :: display-error-message";
+        }
+        List<ProductForm> productFormList = productFormList = productService.getAllProductByVendorId(vendorId);
+        model.addAttribute("message", result.getMessage());
+        model.addAttribute("isSuccess", result.isSuccess());
+        model.addAttribute("productFormList", productFormList);
+        if (Consts.ROLE_VENDOR.equals(role)) {
+            return "/fragments/template :: table-vendor-product";
+        } else {
+            return "/fragments/template :: table-product-admin";
+        }
+    }
+
+    @PostMapping(value = "/admin/product/activate")
+    public String activateProductAdmin(Model model,
+                                       @RequestParam(value = "productId", required = false) Long productId,
+                                       @RequestParam(value = "vendorId", required = false) Long vendorId,
+                                       @RequestParam(value = "keyword", required = false) String keyword,
+                                       @RequestParam(value = "enable", required = false) Boolean enable,
+                                       @RequestParam(value = "categoryId", required = false) Integer categoryId,
+                                       @RequestParam(value = "subCategoryId", required = false) Integer subCategoryId,
+                                       @RequestParam(value = "radioType", required = false) String type,
+                                       Authentication auth) {
+
+        VendorProductForm vendorProductForm = new VendorProductForm();
+        vendorProductForm.setProductId(productId);
+        vendorProductForm.setVendorId(vendorId);
+        vendorProductForm.setEnable(enable);
+        Message result = productService.activateProduct(vendorProductForm);
+        if (result.isSuccess() == false) {
+            model.addAttribute("message", result.getMessage());
+            model.addAttribute("isSuccess", result.isSuccess());
+            return "/fragments/template :: display-error-message";
+        }
+        categoryId = Integer.valueOf(0).equals(categoryId)  ? null:categoryId;
+        subCategoryId = Integer.valueOf(0).equals(subCategoryId) ? null:subCategoryId;
+        Boolean status = (type == null  || "all".equals(type)) ? null : (type == "active" ? true:false);
+        List<ProductForm> productFormList = productService.getProducts(categoryId, subCategoryId, keyword, status);
+
+        model.addAttribute("message", result.getMessage());
+        model.addAttribute("isSuccess", result.isSuccess());
+        model.addAttribute("productFormList", productFormList);
+        return "/fragments/template :: table-product-admin";
+    }
+
+    @GetMapping(value = "/admin/product/view/list/search")
+    public String searchProductAdmin(HttpServletRequest request,Model model,
+                                    @RequestParam(value = "keyword", required = false) String keyword,
+                                    @RequestParam(value = "categoryId", required = false) Integer categoryId,
+                                    @RequestParam(value = "subCategoryId", required = false) Integer subCategoryId,
+                                    @RequestParam(value = "radioType", required = false) String type,
+                                    ModelMap modelMap,
+                                    Authentication auth) {
+        categoryId = Integer.valueOf(0).equals(categoryId)  ? null:categoryId;
+        subCategoryId = Integer.valueOf(0).equals(subCategoryId) ? null:subCategoryId;
+        Boolean enable = (type == null  || "all".equals(type)) ? null : (type == "active" ? true:false);
+        List<ProductForm> productFormList = productService.getProducts(categoryId, subCategoryId, keyword, enable);
+
+        if (productFormList.size() == 0) {
+            Message result = new Message("Product not found!", false);
+            modelMap.addAttribute("message", result.getMessage());
+            modelMap.addAttribute("isSuccess", result.isSuccess());
+            return "/fragments/template :: display-error-message";
+        }
+
+        modelMap.addAttribute("productFormList", productFormList);
+        return "/fragments/template :: table-product-admin";
+    }
+
+    @GetMapping(value = "/admin/product/view/list")
+    public String showAllProductAdmin(Model model) {
+        List<ProductForm> productFormList = productService.getProducts(null, null, null, null);
+        List<CategoryDto> categoryDtoList = productService.getAllCategory();
+        List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setId(0);
+        categoryDto.setName("All");
+        categoryDtoList.add(0,categoryDto);
+        SubCategoryDto subCategoryDto = new SubCategoryDto();
+        subCategoryDto.setCategoryId(0);
+        subCategoryDto.setId(0);
+        subCategoryDto.setName("ALL");
+        subCategoryDtoList.add(0, subCategoryDto);
+        ProductForm productForm = new ProductForm();
+        productForm.setCategoryId(0);
+        productForm.setSubCategoryId(0);
+        model.addAttribute("productFormList", productFormList);
+        model.addAttribute("categories", categoryDtoList);
+        model.addAttribute("subCategories", subCategoryDtoList);
+        model.addAttribute("productForm", productForm);
+        return "/admin/allProduct";
     }
 }

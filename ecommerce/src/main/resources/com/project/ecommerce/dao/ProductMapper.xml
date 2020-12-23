@@ -36,6 +36,7 @@
         <result property="numberOfPages" column="numberOfPages"/>
         <result property="language" column="language"/>
         <result property="publisher" column="publisher"/>
+        <result property="enable" column="enable"/>
     </resultMap>
 
     <resultMap id="VendorResultMap" type="com.project.ecommerce.form.VendorProductForm">
@@ -87,6 +88,7 @@
         SELECT * FROM vendor_product
         LEFT JOIN product p on vendor_product.productId = p.id
         WHERE productId = #{productId}
+        AND vendorId = #{vendorId}
     </select>
 
     <update id="updateProduct" parameterType="com.project.ecommerce.form.ProductForm">
@@ -111,14 +113,18 @@
     <select id="getAllProduct" parameterType="map" resultMap="ProductResultMap" fetchSize="200">
         SELECT p.id, p.productName, p.categoryId, p.subCategoryId, p.listPrice,
                p.createdBy, p.created_time, p.origin, p.brand, p.SKU,
-            vp.vendorId, vp.price, vp.quantity, vp.rating, vp.productId, vp.createdTime, vp.updatedTime
+               vp.vendorId, vp.price, vp.quantity, vp.rating, vp.productId, vp.createdTime, vp.updatedTime, vp.enable,
+               vi.vendorName
         FROM product p
         INNER JOIN
-            ( SELECT v.vendorId, v.quantity, v.rating, v.price, v.productId, v.createdTime, v.updatedTime
+            ( SELECT v.vendorId, v.quantity, v.rating, v.price, v.productId, v.createdTime, v.updatedTime, v.enable
               FROM vendor_product v
               WHERE quantity > 0
               ORDER BY rating DESC, price ASC
             ) vp ON p.id = vp.productId
+        INNER JOIN
+            (SELECT vi.vendorName, vi.vendorId as vid FROM vendor_info vi) vi
+                ON vi.vid = vp.vendorId
         <where>
             <if test="categoryId != null">
                 AND categoryId = #{categoryId}
@@ -130,10 +136,10 @@
                 AND (productName LIKE #{keyword}
                     OR SKU LIKE #{keyword})
             </if>
+            <if test="enable != null">
+                AND enable = #{enable}
+            </if>
         </where>
-#         GROUP BY p.id, vp.productId
-        ORDER BY RAND()
-        LIMIT 100
     </select>
 
     <select id="getProductDetail" resultMap="ProductResultMap" fetchSize="200">
@@ -290,5 +296,44 @@
         FROM vendor_product
         WHERE productId = #{productId}
             AND vendorId = #{vendorId}
+    </select>
+
+    <update id="activateProduct" parameterType="com.project.ecommerce.form.VendorProductForm">
+        UPDATE vendor_product
+        SET enable = #{enable},
+            updatedTime = #{updatedTime}
+        WHERE productId = #{productId}
+        AND vendorId = #{vendorId}
+    </update>
+
+    <select id="getAllProductMainPage" parameterType="map" resultMap="ProductResultMap" fetchSize="200">
+        SELECT p.id, p.productName, p.categoryId, p.subCategoryId, p.listPrice,
+        p.createdBy, p.created_time, p.origin, p.brand, p.SKU,
+        vp.vendorId, vp.price, vp.quantity, vp.rating, vp.productId, vp.createdTime, vp.updatedTime, vp.enable
+        FROM product p
+        INNER JOIN
+        ( SELECT v.vendorId, v.quantity, v.rating, v.price, v.productId, v.createdTime, v.updatedTime, v.enable
+        FROM vendor_product v
+        WHERE quantity > 0
+        ORDER BY rating DESC, price ASC
+        ) vp ON p.id = vp.productId
+        <where>
+            <if test="categoryId != null">
+                AND categoryId = #{categoryId}
+            </if>
+            <if test="subCategoryId != null">
+                AND subCategoryId = #{subCategoryId}
+            </if>
+            <if test="keyword != null">
+                AND (productName LIKE #{keyword}
+                OR SKU LIKE #{keyword})
+            </if>
+            <if test="enable != null">
+                AND enable = #{enable}
+            </if>
+        </where>
+        #         GROUP BY p.id, vp.productId
+        ORDER BY RAND()
+        LIMIT 100
     </select>
 </mapper>

@@ -7,6 +7,7 @@ import com.project.ecommerce.dao.ProductMapper;
 import com.project.ecommerce.dao.UserMapper;
 import com.project.ecommerce.dto.*;
 import com.project.ecommerce.form.OrderForm;
+import com.project.ecommerce.form.ProductForm;
 import com.project.ecommerce.form.SubCategoryForm;
 import com.project.ecommerce.form.TransporterForm;
 import com.project.ecommerce.service.IAdminService;

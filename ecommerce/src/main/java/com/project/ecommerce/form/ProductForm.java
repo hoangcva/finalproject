@@ -56,7 +56,25 @@ public class ProductForm implements Serializable {
     private boolean isSubmitted = false;
     private String action;
     private boolean isLiked;
+    private boolean enable;
+    private String radioType;
 
+
+    public String getRadioType() {
+        return radioType;
+    }
+
+    public void setRadioType(String radioType) {
+        this.radioType = radioType;
+    }
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
 
     public boolean isLiked() {
         return isLiked;

@@ -18,6 +18,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -132,18 +133,27 @@ public class ProductServiceImpl implements IProductService {
 
     /**
      * @param productForm
+     * @return
      */
     @Override
-    public void updateProduct(ProductForm productForm) {
+    public Message updateProduct(ProductForm productForm) {
+        Message result = new Message("", true);
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
-            productMapper.updateProduct(productForm);
+            if (productForm.getCreatedBy() == productForm.getVendorId()) {
+                productMapper.updateProduct(productForm);
+                doUploadImage(productForm);
+            }
             productMapper.updateVendorProduct(productForm);
-            doUploadImage(productForm);
             transactionManager.commit(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_25_I));
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_25_E));
+            result.setSuccess(false);
         }
+
+        return result;
     }
 
     /**
@@ -170,11 +180,12 @@ public class ProductServiceImpl implements IProductService {
 
     /**
      * @param productId
+     * @param vendorId
      * @return
      */
     @Override
-    public ProductForm getVendorProduct(Long productId) {
-        ProductForm productForm = productMapper.getVendorProduct(productId);
+    public ProductForm getVendorProduct(Long productId, Long vendorId) {
+        ProductForm productForm = productMapper.getVendorProduct(productId, vendorId);
         ProductForm productDetail = productMapper.getProductDetailBaseOnCategory(productForm);
         productForm = setDetail(productDetail, productForm);
         List<ProductImageForm> productImageFormList = getProductImage(productForm.getProductId());
@@ -186,11 +197,12 @@ public class ProductServiceImpl implements IProductService {
      * @param categoryId
      * @param subCategoryId
      * @param keyword
+     * @param enable
      * @return
      */
     @Override
-    public List<ProductForm> getAllProduct(Integer categoryId, Integer subCategoryId, String keyword) {
-        List<ProductForm> productFormList = productMapper.getAllProduct(categoryId, subCategoryId, keyword);
+    public List<ProductForm> getAllProduct(Integer categoryId, Integer subCategoryId, String keyword, Boolean enable) {
+        List<ProductForm> productFormList = productMapper.getAllProduct(categoryId, subCategoryId, keyword, enable);
         for (ProductForm productForm : productFormList) {
 //            List<ProductImageForm> productImageFormList = getProductImage(productForm.getProductId());
             ProductImageForm productImageForm = getProductCover(productForm.getProductId());
@@ -241,10 +253,11 @@ public class ProductServiceImpl implements IProductService {
      * @param categoryId
      * @param supCategoryId
      * @param keyword
+     * @param enable
      * @return
      */
     @Override
-    public List<ProductForm> getProducts(Integer categoryId, Integer supCategoryId, String keyword) {
+    public List<ProductForm> getProducts(Integer categoryId, Integer supCategoryId, String keyword, Boolean enable) {
         categoryId = Consts.DEFAULT_VALUE_0.equals(categoryId) ? null : categoryId;
         supCategoryId = Consts.DEFAULT_VALUE_0.equals(supCategoryId) ? null : supCategoryId;
         if(keyword == null || keyword.isEmpty()) {
@@ -252,7 +265,7 @@ public class ProductServiceImpl implements IProductService {
         } else {
             keyword = '%' + keyword + '%';
         }
-        return getAllProduct(categoryId, supCategoryId, keyword);
+        return getAllProduct(categoryId, supCategoryId, keyword, enable);
     }
 
     /**
@@ -388,6 +401,31 @@ public class ProductServiceImpl implements IProductService {
     public List<CountriesDto> getCountries() {
         List<CountriesDto> countriesDtoList = productMapper.getCountries();
         return countriesDtoList;
+    }
+
+    @Override
+    public Message activateProduct(VendorProductForm vendorProductForm) {
+        Message result = new Message("", true);
+        TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        try {
+            vendorProductForm.setUpdatedTime(new Timestamp(System.currentTimeMillis()));
+            productMapper.activateProduct(vendorProductForm);
+            transactionManager.commit(txStatus);
+            if (Consts.PRODUCT_STATUS_ACTIVATE.equals(vendorProductForm.isEnable())) {
+                result.setMessage(messageAccessor.getMessage(Consts.MSG_26_I));
+            } else {
+                result.setMessage(messageAccessor.getMessage(Consts.MSG_27_I));
+            }
+        } catch (Exception ex) {
+            transactionManager.rollback(txStatus);
+            if (Consts.PRODUCT_STATUS_ACTIVATE.equals(vendorProductForm.isEnable())) {
+                result.setMessage(messageAccessor.getMessage(Consts.MSG_26_E));
+            } else {
+                result.setMessage(messageAccessor.getMessage(Consts.MSG_27_E));
+            }
+            result.setSuccess(false);
+        }
+        return result;
     }
 
     private void doUploadImage(ProductForm productForm) {
