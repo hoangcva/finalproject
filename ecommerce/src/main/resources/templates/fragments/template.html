@@ -234,7 +234,7 @@
 				   th:id="'btn_active' + ${iterationStatus.count}"
 				   th:onclick="|javascript:deactivateProduct(${product.productId}, false)|"
 				   th:if="${product.enable eq true}"></a>
-				<a class="btn_delete btn btn-outline-dangery" type="button" href=""
+				<a class="btn_delete btn btn-outline-dangery disabled" type="button" href=""
 				   th:text="Locked"
 				   th:id="'btn_active' + ${iterationStatus.count}"
 				   th:unless="${product.enable eq true}"></a>
@@ -972,6 +972,5 @@
 		</tbody>
 	</table>
 </div>
-
 </body>
 </html>

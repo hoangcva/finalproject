@@ -194,17 +194,12 @@
         </where>
     </select>
 
-    <update id="activeVendor" parameterType="Long">
+    <update id="activeVendor">
         UPDATE vendor_info
-        SET enable = true
+        SET enable = #{enable}
         WHERE vendorId = #{vendorId}
     </update>
 
-    <update id="lockVendor" parameterType="Long">
-        UPDATE vendor_info
-        SET enable = false
-        WHERE vendorId = #{vendorId}
-    </update>
 
     <delete id="deleteTransporter" parameterType="Long">
         DELETE FROM transporters WHERE transporterId = #{transporterId}

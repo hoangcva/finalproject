@@ -121,13 +121,17 @@ public class AdminController {
         }
     }
 
-    @PostMapping(value = "/account/vendor/active")
-    public String activeVendor(@RequestBody VendorForm vendorForm, Model model) {
-        Message result = userService.activeVendor(vendorForm.getVendorId(), vendorForm.getEnable());
+    @GetMapping(value = "/account/vendor/active")
+//    public String activeVendor(@RequestBody VendorForm vendorForm, Model model) {
+    public String activeVendor(@RequestParam("vendorId") Long vendorId,
+                               @RequestParam("enable") Boolean enable,
+                               @RequestParam("radioType") String radioType,
+                               Model model) {
+        Message result = userService.activeVendor(vendorId, enable);
 
         List<VendorForm> vendorFormList = new ArrayList<>();
 
-        String type = vendorForm.getRadioType();
+        String type = radioType;
         if ("all".equals(type)) {
             vendorFormList = userService.getVendorList(null);
         } else if ("deactivated".equals(type)) {

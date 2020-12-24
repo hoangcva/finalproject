@@ -70,15 +70,15 @@ public class CartController {
         }
     }
 
-    @PostMapping(value = "/save")
-    public ResponseEntity<?> saveCart(@RequestBody CartInfoForm CartInfoForm) {
-        Message result = new Message();
-        HashMap<String, Object> message = new HashMap<>();
-        message.put("msg", result.getMessage());
-        if (result.isSuccess()) {
-            return new ResponseEntity<>(message, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
-        }
-    }
+//    @PostMapping(value = "/save")
+//    public ResponseEntity<?> saveCart(@RequestBody CartInfoForm CartInfoForm) {
+//        Message result = new Message();
+//        HashMap<String, Object> message = new HashMap<>();
+//        message.put("msg", result.getMessage());
+//        if (result.isSuccess()) {
+//            return new ResponseEntity<>(message, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+//        }
+//    }
 }

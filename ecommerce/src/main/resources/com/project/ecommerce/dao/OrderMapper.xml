@@ -82,4 +82,36 @@
         ORDER BY orderDate DESC
     </select>
 
+    <select id="totalIncomeLast30Days" resultType="Long">
+        SELECT SUM(buyQuantity*price)
+        FROM order_products inner join orders o on order_products.orderId = o.id
+        WHERE vendorId = #{vendorId}
+            AND deliveryDate > DATE_SUB(now(), INTERVAL 30 DAY)
+    </select>
+
+    <select id="totalIncome" resultType="long">
+        SELECT SUM(buyQuantity*price)
+        FROM order_products inner join orders o on order_products.orderId = o.id
+        WHERE vendorId = #{vendorId}
+    </select>
+
+    <select id="todayIncome" resultType="long">
+        SELECT SUM(buyQuantity*price)
+        FROM order_products inner join orders o on order_products.orderId = o.id
+        WHERE vendorId = #{vendorId}
+          AND DATE(deliveryDate) = CURRENT_DATE
+    </select>
+
+    <select id="soldProduct" resultType="long">
+        SELECT SUM(productIncome) as productIncome, SUM(buyQuantity) as buyQuantity, productName, content, op.productId
+        FROM
+            (SELECT SUM(buyQuantity*price) as productIncome, productId, SUM(buyQuantity) as buyQuantity, productName,orderId
+             from order_products where vendorId = ? group by productId,productName,orderId) op
+                INNER JOIN (SELECT deliveryDate, id from orders where order_status = 'SUCCESS') o ON o.id = op.orderId
+                INNER JOIN (SELECT content, productid from image where imageOrder = 1) i
+                           ON i.productId = op.productId
+        GROUP BY productId,productName,content
+        ORDER BY productName ASC
+    </select>
+
 </mapper>

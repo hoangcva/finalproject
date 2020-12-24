@@ -2,6 +2,7 @@ package com.project.ecommerce.dao;
 
 import com.project.ecommerce.dto.OrderDetailDto;
 import com.project.ecommerce.dto.OrderDto;
+import com.project.ecommerce.dto.VendorStatisticDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -19,4 +20,9 @@ public interface OrderMapper {
     boolean updateOrderStatus(OrderDto orderDto);
     List<OrderDto> getOrderList(@Param("orderStatus") String orderStatus, @Param("transporterId") Long transporterId);
     List<OrderDto> getOrderListTransporter(@Param("transporterId") Long transporterId);
+
+    long totalIncomeLast30Days(@Param("vendorId") Long vendorId);
+    long totalIncome(@Param("vendorId") Long vendorId);
+    long todayIncome(@Param("vendorId") Long vendorId);
+    VendorStatisticDto soldProduct(@Param("vendorId") Long vendorId);
 }

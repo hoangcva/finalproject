@@ -10,6 +10,7 @@ import com.project.ecommerce.form.PasswordForm;
 import com.project.ecommerce.form.UserRegisterForm;
 import com.project.ecommerce.form.UserUpdateForm;
 import com.project.ecommerce.form.VendorForm;
+import com.project.ecommerce.service.IProductService;
 import com.project.ecommerce.service.IUserService;
 import com.project.ecommerce.util.Message;
 import com.project.ecommerce.util.MessageAccessor;
@@ -39,6 +40,8 @@ public class UserServiceImpl implements IUserService {
     private CustomerAddressMapper customerAddressMapper;
     @Autowired
     private MessageAccessor messageAccessor;
+    @Autowired
+    private IProductService productService;
 
     @Override
     public UserDetails loadUserByUsername(String username) {
@@ -151,14 +154,15 @@ public class UserServiceImpl implements IUserService {
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         VendorDto vendorDto = userMapper.getVendorInfo(vendorId);
         try {
-            if (!vendorDto.getEnable()) {
-                userMapper.activeVendor(vendorId);
-            } else {
-                userMapper.lockVendor(vendorId);
-            }
+            userMapper.activeVendor(vendorId, enable);
+            productService.activateVendorProduct(vendorId, enable);
             //commit
             transactionManager.commit(txStatus);
-
+            if (enable) {
+                result.setMessage(messageAccessor.getMessage(Consts.MSG_18_I, vendorDto.getUserName()));
+            } else {
+                result.setMessage(messageAccessor.getMessage(Consts.MSG_19_I, vendorDto.getUserName()));
+            }
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             if (enable) {
@@ -167,11 +171,6 @@ public class UserServiceImpl implements IUserService {
                 result.setMessage(messageAccessor.getMessage(Consts.MSG_19_E, vendorDto.getUserName()));
             }
             result.setSuccess(false);
-        }
-        if (enable) {
-            result.setMessage(messageAccessor.getMessage(Consts.MSG_18_I, vendorDto.getUserName()));
-        } else {
-            result.setMessage(messageAccessor.getMessage(Consts.MSG_19_I, vendorDto.getUserName()));
         }
         return result;
     }

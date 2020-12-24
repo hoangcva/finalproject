@@ -38,4 +38,5 @@ public interface IProductService {
     ProductImageForm getProductCover(long productId);
     List<CountriesDto> getCountries();
     Message activateProduct(VendorProductForm vendorProductForm);
+    Message activateVendorProduct(Long vendorId, Boolean enable);
 }

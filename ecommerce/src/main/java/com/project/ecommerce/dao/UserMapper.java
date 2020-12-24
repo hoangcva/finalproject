@@ -31,8 +31,7 @@ public interface UserMapper {
     void createVendor(VendorDto vendorDto);
     boolean deleteVendor(@Param("vendorId") Long vendorId);
     List<VendorDto> getVendorList(@Param("enable") @Nullable Boolean enable);
-    boolean activeVendor(@Param("vendorId") Long vendorId);
-    boolean lockVendor(@Param("vendorId") Long vendorId);
+    boolean activeVendor(@Param("vendorId") Long vendorId, @Param("enable") Boolean enable);
     VendorDto getVendorInfo(@Param("vendorId") Long vendorId);
     void updateVendor(VendorDto vendorDto);
 

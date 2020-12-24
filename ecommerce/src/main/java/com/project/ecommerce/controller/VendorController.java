@@ -8,6 +8,7 @@ import com.project.ecommerce.dto.CategoryDto;
 import com.project.ecommerce.dto.ProvinceDto;
 import com.project.ecommerce.dto.UserDetailsDto;
 import com.project.ecommerce.form.VendorForm;
+import com.project.ecommerce.form.VendorStatisticForm;
 import com.project.ecommerce.service.IVendorService;
 import com.project.ecommerce.util.Message;
 import com.project.ecommerce.util.MessageAccessor;
@@ -97,4 +98,10 @@ public class VendorController {
 //        }
 //        return "redirect:/vendor/info";
 //    }
+    @GetMapping("/statistic")
+    public String statistic(Model model, @RequestParam("vendorId") Long vendorId){
+        VendorStatisticForm vendorStatisticForm = vendorService.statistic(vendorId);
+        model.addAttribute("vendorStatisticForm", vendorStatisticForm);
+        return "/vendor/index";
+    }
 }

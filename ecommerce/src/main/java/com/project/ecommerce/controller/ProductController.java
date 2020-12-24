@@ -265,9 +265,7 @@ public class ProductController {
     @GetMapping(value = {"/", "/product/view/list"})
     public String showAllProduct(Model model) {
         List<CategoryForm> categoryForms = productService.getCategory();
-
-        List<ProductForm> productFormList = productService.getProducts(null, null, null, null);
-
+        List<ProductForm> productFormList = productService.getProducts(null, null, null, true);
         model.addAttribute("productFormList", productFormList);
         model.addAttribute("categories", categoryForms);
         return "viewProductList";

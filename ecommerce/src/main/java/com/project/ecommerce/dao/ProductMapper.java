@@ -52,6 +52,7 @@ public interface ProductMapper {
     ProductForm getProductDetailBaseOnCategory(ProductForm productForm);
 
     void activateProduct(VendorProductForm vendorProductForm);
+    void activateVendorProduct(VendorProductForm vendorProductForm);
 
     List<ProductForm> getAllProductMainPage(@Param("categoryId") Integer categoryId,
                                             @Param("subCategoryId") Integer subCategoryId,

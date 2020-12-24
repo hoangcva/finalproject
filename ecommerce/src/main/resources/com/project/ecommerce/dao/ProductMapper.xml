@@ -336,4 +336,11 @@
         ORDER BY RAND()
         LIMIT 100
     </select>
+
+    <update id="activateVendorProduct" parameterType="com.project.ecommerce.form.VendorProductForm">
+        UPDATE vendor_product
+        SET enable = #{enable},
+            updatedTime = #{updatedTime}
+        WHERE vendorId = #{vendorId}
+    </update>
 </mapper>

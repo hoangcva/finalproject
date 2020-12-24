@@ -23,14 +23,20 @@
             <div class="col-lg-8">
                 <div th:replace="fragments/template :: display-error-message"/>
                 <div class="row">
-                    <div class="d-inline-flex flex-wrap col-12">
-                        <div th:fragment="view-product-list" class="view-product-list outer" th:each="product,iterationStatus : ${productFormList}">
-                            <a class="product-thumbnail text-decoration-none"
-                               th:href="@{/product/view/detail(productId = ${product.productId}, vendorId = ${product.vendorId})}">
-                                <div th:replace="fragments/productInfo :: view-product-list"></div>
-                            </a>
-                        </div>
-                    </div>
+                    <div>today</div>
+                    <div>last30day</div>
+                    <div>total</div>
+                </div>
+                <div class="row">
+                    <table>
+                        <thead>
+                        <td>#</td>
+                        <td>ProductId</td>
+                        <td>ProductName+img</td>
+                        <td>buyQuantity</td>
+                        <td>totalincome</td>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>

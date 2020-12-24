@@ -1,11 +1,13 @@
 package com.project.ecommerce.service.impl;
 
 import com.project.ecommerce.Consts.Consts;
+import com.project.ecommerce.dao.OrderMapper;
 import com.project.ecommerce.dao.UserMapper;
-import com.project.ecommerce.dto.UserDetailsDto;
 import com.project.ecommerce.dto.UserDto;
 import com.project.ecommerce.dto.VendorDto;
+import com.project.ecommerce.dto.VendorStatisticDto;
 import com.project.ecommerce.form.VendorForm;
+import com.project.ecommerce.form.VendorStatisticForm;
 import com.project.ecommerce.service.IVendorService;
 import com.project.ecommerce.util.Message;
 import com.project.ecommerce.util.MessageAccessor;
@@ -30,6 +32,8 @@ public class VendorServiceImpl implements IVendorService {
     private MessageAccessor messageAccessor;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private OrderMapper orderMapper;
 
     @Override
     public VendorForm getInfo(Long vendorId) {
@@ -86,5 +90,19 @@ public class VendorServiceImpl implements IVendorService {
             result.setSuccess(false);
         }
         return result;
+    }
+
+    @Override
+    public VendorStatisticForm statistic(Long vendorId) {
+        VendorStatisticForm statisticForm = new VendorStatisticForm();
+        VendorStatisticDto statisticDto = orderMapper.soldProduct(vendorId);
+        Long totalIncome = orderMapper.totalIncome(vendorId);
+        Long todayIncome = orderMapper.todayIncome(vendorId);
+        Long incomeLast30Days = orderMapper.totalIncomeLast30Days(vendorId);
+        BeanUtils.copyProperties(statisticDto, statisticForm);
+        statisticForm.setTodayIncome(todayIncome);
+        statisticForm.setTotalIncome(totalIncome);
+        statisticForm.setIncomeLast30Days(incomeLast30Days);
+        return statisticForm;
     }
 }

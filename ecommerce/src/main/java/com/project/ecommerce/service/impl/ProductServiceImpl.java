@@ -428,6 +428,34 @@ public class ProductServiceImpl implements IProductService {
         return result;
     }
 
+    @Override
+    public Message activateVendorProduct(Long vendorId, Boolean enable) {
+        Message result = new Message("", true);
+        TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        try {
+            VendorProductForm vendorProductForm = new VendorProductForm();
+            vendorProductForm.setUpdatedTime(new Timestamp(System.currentTimeMillis()));
+            vendorProductForm.setEnable(enable);
+            vendorProductForm.setVendorId(vendorId);
+            productMapper.activateVendorProduct(vendorProductForm);
+            transactionManager.commit(txStatus);
+            if (Consts.PRODUCT_STATUS_ACTIVATE.equals(enable)) {
+                result.setMessage(messageAccessor.getMessage(Consts.MSG_26_I));
+            } else {
+                result.setMessage(messageAccessor.getMessage(Consts.MSG_27_I));
+            }
+        } catch (Exception ex) {
+            transactionManager.rollback(txStatus);
+            if (Consts.PRODUCT_STATUS_ACTIVATE.equals(enable)) {
+                result.setMessage(messageAccessor.getMessage(Consts.MSG_26_E));
+            } else {
+                result.setMessage(messageAccessor.getMessage(Consts.MSG_27_E));
+            }
+            result.setSuccess(false);
+        }
+        return result;
+    }
+
     private void doUploadImage(ProductForm productForm) {
         long productId = productForm.getProductId();
         MultipartFile imageFile1 = productForm.getUploadImage1().getUploadFile();

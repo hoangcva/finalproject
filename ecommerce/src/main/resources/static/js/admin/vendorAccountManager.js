@@ -31,23 +31,32 @@ function activeAccount(vendorId, enable)
         //     $("#content").html(fragment);
         // });
         $.ajax({
-            type:'POST',
+            type:'GET',
             url: '/admin/account/vendor/active',
             // headers: { 'X-CSRF-TOKEN': $("input[name='_csrf']").val()},
             contentType: 'application/json',
             dataType : 'json',
-            data: JSON.stringify(vendorForm),
-            success : function (result) {
-                // alert(result.responseText)
-                // $('#reload').submit();
-                // $.get("/admin/account/vendor");
-                $("#content").html(result.responseText);
-            },
-            error: function (result) {
-                // alert(result.responseText);
-                // $('#reload').submit();
-                $("#content").html(result.responseText);
-            },
+            data: vendorForm,
+            // success : function (result) {
+            //     // alert(result.responseText)
+            //     // $('#reload').submit();
+            //     // $.get("/admin/account/vendor");
+            //     $("#content").html(result.responseText);
+            // },
+            // error: function (result) {
+            //     // alert(result.responseText);
+            //     // $('#reload').submit();
+            //     $("#content").html(result.responseText);
+            // },
+            // always: function () {
+            //     $("#content").html(result.responseText);
+            // }
+        }).done(function(result) {
+            $("#content").html(result.responseText);
+        }).fail(function(result) {
+            $("#content").html(result.responseText);
+        }).always(function(result) {
+            $("#content").html(result.responseText);
         });
     } else {
 
