@@ -68,7 +68,7 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
         CartInfoForm cartInfoForm = cartService.getCart(customerId);
 
         orderDto.setCustomerId(customerId);
-        orderDto.setBillTotal(cartInfoForm.getBillTotal());
+        orderDto.setBillTotal(cartInfoForm.getBillTotal() + orderForm.getShippingFee());
         orderDto.setOrderStatus(Consts.ORDER_STATUS_PROGRESSING);
         orderDto.setDeliveryAddress(deliveryAddress);
 //        orderDto.setNote(CommonUtils.nullToString(orderForm.getNote()));

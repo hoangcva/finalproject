@@ -1,11 +1,9 @@
 package com.project.ecommerce.controller;
 
+import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.dto.CustomerAddressDto;
 import com.project.ecommerce.dto.UserDetailsDto;
-import com.project.ecommerce.form.CartInfoForm;
-import com.project.ecommerce.form.CommentForm;
-import com.project.ecommerce.form.OrderForm;
-import com.project.ecommerce.form.TransporterForm;
+import com.project.ecommerce.form.*;
 import com.project.ecommerce.service.*;
 import com.project.ecommerce.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +39,13 @@ public class OrderCustomerController {
         Long customerId = userDetails.getUserDto().getId();
 
         CartInfoForm cartInfoForm = cartService.getCart(customerId);
+        if (!Consts.EMPTY.equals(cartInfoForm.getResult().getMessage())) {
+            model.addAttribute("cartInfoForm", cartInfoForm);
+            model.addAttribute("message", cartInfoForm.getResult().getMessage());
+            model.addAttribute("isSuccess", cartInfoForm.getResult().isSuccess());
+            return "customer/cartPage";
+        }
+
         orderForm.setCartInfoForm(cartInfoForm);
         CustomerAddressDto customerAddressDto = addressService.getDefault(customerId);
 
@@ -78,6 +83,8 @@ public class OrderCustomerController {
     @GetMapping("/detail")
     public String viewOrderDetail(@ModelAttribute("orderId") Long orderId, Model model) {
         OrderForm orderForm = orderCustomerService.getOrderDetailCustomer(orderId);
+        TransporterForm transporterForm = transporterService.getTransporterInfo(orderForm.getTransporterId());
+        model.addAttribute("transporterForm", transporterForm);
         model.addAttribute("orderForm", orderForm);
         return "/customer/order/detail";
     }

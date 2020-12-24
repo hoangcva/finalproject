@@ -8,20 +8,25 @@
     <div class="row">
         <div class="col-lg">
             <h2>Cart</h2>
+            <h4 th:unless="${cartInfoForm.getQuantityTotal()} == 0">
+                <span th:text="'(' + ${cartInfoForm.getQuantityTotal()} + 'products)'"></span>
+            </h4>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-9">
             <div th:replace="fragments/template :: display-error-message"/>
-            <div><span th:text="'(' + ${cartInfoForm.getQuantityTotal()} + 'products)'"></span></div>
+            <div></div>
             <form th:action="@{/customer/order}" method="POST" th:unless="${cartInfoForm.getQuantityTotal() == 0}">
                 <div th:each="cartLine : ${cartInfoForm.cartLines}" class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 d-flex">
                         <img class="img-thumbnail mr-2" style="height: 60px"
                              th:src="@{'data:image/jpeg;base64,'+${cartLine.productForm.productImageFormList[0].generateBase64Image()}}"/>
-                        <div th:text="*{cartLine.productForm.productName}"></div>
+                        <div class="d-inline-block">
+                            <span class="text-truncate text-2-lines" th:text="*{cartLine.productForm.productName}"></span>
+                        </div>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-2 text-right">
                         <div>
                             <strong class="money price" th:text="*{cartLine.productForm.price}"></strong>
                         </div>
@@ -29,7 +34,7 @@
                             <span class="money list-price" th:text="*{cartLine.productForm.listPrice}"></span>
                         </div>
                     </div>
-                    <div th:if="*{cartLine.productForm.quantity > 0}" class="col-lg-3 change-quantity btn-group" style="height: 2.5em;">
+                    <div th:if="*{cartLine.productForm.quantity > 0 && cartLine.productForm.enable eq true}" class="col-lg-3 change-quantity btn-group" style="height: 2.5em;">
                         <div id="decrease-btn" class="btn btn-minus mr-0" style="width: 1em;"
                              th:onclick="|javascript:minus(*{cartLine.buyQuantity}, *{cartLine.productForm.quantity}, *{cartLine.id})|">
                             <i class="fas fa-minus"></i>
@@ -44,8 +49,12 @@
                         </div>
                         <span id="over-quantity" class="hide d-none" th:text="'You can\'t buy more than ' + ${cartLine.productForm.quantity} + ' products'"></span>
                     </div>
-                    <div class="col-lg-3" th:unless="*{cartLine.productForm.quantity > 0}">
-                        <span class="pt-1 pb-1 ml-2 text-danger" th:text="'Product out of stock!'"
+                    <div class="col-lg-3" th:if="*{cartLine.productForm.quantity <= 0 && cartLine.productForm.enable eq true}">
+                        <span class="pt-1 pb-1 ml-2 text-danger" th:text="'Product is out of stock!'"
+                              style="font-size: 20px"></span>
+                    </div>
+                    <div class="col-lg-3" th:unless="*{cartLine.productForm.enable eq true}">
+                        <span class="pt-1 pb-1 ml-2 text-danger" th:text="'Product is not available!'"
                               style="font-size: 20px"></span>
                     </div>
                     <div class="col-lg-1" >
@@ -58,14 +67,19 @@
                     <input type="hidden" name="carLineId" id="cartLineId" th:value="*{cartLine.id}">
                     <input type="hidden" name="quantity" id="quantity" th:value="*{cartLine.productForm.quantity}">
                 </div>
-                <button th:if="${isSuccess eq false}" id="order-btn" class="btn btn-primary" disabled>Make order</button>
-                <button th:unless="${isSuccess eq false}" id="order-btn" class="btn btn-primary">Make order</button>
+                <div class="row mt-lg-3">
+                    <button th:if="${isSuccess eq false}" id="order-btn" class="btn btn-primary" disabled>Make order</button>
+                    <button th:unless="${isSuccess eq false}" id="order-btn" class="btn btn-primary">Make order</button>
+                </div>
             </form>
+
             <div class="align-content-center overflow-auto" th:if="${cartInfoForm.getQuantityTotal()} == 0">
                 <div class="mh-50"><p text="Cart is empty"></p></div>
                 <div class="mh-50"><a text="Continue shopping" th:href="@{/}"></a></div>
             </div>
         </div>
+
+
         <div class="col-lg-3">
             <table class="table border-0">
                 <tbody>

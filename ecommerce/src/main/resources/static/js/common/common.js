@@ -44,9 +44,7 @@ $(document).on({
 $(document).ready(function() {
     $.fn.rating.defaults.filled = 'fas fa-star';
     $.fn.rating.defaults.empty = 'far fa-star';
-    $('.money').each(function() {
-        $(this).text(commafy($(this).text()));
-    });
+    money();
 
     $( ".card" ).hover(
         function() {
@@ -67,4 +65,9 @@ $(document).ready(function() {
 
 function commafy(num) {
     return num === '' ? num : num.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')+ ' đ';
+}
+function money() {
+    $('.money').each(function() {
+        $(this).text(commafy($(this).text()));
+    });
 }

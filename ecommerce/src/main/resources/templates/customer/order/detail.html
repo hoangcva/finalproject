@@ -9,11 +9,11 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-lg-2"></div>
-		<div class="col-lg-8 d-flex">
-			<h4 th:text="'Order ' + ${orderForm.orderDspId} + ' detail'"></h4>
-			<h4> - <b th:text="${orderForm.orderStatus}"></b></h4>
+		<div class="col-lg-7 d-flex">
+			<h2 th:text="'Order ' + ${orderForm.orderDspId} + ' detail'"></h2>
+			<h2> - <b th:text="${orderForm.orderStatus}"></b></h2>
 		</div>
-		<div class="col-2 mr-0 ml-auto">
+		<div class="col-1">
 			<!--			<form th:action="@{/customer/order/cancel}" method="post" th:object="${orderForm}">-->
 			<!--				<input type="hidden" th:field="*{id}">-->
 			<!--				<input type="hidden" th:field="*{orderDspId}">-->
@@ -27,88 +27,107 @@
 			   th:if="${orderForm.orderStatus eq 'PROGRESSING'}"
 			   th:href="@{/customer/order/cancel(id=${orderForm.id}, orderDspId=${orderForm.orderDspId}, orderStatus='CANCELED')}">Cancel</a>
 		</div>
-	</div>
-	<div class="row">
-		<div class="col-4">
-			Address
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-4">
-			Transporter
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-4">
-			Payment method
-		</div>
+		<div class="col-lg-2"></div>
 	</div>
 	<div class="row">
 		<th:block th:include="/common/_customer-sidebar-menu"></th:block>
-		<div class="col-lg-8">
-			<div th:replace="fragments/template :: display-error-message"/>
-			<table  class="table table-bordered" id="dtBasicExample">
-				<thead>
-				<tr>
-					<th scope="col">#</th>
-					<th scope="col">Product</th>
-					<th scope="col">Price</th>
-					<th scope="col">Quantity</th>
-					<!--					<th scope="col">Discount</th>-->
-					<th scope="col">Total</th>
-				</tr>
-				</thead>
-				<tbody>
-				<tr th:each="product,iStat  : ${orderForm.orderDetailList}">
-					<th scope="row" th:text="${iStat.count}"></th>
-					<td>
-						<div class="d-flex">
-							<img class="img-thumbnail mr-2" style="height: 60px"
-								 th:src="@{'data:image/jpeg;base64,'
+		<div class="col-lg-10">
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="title mt-2">
+						<span>Delivery address</span>
+					</div>
+					<hr class="my-2">
+					<div class="content clearfix">
+						<span class="name" th:text="${orderForm.getFullName()}"></span>
+						<span class="phoneNumber d-block" th:text="${orderForm.phoneNumber}"></span>
+						<span class="detail d-block" th:text="${orderForm.deliveryAddress}"></span>
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="title mt-2">
+						<span>Transporter</span>
+					</div>
+					<hr class="my-2">
+					<div class="content clearfix">
+						<span th:text="${transporterForm.fullName}"></span>
+					</div>
+				</div>
+			</div>
+
+			<!--	<div class="row">-->
+			<!--		<div class="col-4">-->
+			<!--			Payment method-->
+			<!--		</div>-->
+			<!--	</div>-->
+			<div class="row">
+				<div class="col-lg-8">
+					<div th:replace="fragments/template :: display-error-message"/>
+					<table  class="table table-bordered" id="dtBasicExample">
+						<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Product</th>
+							<th scope="col">Price</th>
+							<th scope="col">Quantity</th>
+							<!--					<th scope="col">Discount</th>-->
+							<th scope="col">Total</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr th:each="product,iStat  : ${orderForm.orderDetailList}">
+							<th th:text="${iStat.count}"></th>
+							<td>
+								<div class="d-flex">
+									<img class="img-thumbnail mr-2" style="height: 60px"
+									     th:src="@{'data:image/jpeg;base64,'
 								            +${product.productForm.productImageFormList[0].generateBase64Image()}}"/>
-							<div>
-								<p>
-									<a th:text="${product.productForm.productName}"
-									   th:href="@{/product/view/detail(productId = ${product.productForm.productId})}"></a>
-								</p>
-								<p>
-									Provided by
-									<a th:href="@{/}"><strong th:text="${product.productForm.vendorName}"></strong></a>
-									<!--TODO: vendorPage-->
-								</p>
-								<p th:if="${orderForm.orderStatus eq 'SUCCESS'}">
-									<a th:href="@{/customer/comment(productId = ${product.productForm.productId},
+									<div>
+										<p>
+											<a th:text="${product.productForm.productName}"
+											   th:href="@{/product/view/detail(productId = ${product.productForm.productId}, vendorId = ${product.productForm.vendorId})}"></a>
+										</p>
+										<p>
+											Provided by
+											<a th:href="@{/}"><strong th:text="${product.productForm.vendorName}"></strong></a>
+											<!--TODO: vendorPage-->
+										</p>
+										<p th:if="${orderForm.orderStatus eq 'SUCCESS'}">
+											<a th:href="@{/customer/comment(productId = ${product.productForm.productId},
 																	vendorId = ${product.productForm.vendorId},
 																	orderId = ${orderForm.id})}"
-										class="btn btn-outline-primary">Add comment</a>
-								</p>
-							</div>
-						</div>
-					</td>
-					<td class="money" th:text="${product.price}"></td>
-					<td th:text="${product.buyQuantity}"></td>
-					<!--					<td></td>-->
-					<td class="bill-total money" th:text="${product.buyQuantity * product.price}"></td>
-				</tr>
-				</tbody>
-				<tfoot>
-				<!--					<tr>-->
-				<!--						<td>Temp</td>-->
-				<!--						<td></td>-->
-				<!--					</tr>-->
-				<!--					<tr>-->
-				<!--						<td>Discount</td>-->
-				<!--						<td></td>-->
-				<!--					</tr>-->
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>Total</td>
-					<td class="bill-total money" th:text="${orderForm.billTotal}"></td>
-				</tr>
-				</tfoot>
-			</table>
+											   class="btn btn-outline-primary">Add comment</a>
+										</p>
+									</div>
+								</div>
+							</td>
+							<td class="money" th:text="${product.price}"></td>
+							<td th:text="${product.buyQuantity}"></td>
+							<!--					<td></td>-->
+							<td class="bill-total money" th:text="${product.buyQuantity * product.price}"></td>
+						</tr>
+						</tbody>
+						<tfoot>
+						<!--					<tr>-->
+						<!--						<td>Temp</td>-->
+						<!--						<td></td>-->
+						<!--					</tr>-->
+						<!--					<tr>-->
+						<!--						<td>Discount</td>-->
+						<!--						<td></td>-->
+						<!--					</tr>-->
+						<tr>
+							<td colspan="4" class="text-right">Shipping fee</td>
+							<td class="bill-total money" th:text="${orderForm.shippingFee}"></td>
+						</tr>
+						<tr>
+							<td colspan="4" class="text-right">Total</td>
+							<td class="bill-total money" th:text="${orderForm.billTotal}"></td>
+						</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

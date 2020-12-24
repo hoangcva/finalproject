@@ -50,43 +50,62 @@
 			</div>
 			<div class="col-md-7 bg-light ">
 				<div class="row mb-lg-4 text-break"><h3 th:text="*{productName}"></h3></div>
-<!--				<div class="row">-->
-					<div class="d-flex flex-column align-items-end w-75 col-sm-7 pb-lg-3" style="position : absolute; bottom : 0">
-						<div class="mb-lg-2 mr-3">
-							<h3 class="d-block font-weight-bold money " th:text="*{price}"></h3>
-							<div class="justify-content-end d-flex money list-price" th:text="*{listPrice}"></div>
-							<div class="justify-content-end d-flex discount"
-							     th:text="'-' + *{(listPrice - price) * 100 / listPrice + '%'}"></div>
-						</div>
-						<div class="mb-lg-3 mr-3 pb-lg-3">
-							<div th:replace="fragments/template :: change-quantity(0, ${productForm.quantity})"></div>
-						</div>
-						<div class="mb-lg-3 mr-3 pb-lg-3">
-							<input class="d-block" id="rating" type="hidden" value="3">
-						</div>
-						<div>
-							<span id="favorite-add" th:classappend="${productForm.liked eq true} ? 'hide' : 'show-inline'"
-							      onclick="addProductToFavorite()">
-								<i class="far fa-heart"></i>
-							</span>
-							<span id="favorite-remove" th:classappend="${productForm.liked eq true} ? 'show-inline' : 'hide'"
-							      onclick="removeProductFromFavorite()">
-								<i class="fas fa-heart text-danger"></i>
-							</span>
-							<input class="btn btn-primary d-inline-block" id="btn-submit" type="button" value="Buy"
-							       onclick="addProductToCart()" style="width: 250px" sec:authorize="isAuthenticated()">
-							<a th:href="@{/login}" class="btn btn-primary d-inline-block" id="btn-login"
-							   style="width: 250px" sec:authorize="!isAuthenticated()" role="button">
-								Buy
+				<!--				<div class="row">-->
+				<div class="d-flex flex-column align-items-end w-75 col-sm-7 pb-lg-3"
+				     style="position : absolute; bottom : 0">
+					<div class="mb-lg-2 mr-3">
+						<h3 class="d-block font-weight-bold money " th:text="*{price}"></h3>
+						<div class="justify-content-end d-flex money list-price" th:text="*{listPrice}"></div>
+						<div class="justify-content-end d-flex discount"
+						     th:text="'-' + *{(listPrice - price) * 100 / listPrice + '%'}"></div>
+					</div>
+					<div class="mb-lg-3 mr-3 pb-lg-3">
+						<div th:replace="fragments/template :: change-quantity(0, ${productForm.quantity})"></div>
+					</div>
+					<div class="mb-lg-3 mr-3 pb-lg-3">
+						<input class="d-block" id="rating" type="hidden" value="3">
+					</div>
+					<div class="d-lg-flex w-100" style="height: 4em">
+						<th:block th:if="${productForm.enable eq true}">
+							<th:block sec:authorize="isAuthenticated()">
+								<div class="ml-lg-auto mr-lg-2 py-4">
+									<span id="favorite-add"
+									      th:classappend="${productForm.liked eq true} ? 'hide' : 'show-inline'"
+									      onclick="addProductToFavorite()">
+										<i class="far fa-heart"></i>
+									</span>
+									<span id="favorite-remove"
+									      th:classappend="${productForm.liked eq true} ? 'show-inline' : 'hide'"
+									      onclick="removeProductFromFavorite()">
+										<i class="fas fa-heart text-danger"></i>
+									</span>
+								</div>
+								<input class="btn btn-primary mx-2 py-3" id="btn-submit" type="button" value="Buy"
+								       th:if="${productForm.quantity > 0}"
+								       onclick="addProductToCart()" style="width: 250px">
+							</th:block>
+							<a th:href="@{/login}" class="btn btn-primary mx-2 py-3" id="btn-login"
+							   style="width: 250px" sec:authorize="!isAuthenticated()" role="button"
+							   th:if="${productForm.quantity > 0}"
+							   th:text="Buy">
 							</a>
-						</div>
+						</th:block>
+						<a class="mx-2 py-3 btn-danger btn disabled" role="button"
+						     th:if="${productForm.quantity <= 0 && productForm.enable eq true}"
+						     th:text="'Product is out of stock!'" href="">
+						</a>
+						<a class="mx-2 py-3 btn btn-danger disabled" role="button"
+					        th:unless="${productForm.enable eq true}"
+					        th:text="'Product is not available!'" href="">
+						</a>
+					</div>
 
-					</div>
-					<div class="col-sm-5" style="position : absolute; right : 0">
-						<div class="font-weight-bolder" th:text="${vendorForm.vendorName}"></div>
-						<div class="text-truncate" th:text="${vendorForm.description}"></div>
-					</div>
-<!--				</div>-->
+				</div>
+				<div class="col-sm-5" style="position : absolute; right : 0">
+					<div class="font-weight-bolder" th:text="${vendorForm.vendorName}"></div>
+					<div class="text-truncate" th:text="${vendorForm.description}"></div>
+				</div>
+				<!--				</div>-->
 			</div>
 		</div>
 		<div class="row mb-lg-4">
@@ -216,14 +235,14 @@
 				<div class="bg-light p-lg-2" th:utext="*{description}"></div>
 			</div>
 		</div>
-		<div class="row" >
+		<div class="row">
 			<div class="col-lg-12">
 				<div class="d-block mb-lg-3"><h3>Review</h3></div>
 				<div class="bg-light p-lg-2" th:each="comment : *{commentFormList}">
 					<div>
 						<b class="d-block">
 							<span th:text="${comment.customerName}"></span>
-<!--							<span class="ml-1"><input class="rating" type="hidden" th:field="*{rating}" data-readonly></span>-->
+							<!--							<span class="ml-1"><input class="rating" type="hidden" th:field="*{rating}" data-readonly></span>-->
 							<span class="ml-1"><input class="rating" type="hidden" value="3" data-readonly></span>
 						</b>
 						<span class="text-secondary" th:text="'Reviewed at ' + ${comment.createdTime}"></span>

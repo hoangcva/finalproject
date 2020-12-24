@@ -39,7 +39,8 @@
                                 <input class="form-check-input" type="radio" name="transporterId" id="transporterId" th:value="${transporter.id}" checked>
                                 <span class="icon"></span>
                                 <label class="form-check-label" for="transporterId" th:text="${transporter.fullName}"></label>
-                                <span th:text="'(Shipping fee: ' + ${transporter.shippingFee} + ')'"></span>
+                                <span th:text="'(Shipping fee: ' + ${transporter.shippingFee} + 'đ)'"></span>
+                                <input type="hidden" th:id="'shippingFeeValue'+${transporter.id}" th:value="${transporter.shippingFee}">
                             </div>
                         </div>
                     </div>
@@ -56,13 +57,11 @@
                 <div class="address container border mb-4">
                     <div class="title mt-2">
                         <span>Delivery address</span>
-                        <div><a th:href="@{/customer/address/change}"></a></div>
+                        <div><a th:href="@{/customer/address/change}" th:text="Change"></a></div>
                     </div>
                     <hr class="my-2">
                     <div class="content clearfix">
                         <span class="name" th:text="${defaultAddress.getFullName()}"></span>
-                        <span class="name" th:text="${defaultAddress.id}"></span>
-
                         <span class="phoneNumber float-right" th:text="${defaultAddress.phoneNumber}"></span>
                         <span class="detail d-block" th:text="${defaultAddress.addressDetail}+', '+${defaultAddress.ward}+', '+${defaultAddress.district}+', '+${defaultAddress.province}"></span>
                     </div>
@@ -86,23 +85,24 @@
 <!--                        <input type="hidden" name="quantity" id="quantity" th:value="${cartLine.productForm.quantity}">-->
                     </div>
                     <hr class="my-2">
-                    <div class="price-summary clearfix mb-1">
-            <!--            <div class="total-list-price">-->
-            <!--                <div class="name">Total list price: </div>-->
-            <!--                <div class="value" th:field="*{cartInfoForm.getListPriceTotal()}" th:text="*{cartInfoForm.getListPriceTotal()}"></div>-->
-            <!--            </div>-->
-            <!--            <div class="shipping-cost">-->
-            <!--                <div class="name"></div>-->
-            <!--                <div class="value"></div>-->
-            <!--            </div>-->
-                        <div class="bill-total d-inline-block float-right">
-                            <span class="name">Total: </span>
-                            <span class="money value" th:field="*{cartInfoForm.getBillTotal()}" th:text="*{cartInfoForm.getBillTotal()}"></span>
+                    <div class="price-summary clearfix mb-1 pl-5 text-right">
+                        <div class="total-list-price d-flex">
+                            <div class="name w-50">Total price: </div>
+                            <div class="money value w-50" id="totalTemp" th:text="*{cartInfoForm.getBillTotal()}"></div>
+                        </div>
+                        <div class="shipping-cost d-flex">
+                            <div class="name w-50">Shipping fee: </div>
+                            <div class="moneyTemp money w-50" id="shippingFeeDsp" value="0"></div>
+                        </div>
+                        <div class="bill-total d-flex">
+                            <div class="name w-50">Total bill: </div>
+                            <div class="moneyTemp value w-50" id="total" th:text="*{cartInfoForm.getBillTotal()}"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <input type="hidden" th:name="shippingFee" th:id="shippingFee" value="">
         <input type="hidden" th:name="addressId" th:id="addressId" th:value="${defaultAddress.id}">
         <button type="submit" class="btn btn-primary">Make order</button>
     </div>
@@ -114,8 +114,9 @@
 <div th:replace="fragments/template::overlay"></div>
 <script type="text/javascript" th:inline="javascript">
     const cartInfoForm = [[${orderForm.getCartInfoForm().getCartLines()}]];
+    const totalTemp = [[${orderForm.getCartInfoForm().getBillTotal()}]];
 </script>
 </body>
-<script type="text/javascript" th:src="@{/js/customer/cartPage.js}"></script>
-<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/customer/cartPage.css}" href="../../../static/css/customer/cartPage.css">
+<script type="text/javascript" th:src="@{/js/customer/order/orderPage.js}"></script>
+<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/customer/order/orderPage.css}" href="../../../static/css/customer/order/orderPage.css">
 </html>

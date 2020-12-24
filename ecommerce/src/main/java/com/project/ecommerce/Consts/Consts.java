@@ -59,6 +59,7 @@ public class Consts {
     public static final String MSG_28_E = "MSG_28_E"; //The shopping cart has the product has changed quantity!
     public static final String MSG_29_E = "MSG_29_E"; //Failed to register!
     public static final String MSG_30_E = "MSG_30_E"; //Failed to create address!
+    public static final String MSG_31_E = "MSG_31_E"; //The shopping cart has the product is not available!
 
 
 //-----------------------------------------------------------------------------------------------

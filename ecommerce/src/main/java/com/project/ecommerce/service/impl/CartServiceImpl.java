@@ -58,9 +58,14 @@ public class CartServiceImpl implements ICartService {
 
             if (productForm.getQuantity() < cartLine.getBuyQuantity()) {
                 cartLine.setBuyQuantity(productForm.getQuantity());
-                if (productForm.getQuantity() == 0) {
-                    cartInfoForm.getResult().setMessage(messageAccessor.getMessage(Consts.MSG_28_E));
+                if (!productForm.isEnable()) {
+                    cartInfoForm.getResult().setMessage(messageAccessor.getMessage(Consts.MSG_31_E));
                     cartInfoForm.getResult().setSuccess(false);
+                } else if (productForm.getQuantity() == 0) {
+                    cartInfoForm.getResult().setSuccess(false);
+                    if (cartInfoForm.getResult().getMessage() == Consts.EMPTY) {
+                        cartInfoForm.getResult().setMessage(messageAccessor.getMessage(Consts.MSG_28_E));
+                    }
                 } else if (cartInfoForm.getResult().getMessage() == Consts.EMPTY) {
                     cartInfoForm.getResult().setMessage(messageAccessor.getMessage(Consts.MSG_28_I));
                 }
