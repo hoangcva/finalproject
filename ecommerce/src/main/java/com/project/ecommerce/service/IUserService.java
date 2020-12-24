@@ -15,7 +15,7 @@ import java.util.List;
 
 public interface IUserService extends UserDetailsService {
     UserDetails loadUserByUsername(String username);
-    void createUser(UserRegisterForm userRegisterForm);
+    Message createUser(UserRegisterForm userRegisterForm);
     UserDto findUserByEmail(String email);
     Message updateUser(UserUpdateForm userUpdateForm);
     List<UserDto> getAllUser();

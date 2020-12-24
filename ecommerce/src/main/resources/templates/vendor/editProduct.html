@@ -22,9 +22,9 @@
 					<div class="container">
 						<div th:replace="fragments/template :: detail-product-input"></div>
 						<hr class="my-4">
-						<div class="image-content container d-inline-flex flex-wrap">
+						<div class="image-content container d-inline-flex flex-wrap flex-row">
 							<label for="img-manager-section">Add images:</label>
-							<div id="img-manager-section">
+							<div id="img-manager-section" class="d-flex flex-row justify-content-around">
 								<div class="img-manager">
 									<div class="add-img-box">
 										<img class="previous-img img-thumbnail" id="previous-img-1"
@@ -78,6 +78,7 @@
 						<input type="hidden" name="vendorId" th:field="*{vendorId}">
 						<input type="hidden" name="productId" th:field="*{productId}">
 						<input type="hidden" name="createdBy" th:field="*{createdBy}">
+						<input type="hidden" name="isSubmitted" id="isSubmitted" value="true">
 						<button type="submit" class="btn btn-primary btn-save">Save product</button>
 					</div>
 				</form>

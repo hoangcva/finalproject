@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service("CustomerAddressService")
@@ -60,7 +59,8 @@ public class CustomerAddressServiceImpl implements ICustomerAddressService {
     }
 
     @Override
-    public void createAddress(CustomerAddressForm customerAddressForm, Long customerId) {
+    public Message createAddress(CustomerAddressForm customerAddressForm, Long customerId) {
+        Message result = new Message();
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
             CustomerAddressDto customerAddressDto = new CustomerAddressDto();
@@ -71,10 +71,13 @@ public class CustomerAddressServiceImpl implements ICustomerAddressService {
             }
             customerAddressMapper.insertAddress(customerAddressDto);
             transactionManager.commit(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_30_I));
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
-            throw ex;
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_30_E));
+            result.setSuccess(false);
         }
+        return result;
     }
 
     @Override

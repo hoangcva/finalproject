@@ -142,13 +142,12 @@ public class ProductController {
 
     @PostMapping(value = "/vendor/product/add/detail")
     public String addProduct(@ModelAttribute("productForm") @Validated ProductForm productForm,
-                             @ModelAttribute("vendorForm") VendorForm vendorForm,
                              BindingResult bindingResult,
                              Model model,
                              final RedirectAttributes redirectAttributes,
                              Authentication auth,
-                             HttpServletRequest request) {
-        Long id = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
+                             HttpServletRequest request,
+                             @ModelAttribute("vendorForm") VendorForm vendorForm) {
         productForm.setSubmitted(true);
         if (bindingResult.hasErrors()) {
             List<CountriesDto> countriesDtoList = productService.getCountries();
@@ -158,6 +157,7 @@ public class ProductController {
             return "vendor/addProductDetail";
         }
         Message result = new Message("", true);
+        Long id = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
         if (Consts.ACTION_ADDEXTEND.equals(productForm.getAction())) {
             result = productService.addProductExtend(productForm, id);
         } else {
@@ -221,19 +221,23 @@ public class ProductController {
 
     @PostMapping(value = "/vendor/product/edit")
     public String editProduct(@ModelAttribute("productForm") @Validated ProductForm productForm,
-                              @ModelAttribute("vendorForm") VendorForm vendorForm,
                               BindingResult bindingResult,
                               Model model,
                               final RedirectAttributes redirectAttributes,
-                              Authentication auth) {
+                              Authentication auth,
+                              @ModelAttribute("vendorForm") VendorForm vendorForm) {
         productForm.setSubmitted(true);
         if (bindingResult.hasErrors()) {
+            List<ProductImageForm> productImageFormList = productService.getProductImage(productForm.getProductId());
+            productForm.setProductImageFormList(productImageFormList);
             List<CategoryDto> categoryDtoList= productService.getAllCategory();
             List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
             List<CountriesDto> countriesDtoList = productService.getCountries();
             model.addAttribute("countriesDtoList", countriesDtoList);
             model.addAttribute("categories", categoryDtoList);
             model.addAttribute("subCategories", subCategoryDtoList);
+            model.addAttribute("categoryName", productForm.getCategoryName());
+            model.addAttribute("subCategoryName", productForm.getSubCategoryName());
             return "vendor/editProduct";
         }
         Message result = productService.updateProduct(productForm);
@@ -436,29 +440,24 @@ public class ProductController {
 
     @PostMapping(value = "/admin/product/activate")
     public String activateProductAdmin(Model model,
-                                       @RequestParam(value = "productId", required = false) Long productId,
-                                       @RequestParam(value = "vendorId", required = false) Long vendorId,
-                                       @RequestParam(value = "keyword", required = false) String keyword,
-                                       @RequestParam(value = "enable", required = false) Boolean enable,
-                                       @RequestParam(value = "categoryId", required = false) Integer categoryId,
-                                       @RequestParam(value = "subCategoryId", required = false) Integer subCategoryId,
-                                       @RequestParam(value = "radioType", required = false) String type,
+                                       @RequestBody AdminProductForm adminProductForm,
                                        Authentication auth) {
 
         VendorProductForm vendorProductForm = new VendorProductForm();
-        vendorProductForm.setProductId(productId);
-        vendorProductForm.setVendorId(vendorId);
-        vendorProductForm.setEnable(enable);
+        vendorProductForm.setProductId(adminProductForm.getProductId());
+        vendorProductForm.setVendorId(adminProductForm.getVendorId());
+        vendorProductForm.setEnable(adminProductForm.getEnable());
         Message result = productService.activateProduct(vendorProductForm);
         if (result.isSuccess() == false) {
             model.addAttribute("message", result.getMessage());
             model.addAttribute("isSuccess", result.isSuccess());
             return "/fragments/template :: display-error-message";
         }
-        categoryId = Integer.valueOf(0).equals(categoryId)  ? null:categoryId;
-        subCategoryId = Integer.valueOf(0).equals(subCategoryId) ? null:subCategoryId;
+        String type = adminProductForm.getRadioType();
+        Integer categoryId = Integer.valueOf(0).equals(adminProductForm.getCategoryId())  ? null:adminProductForm.getCategoryId();
+        Integer subCategoryId = Integer.valueOf(0).equals(adminProductForm.getSubCategoryId()) ? null:adminProductForm.getSubCategoryId();
         Boolean status = (type == null  || "all".equals(type)) ? null : (type == "active" ? true:false);
-        List<ProductForm> productFormList = productService.getProducts(categoryId, subCategoryId, keyword, status);
+        List<ProductForm> productFormList = productService.getProducts(categoryId, subCategoryId, adminProductForm.getKeyword(), status);
 
         model.addAttribute("message", result.getMessage());
         model.addAttribute("isSuccess", result.isSuccess());

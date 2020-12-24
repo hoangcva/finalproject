@@ -55,7 +55,8 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void createUser(UserRegisterForm userRegisterForm) {
+    public Message createUser(UserRegisterForm userRegisterForm) {
+        Message result = new Message();
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
             UserDto userDto = new UserDto();
@@ -66,9 +67,13 @@ public class UserServiceImpl implements IUserService {
             userDto.setRole(Consts.ROLE_USER);
             userMapper.createUser(userDto);
             transactionManager.commit(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_29_I));
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_29_E));
+            result.setSuccess(false);
         }
+        return result;
     }
 
     public UserDto getUserByUserName(String userName) {

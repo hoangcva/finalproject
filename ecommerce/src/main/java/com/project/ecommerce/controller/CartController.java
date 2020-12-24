@@ -41,6 +41,8 @@ public class CartController {
         UserDetailsDto userDetails = (UserDetailsDto) auth.getPrincipal();
         cartInfoForm = cartService.getCart(userDetails.getUserDto().getId());
         model.addAttribute("cartInfoForm", cartInfoForm);
+        model.addAttribute("message", cartInfoForm.getResult().getMessage());
+        model.addAttribute("isSuccess", cartInfoForm.getResult().isSuccess());
         return "customer/cartPage";
     }
 

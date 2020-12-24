@@ -39,13 +39,20 @@ function loadSearchResult()
 
 function deactivateProduct(productId,vendorId, enable)
 {
+    var categoryId = $("#category-select option:selected").val();
+    var subCategoryId = $("#sub-category-select option:selected").val();
     var radioType = $('input[type=radio][name=exampleRadios]:checked').val();
+    var keyword = $('#keyword').val();
     let result = confirm("Do you want to deactivate this product?");
     var vendorForm = {
         "productId" : productId,
         "vendorId" : vendorId,
         "enable" : enable,
-        "radioType" : radioType
+        "radioType" : radioType,
+        "categoryId" : categoryId,
+        "subCategoryId" : subCategoryId,
+        "keyword" : keyword
+
     };
     if (result) {
         $.ajax({

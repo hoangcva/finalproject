@@ -131,6 +131,7 @@
 					<label class="invalid-feedback" th:if="${#fields.hasErrors('description')}"
 					       th:errors="*{description}"></label>
 				</div>
+				<input type="hidden" th:field="*{action}">
 				<button type="submit" th:text="Create" class="btn btn-primary"></button>
 			</form>
 		</div>

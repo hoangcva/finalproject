@@ -69,28 +69,19 @@ public class RegisterController {
     @RequestMapping(value = "/saveUser", method = RequestMethod.POST)
     public String saveUser(Model model,
                            @ModelAttribute("userRegisterForm") @Validated UserRegisterForm userRegisterForm,
-                           BindingResult result,
+                           BindingResult bindingResult,
                            final RedirectAttributes redirectAttributes) {
         userRegisterForm.setSubmitted(true);
-        if (result.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
             model.addAttribute("provinceList", provinceDtoList);
-//            model.addAttribute("user_form", userRegisterForm);
             return "register";
         }
-        try {
-            userService.createUser(userRegisterForm);
-        }
-        catch (Exception e) {
-            List<ProvinceDto> provinceDtoList = addressMapper.getAllProvince();
-            model.addAttribute("provinceList", provinceDtoList);
-            model.addAttribute("errorMessage", "Error: " + e.getMessage());
-            return "register";
-        }
+        Message result = userService.createUser(userRegisterForm);
+        redirectAttributes.addFlashAttribute("message", result.getMessage());
+        redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
 
-        redirectAttributes.addFlashAttribute("user", userRegisterForm);
-
-        return "redirect:/registerSuccessful";
+        return "redirect:/customer/success";
     }
 
     @GetMapping(value = "/registerVendor")

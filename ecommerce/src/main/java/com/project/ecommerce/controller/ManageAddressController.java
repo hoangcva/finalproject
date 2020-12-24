@@ -90,29 +90,22 @@ public class ManageAddressController {
     @PostMapping(value = "/addAddress")
     public String createAddress(Model model,
                                 @ModelAttribute("address_form") @Validated CustomerAddressForm customerAddressForm,
-                                BindingResult result,
+                                BindingResult bindingResult,
                                 final RedirectAttributes redirectAttributes,
                                 Authentication auth,
                                 MessageAccessor messageAccessor) {
-        // Validate result
-        if (result.hasErrors()) {
+        customerAddressForm.setSubmitted(true);
+        if (bindingResult.hasErrors()) {
             initData(model);
             return "/customer/address/addAddressPage";
         }
-        try {
-            UserDetailsDto userDetails = (UserDetailsDto) auth.getPrincipal();
-            Long customerId = userDetails.getUserDto().getId();
-            customerAddressForm.setCustomerId(customerId);
-            customerAddressService.createAddress(customerAddressForm, customerId);
-        }
-        // Other error!!
-        catch (Exception e) {
-            initData(model);
-            model.addAttribute("errorMessage", messageAccessor.getMessage(Consts.MSG_02_E));
-            return "/customer/address/addAddressPage";
-        }
+        UserDetailsDto userDetails = (UserDetailsDto) auth.getPrincipal();
+        Long customerId = userDetails.getUserDto().getId();
+        customerAddressForm.setCustomerId(customerId);
+        Message result = customerAddressService.createAddress(customerAddressForm, customerId);
 
-        redirectAttributes.addFlashAttribute("message", "Create address successful");
+        redirectAttributes.addFlashAttribute("message", result.getMessage());
+        redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
         return "redirect:/customer/address/manageAddress";
     }
 

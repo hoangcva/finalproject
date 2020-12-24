@@ -8,7 +8,9 @@ import com.project.ecommerce.dto.UserDetailsDto;
 import com.project.ecommerce.form.CartInfoForm;
 import com.project.ecommerce.form.CartLineInfoForm;
 import com.project.ecommerce.form.ProductForm;
+import com.project.ecommerce.form.ProductImageForm;
 import com.project.ecommerce.service.ICartService;
+import com.project.ecommerce.service.IProductService;
 import com.project.ecommerce.util.MessageAccessor;
 import com.project.ecommerce.util.Message;
 import org.springframework.beans.BeanUtils;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,7 +37,8 @@ public class CartServiceImpl implements ICartService {
     private DataSourceTransactionManager transactionManager;
     @Autowired
     private MessageAccessor messageAccessor;
-
+    @Autowired
+    private IProductService productService;
     /**
      * @param customerId
      * @return
@@ -45,7 +49,22 @@ public class CartServiceImpl implements ICartService {
         CartInfoForm cartInfoForm = new CartInfoForm();
         for (CartDto cartLine : cartDtoList) {
             ProductForm productForm = productMapper.getProductDetail(cartLine.getProductId(), cartLine.getVendorId());
-            ProductForm productDetail = productMapper.getProductDetailBaseOnCategory(productForm);
+//            ProductForm productDetail = productMapper.getProductDetailBaseOnCategory(productForm);
+            //Get cover img
+            ProductImageForm productImageForm = productService.getProductCover(productForm.getProductId());
+            List<ProductImageForm> productImageFormList = new ArrayList<>();
+            productImageFormList.add(productImageForm);
+            productForm.setProductImageFormList(productImageFormList);
+
+            if (productForm.getQuantity() < cartLine.getBuyQuantity()) {
+                cartLine.setBuyQuantity(productForm.getQuantity());
+                if (productForm.getQuantity() == 0) {
+                    cartInfoForm.getResult().setMessage(messageAccessor.getMessage(Consts.MSG_28_E));
+                    cartInfoForm.getResult().setSuccess(false);
+                } else if (cartInfoForm.getResult().getMessage() == Consts.EMPTY) {
+                    cartInfoForm.getResult().setMessage(messageAccessor.getMessage(Consts.MSG_28_I));
+                }
+            }
             cartInfoForm.addCartLine(cartLine.getId(), productForm, cartLine.getBuyQuantity());
         }
         return cartInfoForm;

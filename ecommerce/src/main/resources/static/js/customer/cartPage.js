@@ -161,16 +161,5 @@ function remove(id) {
 //     // })
 // }
 
-function makeTable(currentPage) {
-    table = new Tabulator('#tblCartPage', {
-        data: cartInfoForm,
-        columns: [
-            {title: "name", field: "productForm.productName"},
-            {},
-            {},
-            {},
-        ],
-    });
-}
 
 

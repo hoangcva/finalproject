@@ -16,6 +16,19 @@ public class CustomerAddressForm implements Serializable {
     private String district;
     private String ward;
     private Integer isDefault;
+    private boolean isSubmitted;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public boolean isSubmitted() {
+        return isSubmitted;
+    }
+
+    public void setSubmitted(boolean submitted) {
+        isSubmitted = submitted;
+    }
 
     public Long getId() {
         return id;

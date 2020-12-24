@@ -80,7 +80,6 @@ public class ProductValidator implements Validator {
             default:
         }
 
-        // Kiểm tra các field của UserForm.
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "productName", "NotEmpty.productForm.productName");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "brand", "NotEmpty.productForm.brand");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "SKU", "NotEmpty.productForm.SKU");

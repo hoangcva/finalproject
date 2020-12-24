@@ -1,14 +1,29 @@
 package com.project.ecommerce.form;
 
+import com.project.ecommerce.util.Message;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CartInfoForm implements Serializable {
     private static final long serialVersionUID = 1409178486466589445L;
-    private int orderNum;
     private long id;
     private final List<CartLineInfoForm> cartLines = new ArrayList<>();
+    private Message result = new Message();
+
+    public Message getResult() {
+        return result;
+    }
+
+    public void setResult(Message result) {
+        this.result = result;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
 
     public long getId() {
         return id;

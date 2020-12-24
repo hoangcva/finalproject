@@ -6,58 +6,62 @@
 </head>
 <body>
     <th:block th:include="/common/_header"></th:block>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
+            <div class="col-lg-2"></div>
             <div class="col">
-                <h3>Address</h3>
+                <h2>Address</h2>
             </div>
         </div>
-        <div th:if="${errorMessage != null}"
-             th:utext="${errorMessage}" class="error">...</div>
-    <!--    <div  sec:authentication="name"></div>-->
-        <a class="text-decoration-none" th:href="@{/customer/address/initAddAddress}">
-        <div class="row mb-2 justify-content-center bg-light pt-2 pb-2">
-            <span>Add new address</span>
-        </div>
-        </a>
-        <div class="row mb-2" th:each="address : ${address_list}" th:unless="${#lists.isEmpty(address_list)}">
-            <div class="col-lg-9">
-                <div class="container">
-                    <div class="row">
-                        <span class="font-weight-normal" th:text="${#strings.toUpperCase(address.fullName)}">Name</span>
-                        <span th:classappend="${(address.isDefault eq 1) ? 'show':'hide'}" class="text-success ml-2 font-weight-bold pt-1" style="font-size: 80%">Default address</span>
+        <div class="row">
+            <th:block th:include="/common/_customer-sidebar-menu"></th:block>
+            <div class="col-lg-8">
+                <div th:replace="fragments/template :: display-error-message"/>
+                <a class="text-decoration-none" th:href="@{/customer/address/initAddAddress}">
+                    <div class="row mb-2 justify-content-center bg-light pt-2 pb-2">
+                        <span>Add new address</span>
                     </div>
-                    <div class="row">
-                        <span class="text-muted" text="Address: "></span>
-                        <span th:text="${address.addressDetail}+', '+${address.ward}+', '+${address.district}+', '+${address.province}"></span>
-                    </div>
-                    <div class="row">
-                        <span class="text-muted" text="Telephone: "></span>
-                        <span th:text="${address.phoneNumber}"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-auto">
-                <div class="container">
-                    <div class="row">
-                        <div class="col m-auto">
-                            <span><a th:href="@{/customer/address/edit(id = ${address.id})}">Edit</a></span>
+                </a>
+                <div class="row mb-2" th:each="address : ${address_list}" th:unless="${#lists.isEmpty(address_list)}">
+                    <div class="col-lg-9">
+                        <div class="container">
+                            <div class="row">
+                                <span class="font-weight-normal" th:text="${#strings.toUpperCase(address.fullName)}">Name</span>
+                                <span th:classappend="${(address.isDefault eq 1) ? 'show':'hide'}" class="text-success ml-2 font-weight-bold pt-1" style="font-size: 80%">Default address</span>
+                            </div>
+                            <div class="row">
+                                <span class="text-muted" text="Address: "></span>
+                                <span th:text="${address.addressDetail}+', '+${address.ward}+', '+${address.district}+', '+${address.province}"></span>
+                            </div>
+                            <div class="row">
+                                <span class="text-muted" text="Telephone: "></span>
+                                <span th:text="${address.phoneNumber}"></span>
+                            </div>
                         </div>
-                        <div class="col">
+                    </div>
+                    <div class="col-lg-auto">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col m-auto">
+                                    <span><a th:href="@{/customer/address/edit(id = ${address.id})}">Edit</a></span>
+                                </div>
+                                <div class="col">
                             <span>
                                 <button class="btn_delete btn btn btn-light" type="button"
-                                      th:text="'Delete'"
-                                      th:onclick="|javascript:deleteAddress(${address.id})|">
+                                        th:text="'Delete'"
+                                        th:onclick="|javascript:deleteAddress(${address.id})|">
                                 </button>
                             </span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="d-block col">
-                            <button type="button" class="btn btn-outline-primary"
-                                    th:text="'Set as Default'"
-                                    th:onclick="|javascript:setDefaultAddress(${address.id})|">
-                            </button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="d-block col">
+                                    <button type="button" class="btn btn-outline-primary"
+                                            th:text="'Set as Default'"
+                                            th:onclick="|javascript:setDefaultAddress(${address.id})|">
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

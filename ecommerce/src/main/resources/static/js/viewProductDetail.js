@@ -68,6 +68,11 @@ function addProductToCart() {
     var buyQuantity = $('.buy-quantity').val();
     var quantity = $('#quantity').val();
 
+    if (buyQuantity <= 0) {
+        alert('Please choose at least 1 product!');
+        return;
+    }
+
     var productForm = {
         productId: productId,
         vendorId: vendorId,

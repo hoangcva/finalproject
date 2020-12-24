@@ -146,7 +146,7 @@
         SELECT * FROM
             (SELECT p.id, p.productName, p.brand, p.description, p.origin, p.SKU,
                     p.categoryId, p.subCategoryId, p.createdBy, p.listPrice,
-                    vp.vendorId, vp.quantity, vp.price, vp.rating
+                    vp.vendorId, vp.quantity, vp.price, vp.rating, vp.enable
              FROM  product p
                 INNER JOIN vendor_product vp
                     ON p.id = vp.productId
