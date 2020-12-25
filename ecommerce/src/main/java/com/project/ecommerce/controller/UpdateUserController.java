@@ -109,7 +109,8 @@ public class UpdateUserController {
 
     @GetMapping("/user/update/password")
     public String changePassWord(Model model,
-                                Authentication auth) {
+                                Authentication auth,
+                                @ModelAttribute("vendorForm") VendorForm vendorForm) {
         UserDetailsDto user = (UserDetailsDto) auth.getPrincipal();
         String userName = user.getUsername();
         Long userId = user.getUserDto().getId();

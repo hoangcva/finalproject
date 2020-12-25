@@ -400,9 +400,9 @@ public class ProductController {
                                  @RequestParam(value = "subCategoryId", required = false) Integer subCategoryId,
                                  ModelMap modelMap
     ) {
-        List<CategoryForm> categoryForms = productService.getCategory();
+//        List<CategoryForm> categoryForms = productService.getCategory();
         List<ProductForm> productFormList = productService.getProducts(categoryId, subCategoryId, null, null);
-
+        // TODO
         if (productFormList.size() == 0) {
             Message result = new Message("Product not found!", false);
             modelMap.addAttribute("message", result.getMessage());
@@ -454,7 +454,7 @@ public class ProductController {
         String type = adminProductForm.getRadioType();
         Integer categoryId = Integer.valueOf(0).equals(adminProductForm.getCategoryId())  ? null:adminProductForm.getCategoryId();
         Integer subCategoryId = Integer.valueOf(0).equals(adminProductForm.getSubCategoryId()) ? null:adminProductForm.getSubCategoryId();
-        Boolean status = (type == null  || "all".equals(type)) ? null : (type == "active" ? true:false);
+        Boolean status = (type == null  || "all".equals(type)) ? null : ("active".equals(type) ? true:false);
         List<ProductForm> productFormList = productService.getProducts(categoryId, subCategoryId, adminProductForm.getKeyword(), status);
 
         model.addAttribute("message", result.getMessage());
@@ -473,7 +473,7 @@ public class ProductController {
                                     Authentication auth) {
         categoryId = Integer.valueOf(0).equals(categoryId)  ? null:categoryId;
         subCategoryId = Integer.valueOf(0).equals(subCategoryId) ? null:subCategoryId;
-        Boolean enable = (type == null  || "all".equals(type)) ? null : (type == "active" ? true:false);
+        Boolean enable = (type == null  || "all".equals(type)) ? null : ("active".equals(type) ? true:false);
         List<ProductForm> productFormList = productService.getProducts(categoryId, subCategoryId, keyword, enable);
 
         if (productFormList.size() == 0) {

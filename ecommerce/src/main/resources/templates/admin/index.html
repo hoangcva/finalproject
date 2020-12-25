@@ -38,11 +38,11 @@
 						<td><span th:text="${user.email}"></span></td>
 						<td><span th:text="${user.role}"></span></td>
 						<td>
-							<button class="btn_delete" type="button"
+							<a class="btn_delete btn btn-danger" role="button"
 							        th:text="Delete"
 							        th:id="'btn_delete' + ${iterationStatus.count}"
 							        th:onclick="|javascript:deleteUser(${user.id})|"
-							        th:if="${user.role ne 'ROLE_ADMIN'}"></button>
+							        th:if="${user.role ne 'ROLE_ADMIN'}"></a>
 							<!--                <script th:inline="javascript">-->
 							<!--                    /*<![CDATA[*/-->
 							<!--                    $('#btn_delete' + /*[[${iterationStatus.count}]]*/'').click(function () {-->

@@ -247,7 +247,7 @@
 		<p class="card-text text-break" th:text="${product.productName}">Product name</p>
 		<p class="card-text">
 			<span class="money price" th:text="${{product.price}}"></span>
-			<span class="money discount"
+			<span class="money"
 			      th:text="*{(product.price - product.listPrice)*100/product.listPrice + '%'} "></span>
 			<span class="money list-price" th:text="${{product.listPrice}}">list price</span>
 		</p>
