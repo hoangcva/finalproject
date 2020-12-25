@@ -5,6 +5,7 @@ import com.project.ecommerce.dto.UserDetailsDto;
 import com.project.ecommerce.form.CommentForm;
 import com.project.ecommerce.form.FavoriteForm;
 import com.project.ecommerce.service.ICustomerService;
+import com.project.ecommerce.service.IProductService;
 import com.project.ecommerce.util.Message;
 import com.project.ecommerce.util.MessageAccessor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class CustomerController {
     private ICustomerService customerService;
     @Autowired
     private MessageAccessor messageAccessor;
+    @Autowired
+    private IProductService productService;
     @GetMapping("/comment")
     public String saveComment(@RequestParam("productId") Long productId,
                               @RequestParam("vendorId") Long vendorId,
@@ -60,8 +63,10 @@ public class CustomerController {
         Message result;
         if (commentForm.getId() == null) {
             result = customerService.createComment(commentForm, auth);
+            productService.saveRating(commentForm.getProductId(), commentForm.getVendorId());
         } else {
-            result = customerService.saveComment(commentForm);
+            result = customerService.updateComment(commentForm);
+            productService.saveRating(commentForm.getProductId(), commentForm.getVendorId());
         }
         redirectAttributes.addFlashAttribute("message", result.getMessage());
         redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());

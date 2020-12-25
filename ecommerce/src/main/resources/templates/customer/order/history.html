@@ -27,7 +27,7 @@
 					<tbody>
 					<tr th:each="order,iStat  : ${orderFormList}">
 						<th scope="row" th:text="${iStat.count}"></th>
-						<td><a th:text="${order.orderDspId}"
+						<td><a class="text-primary" th:text="${order.orderDspId}"
 						       th:href="@{/customer/order/detail(orderId = ${order.id})}"></a></td>
 						<td th:text="${order.orderDate}"></td>
 						<td class="bill-total money" th:text="${order.billTotal}"></td>

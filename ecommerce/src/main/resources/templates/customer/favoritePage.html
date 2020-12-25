@@ -9,11 +9,17 @@
 	<div class="container-fluid">
 		<div class="row">
 			<th:block th:include="/common/_customer-sidebar-menu"></th:block>
-			<div class="row mb-4">
-				<h3 class="text-lg-left mt-lg-2">My favorite</h3>
-			</div>
-			<div id="content">
-				<div th:replace="fragments/template :: favorite-custom"></div>
+
+			<div class="col-lg-8">
+				<div class="row mb-4">
+					<h3 class="text-lg-left mt-lg-2">My Favorite</h3>
+				</div>
+				<div th:replace="fragments/template :: display-error-message"/>
+				<div class="row">
+					<div id="content">
+						<div th:replace="fragments/template :: favorite-custom"></div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

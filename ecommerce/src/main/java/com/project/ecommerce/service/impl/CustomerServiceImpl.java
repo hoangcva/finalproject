@@ -96,7 +96,7 @@ public class CustomerServiceImpl implements ICustomerService {
     }
 
     @Override
-    public Message saveComment(CommentForm commentForm) {
+    public Message updateComment(CommentForm commentForm) {
         Message result = new Message("", true);
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {

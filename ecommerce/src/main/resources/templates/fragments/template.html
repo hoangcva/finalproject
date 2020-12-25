@@ -58,6 +58,7 @@
 	<script type="text/javascript" th:src="@{/js/common/const.js}"></script>
 	<script type="text/javascript" th:src="@{/js/common/common.js}"></script>
 	<script type="text/javascript" th:src="@{/js/common/bootstrap-rating.js}"></script>
+	<script type="text/javascript" th:src="@{/js/common/bootstrap-rating.min.js}"></script>
 
 <!--	<link th:href="@{/bootstrap/css/bootstrap.css}" type="text/css" rel="stylesheet" media="screen"/>-->
 <!--	<link th:href="@{/bootstrap/css/bootstrap.min.css}" type="text/css" rel="stylesheet" media="screen"/>-->
@@ -86,7 +87,7 @@
 <body>
 
 <div th:fragment="customError">
-	<div id="display-error-message" th:fragment="display-error-message" class="row mb-2">
+	<div id="display-error-message" th:fragment="display-error-message" class="row my-2">
 		<div th:if="${message != null and message != ''}"
 		     th:classappend="${isSuccess}?'alert-info':'alert-danger'" class="error col-lg alert">
 			<img class="pb-1" th:src="@{/images/check.png}" th:if="${isSuccess}" style="max-height: 25px;">
@@ -105,7 +106,7 @@
 		<div class="btn btn-plus ml-0" id="increase-btn"><i class="fas fa-plus"></i></div>
 	</div>
 	<div class="text-center">
-		<span th:text="'( ' + ${quantity} +'products left)'"></span>
+		<span th:text="'( ' + ${quantity} +' products left)'"></span>
 	</div>
 	<span id="over-quantity text-danger" class="hide d-none"
 	      th:text="'You can\'t buy more than ' + ${quantity} + ' products'"></span>
@@ -567,7 +568,7 @@
 			<tr th:each="vendor,iterationStatus : ${vendorFormList}">
 				<td th:text="${iterationStatus.count}"></td>
 				<td><span th:text="${vendor.userName}"></span></td>
-				<td><span th:text="${vendor.fullName}"></span></td>
+				<td><a class="text-primary" th:href="@{/admin/account/update(userName = ${vendor.userName})}" th:text="${vendor.fullName}"></a></td>
 				<td><span th:text="${vendor.email}"></span></td>
 				<td><span th:text="${vendor.enable eq true}?'Activated':'Deactivate'"></span></td>
 				<td>
@@ -614,7 +615,7 @@
 			<tr th:each="transporter,iterationStatus : ${transporterFormList}">
 				<td th:text="${iterationStatus.count}"></td>
 				<td>
-					<a th:href="@{/admin/account/transporter/edit(transporterId= ${transporter.transporterId})}">
+					<a class="text-primary" th:href="@{/admin/account/transporter/edit(transporterId= ${transporter.transporterId})}">
 						<span th:text="${transporter.userName}"></span>
 					</a>
 				</td>
@@ -974,10 +975,10 @@
 </div>
 
 <div th:fragment="favorite-custom">
-	<div class="col-lg-8" th:fragment="favorite">
+	<div class="col-lg-12" th:fragment="favorite">
 		<div th:replace="fragments/template :: display-error-message"/>
 		<div class="row" th:each="product,iStat  : ${favoriteFormList}">
-			<div class="col-lg-7">
+			<div class="col-lg-6">
 				<div class="d-flex">
 					<img class="img-thumbnail mr-2" style="height: 60px"
 					     th:src="@{'data:image/jpeg;base64,'+${product.generateBase64Image()}}"/>
@@ -991,19 +992,24 @@
 							<a th:href="@{/}"><strong th:text="${product.vendorName}"></strong></a>
 							<!--TODO: vendorPage-->
 						</p>
-						<p>
-							<a th:href="@{/customer/favorite/remove(id = ${product.favoriteId})}">
-								<span><i class="fas fa-times"></i></span>
-							</a>
-						</p>
+<!--						<p>-->
+<!--							<a th:href="@{/customer/favorite/remove(id = ${product.favoriteId})}">-->
+<!--								<span><i class="fas fa-times"></i></span>-->
+<!--							</a>-->
+<!--						</p>-->
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-4">
+			<div class="col-lg-3">
 				<p class="money" th:text="${product.price}"></p>
-				<p class="money" th:text="${product.listPrice}"></p>
-				<p class="text-danger" th:if="${product.quantity <= 0}"
-				   th:text="This product is out of stock!"></p>
+				<p class="money list-price" th:text="${product.listPrice}"></p>
+
+			</div>
+			<div class="col-lg-2">
+				<p class="text-danger" th:if="${product.quantity <= 0 and product.enable eq true}"
+				   th:text="'This product is out of stock!'"></p>
+				<p class="text-danger" th:unless="${product.enable eq true}"
+				   th:text="'This product is not available!'"></p>
 			</div>
 			<div class="col-lg-1">
 				<a href="#" th:onclick="|javascript:remove(${product.favoriteId})|">

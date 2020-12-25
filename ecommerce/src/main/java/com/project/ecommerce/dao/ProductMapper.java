@@ -58,4 +58,8 @@ public interface ProductMapper {
                                             @Param("subCategoryId") Integer subCategoryId,
                                             @Param("keyword") String keyword);
 
+    void saveRating(@Param("productId") Long productId,
+                    @Param("vendorId") Long vendorId,
+                    @Param("rating") Float rating);
+
 }

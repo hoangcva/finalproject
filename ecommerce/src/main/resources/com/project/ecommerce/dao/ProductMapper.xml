@@ -343,4 +343,15 @@
             updatedTime = #{updatedTime}
         WHERE vendorId = #{vendorId}
     </update>
+
+    <select id="getTop10NewestProduct" resultMap="ProductResultMap" fetchSize="200">
+        SELECT
+    </select>
+
+    <update id="saveRating">
+        UPDATE vendor_product
+        SET rating = #{rating}
+        WHERE productId = #{productId}
+          AND vendorId = #{vendorId}
+    </update>
 </mapper>

@@ -456,6 +456,21 @@ public class ProductServiceImpl implements IProductService {
         return result;
     }
 
+    @Override
+    public Message saveRating(Long productId, Long vendorId) {
+        Message result = new Message();
+        TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        try {
+            Float rating = commentMapper.getRating(productId, vendorId);
+            productMapper.saveRating(productId,vendorId,rating);
+            transactionManager.commit(txStatus);
+        } catch (Exception ex) {
+            transactionManager.rollback(txStatus);
+            result.setSuccess(false);
+        }
+        return result;
+    }
+
     private void doUploadImage(ProductForm productForm) {
         long productId = productForm.getProductId();
         MultipartFile imageFile1 = productForm.getUploadImage1().getUploadFile();

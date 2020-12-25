@@ -45,4 +45,11 @@
         AND customerId = #{customerId}
         AND orderId = #{orderId}
     </select>
+
+    <select id="getRating" resultType="Float">
+        SELECT SUM(rating)/COUNT(*) FROM comment
+        WHERE productId = #{productId}
+          AND vendorId = #{vendorId}
+    </select>
+
 </mapper>

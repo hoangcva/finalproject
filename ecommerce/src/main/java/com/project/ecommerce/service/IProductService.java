@@ -39,4 +39,5 @@ public interface IProductService {
     List<CountriesDto> getCountries();
     Message activateProduct(VendorProductForm vendorProductForm);
     Message activateVendorProduct(Long vendorId, Boolean enable);
+    Message saveRating(Long productId, Long vendorId);
 }

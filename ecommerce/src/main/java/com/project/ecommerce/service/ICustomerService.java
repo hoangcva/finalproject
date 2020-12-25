@@ -10,7 +10,7 @@ import java.util.List;
 public interface ICustomerService {
     Message createComment(CommentForm commentForm, Authentication auth);
     Message createComment(Long orderId, Authentication auth);
-    Message saveComment(CommentForm commentForm);
+    Message updateComment(CommentForm commentForm);
     CommentForm getComment(CommentForm commentForm);
     Message addProductToFavorite(Authentication auth, Long productId, Long vendorId);
     List<FavoriteForm> getFavorite(Long customerId);
