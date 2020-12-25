@@ -2,26 +2,29 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <div class="col-lg-2">
+	<div class="mb-4">
+		<h2 class="d-block text-center">Vendor Page</h2>
+	</div>
 	<div class="list-group">
         <a th:href="@{/vendor}" class="list-group-item list-group-item-action active">
 	        Vendor Page
         </a>
 		<a id="add-product" th:href="@{/vendor/show/category}"
-		   class="list-group-item list-group-item-action"
+		   class="list-group-item list-group-item-action list-group-item-light"
 		   th:classappend="${vendorForm.enable eq false}?'disabled':''">
 			Add product
 		</a>
 		<a id="view-product-list" th:href="@{/vendor/product/view}"
-		   class="list-group-item list-group-item-action"
+		   class="list-group-item list-group-item-action list-group-item-light"
 		   th:classappend="${vendorForm.enable eq false}?'disabled':''">
 			My products
 		</a>
 		<a id="edit-profile" th:href="@{/vendor/info}"
-		   class="list-group-item list-group-item-action">
+		   class="list-group-item list-group-item-action list-group-item-light">
 			Update profile
 		</a>
 		<a id="change-password" th:href="@{/user/update/password}"
-		   class="list-group-item list-group-item-action">
+		   class="list-group-item list-group-item-action list-group-item-light">
 			Change password
 		</a>
 		<!--			<a id="show-all-vendor-product" th:href="@{/showProducts}" class="list-group-item list-group-item-action">Show all product</a>-->

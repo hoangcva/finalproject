@@ -5,15 +5,16 @@
 </head>
 <body>
 <th:block th:include="/common/_header"></th:block>
-<main class="my-5 py-5">
+<main>
     <div class="container-fluid">
         <div class="row">
             <th:block th:include="/common/_customer-sidebar-menu"></th:block>
-            <div class="col-lg-9">
-                <div class="container">
-                    <div class="row">
-                        <div th:replace="fragments/template :: display-error-message"/>
-                    </div>
+            <div class="col-lg-8">
+                <div class="row mb-4">
+                    <h3 class="text-lg-left mt-lg-2"></h3>
+                </div>
+                <div class="row">
+                    <div th:replace="fragments/template :: display-error-message"/>
                 </div>
             </div>
 <!--<form th:action="@{/j_spring_security_logout}" method="post">-->
@@ -23,5 +24,6 @@
         </div>
     </div>
 </main>
+<th:block th:include="/common/_footer"></th:block>
 </body>
 </html>

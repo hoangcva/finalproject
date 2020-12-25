@@ -5,66 +5,68 @@
 </head>
 <body>
 <th:block th:include="/common/_header"></th:block>
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-lg-2"></div>
-		<h2 class="d-block text-lg-center">Add Detail</h2>
-	</div>
-	<div class="row">
-		<th:block th:include="/common/_vendor-sidebar-menu"></th:block>
-		<div class="col-lg-8">
-			<form th:action="@{/vendor/product/add/detail}" th:object="${productForm}" th:method="POST"
-			      enctype="multipart/form-data">
-				<div th:replace="fragments/template :: detail-extend-product-input"></div>
-				<hr class="my-4">
-				<div class="image-content container d-inline-flex flex-wrap flex-row">
-					<label for="img-manager-section">Add images:</label>
-					<div id="img-manager-section" class="d-flex flex-row justify-content-around">
-						<div class="img-manager" th:unless="${#lists.size(productForm.productImageFormList) eq 0}">
-							<div style="width: 100px; height: 100px">
-								<img class="previous-img img-thumbnail" id="previous-img-1"
-								     th:src="@{'data:image/jpeg;base64,'+${productForm.productImageFormList[0].generateBase64Image()}}"/>
-								<img class="add-img-btn" id="add-img-btn1" th:src="@{/images/add-image.png}"
-								     th:classappend="${(#lists.size(productForm.productImageFormList) eq 0) ? '':'hide'}">
-								<input class="input-image" id="imageFile1" th:field="*{uploadImage1.uploadFile}"
-								       type="file"
-								       accept="image/png, image/jpeg"/>
+<main>
+	<div class="container-fluid">
+		<div class="row">
+			<th:block th:include="/common/_vendor-sidebar-menu"></th:block>
+			<div class="col-lg-8">
+				<div class="row mb-4">
+					<h3 class="text-lg-left mt-lg-2">Add Product</h3>
+				</div>
+				<form th:action="@{/vendor/product/add/detail}" th:object="${productForm}" th:method="POST"
+				      enctype="multipart/form-data">
+					<div th:replace="fragments/template :: detail-extend-product-input"></div>
+					<hr class="my-4">
+					<div class="image-content container d-inline-flex flex-wrap flex-row">
+						<label for="img-manager-section">Add images:</label>
+						<div id="img-manager-section" class="d-flex flex-row justify-content-around">
+							<div class="img-manager" th:unless="${#lists.size(productForm.productImageFormList) eq 0}">
+								<div style="width: 100px; height: 100px">
+									<img class="previous-img img-thumbnail" id="previous-img-1"
+									     th:src="@{'data:image/jpeg;base64,'+${productForm.productImageFormList[0].generateBase64Image()}}"/>
+									<img class="add-img-btn" id="add-img-btn1" th:src="@{/images/add-image.png}"
+									     th:classappend="${(#lists.size(productForm.productImageFormList) eq 0) ? '':'hide'}">
+									<input class="input-image" id="imageFile1" th:field="*{uploadImage1.uploadFile}"
+									       type="file"
+									       accept="image/png, image/jpeg"/>
+								</div>
+								<span>Image 1</span>
 							</div>
-							<span>Image 1</span>
-						</div>
-						<div class="img-manager">
-							<div style="width: 100px; height: 100px"
-							     th:unless="${#lists.size(productForm.productImageFormList) < 2}">
-								<img class="previous-img img-thumbnail" id="previous-img-2"
-								     th:src="@{'data:image/jpeg;base64,'+${productForm.productImageFormList[1].generateBase64Image()}}"/>
-								<img class="add-img-btn" id="add-img-btn2" th:src="@{/images/add-image.png}"
-								     th:classappend="${(#lists.size(productForm.productImageFormList) < 2) ? '':'hide'}">
-								<input class="input-image" id="imageFile2" th:field="*{uploadImage2.uploadFile}"
-								       type="file"
-								       accept="image/png, image/jpeg"/>
+							<div class="img-manager">
+								<div style="width: 100px; height: 100px"
+								     th:unless="${#lists.size(productForm.productImageFormList) < 2}">
+									<img class="previous-img img-thumbnail" id="previous-img-2"
+									     th:src="@{'data:image/jpeg;base64,'+${productForm.productImageFormList[1].generateBase64Image()}}"/>
+									<img class="add-img-btn" id="add-img-btn2" th:src="@{/images/add-image.png}"
+									     th:classappend="${(#lists.size(productForm.productImageFormList) < 2) ? '':'hide'}">
+									<input class="input-image" id="imageFile2" th:field="*{uploadImage2.uploadFile}"
+									       type="file"
+									       accept="image/png, image/jpeg"/>
+								</div>
+								<span>Image 2</span>
 							</div>
-							<span>Image 2</span>
-						</div>
-						<div class="img-manager" th:unless="${#lists.size(productForm.productImageFormList) < 3}">
-							<div style="width: 100px; height: 100px">
-								<img class="previous-img img-thumbnail" id="previous-img-3"
-								     th:src="@{'data:image/jpeg;base64,'+${productForm.productImageFormList[2].generateBase64Image()}}">
-								<img class="add-img-btn" id="add-img-btn3" th:src="@{/images/add-image.png}"
-								     th:classappend="${(#lists.size(productForm.productImageFormList) < 3) ? '':'hide'}">
-								<input class="input-image" id="imageFile3" th:field="*{uploadImage3.uploadFile}"
-								       type="file" accept="image/png, image/jpeg"/>
+							<div class="img-manager" th:unless="${#lists.size(productForm.productImageFormList) < 3}">
+								<div style="width: 100px; height: 100px">
+									<img class="previous-img img-thumbnail" id="previous-img-3"
+									     th:src="@{'data:image/jpeg;base64,'+${productForm.productImageFormList[2].generateBase64Image()}}">
+									<img class="add-img-btn" id="add-img-btn3" th:src="@{/images/add-image.png}"
+									     th:classappend="${(#lists.size(productForm.productImageFormList) < 3) ? '':'hide'}">
+									<input class="input-image" id="imageFile3" th:field="*{uploadImage3.uploadFile}"
+									       type="file" accept="image/png, image/jpeg"/>
+								</div>
+								<span>Image 3</span>
 							</div>
-							<span>Image 3</span>
 						</div>
 					</div>
-				</div>
-				<input type="hidden" th:field="*{productId}">
-				<input type="hidden" th:field="*{action}">
-				<input type="submit" value="Submit" class="btn btn-primary">
-			</form>
+					<input type="hidden" th:field="*{productId}">
+					<input type="hidden" th:field="*{action}">
+					<input type="submit" value="Submit" class="btn btn-primary">
+				</form>
+			</div>
 		</div>
 	</div>
-</div>
+</main>
+<th:block th:include="/common/_footer"></th:block>
 </body>
 <script type="text/javascript" th:src="@{/js/vendor/addProductDetailExtend.js}"></script>
 <link rel="stylesheet" href="../../static/css/vendor/addProductDetail.css"

@@ -1,7 +1,10 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
-<div th:fragment="admin-sidebarmenu" class="col-lg-3">
+<div th:fragment="admin-sidebarmenu" class="col-lg-2">
+	<div class="mb-4">
+		<h2 class="d-block text-center">Transporter Page</h2>
+	</div>
 	<div class="list-group">
 		<a id="manage-account" th:href="@{/admin}" class="list-group-item list-group-item-action">Manage account</a>
 		<a id="show-all-order" th:href="@{/transporter/orders}" class="list-group-item list-group-item-action">Show all orders</a>

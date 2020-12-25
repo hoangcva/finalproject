@@ -1,0 +1,13 @@
+.background-img {
+    background-image: url("../images/403-forbidden.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #cccccc;
+    height: calc(100vh - 60px);
+}
+
+.container {
+    background-color: white;
+    min-height: calc(100vh - 60px);
+}

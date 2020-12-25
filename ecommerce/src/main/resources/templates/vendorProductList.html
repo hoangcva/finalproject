@@ -7,19 +7,23 @@
 <!--    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/viewProductList.css}" href="../../css/viewProductList.css">-->
 <body>
 <th:block th:include="/common/_header"></th:block>
-<div class="container">
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="d-inline-flex flex-wrap">
-				<div th:fragment="view-product-list" class="view-product-list outer" th:each="product,iterationStatus : ${productFormList}">
-					<a class="product-thumbnail text-decoration-none"
-					   th:href="@{/product/view/detail(productId = ${product.productId}, vendorId = ${product.vendorId})}">
-						<div th:replace="fragments/productInfo :: view-product-list"></div>
-					</a>
+<main>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="d-inline-flex flex-wrap">
+					<div th:fragment="view-product-list" class="view-product-list outer"
+					     th:each="product,iterationStatus : ${productFormList}">
+						<a class="product-thumbnail text-decoration-none"
+						   th:href="@{/product/view/detail(productId = ${product.productId}, vendorId = ${product.vendorId})}">
+							<div th:replace="fragments/productInfo :: view-product-list"></div>
+						</a>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
+</main>
+<th:block th:include="/common/_footer"></th:block>
 </body>
 </html>

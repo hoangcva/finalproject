@@ -5,41 +5,43 @@
 </head>
 <script type="text/javascript" th:src="@{/js/common/bootstrap-rating.js}"></script>
 <script type="text/javascript" th:src="@{/js/common/bootstrap-rating.min.js}"></script>
-<link type="text/css" href="../../static/css/common/bootstrap-rating.css" th:href="@{/css/common/bootstrap-rating.css}" />
-<link type="text/css" href="../../static/css/customer/createComment.css" th:href="@{/css/customer/createComment.css}" />
+<link type="text/css" href="../../static/css/common/bootstrap-rating.css"
+      th:href="@{/css/common/bootstrap-rating.css}"/>
+<link type="text/css" href="../../static/css/customer/createComment.css" th:href="@{/css/customer/createComment.css}"/>
 <body>
 <th:block th:include="/common/_header"></th:block>
-
-<div class="container">
-	<div class="row">
-		<div class="col-lg">
-			<h2 class="d-block text-lg-center">Comment</h2>
+<main>
+	<div class="container-fluid">
+		<div class="row">
+			<th:block th:include="/common/_customer-sidebar-menu"></th:block>
+			<div class="col-lg-8">
+				<div class="row mb-4">
+					<h3 class="text-lg-left mt-lg-2">Comment</h3>
+				</div>
+				<div th:replace="fragments/template :: display-error-message"/>
+				<form th:action="@{/customer/comment/save}" method="post" th:object="${commentForm}">
+					<div class="form-group">
+						<label for="rating">Rating</label>
+						<input class="form-control rating" id="rating" type="hidden" th:field="*{rating}"/>
+						<!--					<span id="rateMe1"></span>-->
+						<!--					<div id="rate"></div>-->
+					</div>
+					<div class="form-group">
+						<label for="content">Content</label>
+						<textarea class="form-control" id="content" placeholder="Enter comment"
+						          th:field="*{content}"></textarea>
+					</div>
+					<input type="hidden" th:field="*{id}">
+					<input type="hidden" th:field="*{vendorId}">
+					<input type="hidden" th:field="*{orderId}">
+					<input type="hidden" th:field="*{productId}">
+					<button type="submit" class="btn btn-primary">Comment</button>
+					<!--				<button id="test"></button>-->
+				</form>
+			</div>
 		</div>
 	</div>
-	<div class="row">
-		<th:block th:include="/common/_customer-sidebar-menu"></th:block>
-		<div class="col-lg-9">
-			<div th:replace="fragments/template :: display-error-message"/>
-			<form th:action="@{/customer/comment/save}" method="post" th:object="${commentForm}">
-				<div class="form-group">
-					<label for="rating">Rating</label>
-					<input class="form-control rating" id="rating" type="hidden" th:field="*{rating}"/>
-<!--					<span id="rateMe1"></span>-->
-<!--					<div id="rate"></div>-->
-				</div>
-				<div class="form-group">
-					<label for="content">Content</label>
-					<textarea class="form-control" id="content" placeholder="Enter comment" th:field="*{content}"></textarea>
-				</div>
-				<input type="hidden" th:field="*{id}">
-				<input type="hidden" th:field="*{vendorId}">
-				<input type="hidden" th:field="*{orderId}">
-				<input type="hidden" th:field="*{productId}">
-				<button type="submit" class="btn btn-primary">Comment</button>
-<!--				<button id="test"></button>-->
-			</form>
-		</div>
-	</div>
-</div>
+</main>
+<th:block th:include="/common/_footer"></th:block>
 </body>
 </html>

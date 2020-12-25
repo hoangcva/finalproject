@@ -4,106 +4,114 @@
 <title>Cart</title>
 <body>
 <th:block th:include="/common/_header"></th:block>
-<div class="container">
-    <div class="row">
-        <div class="col-lg">
-            <h2 class="d-block text-lg-center">Cart</h2>
-            <h4 th:unless="${cartInfoForm.getQuantityTotal()} == 0">
-                <span th:text="'(' + ${cartInfoForm.getQuantityTotal()} + 'products)'"></span>
-            </h4>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-9">
-            <div th:replace="fragments/template :: display-error-message"/>
-            <div></div>
-            <form th:action="@{/customer/order}" method="POST" th:unless="${cartInfoForm.getQuantityTotal() == 0}">
-                <div th:each="cartLine : ${cartInfoForm.cartLines}" class="row">
-                    <div class="col-lg-6 d-flex">
-                        <img class="img-thumbnail mr-2" style="height: 60px"
-                             th:src="@{'data:image/jpeg;base64,'+${cartLine.productForm.productImageFormList[0].generateBase64Image()}}"/>
-                        <div class="d-inline-block">
-                            <span class="text-truncate text-2-lines" th:text="*{cartLine.productForm.productName}"></span>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 text-right">
-                        <div>
-                            <strong class="money price" th:text="*{cartLine.productForm.price}"></strong>
-                        </div>
-                        <div class="text-decoration-line-through">
-                            <span class="money list-price" th:text="*{cartLine.productForm.listPrice}"></span>
-                        </div>
-                    </div>
-                    <div th:if="*{cartLine.productForm.quantity > 0 && cartLine.productForm.enable eq true}" class="col-lg-3 change-quantity btn-group" style="height: 2.5em;">
-                        <div id="decrease-btn" class="btn btn-minus mr-0" style="width: 1em;"
-                             th:onclick="|javascript:minus(*{cartLine.buyQuantity}, *{cartLine.productForm.quantity}, *{cartLine.id})|">
-                            <i class="fas fa-minus"></i>
-                        </div>
-                        <input type="text" class="buy-quantity my-1"
-                               th:classappend="'edit'+*{cartLine.id}" name="buy-quantity"
-                               th:value="*{cartLine.buyQuantity}"
-                               th:onchange="|javascript:change(*{cartLine.id})|">
-                        <div id="increase-btn" class="btn btn-plus ml-0" style="width: 1em;"
-                             th:onclick="|javascript:plus(*{cartLine.buyQuantity}, *{cartLine.productForm.quantity}, *{cartLine.id})|">
-                            <i class="fas fa-plus"></i>
-                        </div>
-                        <span id="over-quantity" class="hide d-none" th:text="'You can\'t buy more than ' + ${cartLine.productForm.quantity} + ' products'"></span>
-                    </div>
-                    <div class="col-lg-3" th:if="*{cartLine.productForm.quantity <= 0 && cartLine.productForm.enable eq true}">
+<main>
+	<div class="container-fluid">
+		<div class="row">
+			<th:block th:include="/common/_customer-sidebar-menu"></th:block>
+			<div class="col-lg-8">
+				<div class="row mb-4">
+					<h3 class="text-lg-left mt-lg-2">Cart</h3>
+					<h4 class="" th:unless="${cartInfoForm.getQuantityTotal()} == 0">
+						<span th:text="'(' + ${cartInfoForm.getQuantityTotal()} + 'products)'"></span>
+					</h4>
+				</div>
+				<div th:replace="fragments/template :: display-error-message"/>
+				<form th:action="@{/customer/order}" method="POST" th:unless="${cartInfoForm.getQuantityTotal() == 0}">
+					<div th:each="cartLine : ${cartInfoForm.cartLines}" class="row my-lg-2">
+						<div class="col-lg-6 d-flex">
+							<img class="img-thumbnail mr-2" style="height: 60px"
+							     th:src="@{'data:image/jpeg;base64,'+${cartLine.productForm.productImageFormList[0].generateBase64Image()}}"/>
+							<div class="d-inline-block">
+								<span class="text-truncate text-2-lines"
+								      th:text="*{cartLine.productForm.productName}"></span>
+							</div>
+						</div>
+						<div class="col-lg-2 text-right">
+							<div>
+								<strong class="money price" th:text="*{cartLine.productForm.price}"></strong>
+							</div>
+							<div class="text-decoration-line-through">
+								<span class="money list-price" th:text="*{cartLine.productForm.listPrice}"></span>
+							</div>
+						</div>
+						<div th:if="*{cartLine.productForm.quantity > 0 && cartLine.productForm.enable eq true}"
+						     class="col-lg-3 change-quantity btn-group" style="height: 2.5em;">
+							<div id="decrease-btn" class="btn btn-minus mr-0" style="width: 1em;"
+							     th:onclick="|javascript:minus(*{cartLine.buyQuantity}, *{cartLine.productForm.quantity}, *{cartLine.id})|">
+								<i class="fas fa-minus"></i>
+							</div>
+							<input type="text" class="buy-quantity my-1"
+							       th:classappend="'edit'+*{cartLine.id}" name="buy-quantity"
+							       th:value="*{cartLine.buyQuantity}"
+							       th:onchange="|javascript:change(*{cartLine.id})|">
+							<div id="increase-btn" class="btn btn-plus ml-0" style="width: 1em;"
+							     th:onclick="|javascript:plus(*{cartLine.buyQuantity}, *{cartLine.productForm.quantity}, *{cartLine.id})|">
+								<i class="fas fa-plus"></i>
+							</div>
+							<span id="over-quantity" class="hide d-none"
+							      th:text="'You can\'t buy more than ' + ${cartLine.productForm.quantity} + ' products'"></span>
+						</div>
+						<div class="col-lg-3"
+						     th:if="*{cartLine.productForm.quantity <= 0 && cartLine.productForm.enable eq true}">
                         <span class="pt-1 pb-1 ml-2 text-danger" th:text="'Product is out of stock!'"
                               style="font-size: 20px"></span>
-                    </div>
-                    <div class="col-lg-3" th:unless="*{cartLine.productForm.enable eq true}">
+						</div>
+						<div class="col-lg-3" th:unless="*{cartLine.productForm.enable eq true}">
                         <span class="pt-1 pb-1 ml-2 text-danger" th:text="'Product is not available!'"
                               style="font-size: 20px"></span>
-                    </div>
-                    <div class="col-lg-1" >
-                        <a href="#" th:onclick="|javascript:remove(*{cartLine.id})|">
-                            <i class="fas fa-times" data-toggle="tooltip" data-placement="top"
-                               title="Remove"></i>
-                        </a>
-                    </div>
-<!--                    <div class="change-quantity col-lg-2 btn"  th:onclick="|javascript:remove(*{cartLine.id})|">Remove</div>-->
-                    <input type="hidden" name="carLineId" id="cartLineId" th:value="*{cartLine.id}">
-                    <input type="hidden" name="quantity" id="quantity" th:value="*{cartLine.productForm.quantity}">
-                </div>
-                <div class="row mt-lg-3">
-                    <button th:if="${isSuccess eq false}" id="order-btn" class="btn btn-primary" disabled>Make order</button>
-                    <button th:unless="${isSuccess eq false}" id="order-btn" class="btn btn-primary">Make order</button>
-                </div>
-            </form>
+						</div>
+						<div class="col-lg-1">
+							<a href="#" th:onclick="|javascript:remove(*{cartLine.id})|">
+								<i class="fas fa-times" data-toggle="tooltip" data-placement="top"
+								   title="Remove"></i>
+							</a>
+						</div>
+						<!--                    <div class="change-quantity col-lg-2 btn"  th:onclick="|javascript:remove(*{cartLine.id})|">Remove</div>-->
+						<input type="hidden" name="carLineId" id="cartLineId" th:value="*{cartLine.id}">
+						<input type="hidden" name="quantity" id="quantity" th:value="*{cartLine.productForm.quantity}">
+					</div>
+					<div class="row mt-lg-3">
+						<button th:if="${isSuccess eq false}" id="order-btn" class="btn btn-primary" disabled>Make
+							order
+						</button>
+						<button th:unless="${isSuccess eq false}" id="order-btn" class="btn btn-primary">Make order
+						</button>
+					</div>
+				</form>
 
-            <div class="align-content-center overflow-auto" th:if="${cartInfoForm.getQuantityTotal()} == 0">
-                <div class="mh-50"><p text="Cart is empty"></p></div>
-                <div class="mh-50"><a text="Continue shopping" th:href="@{/}"></a></div>
-            </div>
-        </div>
+				<div class="align-content-center overflow-auto" th:if="${cartInfoForm.getQuantityTotal()} == 0">
+					<div class="mh-50"><p text="Cart is empty"></p></div>
+					<div class="mh-50"><a text="Continue shopping" th:href="@{/}"></a></div>
+				</div>
+			</div>
 
 
-        <div class="col-lg-3">
-            <table class="table border-0">
-                <tbody>
-                <tr>
-                    <td class="text-left" th:text="'Total listing price: '"></td>
-                    <td class="money text-right" th:text="${cartInfoForm.getListPriceTotal()}"></td>
-                </tr>
-                <tr>
-                    <td class="text-left" th:text="'Discount: '"></td>
-                    <td class="money text-right" th:text="${cartInfoForm.getBillTotal() - cartInfoForm.getListPriceTotal()}"></td>
-                </tr>
-                <tr>
-                    <td class="text-left" th:text="'Total: '"></td>
-                    <td class="money text-right" th:text="${cartInfoForm.getBillTotal()}"></td>
-                </tr>
-                </tbody>
-            </table>
-<!--            <div class="money" th:text="'Total listing price:' + ${cartInfoForm.getListPriceTotal()}"></div>-->
-<!--            <div class="money" th:text="'Discount: ' + ${cartInfoForm.getBillTotal() - cartInfoForm.getListPriceTotal()}"></div>-->
-<!--            <div class="money" th:text="'Total:' + ${cartInfoForm.getBillTotal()}"></div>-->
-        </div>
-    </div>
-</div>
-
+			<div class="col-lg-2">
+				<table class="table border-0">
+					<tbody>
+					<tr>
+						<td class="text-left" th:text="'Total listing price: '"></td>
+						<td class="money text-right" th:text="${cartInfoForm.getListPriceTotal()}"></td>
+					</tr>
+					<tr>
+						<td class="text-left" th:text="'Discount: '"></td>
+						<td class="money text-right"
+						    th:text="${cartInfoForm.getBillTotal() - cartInfoForm.getListPriceTotal()}"></td>
+					</tr>
+					<tr>
+						<td class="text-left" th:text="'Total: '"></td>
+						<td class="money text-right" th:text="${cartInfoForm.getBillTotal()}"></td>
+					</tr>
+					</tbody>
+				</table>
+				<!--            <div class="money" th:text="'Total listing price:' + ${cartInfoForm.getListPriceTotal()}"></div>-->
+				<!--            <div class="money" th:text="'Discount: ' + ${cartInfoForm.getBillTotal() - cartInfoForm.getListPriceTotal()}"></div>-->
+				<!--            <div class="money" th:text="'Total:' + ${cartInfoForm.getBillTotal()}"></div>-->
+			</div>
+		</div>
+	</div>
+</main>
+<th:block th:include="/common/_footer"></th:block>
 <div th:replace="fragments/template::common-redirect-form"></div>
 <div th:replace="fragments/template::overlay"></div>
 <script type="text/javascript" th:inline="javascript">
@@ -111,6 +119,7 @@
     var totalQuantity = [[${cartInfoForm.getQuantityTotal()}]];
 </script>
 <script type="text/javascript" th:src="@{/js/customer/cartPage.js}"></script>
-<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/customer/cartPage.css}" href="../../css/customer/cartPage.css">
+<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/customer/cartPage.css}"
+      href="../../css/customer/cartPage.css">
 </body>
 </html>

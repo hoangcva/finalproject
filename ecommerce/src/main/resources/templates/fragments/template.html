@@ -972,5 +972,47 @@
 		</tbody>
 	</table>
 </div>
+
+<div th:fragment="favorite-custom">
+	<div class="col-lg-8" th:fragment="favorite">
+		<div th:replace="fragments/template :: display-error-message"/>
+		<div class="row" th:each="product,iStat  : ${favoriteFormList}">
+			<div class="col-lg-7">
+				<div class="d-flex">
+					<img class="img-thumbnail mr-2" style="height: 60px"
+					     th:src="@{'data:image/jpeg;base64,'+${product.generateBase64Image()}}"/>
+					<div>
+						<p>
+							<a th:text="${product.productName}"
+							   th:href="@{/product/view/detail(productId = ${product.productId})}"></a>
+						</p>
+						<p>
+							Provided by
+							<a th:href="@{/}"><strong th:text="${product.vendorName}"></strong></a>
+							<!--TODO: vendorPage-->
+						</p>
+						<p>
+							<a th:href="@{/customer/favorite/remove(id = ${product.favoriteId})}">
+								<span><i class="fas fa-times"></i></span>
+							</a>
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<p class="money" th:text="${product.price}"></p>
+				<p class="money" th:text="${product.listPrice}"></p>
+				<p class="text-danger" th:if="${product.quantity <= 0}"
+				   th:text="This product is out of stock!"></p>
+			</div>
+			<div class="col-lg-1">
+				<a href="#" th:onclick="|javascript:remove(${product.favoriteId})|">
+					<i class="fas fa-times" data-toggle="tooltip" data-placement="top"
+					   title="Remove"></i>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
 </body>
 </html>

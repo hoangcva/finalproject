@@ -7,22 +7,20 @@
 <body>
 <!-- Include _header.html -->
 <th:block th:include="/common/_header"></th:block>
-<main class="my-5 py-5">
+<main>
 	<div class="container-fluid">
-		<div class="row mb-4">
-			<div class="col-lg-2">
-				<h2 class="d-block text-center">Vendor page</h2>
-			</div>
-			<div class="col-lg-8">
-				<h5 th:if="${vendorForm.enable eq false}" class="alert-danger">
-					Vendor haven't been approved yet!
-				</h5>
-			</div>
-		</div>
 		<div class="row">
 			<th:block th:include="/common/_vendor-sidebar-menu"></th:block>
 			<div class="col-lg-8">
+				<div class="row mb-4">
+					<h3></h3>
+				</div>
 				<div th:replace="fragments/template :: display-error-message"/>
+				<div class="row">
+					<h3 th:if="${vendorForm.enable eq false}" class="alert-danger text-center">
+						Vendor haven't been approved yet!
+					</h3>
+				</div>
 				<div class="row">
 					<div class="col-lg-3">
 						<p>Today income</p>
@@ -79,6 +77,7 @@
 		</div>
 	</div>
 </main>
+<th:block th:include="/common/_footer"></th:block>
 <!--<a th:href="@{/vendor/show/category}">Add product</a><br>-->
 <!--<a th:href="@{/vendor/product/view}">Show all vendor product</a><br>-->
 <!--<a th:href="@{/showProducts}">Show all product</a><br>-->

@@ -115,4 +115,23 @@ public class CustomerController {
         }
     }
 
+    @GetMapping(value = "/favorite/remove")
+    public String removeProduct(@RequestParam("favoriteId") Long favoriteId,
+                                           Authentication auth,
+                                           Model model) {
+        Long customerId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
+        Message result = customerService.removeItem(favoriteId);
+        model.addAttribute("message", result.getMessage());
+        model.addAttribute("isSuccess", result.isSuccess());
+        List<FavoriteForm> favoriteFormList = customerService.getFavorite(customerId);
+        if (favoriteFormList.size() == 0) {
+            model.addAttribute("message", messageAccessor.getMessage(Consts.MSG_17_I));
+            model.addAttribute("isSuccess", false);
+        } else {
+            model.addAttribute("favoriteFormList", favoriteFormList);
+        }
+
+        return "fragments/template :: favorite";
+    }
+
 }

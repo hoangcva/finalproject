@@ -7,44 +7,45 @@
 <body>
 <!-- Include _header.html -->
 <th:block th:include="/common/_header"></th:block>
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-lg-2">
-			<h2 class="d-block text-lg-center">Admin Page</h2>
-		</div>
-		<div class="col-lg-8">
-			<h3 lass="text-lg-left mt-lg-2">Vendor</h3>
-		</div>
-	</div>
-	<div class="row">
-		<th:block th:include="/common/_admin-sidebar-menu"></th:block>
-		<div class="col-lg-8">
-			<div class="form-row">
-				<div class="form-check-inline">
-					<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="all" checked>
-					<label class="form-check-label" for="exampleRadios1">
-						All
-					</label>
+<main>
+	<div class="container-fluid">
+		<div class="row">
+			<th:block th:include="/common/_admin-sidebar-menu"></th:block>
+			<div class="col-lg-8">
+				<div class="row mb-4">
+					<h3 lass="text-lg-left mt-lg-2">Vendor</h3>
 				</div>
-				<div class="form-check-inline">
-					<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="deactivated">
-					<label class="form-check-label" for="exampleRadios2">
-						Deactivated
-					</label>
+				<div class="form-row">
+					<div class="form-check-inline">
+						<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
+						       value="all" checked>
+						<label class="form-check-label" for="exampleRadios1">
+							All
+						</label>
+					</div>
+					<div class="form-check-inline">
+						<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2"
+						       value="deactivated">
+						<label class="form-check-label" for="exampleRadios2">
+							Deactivated
+						</label>
+					</div>
+					<div class="form-check-inline">
+						<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3"
+						       value="active">
+						<label class="form-check-label" for="exampleRadios2">
+							Activated
+						</label>
+					</div>
 				</div>
-				<div class="form-check-inline">
-					<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="active">
-					<label class="form-check-label" for="exampleRadios2">
-						Activated
-					</label>
+				<div id="content">
+					<div th:replace="/fragments/template :: vendor-table-custom"></div>
 				</div>
 			</div>
-			<div id="content">
-				<div th:replace="/fragments/template :: vendor-table-custom"></div>
-			</div>
 		</div>
 	</div>
-</div>
+</main>
+<th:block th:include="/common/_footer"></th:block>
 <form method="GET" th:action="@{/admin/account/vendor}" id="reload"></form>
 </body>
 <script type="text/javascript" th:src="@{/js/admin/vendorAccountManager.js}"></script>

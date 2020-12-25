@@ -5,48 +5,48 @@
 </head>
 <body>
 <th:block th:include="/common/_header"></th:block>
-
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-lg-2"></div>
-		<div class="col-lg-8">
-			<h2 class="d-block text-lg-center">Admin Page > Order</h2>
+<main>
+	<div class="container-fluid">
+		<div class="row">
+			<th:block th:include="/common/_admin-sidebar-menu"></th:block>
+			<div class="col-lg-8">
+				<div class="row mb-4">
+					<h3 class="text-lg-left mt-lg-2">Order</h3>
+				</div>
+				<div th:replace="fragments/template :: display-error-message"/>
+				<table class="table table-bordered" id="dtBasicExample">
+					<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Code order</th>
+						<th scope="col">Order date</th>
+						<th scope="col">Order status</th>
+						<th scope="col">Action</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr th:each="order,iStat  : ${orderFormList}">
+						<th scope="row" th:text="${iStat.count}"></th>
+						<td><a th:text="${order.orderDspId}"
+						       th:href="@{/admin/order/detail(orderId = ${order.id})}"></a></td>
+						<td th:text="${order.orderDate}"></td>
+						<td th:text="${order.orderStatus}"></td>
+						<td class="d-flex">
+							<a type="submit" class="btn btn-primary" role="button"
+							   th:href="@{/admin/order/update(id=${order.id}, orderDspId=${order.orderDspId}, orderStatus='READY')}"
+							   th:classappend="${order.orderStatus ne 'PROGRESSING'}?'disabled btn-outline-primary':''">Approve</a>
+							<a type="submit" class="btn btn-danger ml-1" role="button"
+							   th:href="@{/admin/order/update(id=${order.id}, orderDspId=${order.orderDspId}, orderStatus='CANCELED')}"
+							   th:classappend="${order.orderStatus eq 'CANCELED'}?'disabled btn-outline-danger':''">Cancel</a>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
-	<div class="row">
-		<th:block th:include="/common/_admin-sidebar-menu"></th:block>
-		<div class="col-lg-8">
-			<div th:replace="fragments/template :: display-error-message"/>
-			<table class="table table-bordered" id="dtBasicExample">
-				<thead>
-				<tr>
-					<th scope="col">#</th>
-					<th scope="col">Code order</th>
-					<th scope="col">Order date</th>
-					<th scope="col">Order status</th>
-					<th scope="col">Action</th>
-				</tr>
-				</thead>
-				<tbody>
-				<tr th:each="order,iStat  : ${orderFormList}">
-					<th scope="row" th:text="${iStat.count}"></th>
-					<td ><a th:text="${order.orderDspId}" th:href="@{/admin/order/detail(orderId = ${order.id})}"></a></td>
-					<td th:text="${order.orderDate}"></td>
-					<td th:text="${order.orderStatus}"></td>
-					<td class="d-flex">
-						<a type="submit" class="btn btn-primary" role="button"
-						   th:href="@{/admin/order/update(id=${order.id}, orderDspId=${order.orderDspId}, orderStatus='READY')}"
-						   th:classappend="${order.orderStatus ne 'PROGRESSING'}?'disabled btn-outline-primary':''">Approve</a>
-						<a type="submit" class="btn btn-danger ml-1" role="button"
-						   th:href="@{/admin/order/update(id=${order.id}, orderDspId=${order.orderDspId}, orderStatus='CANCELED')}"
-						   th:classappend="${order.orderStatus eq 'CANCELED'}?'disabled btn-outline-danger':''">Cancel</a>
-					</td>
-				</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
-</div>
+</main>
+<th:block th:include="/common/_footer"></th:block>
 <form method="get" th:action="@{/admin/orders}" id="reload"></form>
 </body>
 <script type="text/javascript" th:src="@{/js/admin/order/history.js}"></script>

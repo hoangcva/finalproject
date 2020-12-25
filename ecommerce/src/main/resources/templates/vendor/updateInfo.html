@@ -5,109 +5,112 @@
 </head>
 <body>
 <th:block th:include="/common/_header"></th:block>
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-lg-2"></div>
-		<h2 class="d-block text-lg-center">Update Information</h2>
-	</div>
-	<div class="row">
-		<th:block th:include="/common/_vendor-sidebar-menu"></th:block>
-		<div class="col-8">
-			<div th:replace="fragments/template :: display-error-message"/>
-			<form name="update_user" th:object="${vendorForm}" th:action="@{/user/update/vendor}" method="post">
-				<div class="form-group w-25">
-					<label for="userName">Username</label>
-					<!--					<span id="userName" type="text" th:text="*{userName}"></span>-->
-					<input type="text" th:field="*{userName}" class="form-control" id="userName" disabled>
-					<input type="hidden" th:field="*{userName}">
+<main>
+	<div class="container-fluid">
+		<div class="row">
+			<th:block sec:authorize="hasRole('VENDOR')" th:include="/common/_vendor-sidebar-menu"></th:block>
+			<th:block sec:authorize="hasRole('ADMIN')" th:include="/common/_admin-sidebar-menu"></th:block>
+			<div class="col-8">
+				<div class="row mb-4">
+					<h3 class="text-lg-left mt-lg-2">Update Information</h3>
 				</div>
-				<div class="form-group w-25">
-					<label for="businessCode">Business code</label>
-					<!--					<span id="businessCode" type="text" th:text="*{businessCode}"></span>-->
-					<input type="text" th:field="*{businessCode}" class="form-control" id="businessCode" disabled>
-					<input type="hidden" th:field="*{businessCode}">
-				</div>
-				<div class="form-row">
-					<div class="form-group col-3">
-						<label for="fullName">Full name</label>
-						<input class="form-control" id="fullName" type="text" th:field="*{fullName}"
-						       placeholder="Enter full name"
-						       th:classappend="${(#fields.hasErrors('fullName')?'is-invalid':'')
+				<div th:replace="fragments/template :: display-error-message"/>
+				<form name="update_user" th:object="${vendorForm}" th:action="@{/user/update/vendor}" method="post">
+					<div class="form-group w-25">
+						<label for="userName">Username</label>
+						<!--					<span id="userName" type="text" th:text="*{userName}"></span>-->
+						<input type="text" th:field="*{userName}" class="form-control" id="userName" disabled>
+						<input type="hidden" th:field="*{userName}">
+					</div>
+					<div class="form-group w-25">
+						<label for="businessCode">Business code</label>
+						<!--					<span id="businessCode" type="text" th:text="*{businessCode}"></span>-->
+						<input type="text" th:field="*{businessCode}" class="form-control" id="businessCode" disabled>
+						<input type="hidden" th:field="*{businessCode}">
+					</div>
+					<div class="form-row">
+						<div class="form-group col-3">
+							<label for="fullName">Full name</label>
+							<input class="form-control" id="fullName" type="text" th:field="*{fullName}"
+							       placeholder="Enter full name"
+							       th:classappend="${(#fields.hasErrors('fullName')?'is-invalid':'')
                                + (!#fields.hasErrors('fullName') and vendorForm.isSubmitted() ? 'is-valid':'')}">
-						<label class="invalid-feedback" th:if="${#fields.hasErrors('fullName')}"
-						       th:errors="*{fullName}"></label>
-					</div>
-					<div class="form-group col-3">
-						<label for="vendorName">Store name</label>
-						<input class="form-control" id="vendorName" type="text" th:field="*{vendorName}"
-						       placeholder="Enter store name"
-						       th:classappend="${(#fields.hasErrors('vendorName')?'is-invalid':'')
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('fullName')}"
+							       th:errors="*{fullName}"></label>
+						</div>
+						<div class="form-group col-3">
+							<label for="vendorName">Store name</label>
+							<input class="form-control" id="vendorName" type="text" th:field="*{vendorName}"
+							       placeholder="Enter store name"
+							       th:classappend="${(#fields.hasErrors('vendorName')?'is-invalid':'')
                                + (!#fields.hasErrors('vendorName') and vendorForm.isSubmitted() ? 'is-valid':'')}">
-						<label class="invalid-feedback" th:if="${#fields.hasErrors('vendorName')}"
-						       th:errors="*{vendorName}"></label>
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('vendorName')}"
+							       th:errors="*{vendorName}"></label>
+						</div>
+						<div class="form-group col-3">
+							<label for="categoryId">City</label>
+							<select class="form-control" th:field="*{categoryId}" id="categoryId">
+								<option th:each="category : ${categoryList}"
+								        th:value="${category.id}"
+								        th:text="${category.name}"></option>
+							</select>
+						</div>
 					</div>
-					<div class="form-group col-3">
-						<label for="categoryId">City</label>
-						<select class="form-control" th:field="*{categoryId}" id="categoryId">
-							<option th:each="category : ${categoryList}"
-							        th:value="${category.id}"
-							        th:text="${category.name}"></option>
-						</select>
-					</div>
-				</div>
-				<div class="form-row">
-					<div class="form-group col-3">
-						<label for="email">Email</label>
-						<input class="form-control" id="email" type="text" th:field="*{email}"
-						       placeholder="Enter email"
-						       th:classappend="${(#fields.hasErrors('email')?'is-invalid':'')
+					<div class="form-row">
+						<div class="form-group col-3">
+							<label for="email">Email</label>
+							<input class="form-control" id="email" type="text" th:field="*{email}"
+							       placeholder="Enter email"
+							       th:classappend="${(#fields.hasErrors('email')?'is-invalid':'')
                                + (!#fields.hasErrors('email') and vendorForm.isSubmitted() ? 'is-valid':'')}">
-						<label class="invalid-feedback" th:if="${#fields.hasErrors('email')}"
-						       th:errors="*{email}"></label>
-					</div>
-					<div class="form-group col-3">
-						<label for="phoneNumber">Phone number</label>
-						<input class="form-control" id="phoneNumber" type="text" th:field="*{phoneNumber}"
-						       placeholder="Enter phone number"
-						       th:classappend="${(#fields.hasErrors('phoneNumber')?'is-invalid':'')
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('email')}"
+							       th:errors="*{email}"></label>
+						</div>
+						<div class="form-group col-3">
+							<label for="phoneNumber">Phone number</label>
+							<input class="form-control" id="phoneNumber" type="text" th:field="*{phoneNumber}"
+							       placeholder="Enter phone number"
+							       th:classappend="${(#fields.hasErrors('phoneNumber')?'is-invalid':'')
                                + (!#fields.hasErrors('phoneNumber') and vendorForm.isSubmitted() ? 'is-valid':'')}">
-						<label class="invalid-feedback" th:if="${#fields.hasErrors('phoneNumber')}"
-						       th:errors="*{phoneNumber}"></label>
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('phoneNumber')}"
+							       th:errors="*{phoneNumber}"></label>
+						</div>
+						<div class="form-group col-3">
+							<label for="province">City</label>
+							<select class="form-control" th:field="*{province}" id="province">
+								<option th:each="province : ${provinceList}"
+								        th:value="${province.id}"
+								        th:text="${province.name}"></option>
+							</select>
+						</div>
 					</div>
-					<div class="form-group col-3">
-						<label for="province">City</label>
-						<select class="form-control" th:field="*{province}" id="province">
-							<option th:each="province : ${provinceList}"
-							        th:value="${province.id}"
-							        th:text="${province.name}"></option>
-						</select>
-					</div>
-				</div>
-				<div class="form-group w-75">
-					<label for="addressDetail">Address detail</label>
-					<p th:classappend="${(#fields.hasErrors('addressDetail')?'border border-danger':'')
+					<div class="form-group w-75">
+						<label for="addressDetail">Address detail</label>
+						<p th:classappend="${(#fields.hasErrors('addressDetail')?'border border-danger':'')
 	                               + (!#fields.hasErrors('addressDetail') and vendorForm.isSubmitted() ? 'border border-success':'')}">
 					<textarea class="form-control" id="addressDetail" type="text" th:field="*{addressDetail}"
 					          placeholder="Enter address detail"></textarea>
-					</p>
-					<label class="invalid-feedback" th:if="${#fields.hasErrors('addressDetail')}"
-					       th:errors="*{addressDetail}"></label>
-				</div>
-				<div class="form-group w-75">
-					<label for="description">Description</label>
-					<p th:classappend="${(#fields.hasErrors('description')?'border border-danger':'')
+						</p>
+						<label class="invalid-feedback" th:if="${#fields.hasErrors('addressDetail')}"
+						       th:errors="*{addressDetail}"></label>
+					</div>
+					<div class="form-group w-75">
+						<label for="description">Description</label>
+						<p th:classappend="${(#fields.hasErrors('description')?'border border-danger':'')
 	                               + (!#fields.hasErrors('description') and vendorForm.isSubmitted() ? 'border border-success':'')}">
 						<textarea class="form-control" id="description" type="text" th:field="*{description}"
 						          placeholder="Enter description"></textarea>
-					</p>
-					<label class="invalid-feedback" th:if="${#fields.hasErrors('description')}"
-					       th:errors="*{description}"></label>
-				</div>
-				<input type="hidden" th:field="*{vendorId}">
-				<button type="submit" th:text="Update" class="btn btn-primary"></button>
-			</form>
+						</p>
+						<label class="invalid-feedback" th:if="${#fields.hasErrors('description')}"
+						       th:errors="*{description}"></label>
+					</div>
+					<input type="hidden" th:field="*{vendorId}">
+					<button type="submit" th:text="Update" class="btn btn-primary"></button>
+				</form>
+			</div>
 		</div>
 	</div>
-</div>
+</main>
+<th:block th:include="/common/_footer"></th:block>
 </body>
 </html>

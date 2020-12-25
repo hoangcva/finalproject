@@ -7,26 +7,23 @@
 <body>
 <!-- Include _header.html -->
 <th:block th:include="/common/_header"></th:block>
-<main class="my-5 py-5">
+<main>
 	<div class="container-fluid">
-		<div class="row mb-lg-2">
-			<div class="col-lg-2">
-				<h2 class="d-block text-lg-center">Admin Page</h2>
-			</div>
-			<div class="col-lg-8">
-				<h3 class="text-lg-left mt-lg-2">Edit Transporter</h3>
-			</div>
-		</div>
 		<div class="row">
 			<th:block th:include="/common/_admin-sidebar-menu"></th:block>
 			<div class="col-lg-8">
+				<div class="row mb-4">
+					<h3 class="text-lg-left mt-lg-2">Edit Transporter</h3>
+				</div>
 				<div th:replace="fragments/template :: display-error-message"/>
 				<form th:object="${transporterForm}" th:action="@{/admin/account/transporter/editTransporter}"
 				      method="post">
-					<div class="form-group w-25">
-						<label for="userName">Username</label>
-						<input class="form-control" id="userName" type="text" th:value="*{userName}" disabled>
-						<input type="hidden" th:field="*{userName}">
+					<div class="form-row">
+						<div class="form-group w-25">
+							<label for="userName">Username</label>
+							<input class="form-control" id="userName" type="text" th:value="*{userName}" disabled>
+							<input type="hidden" th:field="*{userName}">
+						</div>
 					</div>
 					<hr class="my-4">
 					<div class="form-row">
@@ -89,5 +86,6 @@
 		</div>
 	</div>
 </main>
+<th:block th:include="/common/_footer"></th:block>
 </body>
 </html>

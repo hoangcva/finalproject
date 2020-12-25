@@ -61,11 +61,6 @@ public class RegisterController {
         }
     }
 
-    @RequestMapping("/registerSuccessful")
-    public String viewRegisterSuccessful(Model model) {
-        return "registerSuccessful";
-    }
-
     @RequestMapping(value = "/saveUser", method = RequestMethod.POST)
     public String saveUser(Model model,
                            @ModelAttribute("userRegisterForm") @Validated UserRegisterForm userRegisterForm,

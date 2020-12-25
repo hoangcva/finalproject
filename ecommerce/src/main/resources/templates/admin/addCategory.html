@@ -7,53 +7,55 @@
 <body>
 <!-- Include _header.html -->
 <th:block th:include="/common/_header"></th:block>
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-lg-2"></div>
-		<div class="col-lg">
-			<h2 class="d-block text-lg-center">Admin Page > Add subcategory</h2>
-		</div>
-	</div>
-	<div class="row">
-		<th:block th:include="/common/_admin-sidebar-menu"></th:block>
-		<div class="col-lg-8">
-			<div th:replace="fragments/template :: display-error-message"/>
-			<form th:object="${subCategoryForm}" th:action="@{/admin/category/add}" method="post">
-				<div class="form-row">
-					<div class="custom-select-div col-3 form-group">
-						<label for="category-select">Category</label>
-						<select class="custom-select" id="category-select" th:field="*{categoryId}">
-							<option value="0" selected disabled text="category"></option>
-							<option th:each="category : ${categories}"
-							        th:value="${category.id}"
-							        th:text="${category.name}"></option>
-						</select>
-					</div>
+<main>
+	<div class="container-fluid">
+		<div class="row">
+			<th:block th:include="/common/_admin-sidebar-menu"></th:block>
+			<div class="col-lg-8">
+				<div class="row mb-4">
+					<h3 class="text-lg-left mt-lg-2">Add Subcategory</h3>
 				</div>
-				<div class="form-row">
-					<div class="custom-select-div2 col-3 form-group">
-						<label for="sub-category-name-input">Sub category</label>
-						<input id="sub-category-name-input" type="text" class="form-control"
-						       placeholder="Enter sub-category" th:field="*{name}"
-						       th:classappend="${(#fields.hasErrors('name')?'is-invalid':'')
+				<div th:replace="fragments/template :: display-error-message"/>
+				<form th:object="${subCategoryForm}" th:action="@{/admin/category/add}" method="post">
+					<div class="form-row">
+						<div class="custom-select-div col-3 form-group">
+							<label for="category-select">Category</label>
+							<select class="custom-select" id="category-select" th:field="*{categoryId}">
+								<option value="0" selected disabled text="category"></option>
+								<option th:each="category : ${categories}"
+								        th:value="${category.id}"
+								        th:text="${category.name}"></option>
+							</select>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="custom-select-div2 col-3 form-group">
+							<label for="sub-category-name-input">Sub category</label>
+							<input id="sub-category-name-input" type="text" class="form-control"
+							       placeholder="Enter sub-category" th:field="*{name}"
+							       th:classappend="${(#fields.hasErrors('name')?'is-invalid':'')
                                + (!#fields.hasErrors('name') and subCategoryForm.isSubmitted() ? 'is-valid':'')}">
-						<label class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></label>
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('name')}"
+							       th:errors="*{name}"></label>
+						</div>
 					</div>
-				</div>
-				<div class="form-row">
-					<div class="form-group col-lg-6">
-						<label for="sub-category-desc-input">Description</label>
-						<textarea id="sub-category-desc-input" type="text" class="form-control"
-						       placeholder="Enter description" th:field="*{description}"
-						       th:classappend="${(#fields.hasErrors('description')?'is-invalid':'')
+					<div class="form-row">
+						<div class="form-group col-lg-6">
+							<label for="sub-category-desc-input">Description</label>
+							<textarea id="sub-category-desc-input" type="text" class="form-control"
+							          placeholder="Enter description" th:field="*{description}"
+							          th:classappend="${(#fields.hasErrors('description')?'is-invalid':'')
                                + (!#fields.hasErrors('description') and subCategoryForm.isSubmitted() ? 'is-valid':'')}"></textarea>
-						<label class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></label>
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('description')}"
+							       th:errors="*{description}"></label>
+						</div>
 					</div>
-				</div>
-				<input type="submit" class="btn btn-primary" value="Add">
-			</form>
+					<input type="submit" class="btn btn-primary" value="Add">
+				</form>
+			</div>
 		</div>
 	</div>
-</div>
+</main>
+<th:block th:include="/common/_footer"></th:block>
 </body>
 </html>

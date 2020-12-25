@@ -5,18 +5,15 @@
 </head>
 <body>
 <th:block th:include="/common/_header"></th:block>
-<main class="my-5 py-5">
+<main>
 	<div class="container-fluid">
-		<div class="row">
-			<div class="col-lg-2"></div>
-			<div class="col-lg">
-				<h2 class="d-block text-lg-center">Edit Product Detail</h2>
-
-			</div>
-		</div>
 		<div class="row">
 			<th:block th:include="/common/_vendor-sidebar-menu"></th:block>
 			<div class="col-lg-8">
+				<div class="row mb-4">
+					<h3 class="text-lg-left mt-lg-2">Edit Product</h3>
+				</div>
+				<div th:replace="fragments/template :: display-error-message"/>
 				<form th:action="@{/vendor/product/edit}" th:object="${productForm}" th:method="POST" id="save-product-form"
 				      enctype="multipart/form-data">
 					<div class="container">
@@ -86,6 +83,7 @@
 		</div>
 	</div>
 </main>
+<th:block th:include="/common/_footer"></th:block>
 <script type="text/javascript" th:src="@{/js/vendor/editProduct.js}"></script>
 <link rel="stylesheet" href="../../static/css/vendor/editProduct.css" th:href="@{/css/vendor/editProduct.css}"/>
 <link rel="stylesheet" href="../../static/css/common/productImage.css" th:href="@{/css/common/productImage.css}"/>
