@@ -7,7 +7,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg">
-            <h2>Cart</h2>
+            <h2 class="d-block text-lg-center">Cart</h2>
             <h4 th:unless="${cartInfoForm.getQuantityTotal()} == 0">
                 <span th:text="'(' + ${cartInfoForm.getQuantityTotal()} + 'products)'"></span>
             </h4>

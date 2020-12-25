@@ -5,7 +5,8 @@
 <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/common/_header.css}"
       href="../../static/css/common/_header.css">
 <header>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-lg-2">
+<!--mau xanh    bg-primary-->
+	<nav class="navbar navbar-expand-lg navbar-dark mb-lg-2 scrolling-navbar fixed-top light-blue darken-4">
 		<th:block sec:authorize="isAuthenticated()">
 			<a class="navbar-brand" th:href="@{/admin}" sec:authorize="hasRole('ADMIN')"><i class="fas fa-home"></i></a>
 			<a class="navbar-brand" th:href="@{/}" sec:authorize="hasRole('USER')"><i class="fas fa-home"></i></a>
@@ -21,31 +22,31 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto" sec:authorize="isAuthenticated()">
-				<li sec:authorize="hasRole('ADMIN')" class="nav-item active">
+				<li sec:authorize="hasRole('ADMIN')" class="nav-item">
 					<a class="nav-link" th:href="@{/admin}">
 						<span sec:authentication="name"></span>
 						<i class="fas fa-user"></i>
 					</a>
 				</li>
-				<li sec:authorize="hasRole('USER')" class="nav-item active">
+				<li sec:authorize="hasRole('USER')" class="nav-item">
 					<a class="nav-link" th:href="@{/user}">
 						<span sec:authentication="name"></span>
 						<i class="fas fa-user"></i>
 					</a>
 				</li>
-				<li sec:authorize="hasRole('USER')" class="nav-item active">
+				<li sec:authorize="hasRole('USER')" class="nav-item">
 					<a class="nav-link" th:href="@{/customer/cart/view}">
 						Cart
 						<i class="fas fa-shopping-cart"></i>
 					</a>
 				</li>
-				<li sec:authorize="hasRole('VENDOR')" class="nav-item active">
+				<li sec:authorize="hasRole('VENDOR')" class="nav-item">
 					<a class="nav-link" th:href="@{/vendor}">
 						<span sec:authentication="name"></span>
 						<i class="fas fa-user"></i>
 					</a>
 				</li>
-				<li sec:authorize="hasRole('SHIPPER')" class="nav-item active">
+				<li sec:authorize="hasRole('SHIPPER')" class="nav-item">
 					<a class="nav-link" th:href="@{/transporter/orders}">
 						<span sec:authentication="name"></span>
 						<i class="fas fa-user"></i>
@@ -53,34 +54,34 @@
 				</li>
 			</ul>
 			<ul class="navbar-nav mr-0 ml-auto" sec:authorize="isAuthenticated()">
-				<li class="nav-item active" sec:authorize="hasRole('USER')">
+				<li class="nav-item" sec:authorize="hasRole('USER')">
 					<a class="nav-link" th:href="@{/user/update}">
 						Update info<i class="fas fa-user-edit"></i>
 					</a>
 				</li>
-				<li class="nav-item active" sec:authorize="hasRole('VENDOR')">
+				<li class="nav-item" sec:authorize="hasRole('VENDOR')">
 					<a class="nav-link" th:href="@{/vendor/info}">
 						Update info<i class="fas fa-user-edit"></i>
 					</a>
 				</li>
-				<li class="nav-item active">
+				<li class="nav-item">
 					<a class="nav-link" href="#" th:text="Logout" th:onclick="|javascript:logout()|">
 						<i class="fas fa-sign-out-alt"></i>
 					</a>
 				</li>
 			</ul>
 			<ul sec:authorize="!isAuthenticated()" class="navbar-nav mr-0 ml-auto">
-				<li class="nav-item active">
+				<li class="nav-item">
 					<a class="nav-link" th:href="@{/login}">
 						Login <i class="fas fa-sign-in-alt"></i>
 					</a>
 				</li>
-				<li class="nav-item active">
+				<li class="nav-item">
 					<a class="nav-link" th:href="@{/registerUser}">
 						Register
 					</a>
 				</li>
-				<li class="nav-item active">
+				<li class="nav-item">
 					<a class="nav-link" th:href="@{/registerVendor}">
 						Vendor Register
 					</a>

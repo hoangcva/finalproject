@@ -21,8 +21,8 @@ public interface OrderMapper {
     List<OrderDto> getOrderList(@Param("orderStatus") String orderStatus, @Param("transporterId") Long transporterId);
     List<OrderDto> getOrderListTransporter(@Param("transporterId") Long transporterId);
 
-    long totalIncomeLast30Days(@Param("vendorId") Long vendorId);
-    long totalIncome(@Param("vendorId") Long vendorId);
-    long todayIncome(@Param("vendorId") Long vendorId);
-    VendorStatisticDto soldProduct(@Param("vendorId") Long vendorId);
+    Long totalIncomeLast30Days(@Param("vendorId") Long vendorId);
+    Long totalIncome(@Param("vendorId") Long vendorId);
+    Long todayIncome(@Param("vendorId") Long vendorId);
+    List<VendorStatisticDto> soldProduct(@Param("vendorId") Long vendorId);
 }

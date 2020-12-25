@@ -2,45 +2,82 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:replace="fragments/template :: head_input(~{::title})">
-    <title>Vendor page</title>
+	<title>Vendor page</title>
 </head>
 <body>
 <!-- Include _header.html -->
 <th:block th:include="/common/_header"></th:block>
-<main>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-2"></div>
-            <div class="col-lg-8">
-                <h2 class="d-block">Vendor page</h2>
-                <h5 th:if="${vendorForm.enable eq false}" class="alert-danger">
-                    Vendor haven't been approved yet!
-                </h5>
-            </div>
-        </div>
-        <div class="row">
-            <th:block th:include="/common/_vendor-sidebar-menu"></th:block>
-            <div class="col-lg-8">
-                <div th:replace="fragments/template :: display-error-message"/>
-                <div class="row">
-                    <div>today</div>
-                    <div>last30day</div>
-                    <div>total</div>
-                </div>
-                <div class="row">
-                    <table>
-                        <thead>
-                        <td>#</td>
-                        <td>ProductId</td>
-                        <td>ProductName+img</td>
-                        <td>buyQuantity</td>
-                        <td>totalincome</td>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+<main class="my-5 py-5">
+	<div class="container-fluid">
+		<div class="row mb-4">
+			<div class="col-lg-2">
+				<h2 class="d-block text-center">Vendor page</h2>
+			</div>
+			<div class="col-lg-8">
+				<h5 th:if="${vendorForm.enable eq false}" class="alert-danger">
+					Vendor haven't been approved yet!
+				</h5>
+			</div>
+		</div>
+		<div class="row">
+			<th:block th:include="/common/_vendor-sidebar-menu"></th:block>
+			<div class="col-lg-8">
+				<div th:replace="fragments/template :: display-error-message"/>
+				<div class="row">
+					<div class="col-lg-3">
+						<p>Today income</p>
+						<p class="money" th:text="${vendorStatisticForm.todayIncome}"></p>
+					</div>
+					<div class="col-lg-3">
+						<p>Last 30 days income</p>
+						<p class="money" th:text="${vendorStatisticForm.incomeLast30Days}"></p>
+					</div>
+					<div class="col-lg-3">
+						<p>Total income</p>
+						<p class="money" th:text="${vendorStatisticForm.totalIncome}"></p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12">
+						<table class="table table-bordered" id="dtBasicExample">
+							<thead>
+							<tr>
+								<th scope="col" th:text="'#'"></th>
+								<th scope="col" th:text="'Product Name'"></th>
+								<th scope="col" th:text="'Quantity Sold'"></th>
+								<th scope="col" th:text="'Total'"></th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr th:each="product,iterationStatus : ${vendorStatisticForm.statisticDtoList}">
+								<td th:text="${iterationStatus.count}"></td>
+								<td>
+									<div class="d-flex">
+										<img class="img-thumbnail mr-2" style="height: 60px"
+										     th:src="@{'data:image/jpeg;base64,'
+								            +${product.generateBase64Image()}}"/>
+										<div>
+                                        <span class="text-2-lines">
+                                            <a th:text="${product.productName}"
+                                               th:href="@{/product/view/detail(productId = ${product.productId}, vendorId = ${vendorForm.vendorId})}"></a>
+                                        </span>
+										</div>
+									</div>
+								</td>
+								<td>
+									<span th:text="${product.buyQuantity}"></span>
+								</td>
+								<td>
+									<span class="money" th:text="${product.productIncome}"></span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </main>
 <!--<a th:href="@{/vendor/show/category}">Add product</a><br>-->
 <!--<a th:href="@{/vendor/product/view}">Show all vendor product</a><br>-->

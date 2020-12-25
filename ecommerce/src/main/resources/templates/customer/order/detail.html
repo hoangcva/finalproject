@@ -11,7 +11,7 @@
 		<div class="col-lg-2"></div>
 		<div class="col-lg-7 d-flex">
 			<h2 th:text="'Order ' + ${orderForm.orderDspId} + ' detail'"></h2>
-			<h2> - <b th:text="${orderForm.orderStatus}"></b></h2>
+			<h2 class="d-block text-lg-center"> - <b th:text="${orderForm.orderStatus}"></b></h2>
 		</div>
 		<div class="col-1">
 			<!--			<form th:action="@{/customer/order/cancel}" method="post" th:object="${orderForm}">-->

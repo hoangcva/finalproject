@@ -21,6 +21,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Service
 public class VendorServiceImpl implements IVendorService {
@@ -95,11 +96,11 @@ public class VendorServiceImpl implements IVendorService {
     @Override
     public VendorStatisticForm statistic(Long vendorId) {
         VendorStatisticForm statisticForm = new VendorStatisticForm();
-        VendorStatisticDto statisticDto = orderMapper.soldProduct(vendorId);
+        List<VendorStatisticDto> vendorStatisticDtoList  = orderMapper.soldProduct(vendorId);
         Long totalIncome = orderMapper.totalIncome(vendorId);
         Long todayIncome = orderMapper.todayIncome(vendorId);
         Long incomeLast30Days = orderMapper.totalIncomeLast30Days(vendorId);
-        BeanUtils.copyProperties(statisticDto, statisticForm);
+        statisticForm.setStatisticDtoList(vendorStatisticDtoList);
         statisticForm.setTodayIncome(todayIncome);
         statisticForm.setTotalIncome(totalIncome);
         statisticForm.setIncomeLast30Days(incomeLast30Days);

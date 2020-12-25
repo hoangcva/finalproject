@@ -7,81 +7,87 @@
 <body>
 <!-- Include _header.html -->
 <th:block th:include="/common/_header"></th:block>
-<div class="container-fluid">
-	<div class="row mb-lg-2">
-		<div class="col-lg-2"></div>
-		<div class="col-lg-8">
-			<h2>Admin Page > Edit Transporter</h2>
+<main class="my-5 py-5">
+	<div class="container-fluid">
+		<div class="row mb-lg-2">
+			<div class="col-lg-2">
+				<h2 class="d-block text-lg-center">Admin Page</h2>
+			</div>
+			<div class="col-lg-8">
+				<h3 class="text-lg-left mt-lg-2">Edit Transporter</h3>
+			</div>
 		</div>
-	</div>
-	<div class="row">
-		<th:block th:include="/common/_admin-sidebar-menu"></th:block>
-		<div class="col-lg-8">
-			<div th:replace="fragments/template :: display-error-message"/>
-			<form th:object="${transporterForm}" th:action="@{/admin/account/transporter/editTransporter}" method="post">
-				<div class="form-group w-25">
-					<label for="userName">Username</label>
-					<input class="form-control" id="userName" type="text" th:value="*{userName}" disabled>
-					<input type="hidden" th:field="*{userName}">
-				</div>
-				<hr class="my-4">
-				<div class="form-row">
-					<div class="form-group col-4">
-						<label for="fullName">Full name</label>
-						<input class="form-control" id="fullName" type="text" th:field="*{fullName}"
-						       placeholder="Enter full name"
-						       th:classappend="${(#fields.hasErrors('fullName')?'is-invalid':'')
+		<div class="row">
+			<th:block th:include="/common/_admin-sidebar-menu"></th:block>
+			<div class="col-lg-8">
+				<div th:replace="fragments/template :: display-error-message"/>
+				<form th:object="${transporterForm}" th:action="@{/admin/account/transporter/editTransporter}"
+				      method="post">
+					<div class="form-group w-25">
+						<label for="userName">Username</label>
+						<input class="form-control" id="userName" type="text" th:value="*{userName}" disabled>
+						<input type="hidden" th:field="*{userName}">
+					</div>
+					<hr class="my-4">
+					<div class="form-row">
+						<div class="form-group col-4">
+							<label for="fullName">Full name</label>
+							<input class="form-control" id="fullName" type="text" th:field="*{fullName}"
+							       placeholder="Enter full name"
+							       th:classappend="${(#fields.hasErrors('fullName')?'is-invalid':'')
                                + (!#fields.hasErrors('fullName') and transporterForm.isSubmitted() ? 'is-valid':'')}">
-						<label class="invalid-feedback" th:if="${#fields.hasErrors('fullName')}"
-						       th:errors="*{fullName}"></label>
-					</div>
-					<div class="form-group col-4">
-						<label for="email">Email</label>
-						<input class="form-control" id="email" type="text" th:field="*{email}"
-						       placeholder="Enter email"
-						       th:classappend="${(#fields.hasErrors('email')?'is-invalid':'')
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('fullName')}"
+							       th:errors="*{fullName}"></label>
+						</div>
+						<div class="form-group col-4">
+							<label for="email">Email</label>
+							<input class="form-control" id="email" type="text" th:field="*{email}"
+							       placeholder="Enter email"
+							       th:classappend="${(#fields.hasErrors('email')?'is-invalid':'')
                                + (!#fields.hasErrors('email') and transporterForm.isSubmitted() ? 'is-valid':'')}">
-						<label class="invalid-feedback" th:if="${#fields.hasErrors('email')}"
-						       th:errors="*{email}"></label>
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('email')}"
+							       th:errors="*{email}"></label>
+						</div>
 					</div>
-				</div>
-				<hr class="my-4">
-				<div class="form-row">
-					<div class="form-group col-4">
-						<label for="phoneNumber">Phone number</label>
-						<input class="form-control" id="phoneNumber" type="text" th:field="*{phoneNumber}"
-						       placeholder="Enter phone number"
-						       th:classappend="${(#fields.hasErrors('phoneNumber')?'is-invalid':'')
+					<hr class="my-4">
+					<div class="form-row">
+						<div class="form-group col-4">
+							<label for="phoneNumber">Phone number</label>
+							<input class="form-control" id="phoneNumber" type="text" th:field="*{phoneNumber}"
+							       placeholder="Enter phone number"
+							       th:classappend="${(#fields.hasErrors('phoneNumber')?'is-invalid':'')
                                + (!#fields.hasErrors('phoneNumber') and transporterForm.isSubmitted() ? 'is-valid':'')}">
-						<label class="invalid-feedback" th:if="${#fields.hasErrors('phoneNumber')}"
-						       th:errors="*{phoneNumber}"></label>
-					</div>
-					<div class="form-group col-4">
-						<label for="shippingFee">Shipping Fee</label>
-						<input class="form-control" id="shippingFee" type="number" th:field="*{shippingFee}"
-						       placeholder="Enter shipping fee"
-						       th:classappend="${(#fields.hasErrors('shippingFee')?'is-invalid':'')
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('phoneNumber')}"
+							       th:errors="*{phoneNumber}"></label>
+						</div>
+						<div class="form-group col-4">
+							<label for="shippingFee">Shipping Fee</label>
+							<input class="form-control" id="shippingFee" type="number" th:field="*{shippingFee}"
+							       placeholder="Enter shipping fee"
+							       th:classappend="${(#fields.hasErrors('shippingFee')?'is-invalid':'')
                                + (!#fields.hasErrors('shippingFee') and transporterForm.isSubmitted() ? 'is-valid':'')}">
-						<label class="invalid-feedback" th:if="${#fields.hasErrors('shippingFee')}"
-						       th:errors="*{shippingFee}"></label>
+							<label class="invalid-feedback" th:if="${#fields.hasErrors('shippingFee')}"
+							       th:errors="*{shippingFee}"></label>
+						</div>
 					</div>
-				</div>
-				<div class="form-group w-75">
-					<label for="description">Description</label>
-					<p th:classappend="${(#fields.hasErrors('description')?'border border-danger':'')
+					<div class="form-group w-75">
+						<label for="description">Description</label>
+						<p th:classappend="${(#fields.hasErrors('description')?'border border-danger':'')
 	                               + (!#fields.hasErrors('description') and transporterForm.isSubmitted() ? 'border border-success':'')}">
-						<textarea style="height: 10rem" class="form-control" id="description" type="text" th:field="*{description}"
+						<textarea style="height: 10rem" class="form-control" id="description" type="text"
+						          th:field="*{description}"
 						          placeholder="Enter description"></textarea>
-					</p>
-					<label class="invalid-feedback" th:if="${#fields.hasErrors('description')}"
-					       th:errors="*{description}"></label>
-				</div>
-				<input type="hidden" th:field="${transporterForm.transporterId}">
-				<input type="hidden" th:field="${transporterForm.id}">
-				<input type="submit" class="btn btn-primary" value="Add">
-			</form>
+						</p>
+						<label class="invalid-feedback" th:if="${#fields.hasErrors('description')}"
+						       th:errors="*{description}"></label>
+					</div>
+					<input type="hidden" th:field="${transporterForm.transporterId}">
+					<input type="hidden" th:field="${transporterForm.id}">
+					<input type="submit" class="btn btn-primary" value="Add">
+				</form>
+			</div>
 		</div>
 	</div>
-</div>
+</main>
 </body>
 </html>

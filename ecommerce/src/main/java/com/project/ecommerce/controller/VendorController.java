@@ -38,7 +38,7 @@ public class VendorController {
     @Autowired
     private MessageAccessor messageAccessor;
 
-    @GetMapping
+    @GetMapping(value = {"/statistic", ""})
     public String index(Model model, Authentication auth) {
         Long vendorId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
         VendorForm vendorForm = vendorService.getInfo(vendorId);
@@ -46,7 +46,11 @@ public class VendorController {
         if (!vendorForm.getEnable()) {
             result.setMessage(messageAccessor.getMessage(Consts.MSG_17_E));
             result.setSuccess(false);
+            model.addAttribute("isSuccess", result.isSuccess());
+            model.addAttribute("message", result.getMessage());
         }
+        VendorStatisticForm vendorStatisticForm = vendorService.statistic(vendorId);
+        model.addAttribute("vendorStatisticForm", vendorStatisticForm);
         model.addAttribute("vendorForm", vendorForm);
         return "/vendor/index";
     }
@@ -73,6 +77,13 @@ public class VendorController {
         model.addAttribute("vendorForm", vendorForm);
         model.addAttribute("provinceList", provinceDtoList);
         model.addAttribute("categoryList", categoryDtoList);
+        if (!vendorForm.getEnable()) {
+            Message result = new Message();
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_17_E));
+            result.setSuccess(false);
+            model.addAttribute("isSuccess", result.isSuccess());
+            model.addAttribute("message", result.getMessage());
+        }
         return "/vendor/updateInfo";
     }
 
@@ -98,9 +109,9 @@ public class VendorController {
 //        }
 //        return "redirect:/vendor/info";
 //    }
-    @GetMapping("/statistic")
-    public String statistic(Model model, @RequestParam("vendorId") Long vendorId){
-        VendorStatisticForm vendorStatisticForm = vendorService.statistic(vendorId);
+    @GetMapping(value = {"/statistic"})
+    public String statistic(Model model, @ModelAttribute("vendorForm") VendorForm vendorForm){
+        VendorStatisticForm vendorStatisticForm = vendorService.statistic(vendorForm.getId());
         model.addAttribute("vendorStatisticForm", vendorStatisticForm);
         return "/vendor/index";
     }

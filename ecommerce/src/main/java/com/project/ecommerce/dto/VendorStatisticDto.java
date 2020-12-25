@@ -1,5 +1,7 @@
 package com.project.ecommerce.dto;
 
+import org.apache.tomcat.util.codec.binary.Base64;
+
 import java.io.Serializable;
 
 public class VendorStatisticDto implements Serializable {
@@ -9,6 +11,11 @@ public class VendorStatisticDto implements Serializable {
     private Long buyQuantity;
     private String productName;
     private byte[] content;
+
+    public String generateBase64Image()
+    {
+        return Base64.encodeBase64String(this.getContent());
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
