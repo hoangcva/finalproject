@@ -39,6 +39,7 @@ public class CartServiceImpl implements ICartService {
     private MessageAccessor messageAccessor;
     @Autowired
     private IProductService productService;
+
     /**
      * @param customerId
      * @return
@@ -47,31 +48,40 @@ public class CartServiceImpl implements ICartService {
     public CartInfoForm getCart(long customerId) {
         List<CartDto> cartDtoList = cartMapper.getCart(customerId);
         CartInfoForm cartInfoForm = new CartInfoForm();
-        for (CartDto cartLine : cartDtoList) {
-            ProductForm productForm = productMapper.getProductDetail(cartLine.getProductId(), cartLine.getVendorId());
+        if (cartDtoList.size() == 0) {
+            cartInfoForm.getResult().setMessage(messageAccessor.getMessage(Consts.MSG_32_E));
+            cartInfoForm.getResult().setSuccess(false);
+        } else {
+            for (CartDto cartLine : cartDtoList) {
+                ProductForm productForm = productMapper.getProductDetail(cartLine.getProductId(), cartLine.getVendorId());
 //            ProductForm productDetail = productMapper.getProductDetailBaseOnCategory(productForm);
-            //Get cover img
-            ProductImageForm productImageForm = productService.getProductCover(productForm.getProductId());
-            List<ProductImageForm> productImageFormList = new ArrayList<>();
-            productImageFormList.add(productImageForm);
-            productForm.setProductImageFormList(productImageFormList);
+                //Get cover img
+                ProductImageForm productImageForm = productService.getProductCover(productForm.getProductId());
+                List<ProductImageForm> productImageFormList = new ArrayList<>();
+                productImageFormList.add(productImageForm);
+                productForm.setProductImageFormList(productImageFormList);
 
-            if (productForm.getQuantity() < cartLine.getBuyQuantity()) {
-                cartLine.setBuyQuantity(productForm.getQuantity());
-                if (!productForm.isEnable()) {
+                // check quantity < buyQuantity
+                if (productForm.getQuantity() < cartLine.getBuyQuantity()) {
+                    cartLine.setBuyQuantity(productForm.getQuantity());
+                    if (productForm.getQuantity() == 0) {
+                        cartInfoForm.getResult().setSuccess(false);
+                        if (cartInfoForm.getResult().getMessage() == Consts.EMPTY) {
+                            cartInfoForm.getResult().setMessage(messageAccessor.getMessage(Consts.MSG_28_E));
+                        }
+                    } else if (cartInfoForm.getResult().getMessage() == Consts.EMPTY) {
+                        cartInfoForm.getResult().setMessage(messageAccessor.getMessage(Consts.MSG_28_I));
+                    }
+                } else if (!productForm.isEnable()) {
                     cartInfoForm.getResult().setMessage(messageAccessor.getMessage(Consts.MSG_31_E));
                     cartInfoForm.getResult().setSuccess(false);
-                } else if (productForm.getQuantity() == 0) {
-                    cartInfoForm.getResult().setSuccess(false);
-                    if (cartInfoForm.getResult().getMessage() == Consts.EMPTY) {
-                        cartInfoForm.getResult().setMessage(messageAccessor.getMessage(Consts.MSG_28_E));
-                    }
-                } else if (cartInfoForm.getResult().getMessage() == Consts.EMPTY) {
-                    cartInfoForm.getResult().setMessage(messageAccessor.getMessage(Consts.MSG_28_I));
                 }
+
+                cartInfoForm.addCartLine(cartLine.getId(), productForm, cartLine.getBuyQuantity());
             }
-            cartInfoForm.addCartLine(cartLine.getId(), productForm, cartLine.getBuyQuantity());
         }
+
+
         return cartInfoForm;
     }
 
@@ -84,14 +94,14 @@ public class CartServiceImpl implements ICartService {
         CartDto newCartDto = new CartDto(userDetails.getUserDto().getId(),
                 cartLineInfoForm.getProductForm().getProductId(),
                 cartLineInfoForm.getProductForm().getVendorId(),
-                        cartLineInfoForm.getBuyQuantity());
+                cartLineInfoForm.getBuyQuantity());
         CartDto existCartDto = cartMapper.findProductInCart(newCartDto);
         if (existCartDto != null) {
 //            Long quantity = productMapper.getProductDetail(cartLineInfoForm.getProductForm().getProductId(),
 //                    cartLineInfoForm.getProductForm().getVendorId()).getQuantity();
             Long quantity = cartLineInfoForm.getProductForm().getQuantity();
             Long newQuantity = existCartDto.getBuyQuantity() + newCartDto.getBuyQuantity();
-            if ( newQuantity > quantity) {
+            if (newQuantity > quantity) {
                 strMessage = messageAccessor.getMessage(Consts.MSG_01_E, Long.toString(quantity), "");
                 isSuccess = false;
             } else {

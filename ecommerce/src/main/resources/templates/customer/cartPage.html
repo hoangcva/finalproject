@@ -12,15 +12,17 @@
 				<div class="row mb-4">
 					<h3 class="text-lg-left mt-lg-2">
 						<span th:text="'Cart '"></span>
-						<span th:unless="${cartInfoForm.getQuantityTotal()} == 0" th:text="'(' + ${cartInfoForm.getQuantityTotal()} + ' products)'"></span>
+						<span th:unless="${cartInfoForm.getQuantityTotal()} == 0"
+						      th:text="'(' + ${cartInfoForm.getQuantityTotal()} + ' products)'"></span>
 					</h3>
 				</div>
 				<div th:replace="fragments/template :: display-error-message"/>
 				<div class="row">
 					<div class="col-lg-9">
-						<form th:action="@{/customer/order}" method="POST" th:unless="${cartInfoForm.getQuantityTotal() == 0}">
+						<form th:action="@{/customer/order}" method="POST"
+						      th:unless="${cartInfoForm.getQuantityTotal() == 0}">
 							<div th:each="cartLine : ${cartInfoForm.cartLines}" class="row my-lg-2">
-								<div class="col-lg-7 d-flex">
+								<div class="col-lg-6 d-flex">
 									<img class="img-thumbnail mr-2" style="height: 60px"
 									     th:src="@{'data:image/jpeg;base64,'+${cartLine.productForm.productImageFormList[0].generateBase64Image()}}"/>
 									<div class="d-inline-block" style="width: inherit">
@@ -28,12 +30,13 @@
 										   th:text="*{cartLine.productForm.productName}"></p>
 									</div>
 								</div>
-								<div class="col-lg-2 text-right">
+								<div class="col-lg-auto text-right">
 									<div>
 										<strong class="money price" th:text="*{cartLine.productForm.price}"></strong>
 									</div>
 									<div class="text-decoration-line-through">
-										<span class="money list-price" th:text="*{cartLine.productForm.listPrice}"></span>
+										<span class="money list-price"
+										      th:text="*{cartLine.productForm.listPrice}"></span>
 									</div>
 								</div>
 								<div th:if="*{cartLine.productForm.quantity > 0 && cartLine.productForm.enable eq true}"
@@ -53,16 +56,16 @@
 									<span id="over-quantity" class="hide d-none"
 									      th:text="'You can\'t buy more than ' + ${cartLine.productForm.quantity} + ' products'"></span>
 								</div>
-								<div class="col-lg-3"
+								<div class="col-lg-auto"
 								     th:if="*{cartLine.productForm.quantity <= 0 && cartLine.productForm.enable eq true}">
-                        <span class="pt-1 pb-1 ml-2 text-danger" th:text="'Product is out of stock!'"
+			                        <span class="pt-1 pb-1 ml-2 text-danger" th:text="'Product is out of stock!'"
+			                              style="font-size: 20px"></span>
+								</div>
+								<div class="col-lg-auto" th:unless="*{cartLine.productForm.enable eq true}">
+			                        <span class="pt-1 pb-1 ml-2 text-danger" th:text="'Product is not available!'"
                               style="font-size: 20px"></span>
 								</div>
-								<div class="col-lg-3" th:unless="*{cartLine.productForm.enable eq true}">
-                        <span class="pt-1 pb-1 ml-2 text-danger" th:text="'Product is not available!'"
-                              style="font-size: 20px"></span>
-								</div>
-								<div class="col-lg-1 py-lg-2">
+								<div class="col-lg-auto py-lg-2">
 									<a href="#" th:onclick="|javascript:remove(*{cartLine.id})|">
 										<i class="fas fa-times" data-toggle="tooltip" data-placement="top"
 										   title="Remove"></i>
@@ -70,13 +73,12 @@
 								</div>
 								<!--                    <div class="change-quantity col-lg-2 btn"  th:onclick="|javascript:remove(*{cartLine.id})|">Remove</div>-->
 								<input type="hidden" name="carLineId" id="cartLineId" th:value="*{cartLine.id}">
-								<input type="hidden" name="quantity" id="quantity" th:value="*{cartLine.productForm.quantity}">
+								<input type="hidden" name="quantity" id="quantity"
+								       th:value="*{cartLine.productForm.quantity}">
 							</div>
 							<div class="row mt-lg-3">
-								<button th:if="${isSuccess eq false}" id="order-btn" class="btn btn-primary" disabled>Make
-									order
-								</button>
-								<button th:unless="${isSuccess eq false}" id="order-btn" class="btn btn-primary">Make order
+								<button id="order-btn" class="btn btn-primary" th:classappend="${isSuccess eq false} ? 'disabled':''">
+									Make order
 								</button>
 							</div>
 						</form>
@@ -109,7 +111,6 @@
 					<div class="mh-50"><a text="Continue shopping" th:href="@{/}"></a></div>
 				</div>
 			</div>
-
 		</div>
 	</div>
 </main>

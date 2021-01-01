@@ -17,7 +17,8 @@
     </select>
 
     <select id="findUserByEmail" resultType="com.project.ecommerce.dto.UserDto" fetchSize="200">
-        SELECT * FROM users WHERE email = #{email} AND role = 'ROLE_USER'
+        SELECT * FROM users WHERE email = #{email}
+#                               AND role = 'ROLE_USER'
     </select>
     <insert id="createUser" parameterType="com.project.ecommerce.dto.UserDto" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO users

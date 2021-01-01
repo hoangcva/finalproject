@@ -90,11 +90,11 @@ function addProductToCart() {
         dataType : 'json',
         data: JSON.stringify(dataRequest),
         success : function (result) {
-            alert(result.msg);
+            // alert(result.msg);
             alert(result.responseJSON.msg);
         },
         error: function (result) {
-            alert(result.msg);
+            // alert(result.msg);
             alert(result.responseJSON.msg);
         },
     });

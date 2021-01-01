@@ -76,7 +76,7 @@ public class RegisterController {
         redirectAttributes.addFlashAttribute("message", result.getMessage());
         redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
 
-        return "redirect:/customer/success";
+        return "redirect:/login";
     }
 
     @GetMapping(value = "/registerVendor")

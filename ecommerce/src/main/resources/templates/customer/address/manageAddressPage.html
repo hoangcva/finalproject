@@ -13,16 +13,14 @@
 			<div class="col-lg-8">
 				<div class="row mb-4">
 					<h3 class="text-lg-left mt-lg-2">Address Book</h3>
+					<a class="text-decoration-none btn btn-green ml-auto mr-0"
+					   th:href="@{/customer/address/initAddAddress}">
+						<i class="fas fa-plus"></i>
+						<span>Add new address</span>
+					</a>
 				</div>
 				<div th:replace="fragments/template :: display-error-message"/>
-				<a class="text-decoration-none" th:href="@{/customer/address/initAddAddress}">
-					<div class="row mb-2 justify-content-center bg-light py-lg-2 ">
-						<p class="green darken-3 text-light">
-							<i class="fas fa-plus"></i>
-							<span>Add new address</span>
-						</p>
-					</div>
-				</a>
+
 				<div class="row mb-2" th:each="address : ${address_list}" th:unless="${#lists.isEmpty(address_list)}">
 					<div class="col-lg-9">
 						<div class="container">

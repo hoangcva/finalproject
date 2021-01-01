@@ -50,7 +50,7 @@ public class TransporterValidatior implements Validator {
 
             if (!errors.hasFieldErrors("confirmPassword")) {
                 if (!transporterForm.getConfirmPassword().equals(transporterForm.getPassword())) {
-                    errors.rejectValue("confirmPassword", "Match.usersForm.confirmPassword");
+                    errors.rejectValue("confirmPassword", "Match.UserForm.confirmPassword");
                 }
             }
         }

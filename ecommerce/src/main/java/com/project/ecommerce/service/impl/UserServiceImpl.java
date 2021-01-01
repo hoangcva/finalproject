@@ -27,6 +27,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -63,10 +64,10 @@ public class UserServiceImpl implements IUserService {
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
             UserDto userDto = new UserDto();
-            userDto.setUserName(userRegisterForm.getUserName());
+            userDto.setUserName(userRegisterForm.getUserName().toLowerCase(Locale.ROOT));
             userDto.setPassword(encoder.encode(userRegisterForm.getPassword()));
             userDto.setEmail(userRegisterForm.getEmail());
-            userDto.setFullName(userRegisterForm.getFullName());
+            userDto.setFullName(userRegisterForm.getFullName().toLowerCase(Locale.ROOT));
             userDto.setRole(Consts.ROLE_USER);
             userMapper.createUser(userDto);
             transactionManager.commit(txStatus);

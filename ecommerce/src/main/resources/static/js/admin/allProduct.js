@@ -68,7 +68,10 @@ function deactivateProduct(productId,vendorId, enable)
             error: function (result) {
                 $("#content").html(result.responseText);
             },
+        }).done(function (result) {
+            $("#content").html(result.responseText);
         });
+        $('#reload').submit();
     }
 }
 

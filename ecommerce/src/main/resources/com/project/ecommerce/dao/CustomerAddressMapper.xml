@@ -14,7 +14,7 @@
 
     <insert id="insertAddress" parameterType="com.project.ecommerce.dto.CustomerAddressDto" useGeneratedKeys="true" keyColumn="id">
         INSERT INTO customer_info
-        (customer_id, fullname, phone_number, provinceId, districtId, wardId, address_detail, province, district, ward)
+        (customer_id, fullname, phone_number, provinceId, districtId, wardId, address_detail, province, district, ward,isDefault)
         VALUES
         (#{customerId, jdbcType=BIGINT},
          #{fullName,jdbcType=VARCHAR},
@@ -25,7 +25,8 @@
          #{addressDetail,jdbcType=VARCHAR},
          #{province, jdbcType=VARCHAR},
          #{district, jdbcType=VARCHAR},
-         #{ward,jdbcType=VARCHAR})
+         #{ward,jdbcType=VARCHAR},
+         #{isDefault,jdbcType=INTEGER})
     </insert>
 
     <update id="updateAddress" parameterType="com.project.ecommerce.dto.CustomerAddressDto">
