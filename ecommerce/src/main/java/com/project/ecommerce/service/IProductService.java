@@ -40,4 +40,7 @@ public interface IProductService {
     Message activateProduct(VendorProductForm vendorProductForm);
     Message activateVendorProduct(Long vendorId, Boolean enable);
     Message saveRating(Long productId, Long vendorId);
+
+    List<ProductForm> getAllProductMainPage(Integer categoryId, Integer subCategoryId, String keyword);
+    List<ProductForm> getTop10NewestProduct(Integer categoryId, Integer subCategoryId, String keyword);
 }

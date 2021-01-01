@@ -50,9 +50,10 @@ public class UserRegisterValidator implements Validator {
                 errors.rejectValue("userName", "Duplicate.UserForm.userName");
             }
         }
-        if (!errors.hasErrors()) {
-            if (!userRegisterForm.getConfirmPassword().equals(userRegisterForm.getPassword())) {
-                errors.rejectValue("confirmPassword", "Match.usersForm.confirmPassword");
+        if (!errors.hasFieldErrors("password") && !errors.hasFieldErrors("confirmPassword")) {
+            if (!userRegisterForm.getConfirmPassword().equals(userRegisterForm.getPassword())) { 
+                errors.rejectValue("password", "Match.UserForm.confirmPassword");
+                errors.rejectValue("confirmPassword", "Match.UserForm.confirmPassword");
             }
         }
     }

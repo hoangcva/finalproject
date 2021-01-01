@@ -307,16 +307,12 @@
     </update>
 
     <select id="getAllProductMainPage" parameterType="map" resultMap="ProductResultMap" fetchSize="200">
-        SELECT p.id, p.productName, p.categoryId, p.subCategoryId, p.listPrice,
-        p.createdBy, p.created_time, p.origin, p.brand, p.SKU,
-        vp.vendorId, vp.price, vp.quantity, vp.rating, vp.productId, vp.createdTime, vp.updatedTime, vp.enable
-        FROM product p
+        SELECT * FROM
+            (SELECT MAX(rating) AS rating, Min(price) AS price, productId, vendorId
+            FROM vendor_product
+        WHERE quantity > 0 AND enable = TRUE GROUP BY productId, vendorId) vp
         INNER JOIN
-        ( SELECT v.vendorId, v.quantity, v.rating, v.price, v.productId, v.createdTime, v.updatedTime, v.enable
-        FROM vendor_product v
-        WHERE quantity > 0
-        ORDER BY rating DESC, price ASC
-        ) vp ON p.id = vp.productId
+        (SELECT * FROM product
         <where>
             <if test="categoryId != null">
                 AND categoryId = #{categoryId}
@@ -326,13 +322,12 @@
             </if>
             <if test="keyword != null">
                 AND (productName LIKE #{keyword}
-                OR SKU LIKE #{keyword})
-            </if>
-            <if test="enable != null">
-                AND enable = #{enable}
+                    OR SKU LIKE #{keyword})
             </if>
         </where>
-        #         GROUP BY p.id, vp.productId
+        ) p ON p.id = vp.productId
+#         INNER JOIN
+#         (SELECT productId, content FROM image WHERE imageOrder = 1) i ON i.productId = vp.productId
         ORDER BY RAND()
         LIMIT 100
     </select>
@@ -345,7 +340,32 @@
     </update>
 
     <select id="getTop10NewestProduct" resultMap="ProductResultMap" fetchSize="200">
-        SELECT
+        SELECT * FROM
+        (SELECT MAX(rating) AS rating, Min(price) AS price, productId, vendorId
+        FROM vendor_product
+        WHERE quantity > 0
+        AND enable = TRUE
+        GROUP BY productId, vendorId
+        ORDER BY createdTime, updatedTime) vp
+        INNER JOIN
+        (SELECT id, productName, listPrice FROM product
+        <where>
+            <if test="categoryId != null">
+                AND categoryId = #{categoryId}
+            </if>
+            <if test="subCategoryId != null">
+                AND subCategoryId = #{subCategoryId}
+            </if>
+            <if test="keyword != null">
+                AND (productName LIKE #{keyword}
+                OR SKU LIKE #{keyword})
+            </if>
+        </where>
+        ) p ON p.id = vp.productId
+#         INNER JOIN
+#         (SELECT productId, content FROM image WHERE imageOrder = 1) i ON i.productId = vp.productId
+        ORDER BY RAND()
+        LIMIT 10
     </select>
 
     <update id="saveRating">

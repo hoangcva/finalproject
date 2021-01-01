@@ -471,6 +471,46 @@ public class ProductServiceImpl implements IProductService {
         return result;
     }
 
+    @Override
+    public List<ProductForm> getAllProductMainPage(Integer categoryId, Integer subCategoryId, String keyword) {
+        categoryId = Consts.DEFAULT_VALUE_0.equals(categoryId) ? null : categoryId;
+        subCategoryId = Consts.DEFAULT_VALUE_0.equals(subCategoryId) ? null : subCategoryId;
+        if(keyword == null || keyword.isEmpty()) {
+            keyword = null;
+        } else {
+            keyword = '%' + keyword + '%';
+        }
+
+        List<ProductForm> productFormList = productMapper.getAllProductMainPage(categoryId, subCategoryId, keyword);
+        productFormList = getProductCover(productFormList);
+        return productFormList;
+    }
+
+    @Override
+    public List<ProductForm> getTop10NewestProduct(Integer categoryId, Integer subCategoryId, String keyword) {
+        categoryId = Consts.DEFAULT_VALUE_0.equals(categoryId) ? null : categoryId;
+        subCategoryId = Consts.DEFAULT_VALUE_0.equals(subCategoryId) ? null : subCategoryId;
+        if(keyword == null || keyword.isEmpty()) {
+            keyword = null;
+        } else {
+            keyword = '%' + keyword + '%';
+        }
+
+        List<ProductForm> productFormList = productMapper.getTop10NewestProduct(categoryId, subCategoryId, keyword);
+        productFormList = getProductCover(productFormList);
+        return productFormList;
+    }
+
+    private List<ProductForm> getProductCover(List<ProductForm> productFormList) {
+        for (ProductForm productForm : productFormList) {
+            ProductImageForm productImageForm = getProductCover(productForm.getProductId());
+            List<ProductImageForm> productImageFormList = new ArrayList<>();
+            productImageFormList.add(productImageForm);
+            productForm.setProductImageFormList(productImageFormList);
+        }
+        return productFormList;
+    }
+
     private void doUploadImage(ProductForm productForm) {
         long productId = productForm.getProductId();
         MultipartFile imageFile1 = productForm.getUploadImage1().getUploadFile();

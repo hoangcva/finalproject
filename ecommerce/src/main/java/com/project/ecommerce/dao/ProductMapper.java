@@ -62,4 +62,8 @@ public interface ProductMapper {
                     @Param("vendorId") Long vendorId,
                     @Param("rating") Float rating);
 
+    List<ProductForm> getTop10NewestProduct(@Param("categoryId") Integer categoryId,
+                                            @Param("subCategoryId") Integer subCategoryId,
+                                            @Param("keyword") String keyword);
+
 }

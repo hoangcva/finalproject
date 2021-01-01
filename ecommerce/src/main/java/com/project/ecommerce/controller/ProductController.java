@@ -265,8 +265,10 @@ public class ProductController {
     @GetMapping(value = {"/", "/product/view/list"})
     public String showAllProduct(Model model) {
         List<CategoryForm> categoryForms = productService.getCategory();
-        List<ProductForm> productFormList = productService.getProducts(null, null, null, true);
+        List<ProductForm> productFormList = productService.getAllProductMainPage(null, null, null);
         model.addAttribute("productFormList", productFormList);
+        List<ProductForm> productFormListTop10 = productService.getTop10NewestProduct(null, null, null);
+        model.addAttribute("productFormListTop10", productFormListTop10);
         model.addAttribute("categories", categoryForms);
         return "viewProductList";
     }
@@ -380,7 +382,7 @@ public class ProductController {
                                       final RedirectAttributes redirectAttributes,
                                       ModelMap modelMap,
                                       Authentication auth) {
-        List<ProductForm> productFormList = productService.getProducts(null, null, keyword, null);
+        List<ProductForm> productFormList = productService.getAllProductMainPage(null, null, keyword);
 
         if (productFormList.size() == 0) {
             Message result = new Message("Product not found!", false);
@@ -401,7 +403,7 @@ public class ProductController {
                                  ModelMap modelMap
     ) {
 //        List<CategoryForm> categoryForms = productService.getCategory();
-        List<ProductForm> productFormList = productService.getProducts(categoryId, subCategoryId, null, null);
+        List<ProductForm> productFormList = productService.getAllProductMainPage(categoryId, subCategoryId, null);
         // TODO
         if (productFormList.size() == 0) {
             Message result = new Message("Product not found!", false);
