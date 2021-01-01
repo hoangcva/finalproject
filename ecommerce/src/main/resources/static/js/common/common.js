@@ -61,6 +61,10 @@ $(document).ready(function() {
     //     filled: 'fas fa-star star-filled',
     //     empty: 'far fa-star'
     // });
+
+    $('.spinner-btn').click(function() {
+        $('.spinner-btn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Loading...').addClass('disabled');
+    });
 });
 
 function commafy(num) {

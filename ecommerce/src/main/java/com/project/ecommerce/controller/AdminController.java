@@ -237,37 +237,7 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/orders")
-    public String viewOrderHistory(Model model, Authentication auth){
-        List<OrderForm> orderFormList = adminService.getOrderList(null);
-        model.addAttribute("orderFormList", orderFormList);
-        model.addAttribute("orderForm", new OrderForm());
-        return "/admin/order/history";
-    }
 
-    @GetMapping("/order/update")
-    public String updateOrderStatus(@RequestParam("id") Long id,
-                                    @RequestParam("orderDspId") String orderDspId,
-                                    @RequestParam("orderStatus") String orderStatus,
-//            @ModelAttribute("orderForm") OrderForm orderForm,
-                                  Model model,
-                                  final RedirectAttributes redirectAttributes) {
-        OrderForm orderForm = new OrderForm();
-        orderForm.setId(id);
-        orderForm.setOrderDspId(orderDspId);
-        orderForm.setOrderStatus(orderStatus);
-        Message result = adminService.updateOrderStatus(orderForm);
-        redirectAttributes.addFlashAttribute("message", result.getMessage());
-        redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
-//        HashMap<String, Object> message = new HashMap<>();
-//        message.put("msg", result.getMessage());
-//        if (result.isSuccess()) {
-//            return new ResponseEntity<>(message, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
-//        }
-        return "redirect:/admin/orders";
-    }
 
     @GetMapping("/account/transporter/edit")
     public String editTransporter(Model model,

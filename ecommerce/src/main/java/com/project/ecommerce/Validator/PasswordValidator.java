@@ -1,5 +1,6 @@
 package com.project.ecommerce.Validator;
 
+import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.dao.UserMapper;
 import com.project.ecommerce.dto.UserDto;
 import com.project.ecommerce.form.PasswordForm;
@@ -12,8 +13,10 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import java.util.regex.Pattern;
+
 @Component
-public class PassWordValidator implements Validator {
+public class PasswordValidator implements Validator {
     @Autowired
     private UserMapper userMapper;
 //    @Autowired
@@ -25,6 +28,7 @@ public class PassWordValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
+        Pattern regexPassword = Pattern.compile(Consts.REGEX_PASSWORD);
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         PasswordForm passwordForm = (PasswordForm) target;
         String currentPassword = userMapper.findUserById(passwordForm.getUserId()).getPassword();
@@ -39,14 +43,27 @@ public class PassWordValidator implements Validator {
             errors.rejectValue("oldPassword", "Match.UserForm.current");
         }
 
-        if (!errors.hasErrors() && !newPassword.equals(confirmPassword)) {
-            errors.rejectValue("newPassword", "Match.UserForm.confirmPassword");
-            errors.rejectValue("confirmPassword", "Match.UserForm.confirmPassword");
+        if (!errors.hasErrors()) {
+            if (!regexPassword.matcher(newPassword).find()) {
+                errors.rejectValue("newPassword", "Invalid.productForm.password");
+                errors.rejectValue("confirmPassword", "Empty");
+            } else if (encoder.matches(newPassword,currentPassword)) {
+                errors.rejectValue("newPassword", "Duplicate.UserForm.password");
+                errors.rejectValue("confirmPassword","Empty");
+            } else if (!newPassword.equals(confirmPassword)) {
+                errors.rejectValue("newPassword", "Match.UserForm.confirmPassword");
+                errors.rejectValue("confirmPassword", "Match.UserForm.confirmPassword");
+            }
         }
 
-        if (!errors.hasErrors() &&  encoder.matches(newPassword,currentPassword)) {
-            errors.rejectValue("newPassword", "Duplicate.UserForm.password");
-            errors.rejectValue("confirmPassword","Empty");
-        }
+//        if (!errors.hasErrors() && !newPassword.equals(confirmPassword)) {
+//            errors.rejectValue("newPassword", "Match.UserForm.confirmPassword");
+//            errors.rejectValue("confirmPassword", "Match.UserForm.confirmPassword");
+//        }
+//
+//        if (!errors.hasErrors() &&  encoder.matches(newPassword,currentPassword)) {
+//            errors.rejectValue("newPassword", "Duplicate.UserForm.password");
+//            errors.rejectValue("confirmPassword","");
+//        }
     }
 }

@@ -1,7 +1,7 @@
 package com.project.ecommerce.controller;
 
 import com.project.ecommerce.Consts.Consts;
-import com.project.ecommerce.Validator.PassWordValidator;
+import com.project.ecommerce.Validator.PasswordValidator;
 import com.project.ecommerce.Validator.UserUpdateValidator;
 import com.project.ecommerce.Validator.VendorRegisterValidator;
 import com.project.ecommerce.dao.AddressMapper;
@@ -9,9 +9,7 @@ import com.project.ecommerce.dao.CategoryMapper;
 import com.project.ecommerce.dto.CategoryDto;
 import com.project.ecommerce.dto.ProvinceDto;
 import com.project.ecommerce.dto.UserDetailsDto;
-import com.project.ecommerce.dto.UserDto;
 import com.project.ecommerce.form.PasswordForm;
-import com.project.ecommerce.form.UserForm;
 import com.project.ecommerce.form.UserUpdateForm;
 import com.project.ecommerce.form.VendorForm;
 import com.project.ecommerce.service.IUserService;
@@ -19,8 +17,6 @@ import com.project.ecommerce.service.IVendorService;
 import com.project.ecommerce.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,7 +37,7 @@ public class UpdateUserController {
     @Autowired
     private AddressMapper addressMapper;
     @Autowired
-    private PassWordValidator passWordValidator;
+    private PasswordValidator passwordValidator;
     @Autowired
     private CategoryMapper categoryMapper;
     @Autowired
@@ -77,7 +73,7 @@ public class UpdateUserController {
         if(target.getClass() == UserUpdateForm.class) {
             dataBinder.setValidator(validator);
         } else if(target.getClass() == PasswordForm.class) {
-            dataBinder.setValidator(passWordValidator);
+            dataBinder.setValidator(passwordValidator);
         } else         if(target.getClass() == VendorForm.class) {
             dataBinder.setValidator(vendorRegisterValidator);
         }

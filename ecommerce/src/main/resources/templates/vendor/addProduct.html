@@ -19,7 +19,7 @@
 				<div th:replace="fragments/template :: display-error-message"/>
 				<form th:action="@{/vendor/product/add/detail}" th:object="${productForm}" th:method="GET">
 					<div th:replace="fragments/template :: category-select-fragment"></div>
-					<button th:type="submit" th:text="Continue" class="btn btn-primary"></button>
+					<button th:type="submit" th:text="Continue" class="btn btn-primary spinner-btn"></button>
 				</form>
 				<hr class="my-2">
 				<div th:replace="fragments/template :: search-bar-custom"></div>

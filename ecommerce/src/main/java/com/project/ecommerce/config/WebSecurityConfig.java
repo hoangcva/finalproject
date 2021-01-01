@@ -53,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 // Chỉ cho phép user có quyền ADMIN truy cập đường dẫn /admin/**
                 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-                .antMatchers("/vendor/**").access("hasRole('ROLE_VENDOR')")
+                .antMatchers("/vendor/**").access("hasAnyRole('ROLE_VENDOR','ROLE_ADMIN')")
                 // Chỉ cho phép user có quyền ADMIN hoặc USER truy cập đường dẫn /user/**
                 .antMatchers("/customer/**").access("hasRole('ROLE_USER')")
                 .antMatchers("/transporter/**").access("hasRole('ROLE_SHIPPER')")
@@ -69,8 +69,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
             .rememberMe()
                 .key("rem-me-key")
+//                .alwaysRemember(true)
                 .rememberMeCookieName("remember-me-cookie")
-                .rememberMeParameter("remember-me")  // remember-me field name in form.
+                .rememberMeParameter("_spring_security_remember_me")  // remember-me field name in form.
                 .tokenRepository(this.persistentTokenRepository())
                 .tokenValiditySeconds(1*24*60*60)
                 .and()

@@ -105,7 +105,9 @@
 
 					</div>
 					<div class="col-sm-5" style="position : absolute; right : 0">
-						<div class="font-weight-bolder" th:text="${vendorForm.vendorName}"></div>
+						<div class="font-weight-bolder text-primary">
+							<a th:href="@{/customer/vendor-product/view(vendorId = ${vendorForm.vendorId})}" th:text="${vendorForm.vendorName}"></a>
+						</div>
 						<div class="text-truncate" th:text="${vendorForm.description}"></div>
 					</div>
 					<!--				</div>-->

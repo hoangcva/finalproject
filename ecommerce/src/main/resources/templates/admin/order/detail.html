@@ -9,7 +9,7 @@
 	<div class="container-fluid">
 	</div>
 	<div class="row">
-		<th:block th:include="/common/_customer-sidebar-menu"></th:block>
+		<th:block th:include="/common/_admin-sidebar-menu"></th:block>
 		<div class="col-lg-8">
 			<div class="row mb-4">
 				<div class="col-10 text-lg-left mt-lg-2">
@@ -18,15 +18,6 @@
 						<span th:text="' - '"></span>
 						<b th:text="${orderForm.orderStatus}"></b>
 					</h3>
-				</div>
-				<div class="col-2">
-					<a type="submit" class="btn btn-primary" role="button"
-					   th:if="${orderForm.orderStatus eq 'DELIVERING'}"
-					   th:href="@{/customer/order/receive(id=${orderForm.id}, orderDspId=${orderForm.orderDspId}, orderStatus='SUCCESS')}">Received</a>
-
-					<a type="submit" class="btn btn-danger" role="button"
-					   th:if="${orderForm.orderStatus eq 'PROGRESSING'}"
-					   th:href="@{/customer/order/cancel(id=${orderForm.id}, orderDspId=${orderForm.orderDspId}, orderStatus='CANCELED')}">Cancel</a>
 				</div>
 			</div>
 			<div th:replace="fragments/template :: display-error-message"/>
@@ -52,12 +43,6 @@
 					</div>
 				</div>
 			</div>
-
-			<!--	<div class="row">-->
-			<!--		<div class="col-4">-->
-			<!--			Payment method-->
-			<!--		</div>-->
-			<!--	</div>-->
 			<div class="row">
 				<div class="col-lg-12">
 					<div th:replace="fragments/template :: display-error-message"/>
@@ -68,7 +53,6 @@
 							<th scope="col">Product</th>
 							<th scope="col">Price</th>
 							<th scope="col">Quantity</th>
-							<!--					<th scope="col">Discount</th>-->
 							<th scope="col">Total</th>
 						</tr>
 						</thead>
@@ -87,35 +71,19 @@
 										</p>
 										<p>
 											Provided by
-											<a class="text-primary" th:href="@{/customer/vendor-product/view(vendorId = ${product.productForm.vendorId})}"><strong
+											<a class="text-primary" th:href="@{/admin/vendor-product/view(vendorId = ${product.productForm.vendorId})}""><strong
 													th:text="${product.productForm.vendorName}"></strong></a>
 											<!--TODO: vendorPage-->
-
 										</p>
-									</div>
-									<div class="ml-lg-auto mr-lg-1" th:if="${orderForm.orderStatus eq 'SUCCESS'}">
-										<a th:href="@{/customer/comment(productId = ${product.productForm.productId},
-																	vendorId = ${product.productForm.vendorId},
-																	orderId = ${orderForm.id})}"
-										   class="btn btn-outline-primary">Review</a>
 									</div>
 								</div>
 							</td>
 							<td class="money" th:text="${product.price}"></td>
 							<td th:text="${product.buyQuantity}"></td>
-							<!--					<td></td>-->
 							<td class="bill-total money" th:text="${product.buyQuantity * product.price}"></td>
 						</tr>
 						</tbody>
 						<tfoot>
-						<!--					<tr>-->
-						<!--						<td>Temp</td>-->
-						<!--						<td></td>-->
-						<!--					</tr>-->
-						<!--					<tr>-->
-						<!--						<td>Discount</td>-->
-						<!--						<td></td>-->
-						<!--					</tr>-->
 						<tr>
 							<td colspan="4" class="text-right">Shipping fee</td>
 							<td class="bill-total money" th:text="${orderForm.shippingFee}"></td>

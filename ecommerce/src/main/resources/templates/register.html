@@ -31,8 +31,7 @@
                             <label for="password">Password *</label>
                             <input class="form-control" id="password" type="password" th:field="*{password}"
                                    placeholder="Enter password"
-                                   th:classappend="${(#fields.hasErrors('password')?'is-invalid':'')
-                                   + (!#fields.hasErrors('password') and userRegisterForm.isSubmitted() ? 'is-valid':'')}">
+                                   th:classappend="${(#fields.hasErrors('password')?'is-invalid':'')}">
                             <label class="invalid-feedback" th:if="${#fields.hasErrors('password')}"
                                    th:errors="*{password}"></label>
                         </div>
@@ -40,8 +39,7 @@
                             <label for="confirmPassword">Confirm password *</label>
                             <input class="form-control" id="confirmPassword" type="password" th:field="*{confirmPassword}"
                                    placeholder="Enter confirm password"
-                                   th:classappend="${(#fields.hasErrors('confirmPassword')?'is-invalid':'')
-                                   + (!#fields.hasErrors('confirmPassword') and userRegisterForm.isSubmitted() ? 'is-valid':'')}">
+                                   th:classappend="${(#fields.hasErrors('confirmPassword')?'is-invalid':'')}">
                             <label class="invalid-feedback" th:if="${#fields.hasErrors('confirmPassword')}"
                                    th:errors="*{confirmPassword}"></label>
                         </div>
@@ -66,7 +64,7 @@
                                    th:errors="*{email}"></label>
                         </div>
                     </div>
-                    <button type="submit" th:text="Submit" class="btn btn-primary"></button>
+                    <button type="submit" th:text="Submit" class="btn btn-primary spinner-btn"></button>
                 </form>
             </div>
         </div>

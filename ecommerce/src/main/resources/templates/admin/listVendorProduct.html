@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/template :: head_input(~{::title})">
+    <title>Edit product</title>
+</head>
+<body>
+<th:block th:include="/common/_header"></th:block>
+<main>
+    <div class="container-fluid">
+        <div class="row">
+            <th:block th:include="/common/_vendor-sidebar-menu"></th:block>
+            <div class="col-lg-8">
+                <div class="row mb-4">
+                    <h3 class="text-lg-left mt-lg-2">Product manager</h3>
+                </div>
+                <div th:replace="fragments/template :: search-bar-custom"></div>
+                <div class="form-row">
+                    <div class="form-check-inline">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="all" checked>
+                        <label class="form-check-label" for="exampleRadios1">
+                            All
+                        </label>
+                    </div>
+                    <div class="form-check-inline">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="deactivated">
+                        <label class="form-check-label" for="exampleRadios2">
+                            Deactivated
+                        </label>
+                    </div>
+                    <div class="form-check-inline">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="active">
+                        <label class="form-check-label" for="exampleRadios2">
+                            Activated
+                        </label>
+                    </div>
+                </div>
+                <div id="content">
+<!--                    <div th:replace="fragments/template :: customError"></div>-->
+                    <div th:replace="fragments/template :: table-vendor-product-custom"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<th:block th:include="/common/_footer"></th:block>
+</body>
+<script type="text/javascript" th:src="@{/js/vendor/listVendorProduct.js}"></script>
+</html>

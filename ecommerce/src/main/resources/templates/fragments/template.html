@@ -202,8 +202,9 @@
 </div>
 
 <div th:fragment="table-vendor-product-custom">
+	<!--    TODO same table for admin-->
 	<div th:replace="fragments/template :: display-error-message"/>
-	<table class="table table-bordered" th:fragment="table-vendor-product" id="dtBasicExample">
+	<table class="table table-bordered dataTable" th:fragment="table-vendor-product" id="dtBasicExample">
 		<thead>
 		<tr>
 			<th scope="col" th:text="No"></th>
@@ -219,6 +220,7 @@
 		<tr class="outer" th:each="product,iterationStatus : ${productFormList}">
 			<td th:text="${iterationStatus.count}"></td>
 			<td class="text-2-lines">
+<!--				 TODO link based on Role-->
 				<a class="d-flex" th:href="@{/vendor/product/edit(productId = ${product.productId}, vendorId = ${product.vendorId})}">
 					<img class="img-thumbnail mr-2" style="height: 60px"
 					     th:src="@{'data:image/jpeg;base64,'+${product.productImageFormList[0].generateBase64Image()}}"/>
@@ -989,7 +991,9 @@
 						</p>
 						<p>
 							Provided by
-							<a th:href="@{/}"><strong th:text="${product.vendorName}"></strong></a>
+							<a th:href="@{/customer/vendor-product/view(vendorId = ${product.vendorId})}">
+								<strong th:text="${product.vendorName}"></strong>
+							</a>
 							<!--TODO: vendorPage-->
 						</p>
 <!--						<p>-->
@@ -1000,18 +1004,18 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-3">
+			<div class="col-lg-2">
 				<p class="money" th:text="${product.price}"></p>
 				<p class="money list-price" th:text="${product.listPrice}"></p>
 
 			</div>
-			<div class="col-lg-2">
+			<div class="col-lg-3">
 				<p class="text-danger" th:if="${product.quantity <= 0 and product.enable eq true}"
 				   th:text="'This product is out of stock!'"></p>
 				<p class="text-danger" th:unless="${product.enable eq true}"
 				   th:text="'This product is not available!'"></p>
 			</div>
-			<div class="col-lg-1">
+			<div class="col-lg-auto">
 				<a href="#" th:onclick="|javascript:remove(${product.favoriteId})|" style="width: 7.5rem;">
 					<i class="fas fa-times" data-toggle="tooltip" data-placement="top"
 					   title="Remove"></i>
@@ -1019,6 +1023,38 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+<div th:fragment="table-vendor-product-for-customer-custom">
+	<div th:replace="fragments/template :: display-error-message"/>
+	<table class="table table-bordered dataTable" th:fragment="table-vendor-product-for-customer" id="dtBasicExample">
+		<thead>
+		<tr>
+			<th scope="col" th:text="No"></th>
+			<th scope="col" class="col-lg-6" th:text="'Product name'"></th>
+			<th scope="col" th:text="'SKU'"></th>
+			<th scope="col" th:text="'Price'"></th>
+			<th scope="col" th:text="'List Price'"></th>
+			<th scope="col" th:text="Quantity"></th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr class="outer" th:each="product,iterationStatus : ${productFormList}">
+			<td th:text="${iterationStatus.count}"></td>
+			<td class="text-2-lines">
+				<a class="d-flex" th:href="@{/product/view/detail(productId = ${product.productId}, vendorId = ${product.vendorId})}">
+					<img class="img-thumbnail mr-2" style="height: 60px"
+					     th:src="@{'data:image/jpeg;base64,'+${product.productImageFormList[0].generateBase64Image()}}"/>
+					<div th:text="${product.productName}"></div>
+				</a>
+			</td>
+			<td th:text="${product.SKU}"></td>
+			<td class="money" th:text="${product.price}"></td>
+			<td class="money" th:text="${product.listPrice}"></td>
+			<td th:text="${product.quantity}"></td>
+		</tr>
+		</tbody>
+	</table>
 </div>
 </body>
 </html>

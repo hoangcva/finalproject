@@ -40,8 +40,7 @@
 							<label for="password">Password *</label>
 							<input class="form-control" id="password" type='password'
 							       placeholder="Enter password" th:field="*{password}"
-							       th:classappend="${(#fields.hasErrors('password')?'is-invalid':'')
-                               + (!#fields.hasErrors('password') and vendorForm.isSubmitted() ? 'is-valid':'')}">
+							       th:classappend="${(#fields.hasErrors('password')?'is-invalid':'')}">
 							<label class="invalid-feedback" th:if="${#fields.hasErrors('password')}"
 							       th:errors="*{password}"></label>
 						</div>
@@ -49,8 +48,7 @@
 							<label for="confirmPassword">Confirm password *</label>
 							<input class="form-control" id="confirmPassword" type='password'
 							       placeholder="Enter confirm password" th:field="*{confirmPassword}"
-							       th:classappend="${(#fields.hasErrors('confirmPassword')?'is-invalid':'')
-                               + (!#fields.hasErrors('confirmPassword') and vendorForm.isSubmitted() ? 'is-valid':'')}">
+							       th:classappend="${(#fields.hasErrors('confirmPassword')?'is-invalid':'')}">
 							<label class="invalid-feedback" th:if="${#fields.hasErrors('confirmPassword')}"
 							       th:errors="*{confirmPassword}"></label>
 						</div>
@@ -134,7 +132,7 @@
 						       th:errors="*{description}"></label>
 					</div>
 					<input type="hidden" th:field="*{action}">
-					<button type="submit" th:text="Create" class="btn btn-primary"></button>
+					<button type="submit" th:text="Create" class="btn btn-primary spinner-btn"></button>
 				</form>
 			</div>
 		</div>

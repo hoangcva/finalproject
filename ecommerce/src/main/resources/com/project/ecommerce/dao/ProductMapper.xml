@@ -134,10 +134,14 @@
             </if>
             <if test="keyword != null">
                 AND (productName LIKE #{keyword}
-                    OR SKU LIKE #{keyword})
+                    OR SKU LIKE #{keyword}
+                       OR brand LIKE #{keyword})
             </if>
             <if test="enable != null">
                 AND enable = #{enable}
+            </if>
+            <if test="vendorId != null">
+                AND vendorId = #{vendorId}
             </if>
         </where>
     </select>

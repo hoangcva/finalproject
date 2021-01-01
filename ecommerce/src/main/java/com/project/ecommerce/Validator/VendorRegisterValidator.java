@@ -10,6 +10,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import java.util.regex.Pattern;
+
 @Component
 public class VendorRegisterValidator implements Validator {
     private EmailValidator emailValidator = EmailValidator.getInstance();
@@ -24,6 +26,8 @@ public class VendorRegisterValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         VendorForm vendorForm = (VendorForm) target;
+        Pattern regexUsername = Pattern.compile(Consts.REGEX_USERNAME);
+        Pattern regexPassword = Pattern.compile(Consts.REGEX_PASSWORD);
 
         // Kiểm tra các field của UserForm.
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userName", "NotEmpty.UserForm.userName");
@@ -41,7 +45,9 @@ public class VendorRegisterValidator implements Validator {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "NotEmpty.UserForm.confirmPassword");
             if (!errors.hasFieldErrors("userName")) {
                 int count = userMapper.findVendorExist(vendorForm.getUserName(),null,null, vendorId);
-                if (count > 0) {
+                if (!regexUsername.matcher(vendorForm.getUserName()).find()) {
+                    errors.rejectValue("userName", "Invalid.productForm.userName");
+                } else if (count > 0) {
                     // Tên tài khoản đã bị sử dụng bởi người khác.
                     errors.rejectValue("userName", "Duplicate.UserForm.userName");
                 }
@@ -53,8 +59,12 @@ public class VendorRegisterValidator implements Validator {
                     errors.rejectValue("businessCode", "Duplicate.VendorForm.businessCode");
                 }
             }
-            if (!errors.hasFieldErrors("confirmPassword")) {
-                if (!vendorForm.getConfirmPassword().equals(vendorForm.getPassword())) {
+            if (!errors.hasFieldErrors("password") && !errors.hasFieldErrors("confirmPassword")) {
+                if (!regexPassword.matcher(vendorForm.getPassword()).find()) {
+                    errors.rejectValue("password", "Invalid.productForm.password");
+                    errors.rejectValue("confirmPassword", "");
+                } else if (!vendorForm.getConfirmPassword().equals(vendorForm.getPassword())) {
+                    errors.rejectValue("password", "Match.UserForm.confirmPassword");
                     errors.rejectValue("confirmPassword", "Match.UserForm.confirmPassword");
                 }
             }

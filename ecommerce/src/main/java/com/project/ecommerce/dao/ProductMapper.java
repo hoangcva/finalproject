@@ -24,8 +24,9 @@ public interface ProductMapper {
 
     List<ProductForm> getAllProduct(@Param("categoryId") Integer categoryId,
                                     @Param("subCategoryId") Integer subCategoryId,
-                                    @Param("keyword") String keyword,@Param("enable") Boolean enable);
-
+                                    @Param("keyword") String keyword,
+                                    @Param("enable") Boolean enable,
+                                    @Param("vendorId")  Long vendorId);
 
     ProductForm getProductDetail(@Param("productId") long productId,
                                  @Param("vendorId") long vendorId);

@@ -198,11 +198,12 @@ public class ProductServiceImpl implements IProductService {
      * @param subCategoryId
      * @param keyword
      * @param enable
+     * @param vendorId
      * @return
      */
     @Override
-    public List<ProductForm> getAllProduct(Integer categoryId, Integer subCategoryId, String keyword, Boolean enable) {
-        List<ProductForm> productFormList = productMapper.getAllProduct(categoryId, subCategoryId, keyword, enable);
+    public List<ProductForm> getAllProduct(Integer categoryId, Integer subCategoryId, String keyword, Boolean enable, Long vendorId) {
+        List<ProductForm> productFormList = productMapper.getAllProduct(categoryId, subCategoryId, keyword, enable, vendorId);
         for (ProductForm productForm : productFormList) {
 //            List<ProductImageForm> productImageFormList = getProductImage(productForm.getProductId());
             ProductImageForm productImageForm = getProductCover(productForm.getProductId());
@@ -254,10 +255,11 @@ public class ProductServiceImpl implements IProductService {
      * @param supCategoryId
      * @param keyword
      * @param enable
+     * @param vendorId
      * @return
      */
     @Override
-    public List<ProductForm> getProducts(Integer categoryId, Integer supCategoryId, String keyword, Boolean enable) {
+    public List<ProductForm> getProducts(Integer categoryId, Integer supCategoryId, String keyword, Boolean enable, Long vendorId) {
         categoryId = Consts.DEFAULT_VALUE_0.equals(categoryId) ? null : categoryId;
         supCategoryId = Consts.DEFAULT_VALUE_0.equals(supCategoryId) ? null : supCategoryId;
         if(keyword == null || keyword.isEmpty()) {
@@ -265,7 +267,7 @@ public class ProductServiceImpl implements IProductService {
         } else {
             keyword = '%' + keyword + '%';
         }
-        return getAllProduct(categoryId, supCategoryId, keyword, enable);
+        return getAllProduct(categoryId, supCategoryId, keyword, enable, vendorId);
     }
 
     /**

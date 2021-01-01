@@ -40,7 +40,7 @@ public class ProductController {
     @GetMapping(value = "/vendor/show/category")
     public String showCategory(Model model, @ModelAttribute("vendorForm") VendorForm vendorForm) {
         // load danh sach category
-        List<CategoryDto> categoryDtoList= productService.getAllCategory();
+        List<CategoryDto> categoryDtoList = productService.getAllCategory();
         // load danh sach sub-category
         List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
         ProductForm productForm = new ProductForm();
@@ -130,12 +130,12 @@ public class ProductController {
     @InitBinder
     protected void initBinder(WebDataBinder dataBinder) {
         Object target = dataBinder.getTarget();
-        if(target == null) {
+        if (target == null) {
             return;
         }
 
         System.out.println("Target = " + target);
-        if(target.getClass() == ProductForm.class) {
+        if (target.getClass() == ProductForm.class) {
             dataBinder.setValidator(productValidator);
         }
     }
@@ -190,7 +190,7 @@ public class ProductController {
                                  @ModelAttribute("vendorId") Long vendorId,
                                  @ModelAttribute("vendorForm") VendorForm vendorForm,
                                  Model model, Authentication auth) {
-        List<CategoryDto> categoryDtoList= productService.getAllCategory();
+        List<CategoryDto> categoryDtoList = productService.getAllCategory();
         List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
         ProductForm productForm = productService.getVendorProduct(productId, vendorId);
 
@@ -230,7 +230,7 @@ public class ProductController {
         if (bindingResult.hasErrors()) {
             List<ProductImageForm> productImageFormList = productService.getProductImage(productForm.getProductId());
             productForm.setProductImageFormList(productImageFormList);
-            List<CategoryDto> categoryDtoList= productService.getAllCategory();
+            List<CategoryDto> categoryDtoList = productService.getAllCategory();
             List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
             List<CountriesDto> countriesDtoList = productService.getCountries();
             model.addAttribute("countriesDtoList", countriesDtoList);
@@ -318,13 +318,13 @@ public class ProductController {
 //    }
 
     @GetMapping(value = "/vendor/product/add/search")
-    public String showAllProductByKeyWord(HttpServletRequest request,Model model,
+    public String showAllProductByKeyWord(HttpServletRequest request, Model model,
                                           @RequestParam(value = "keyword", required = false) String keyword,
                                           final RedirectAttributes redirectAttributes,
                                           ModelMap modelMap,
                                           Authentication auth,
                                           @ModelAttribute("vendorForm") VendorForm vendorForm) {
-        List<ProductForm> productFormList = productService.getProducts(null, null, keyword, null);
+        List<ProductForm> productFormList = productService.getProducts(null, null, keyword, null, null);
         List<ProductForm> tempList = new ArrayList<>();
 
         if (productFormList.size() > 0) {
@@ -349,15 +349,15 @@ public class ProductController {
     }
 
     @GetMapping(value = "/vendor/product/view/search")
-    public String searchProductVendor(HttpServletRequest request,Model model,
+    public String searchProductVendor(HttpServletRequest request, Model model,
                                       @RequestParam(value = "keyword", required = false) String keyword,
                                       final RedirectAttributes redirectAttributes,
                                       ModelMap modelMap,
                                       Authentication auth,
                                       @ModelAttribute("vendorForm") VendorForm vendorForm) {
-        List<ProductForm> productFormList = productService.getProducts(null, null, keyword, null);
+        List<ProductForm> productFormList = productService.getProducts(null, null, keyword, null, null);
         List<ProductForm> tempList = new ArrayList<>();
-        if (productFormList.size() > 0) {
+        if (!productFormList.isEmpty()) {
             Long vendorId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
             for (ProductForm productForm : productFormList) {
                 if (vendorId.equals(productForm.getVendorId())) {
@@ -365,7 +365,7 @@ public class ProductController {
                 }
             }
         }
-        if (productFormList.size() == 0) {
+        if (tempList.isEmpty()) {
             Message result = new Message("Product not found!", false);
             modelMap.addAttribute("message", result.getMessage());
             modelMap.addAttribute("isSuccess", result.isSuccess());
@@ -377,14 +377,14 @@ public class ProductController {
     }
 
     @GetMapping(value = "/product/view/list/search")
-    public String searchProduct(HttpServletRequest request,Model model,
-                                      @RequestParam(value = "keyword", required = false) String keyword,
-                                      final RedirectAttributes redirectAttributes,
-                                      ModelMap modelMap,
-                                      Authentication auth) {
+    public String searchProduct(HttpServletRequest request, Model model,
+                                @RequestParam(value = "keyword", required = false) String keyword,
+                                final RedirectAttributes redirectAttributes,
+                                ModelMap modelMap,
+                                Authentication auth) {
         List<ProductForm> productFormList = productService.getAllProductMainPage(null, null, keyword);
 
-        if (productFormList.size() == 0) {
+        if (productFormList.isEmpty()) {
             Message result = new Message("Product not found!", false);
             modelMap.addAttribute("message", result.getMessage());
             modelMap.addAttribute("isSuccess", result.isSuccess());
@@ -400,12 +400,11 @@ public class ProductController {
     public String showAllProduct(HttpServletRequest request, Model model,
                                  @RequestParam(value = "categoryId", required = false) Integer categoryId,
                                  @RequestParam(value = "subCategoryId", required = false) Integer subCategoryId,
-                                 ModelMap modelMap
-    ) {
+                                 ModelMap modelMap) {
 //        List<CategoryForm> categoryForms = productService.getCategory();
         List<ProductForm> productFormList = productService.getAllProductMainPage(categoryId, subCategoryId, null);
         // TODO
-        if (productFormList.size() == 0) {
+        if (productFormList.isEmpty()) {
             Message result = new Message("Product not found!", false);
             modelMap.addAttribute("message", result.getMessage());
             modelMap.addAttribute("isSuccess", result.isSuccess());
@@ -417,7 +416,7 @@ public class ProductController {
     }
 
     @PostMapping(value = "/vendor/product/activate")
-    public String activateProductVendor(Model model,@RequestBody VendorProductForm vendorProductForm, Authentication auth) {
+    public String activateProductVendor(Model model, @RequestBody VendorProductForm vendorProductForm, Authentication auth) {
         Long vendorId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
         String role = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getRole();
         vendorProductForm.setVendorId(vendorId);
@@ -454,10 +453,10 @@ public class ProductController {
             return "/fragments/template :: display-error-message";
         }
         String type = adminProductForm.getRadioType();
-        Integer categoryId = Integer.valueOf(0).equals(adminProductForm.getCategoryId())  ? null:adminProductForm.getCategoryId();
-        Integer subCategoryId = Integer.valueOf(0).equals(adminProductForm.getSubCategoryId()) ? null:adminProductForm.getSubCategoryId();
-        Boolean status = (type == null  || "all".equals(type)) ? null : ("active".equals(type) ? true:false);
-        List<ProductForm> productFormList = productService.getProducts(categoryId, subCategoryId, adminProductForm.getKeyword(), status);
+        Integer categoryId = Integer.valueOf(0).equals(adminProductForm.getCategoryId()) ? null : adminProductForm.getCategoryId();
+        Integer subCategoryId = Integer.valueOf(0).equals(adminProductForm.getSubCategoryId()) ? null : adminProductForm.getSubCategoryId();
+        Boolean status = (type == null || "all".equals(type)) ? null : ("active".equals(type) ? true : false);
+        List<ProductForm> productFormList = productService.getProducts(categoryId, subCategoryId, adminProductForm.getKeyword(), status, null);
 
         model.addAttribute("message", result.getMessage());
         model.addAttribute("isSuccess", result.isSuccess());
@@ -466,17 +465,17 @@ public class ProductController {
     }
 
     @GetMapping(value = "/admin/product/view/list/search")
-    public String searchProductAdmin(HttpServletRequest request,Model model,
-                                    @RequestParam(value = "keyword", required = false) String keyword,
-                                    @RequestParam(value = "categoryId", required = false) Integer categoryId,
-                                    @RequestParam(value = "subCategoryId", required = false) Integer subCategoryId,
-                                    @RequestParam(value = "radioType", required = false) String type,
-                                    ModelMap modelMap,
-                                    Authentication auth) {
-        categoryId = Integer.valueOf(0).equals(categoryId)  ? null:categoryId;
-        subCategoryId = Integer.valueOf(0).equals(subCategoryId) ? null:subCategoryId;
-        Boolean enable = (type == null  || "all".equals(type)) ? null : ("active".equals(type) ? true:false);
-        List<ProductForm> productFormList = productService.getProducts(categoryId, subCategoryId, keyword, enable);
+    public String searchProductAdmin(HttpServletRequest request, Model model,
+                                     @RequestParam(value = "keyword", required = false) String keyword,
+                                     @RequestParam(value = "categoryId", required = false) Integer categoryId,
+                                     @RequestParam(value = "subCategoryId", required = false) Integer subCategoryId,
+                                     @RequestParam(value = "radioType", required = false) String type,
+                                     ModelMap modelMap,
+                                     Authentication auth) {
+        categoryId = Integer.valueOf(0).equals(categoryId) ? null : categoryId;
+        subCategoryId = Integer.valueOf(0).equals(subCategoryId) ? null : subCategoryId;
+        Boolean enable = (type == null || "all".equals(type)) ? null : ("active".equals(type) ? true : false);
+        List<ProductForm> productFormList = productService.getProducts(categoryId, subCategoryId, keyword, enable, null);
 
         if (productFormList.size() == 0) {
             Message result = new Message("Product not found!", false);
@@ -491,13 +490,13 @@ public class ProductController {
 
     @GetMapping(value = "/admin/product/view/list")
     public String showAllProductAdmin(Model model) {
-        List<ProductForm> productFormList = productService.getProducts(null, null, null, null);
+        List<ProductForm> productFormList = productService.getProducts(null, null, null, null, null);
         List<CategoryDto> categoryDtoList = productService.getAllCategory();
         List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setId(0);
         categoryDto.setName("All");
-        categoryDtoList.add(0,categoryDto);
+        categoryDtoList.add(0, categoryDto);
         SubCategoryDto subCategoryDto = new SubCategoryDto();
         subCategoryDto.setCategoryId(0);
         subCategoryDto.setId(0);
@@ -511,5 +510,44 @@ public class ProductController {
         model.addAttribute("subCategories", subCategoryDtoList);
         model.addAttribute("productForm", productForm);
         return "/admin/allProduct";
+    }
+
+    @GetMapping(value = "/customer/vendor-product/view")
+    public String getAllProductByVendorIdForCustomer(Model model,
+                                                     Authentication auth,
+                                                     @ModelAttribute("vendorId") Long vendorId) {
+        List<ProductForm> productFormList = productService.getAllProductByVendorId(vendorId);
+        model.addAttribute("productFormList", productFormList);
+//        model.addAttribute("vendorId", vendorId);
+        return "customer/listVendorProduct";
+    }
+
+    @GetMapping(value = "/admin/vendor-product/view")
+    public String getAllProductByVendorIdForAdmin(Model model,
+                                                  Authentication auth,
+                                                  @ModelAttribute("vendorId") Long vendorId) {
+        List<ProductForm> productFormList = productService.getAllProductByVendorId(vendorId);
+        model.addAttribute("productFormList", productFormList);
+//        model.addAttribute("vendorId", vendorId);
+        return "admin/listVendorProduct";
+    }
+
+    @GetMapping(value = "/customer/vendor-product/view/search")
+    public String searchProductVendorForCustomer(HttpServletRequest request, Model model,
+                                                 @RequestParam(value = "keyword", required = false) String keyword,
+                                                 @RequestParam(value = "vendorId", required = false) Long vendorId,
+                                                 final RedirectAttributes redirectAttributes,
+                                                 ModelMap modelMap,
+                                                 @ModelAttribute("vendorForm") VendorForm vendorForm) {
+        List<ProductForm> productFormList = productService.getProducts(null, null, keyword, null, vendorId);
+        if (productFormList.isEmpty()) {
+            Message result = new Message("Product not found!", false);
+            modelMap.addAttribute("message", result.getMessage());
+            modelMap.addAttribute("isSuccess", result.isSuccess());
+            return "/fragments/template :: display-error-message";
+        }
+
+        modelMap.addAttribute("productFormList", productFormList);
+        return "/fragments/template :: table-vendor-product-for-customer";
     }
 }
