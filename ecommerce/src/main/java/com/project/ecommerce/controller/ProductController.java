@@ -337,7 +337,7 @@ public class ProductController {
             }
         }
 
-        if (productFormList.size() == 0) {
+        if (tempList.size() == 0) {
             Message result = new Message("Product not found!", false);
             modelMap.addAttribute("message", result.getMessage());
             modelMap.addAttribute("isSuccess", result.isSuccess());

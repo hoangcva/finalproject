@@ -98,7 +98,7 @@
 								<hr class="my-2">
 								<div class="product row"
 								     th:each="cartLine : *{cartInfoForm.cartLines}">
-									<div class="info col-sm-7 pr-0">
+									<div class="info col-sm-8 pr-0">
 										<span th:text="${cartLine.buyQuantity  + 'x '}"></span>
 										<a th:href="@{/product/view/detail(productId = ${cartLine.productForm.productId}, vendorId = ${cartLine.productForm.vendorId})}">
 											<span th:text="${cartLine.productForm.productName}"></span>
@@ -106,7 +106,7 @@
 										<span style="display: block">Provided by <strong
 												th:text="${cartLine.productForm.vendorName}"></strong></span>
 									</div>
-									<div class="price col-sm-5 text-right money"
+									<div class="price col-sm-4 text-right money"
 									     th:text="${cartLine.productForm.price}"></div>
 									<!--                        <input type="hidden" name="carLineId" id="cartLineId" th:value="${cartLine.id}">-->
 									<!--                        <input type="hidden" name="quantity" id="quantity" th:value="${cartLine.productForm.quantity}">-->

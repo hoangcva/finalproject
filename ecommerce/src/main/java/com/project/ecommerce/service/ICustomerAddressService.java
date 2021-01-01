@@ -17,7 +17,7 @@ public interface ICustomerAddressService {
     List<DistrictDto> getDistrictList(Long provinceId);
     List<WardDto> getWardList(Long provinceId, Long districtId);
     Message createAddress(CustomerAddressForm customerAddressForm, Long customerId);
-    void updateAddress(CustomerAddressForm customerAddressForm);
+    Message updateAddress(CustomerAddressForm customerAddressForm);
     Message deleteAddress(Long addressId);
     void deleteAllAddress(Long customerId);
     Message setDefault(Long addressId, Authentication auth);

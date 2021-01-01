@@ -45,17 +45,22 @@ public class CustomerAddressServiceImpl implements ICustomerAddressService {
     }
 
     @Override
-    public void updateAddress(CustomerAddressForm customerAddressForm) {
+    public Message updateAddress(CustomerAddressForm customerAddressForm) {
+        Message result = new Message();
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
             CustomerAddressDto customerAddressDto = new CustomerAddressDto();
             BeanUtils.copyProperties(checkWardId(customerAddressForm), customerAddressDto);
             customerAddressMapper.updateAddress(customerAddressDto);
             transactionManager.commit(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_33_I));
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
-            throw ex;
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_33_E));
+            result.setSuccess(false);
         }
+
+        return result;
     }
 
     @Override

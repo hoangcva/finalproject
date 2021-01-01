@@ -123,24 +123,17 @@ public class ManageAddressController {
     @PostMapping(value = "updateAddress")
     public String updateAddress(Model model,
                                 @ModelAttribute("user_form") @Validated CustomerAddressForm customerAddressForm,
-                                BindingResult result,
+                                BindingResult bindingResult,
                                 final RedirectAttributes redirectAttributes) {
         // Validate result
-        if (result.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             initData(model);
             return "/customer/address/addAddressPage";
         }
-        try {
-            customerAddressService.updateAddress(customerAddressForm);
-        }
-        // Other error!!
-        catch (Exception e) {
-            initData(model);
-            model.addAttribute("errorMessage", "Error: " + e.getMessage());
-            return "/customer/address/addAddressPage";
-        }
+        Message result = customerAddressService.updateAddress(customerAddressForm);
 
-        redirectAttributes.addFlashAttribute("message", "Create address successful");
+        redirectAttributes.addFlashAttribute("message", result.getMessage());
+        redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
         return "redirect:/customer/address/manageAddress";
     }
 

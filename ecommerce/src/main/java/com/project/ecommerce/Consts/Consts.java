@@ -61,6 +61,7 @@ public class Consts {
     public static final String MSG_30_E = "MSG_30_E"; //Failed to create address!
     public static final String MSG_31_E = "MSG_31_E"; //The shopping cart has the product is not available!
     public static final String MSG_32_E = "MSG_32_E"; //The shopping cart is empty!
+    public static final String MSG_33_E = "MSG_33_E"; //Failed to update address!
 
 
 //-----------------------------------------------------------------------------------------------
@@ -94,4 +95,5 @@ public class Consts {
     public static final String MSG_28_I = "MSG_28_I"; //The shopping cart has the product has changed quantity!
     public static final String MSG_29_I = "MSG_29_I"; //Register successful!
     public static final String MSG_30_I = "MSG_30_I"; //Address has been created successful!
+    public static final String MSG_33_I = "MSG_33_I"; //Address has been updated successful!
 }
