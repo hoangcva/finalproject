@@ -56,7 +56,7 @@ public class ManageAddressController {
         return "customer/address/manageAddressPage";
     }
 
-    @GetMapping(value = "/initAddAddress")
+    @GetMapping(value = "/add")
     public String initCreateAddress(Model model) {
         CustomerAddressForm addressForm = new CustomerAddressForm();
         model.addAttribute("address_form", addressForm);

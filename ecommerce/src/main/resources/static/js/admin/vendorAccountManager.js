@@ -81,6 +81,8 @@ function deleteUser(userId) {
             error: function (result) {
                 $("#content").html(result.responseText);
             },
+        }).always(function (result) {
+            $("#content").html(result.responseText);
         });
     } else {
 

@@ -16,41 +16,80 @@
 					class="fas fa-home"></i></a>
 		</th:block>
 		<a class="navbar-brand" th:href="@{/}" sec:authorize="!isAuthenticated()"><i class="fas fa-home"></i></a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-		        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
+
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto" sec:authorize="isAuthenticated()">
-				<li sec:authorize="hasRole('ADMIN')" class="nav-item">
-					<a class="nav-link" th:href="@{/admin}">
+<!--				<li sec:authorize="hasRole('ADMIN')" class="nav-item">-->
+<!--					<a class="nav-link" th:href="@{/admin}">-->
+<!--						<span sec:authentication="name"></span>-->
+<!--						<i class="fas fa-user"></i>-->
+<!--					</a>-->
+<!--				</li>-->
+				<li sec:authorize="hasRole('ADMIN')" class="nav-item dropdown mega-dropdown">
+					<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink1" data-toggle="dropdown"
+					   aria-haspopup="true" aria-expanded="false">
 						<span sec:authentication="name"></span>
 						<i class="fas fa-user"></i>
+						<span class="sr-only">(current)</span>
 					</a>
+					<div th:replace="fragments/admin-navbar :: admin-navbar"></div>
 				</li>
-				<li sec:authorize="hasRole('USER')" class="nav-item">
-					<a class="nav-link" th:href="@{/user}">
+<!--				<li sec:authorize="hasRole('USER')" class="nav-item">-->
+<!--					<a class="nav-link" th:href="@{/user}">-->
+<!--						<span sec:authentication="name"></span>-->
+<!--						<i class="fas fa-user"></i>-->
+<!--					</a>-->
+<!--				</li>-->
+
+				<!-- News -->
+				<li sec:authorize="hasRole('USER')" class="nav-item dropdown mega-dropdown">
+					<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink1" data-toggle="dropdown"
+					   aria-haspopup="true" aria-expanded="false">
 						<span sec:authentication="name"></span>
 						<i class="fas fa-user"></i>
+						<span class="sr-only">(current)</span>
 					</a>
+					<div th:replace="fragments/customer-navbar :: customer-navbar"></div>
 				</li>
+
 				<li sec:authorize="hasRole('USER')" class="nav-item">
 					<a class="nav-link" th:href="@{/customer/cart/view}">
 						Cart
 						<i class="fas fa-shopping-cart"></i>
 					</a>
 				</li>
-				<li sec:authorize="hasRole('VENDOR')" class="nav-item">
-					<a class="nav-link" th:href="@{/vendor}">
+<!--				<li sec:authorize="hasRole('VENDOR')" class="nav-item">-->
+<!--					<a class="nav-link" th:href="@{/vendor}">-->
+<!--						<span sec:authentication="name"></span>-->
+<!--						<i class="fas fa-user"></i>-->
+<!--					</a>-->
+<!--				</li>-->
+
+				<li sec:authorize="hasRole('VENDOR')" class="nav-item dropdown mega-dropdown">
+					<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink1" data-toggle="dropdown"
+					   aria-haspopup="true" aria-expanded="false">
 						<span sec:authentication="name"></span>
 						<i class="fas fa-user"></i>
+						<span class="sr-only">(current)</span>
 					</a>
+					<div th:replace="fragments/vendor-navbar :: vendor-navbar"></div>
 				</li>
-				<li sec:authorize="hasRole('SHIPPER')" class="nav-item">
-					<a class="nav-link" th:href="@{/transporter/orders}">
+
+<!--				<li sec:authorize="hasRole('SHIPPER')" class="nav-item">-->
+<!--					<a class="nav-link" th:href="@{/transporter/orders}">-->
+<!--						<span sec:authentication="name"></span>-->
+<!--						<i class="fas fa-user"></i>-->
+<!--					</a>-->
+<!--				</li>-->
+
+				<li sec:authorize="hasRole('SHIPPER')" class="nav-item dropdown mega-dropdown">
+					<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink1" data-toggle="dropdown"
+					   aria-haspopup="true" aria-expanded="false">
 						<span sec:authentication="name"></span>
 						<i class="fas fa-user"></i>
+						<span class="sr-only">(current)</span>
 					</a>
+					<div th:replace="fragments/transporter-navbar :: transporter-navbar"></div>
 				</li>
 			</ul>
 			<ul class="navbar-nav mr-0 ml-auto" sec:authorize="isAuthenticated()">

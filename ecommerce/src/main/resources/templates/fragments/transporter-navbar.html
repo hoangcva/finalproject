@@ -1,0 +1,31 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<div th:fragment="transporter-navbar" class="dropdown-menu mega-menu v-1 z-depth-1 white py-2 px-3"
+     aria-labelledby="navbarDropdownMenuLink1" style="width: 16em">
+	<div class="row">
+		<div class="col-md-12 sub-menu mb-xl-0 mb-5">
+			<ul class="list-unstyled">
+				<li class="sub-title text-uppercase">
+					<a class="menu-item pl-1 mt-2 w-100 active" th:href="@{/transporter/orders}">
+						<i class="fas fa-file-invoice-dollar mr-2" style="width: 1em"></i>
+						Show all orders
+					</a>
+				</li>
+				<li class="sub-title text-uppercase">
+					<a class="menu-item pl-1 mt-2 w-100" th:href="@{/user/update}">
+						<i class="fas fa-user-edit mr-2" style="width: 1em"></i>
+						Update Information
+					</a>
+				</li>
+				<li class="sub-title text-uppercase">
+					<a class="menu-item pl-1 mt-2 w-100" th:href="@{/user/update/password}">
+						<i class="fas fa-key mr-2" style="width: 1em"></i>
+						Change password
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+</html>

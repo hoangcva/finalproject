@@ -14,38 +14,9 @@
 					<h3 class="text-lg-left mt-lg-2">Order</h3>
 				</div>
 				<div th:replace="fragments/template :: display-error-message"/>
-				<table class="table table-bordered" id="dtBasicExample">
-					<thead class="text-lg-center">
-					<tr class="d-flex">
-						<th class="col-1" scope="col">#</th>
-						<th class="col-4" scope="col">Code order</th>
-						<th class="col-2" scope="col">Order date</th>
-						<th class="col-2" scope="col">Order status</th>
-						<th class="col-3" scope="col">Action</th>
-					</tr>
-					</thead>
-					<tbody>
-					<tr class="d-flex" th:each="order,iStat  : ${orderFormList}">
-						<th class="col-1 text-lg-center" scope="row" th:text="${iStat.count}"></th>
-						<td class="col-4">
-							<a class="text-primary" th:text="${order.orderDspId}"
-						       th:href="@{/admin/orders/detail(orderId = ${order.id})}"></a>
-						</td>
-						<td class="col-2" th:text="${order.orderDate}"></td>
-						<td class="col-2 text-lg-center font-weight-bold"
-						    th:classappend="${order.orderStatus eq 'DELIVERING'} ? 'green-text':(${order.orderStatus eq 'READY'} ? 'deep-orange-text':(${order.orderStatus eq 'PROGRESSING'}?'blue-text':(${order.orderStatus eq 'SUCCESS'}?'text-default':'grey-text')))"
-						    th:text="${order.orderStatus}"></td>
-						<td class="col-3 d-flex">
-							<a type="submit" class="btn btn-primary" role="button"
-							   th:href="@{/admin/order/update(id=${order.id}, orderDspId=${order.orderDspId}, orderStatus='READY')}"
-							   th:classappend="${order.orderStatus ne 'PROGRESSING'}?'disabled btn-outline-primary':''">Approve</a>
-							<a type="submit" class="btn btn-danger ml-1" role="button"
-							   th:href="@{/admin/order/update(id=${order.id}, orderDspId=${order.orderDspId}, orderStatus='CANCELED')}"
-							   th:classappend="${order.orderStatus eq 'CANCELED'}?'disabled btn-outline-danger':''">Cancel</a>
-						</td>
-					</tr>
-					</tbody>
-				</table>
+				<div id="content">
+					<div th:replace="/fragments/template :: order-table-custom"></div>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -13,16 +13,16 @@
 			<div class="col-lg-8">
 				<div class="row mb-4">
 					<h3 class="text-lg-left mt-lg-2">Address Book</h3>
-					<a class="text-decoration-none btn btn-green ml-auto mr-0"
-					   th:href="@{/customer/address/initAddAddress}">
-						<i class="fas fa-plus"></i>
+					<a class="text-decoration-none btn btn-green ml-auto mr-5"
+					   th:href="@{/customer/address/add}">
+						<i class="fas fa-plus mr-1"></i>
 						<span>Add new address</span>
 					</a>
 				</div>
 				<div th:replace="fragments/template :: display-error-message"/>
 
 				<div class="row mb-2" th:each="address : ${address_list}" th:unless="${#lists.isEmpty(address_list)}">
-					<div class="col-lg-9">
+					<div class="col-lg-7">
 						<div class="container">
 							<div class="row">
 							<span class="font-weight-normal"
@@ -42,29 +42,21 @@
 						</div>
 					</div>
 					<div class="col-lg-auto">
-						<div class="container">
-							<div class="row">
-								<div class="col m-auto">
-									<span><a th:href="@{/customer/address/edit(id = ${address.id})}">Edit</a></span>
-								</div>
-								<div class="col">
-                            <span>
-                                <button class="btn_delete btn btn btn-light" type="button"
-                                        th:text="'Delete'"
-                                        th:onclick="|javascript:deleteAddress(${address.id})|">
-                                </button>
-                            </span>
-								</div>
-							</div>
-							<div class="row">
-								<div class="d-block col">
-									<button type="button" class="btn btn-outline-primary"
-									        th:text="'Set as Default'"
-									        th:onclick="|javascript:setDefaultAddress(${address.id})|">
-									</button>
-								</div>
-							</div>
-						</div>
+						<a role="button" class="btn btn-primary"
+						   th:href="@{/customer/address/edit(id = ${address.id})}">
+							<i class="fas fa-map-signs mr-1"></i>
+							Edit
+						</a>
+                        <button class="btn_delete btn btn-danger" type="button"
+                                th:onclick="|javascript:deleteAddress(${address.id})|">
+	                        <i class="fas fa-times mr-1"></i>
+	                        Delete
+                        </button>
+						<button type="button" class="btn btn-outline-primary" th:classappend="${address.isDefault eq 1} ? 'd-none':''"
+						        th:onclick="|javascript:setDefaultAddress(${address.id})|">
+							<i class="fas fa-thumbtack mr-1"></i>
+							Set as Default
+						</button>
 					</div>
 				</div>
 			</div>

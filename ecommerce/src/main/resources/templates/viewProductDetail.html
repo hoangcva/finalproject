@@ -52,20 +52,25 @@
 					</div>
 				</div>
 				<div class="col-md-7 bg-light ">
-					<div class="row my-lg-4 text-2-lines"><h3 th:text="*{productName}"></h3></div>
+					<div class="row mt-4 text-2-lines" style="height: 5em"><h3 th:text="*{productName}"></h3></div>
 					<!--				<div class="row">-->
-					<div class="d-flex flex-column align-items-end w-75 col-sm-7 pb-lg-3"
-					     style="position : absolute; bottom : 0">
-						<div class="mb-lg-2 mr-3">
+					<div class="d-flex flex-column align-items-end w-75 col-sm-7 pb-3"
+					     style="position : absolute; bottom : 0; height: 70%">
+						<div class="mb-auto mr-2">
 							<h3 class="d-block font-weight-bold money " th:text="*{price}"></h3>
-							<div class="justify-content-end d-flex money list-price" th:text="*{listPrice}"></div>
-							<div class="justify-content-end d-flex discount"
-							     th:text="'-' + *{(listPrice - price) * 100 / listPrice + '%'}"></div>
+							<!--							<div class="justify-content-end d-flex money list-price" th:text="*{listPrice}"></div>-->
+							<div class="justify-content-end d-flex">
+								<span class="money list-price pt-1" th:text="*{listPrice}"></span>
+								<span class="discount ml-2 font-weight-bold" style="font-size: inherit"
+								      th:text="'-' + *{(listPrice - price) * 100 / listPrice + '%'}"></span>
+							</div>
+							<!--							<div class="justify-content-end d-flex discount"-->
+							<!--							     th:text="'-' + *{(listPrice - price) * 100 / listPrice + '%'}"></div>-->
 						</div>
-						<div class="mb-lg-3 mr-3 pb-lg-3">
+						<div class="mb-1 mr-2 pb-1">
 							<div th:replace="fragments/template :: change-quantity(0, ${productForm.quantity})"></div>
 						</div>
-						<div class="mb-lg-3 mr-3 pb-lg-3">
+						<div class="mb-1 mr-2 pb-1">
 							<input class="d-block" id="rating" type="hidden" value="3">
 						</div>
 						<div class="d-lg-flex w-100" style="height: 4em">
@@ -83,14 +88,16 @@
 										<i class="fas fa-heart text-danger"></i>
 									</span>
 									</div>
-									<input class="btn btn-primary mx-2 py-3" id="btn-submit" type="button" value="Buy"
-									       th:if="${productForm.quantity > 0}"
-									       onclick="addProductToCart()" style="width: 250px">
+									<a class="btn btn-primary mx-2 py-3" id="btn-submit" role="button"
+									   th:if="${productForm.quantity > 0}" href="#"
+									   onclick="addProductToCart()" style="width: 250px; font-size: inherit">
+										<i class="fas fa-cart-plus"></i><span class="ml-2" th:text="Buy"></span>
+									</a>
 								</th:block>
 								<a th:href="@{/login}" class="btn btn-primary mx-2 py-3" id="btn-login"
-								   style="width: 250px" sec:authorize="!isAuthenticated()" role="button"
-								   th:if="${productForm.quantity > 0}"
-								   th:text="Buy">
+								   style="width: 250px; font-size: inherit" sec:authorize="!isAuthenticated()" role="button"
+								   th:if="${productForm.quantity > 0}" href="#">
+									<i class="fas fa-cart-plus"></i><span class="ml-2" th:text="Buy"></span>
 								</a>
 							</th:block>
 							<a class="mx-2 py-3 btn-danger btn disabled" role="button"
@@ -104,9 +111,10 @@
 						</div>
 
 					</div>
-					<div class="col-sm-5" style="position : absolute; right : 0">
+					<div class="col-sm-5" style="position : absolute; right : 0; bottom: 0; height: 70%">
 						<div class="font-weight-bolder text-primary">
-							<a th:href="@{/customer/vendor-product/view(vendorId = ${vendorForm.vendorId})}" th:text="${vendorForm.vendorName}"></a>
+							<a th:href="@{/customer/vendor-product/view(vendorId = ${vendorForm.vendorId})}"
+							   th:text="${vendorForm.vendorName}"></a>
 						</div>
 						<div class="text-truncate" th:text="${vendorForm.description}"></div>
 					</div>
@@ -222,7 +230,7 @@
 							<tr th:each="vendor: ${vendorList}" th:unless="${vendor.vendorId eq vendorId}">
 								<td>
 									<a th:href="@{/product/view/detail(productId = ${vendor.productId}, vendorId = ${vendor.vendorId})}">
-										<span class="d-block mb-lg-1" th:text="${vendor.fullName}"></span>
+										<span class="d-block mb-lg-1 text-primary" th:text="${vendor.fullName}"></span>
 									</a>
 								</td>
 								<td>

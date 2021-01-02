@@ -39,6 +39,7 @@
 								<input type="hidden" name="orderStatus" value="DELIVERING">
 								<button type="submit" class="btn btn-primary"
 								        th:classappend="${order.orderStatus ne 'READY'}?'disabled btn-outline-primary':''">
+									<i class="fas fa-shipping-fast mr-1"></i>
 									Deliver
 								</button>
 							</form>

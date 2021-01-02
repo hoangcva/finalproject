@@ -1,0 +1,47 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<div th:fragment="vendor-navbar" class="dropdown-menu mega-menu v-1 z-depth-1 white py-2 px-3"
+     aria-labelledby="navbarDropdownMenuLink1" style="width: 16em">
+	<div class="row">
+		<div class="col-md-12 sub-menu mb-xl-0 mb-5">
+			<ul class="list-unstyled">
+				<li class="sub-title text-uppercase">
+					<a class="menu-item pl-1 mt-2 w-100 active" th:href="@{/vendor}">
+						<i class="fas fa-hand-holding-usd mr-2" style="width: 1em"></i>
+						View statistics
+					</a>
+				</li>
+				<li class="sub-title text-uppercase">
+					<a class="menu-item pl-1 mt-2 w-100" id="add-product"
+					   th:href="@{/vendor/show/category}"
+					   th:classappend="${vendorForm.enable eq false}?'disabled':''">
+						<i class="fas fa-plus mr-2" style="width: 1em"></i>
+						Add product
+					</a>
+				</li>
+				<li class="sub-title text-uppercase">
+					<a class="menu-item pl-1 mt-2 w-100"
+					   th:href="@{/vendor/product/view}"
+					   th:classappend="${vendorForm.enable eq false}?'disabled':''">
+						<i class="fas fa-dice-d6 mr-2" style="width: 1em"></i>
+						My products
+					</a>
+				</li>
+				<li class="sub-title text-uppercase">
+					<a class="menu-item pl-1 mt-2 w-100" th:href="@{/user/update/password}">
+						<i class="fas fa-key mr-2" style="width: 1em"></i>
+						Change password
+					</a>
+				</li>
+				<li class="sub-title text-uppercase">
+					<a class="menu-item pl-1 mt-2 w-100" th:href="@{/vendor/info}">
+						<i class="fas fa-user-edit mr-2" style="width: 1em"></i>
+						Update profile
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+</html>

@@ -93,14 +93,14 @@
 							</label>
 						</div>
 					</div>
-<!--					<div class="form-check">-->
-<!--						<input type="checkbox" class="form-check-input" id="isDefault" th:field="*{isDefault}">-->
-<!--						<label class="form-check-label" for="isDefault">Make as default address</label>-->
-<!--					</div>-->
+					<div class="form-check custom-control custom-checkbox my-2">
+						<input type="checkbox" class="custom-control-input" id="isDefault" name="isDefault" value="1">
+						<label class="custom-control-label" for="isDefault">Set as default address</label>
+					</div>
 					<input type="hidden" name="province" id="province" value="">
 					<input type="hidden" name="district" id="district" value="">
 					<input type="hidden" name="ward" id="ward" value="">
-					<button type="submit" class="btn btn-primary spinner-btn" th:text="'Create address'"></button>
+					<button type="submit" class="btn btn-primary spinner-btn mt-4" th:text="'Create address'"></button>
 				</form>
 			</div>
 		</div>

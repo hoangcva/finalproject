@@ -198,3 +198,7 @@ main {
     margin-top: 3rem;
     /*height: 100%;*/
 }
+
+a.menu-item:hover {
+    background-color: lightskyblue;
+}

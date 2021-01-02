@@ -15,8 +15,16 @@ public class CustomerAddressForm implements Serializable {
     private String province;
     private String district;
     private String ward;
-    private Integer isDefault;
+    private int isDefault = 0;
     private boolean isSubmitted;
+
+    public int getIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(int isDefault) {
+        this.isDefault = isDefault;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -118,11 +126,4 @@ public class CustomerAddressForm implements Serializable {
         this.ward = ward;
     }
 
-    public Integer getIsDefault() {
-        return isDefault;
-    }
-
-    public void setIsDefault(Integer isDefault) {
-        this.isDefault = isDefault;
-    }
 }

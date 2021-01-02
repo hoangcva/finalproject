@@ -26,7 +26,10 @@
 
 					<a type="submit" class="btn btn-danger" role="button"
 					   th:if="${orderForm.orderStatus eq 'PROGRESSING'}"
-					   th:href="@{/customer/order/cancel(id=${orderForm.id}, orderDspId=${orderForm.orderDspId}, orderStatus='CANCELED')}">Cancel</a>
+					   th:href="@{/customer/order/cancel(id=${orderForm.id}, orderDspId=${orderForm.orderDspId}, orderStatus='CANCELED')}">
+						<i class="fas fa-times mr-1"></i>
+						Cancel
+					</a>
 				</div>
 			</div>
 			<div th:replace="fragments/template :: display-error-message"/>

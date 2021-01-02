@@ -75,6 +75,10 @@ public class CustomerAddressServiceImpl implements ICustomerAddressService {
                 customerAddressDto.setIsDefault(1);
             }
             customerAddressMapper.insertAddress(customerAddressDto);
+            if (customerAddressDto.getIsDefault() == 1) {
+                //reset default
+                customerAddressMapper.updateDefault(customerAddressDto.getId());
+            }
             transactionManager.commit(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_30_I));
         } catch (Exception ex) {

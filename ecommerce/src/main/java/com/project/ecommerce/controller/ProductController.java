@@ -263,13 +263,19 @@ public class ProductController {
 //    }
 
     @GetMapping(value = {"/", "/product/view/list"})
-    public String showAllProduct(Model model) {
+    public String showAllProduct(Model model, Authentication auth) {
         List<CategoryForm> categoryForms = productService.getCategory();
         List<ProductForm> productFormList = productService.getAllProductMainPage(null, null, null);
         model.addAttribute("productFormList", productFormList);
         List<ProductForm> productFormListTop10 = productService.getTop10NewestProduct(null, null, null);
         model.addAttribute("productFormListTop10", productFormListTop10);
         model.addAttribute("categories", categoryForms);
+
+        if (Consts.ROLE_VENDOR.equals(((UserDetailsDto) auth.getPrincipal()).getUserDto().getRole())) {
+            Long vendorId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
+            VendorForm vendorForm = vendorService.getInfo(vendorId);
+            model.addAttribute("vendorForm", vendorForm);
+        }
         return "viewProductList";
     }
 

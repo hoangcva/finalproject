@@ -48,8 +48,10 @@ public class OrderAdminController {
         orderForm.setOrderDspId(orderDspId);
         orderForm.setOrderStatus(orderStatus);
         Message result = adminService.updateOrderStatus(orderForm);
-        redirectAttributes.addFlashAttribute("message", result.getMessage());
-        redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
+//        redirectAttributes.addFlashAttribute("message", result.getMessage());
+//        redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
+        model.addAttribute("message", result.getMessage());
+        model.addAttribute("isSuccess", result.isSuccess());
 //        HashMap<String, Object> message = new HashMap<>();
 //        message.put("msg", result.getMessage());
 //        if (result.isSuccess()) {
@@ -57,7 +59,10 @@ public class OrderAdminController {
 //        } else {
 //            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
 //        }
-        return "redirect:/admin/orders";
+//        return "redirect:/admin/orders";
+        List<OrderForm> orderFormList = adminService.getOrderList(null);
+        model.addAttribute("orderFormList", orderFormList);
+        return "/fragments/template :: order-table";
     }
 
     @GetMapping("/detail")

@@ -12,7 +12,7 @@
         SELECT * FROM customer_info WHERE id = #{id}
     </select>
 
-    <insert id="insertAddress" parameterType="com.project.ecommerce.dto.CustomerAddressDto" useGeneratedKeys="true" keyColumn="id">
+    <insert id="insertAddress" parameterType="com.project.ecommerce.dto.CustomerAddressDto" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO customer_info
         (customer_id, fullname, phone_number, provinceId, districtId, wardId, address_detail, province, district, ward,isDefault)
         VALUES
@@ -27,6 +27,9 @@
          #{district, jdbcType=VARCHAR},
          #{ward,jdbcType=VARCHAR},
          #{isDefault,jdbcType=INTEGER})
+        <selectKey keyProperty="id" resultType="Long" order="AFTER">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
     </insert>
 
     <update id="updateAddress" parameterType="com.project.ecommerce.dto.CustomerAddressDto">
@@ -68,6 +71,12 @@
         UPDATE customer_info
         SET isDefault = 0
         WHERE id = #{id}
+    </update>
+
+    <update id="updateDefault">
+        UPDATE customer_info
+        SET isDefault = 0
+        WHERE id != #{id}
     </update>
 
     <select id="countAddress" resultType="int">

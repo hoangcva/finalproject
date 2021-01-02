@@ -43,7 +43,7 @@ $(document).ready(function () {
 
 function showWarning() {
     $('#over-quantity').removeClass('d-none');
-    $('#over-quantity').removeClass('none');
+    $('#over-quantity').removeClass('hide');
     $('#over-quantity').addClass('d-block');
     $('#over-quantity').addClass('show');
 };
@@ -52,7 +52,7 @@ function hideWarning() {
     $('#over-quantity').removeClass('d-block');
     $('#over-quantity').removeClass('show');
     $('#over-quantity').addClass('d-none');
-    $('#over-quantity').addClass('none');
+    $('#over-quantity').addClass('hide');
 };
 
 function login() {

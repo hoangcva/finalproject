@@ -1,0 +1,67 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<div th:fragment="admin-navbar" class="dropdown-menu mega-menu v-1 z-depth-1 white py-2 px-3"
+     aria-labelledby="navbarDropdownMenuLink1" style="width: 16em">
+	<div class="row">
+		<div class="col-md-12 sub-menu mb-xl-0 mb-5">
+			<ul class="list-unstyled">
+				<li class="sub-title text-uppercase">
+					<a class="menu-item pl-1 mt-2 w-100 active" th:href="@{/admin}">
+						<i class="fas fa-users mr-2" style="width: 1em"></i>
+						Manage account
+					</a>
+				</li>
+				<li class="sub-title text-uppercase">
+					<a class="menu-item pl-1 mt-2 w-100" th:href="@{/user/update/password}">
+						<i class="fas fa-key mr-2" style="width: 1em"></i>
+						Change password
+					</a>
+				</li>
+				<li class="sub-title text-uppercase">
+					<a class="menu-item pl-1 mt-2 w-100" th:href="@{/admin/product/view/list}">
+						<i class="fas fa-wine-glass-alt mr-2" style="width: 1em"></i>
+						Show all product
+					</a>
+				</li>
+				<li class="sub-title text-uppercase">
+					<a class="menu-item pl-1 mt-2 w-100" th:href="@{/admin/category/add}">
+						<i class="fas fa-list-alt mr-2" style="width: 1em"></i>
+						Add subcategory
+					</a>
+				</li>
+				<li class="sub-title text-uppercase">
+					<a class="menu-item pl-1 mt-2 w-100" th:href="@{/admin/account/vendor}">
+						<i class="fas fa-handshake mr-2" style="width: 1em"></i>
+						Show all vendor
+					</a>
+				</li>
+				<li class="sub-title text-uppercase">
+					<a class="menu-item pl-1 mt-2 w-100" th:href="@{/admin/account/transporter}">
+						<i class="fas fa-truck mr-2" style="width: 1em"></i>
+						Show all transporter
+					</a>
+				</li>
+				<li class="sub-title text-uppercase">
+					<a class="menu-item pl-1 mt-2 w-100" th:href="@{/admin/transporter}">
+						<i class="fas fa-user-plus mr-2" style="width: 1em"></i>
+						Add transporter
+					</a>
+				</li>
+				<li class="sub-title text-uppercase">
+					<a class="menu-item pl-1 mt-2 w-100" th:href="@{/vendor/show/category}">
+						<i class="fas fa-plus mr-2" style="width: 1em"></i>
+						Add product
+					</a>
+				</li>
+				<li class="sub-title text-uppercase">
+					<a class="menu-item pl-1 mt-2 w-100" th:href="@{/admin/orders}">
+						<i class="fas fa-glass-cheers mr-2" style="width: 1em"></i>
+						Show all orders
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+</html>

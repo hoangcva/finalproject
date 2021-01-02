@@ -30,7 +30,7 @@
 					</div>
 					<div class="form-row">
 						<div class="custom-select-div2 col-3 form-group">
-							<label for="sub-category-name-input">Sub category</label>
+							<label for="sub-category-name-input">Subcategory</label>
 							<input id="sub-category-name-input" type="text" class="form-control"
 							       placeholder="Enter sub-category" th:field="*{name}"
 							       th:classappend="${(#fields.hasErrors('name')?'is-invalid':'')
@@ -50,7 +50,7 @@
 							       th:errors="*{description}"></label>
 						</div>
 					</div>
-					<input type="submit" class="btn btn-primary spinner-btn" value="Add">
+					<button type="submit" class="btn btn-primary spinner-btn" text="Add"></button>
 				</form>
 			</div>
 		</div>
