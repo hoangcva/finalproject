@@ -1017,11 +1017,11 @@
 				</div>
 			</div>
 			<div class="col-lg-2">
-				<p class="money" th:text="${product.price}"></p>
+				<p class="money mb-1 font-weight-bold" th:text="${product.price}"></p>
 				<p class="money list-price" th:text="${product.listPrice}"></p>
 
 			</div>
-			<div class="col-lg-3">
+			<div class="col-lg-auto">
 				<p class="text-danger" th:if="${product.quantity <= 0 and product.enable eq true}"
 				   th:text="'This product is out of stock!'"></p>
 				<p class="text-danger" th:unless="${product.enable eq true}"

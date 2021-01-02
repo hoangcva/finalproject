@@ -92,7 +92,7 @@ public class CustomerController {
     }
 
     @GetMapping("/favorite")
-    public String viewFavoriet(Model model,
+    public String viewFavorite(Model model,
                                Authentication auth) {
         Long customerId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
         List<FavoriteForm> favoriteFormList = customerService.getFavorite(customerId);

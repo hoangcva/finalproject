@@ -16,6 +16,7 @@
         <result property="listPrice" column="listPrice"/>
         <result property="rating" column="rating"/>
         <result property="thumbnail" column="content"/>
+        <result property="enable" column="enable"/>
     </resultMap>
 
     <insert id="addProductToFavorite" parameterType="long" useGeneratedKeys="true" keyColumn="id">
@@ -27,7 +28,7 @@
 
     <select id="getFavorite" parameterType="Long" resultMap="ProductResultMap">
         SELECT * FROM favorite f
-        INNER JOIN (SELECT price, quantity, productId, vendorId FROM vendor_product) vp
+        INNER JOIN (SELECT price, quantity, productId, vendorId, enable FROM vendor_product) vp
             on vp.productId = f.productId AND vp.vendorId = f.vendorId
         INNER JOIN (SELECT productName, id, listPrice FROM product) p on p.id = f.productId
         INNER JOIN (SELECT vendorId, vendorName FROM vendor_info) v on v.vendorId = f.vendorId
