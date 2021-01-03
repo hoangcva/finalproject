@@ -1,11 +1,13 @@
 package com.project.ecommerce.controller.admin;
 
+import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.form.OrderForm;
 import com.project.ecommerce.form.TransporterForm;
 import com.project.ecommerce.service.IAdminService;
 import com.project.ecommerce.service.IOrderAdminService;
 import com.project.ecommerce.service.ITransporterService;
 import com.project.ecommerce.util.Message;
+import org.apache.tomcat.util.bcel.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -31,6 +33,8 @@ public class OrderAdminController {
     @GetMapping()
     public String viewOrderHistory(Model model, Authentication auth){
         List<OrderForm> orderFormList = adminService.getOrderList(null);
+        Long numberOrder = adminService.getNumberOrderBasedOnStatus(Consts.ORDER_STATUS_PROGRESSING, null, null);
+        model.addAttribute("numberOrder", numberOrder);
         model.addAttribute("orderFormList", orderFormList);
         model.addAttribute("orderForm", new OrderForm());
         return "/admin/order/history";

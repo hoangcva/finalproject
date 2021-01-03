@@ -117,4 +117,24 @@
         ORDER BY productName ASC
     </select>
 
+    <select id="getNumberOrderBasedOnStatus" resultType="Long" fetchSize="200">
+        SELECT COUNT(*) FROM orders
+        <where>
+            <if test="orderStatus != null and orderStatus != ''">
+                AND order_status = #{orderStatus}
+            </if>
+            <if test="transporterId != null and transporterId != ''">
+                AND transporterId = #{transporterId}
+            </if>
+            <if test="customerId != null and customerId != ''">
+                AND customerId = #{customerId}
+            </if>
+        </where>
+        ORDER BY orderDate DESC
+    </select>
+
+    <select id="getOrderStatus" resultType="String">
+        SELECT order_status FROM orders
+        WHERE id = #{orderId}
+    </select>
 </mapper>

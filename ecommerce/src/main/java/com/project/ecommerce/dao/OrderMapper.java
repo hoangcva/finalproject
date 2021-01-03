@@ -25,4 +25,8 @@ public interface OrderMapper {
     Long totalIncome(@Param("vendorId") Long vendorId);
     Long todayIncome(@Param("vendorId") Long vendorId);
     List<VendorStatisticDto> soldProduct(@Param("vendorId") Long vendorId);
+    Long getNumberOrderBasedOnStatus(@Param("orderStatus") String orderStatus,
+                                     @Param("transporterId") Long transporterId,
+                                     @Param("customerId") Long customerId);
+    String getOrderStatus(@Param("orderId") Long orderId);
 }

@@ -179,4 +179,10 @@ public class AdminServiceImpl implements IAdminService {
         }
         return result;
     }
+
+    @Override
+    public Long getNumberOrderBasedOnStatus(String orderStatus, Long transporterId, Long customerId) {
+        Long numberOrder = orderMapper.getNumberOrderBasedOnStatus(orderStatus, transporterId, customerId);
+        return numberOrder;
+    }
 }

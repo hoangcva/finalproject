@@ -1,4 +1,4 @@
-package com.project.ecommerce.controller;
+package com.project.ecommerce.controller.customer;
 
 import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.Validator.AddressValidator;
@@ -32,6 +32,8 @@ public class ManageAddressController {
     private ICustomerAddressService customerAddressService;
     @Autowired
     private AddressValidator validator;
+    @Autowired
+    private MessageAccessor messageAccessor;
 
     // Set a form validator
     @InitBinder
@@ -46,12 +48,17 @@ public class ManageAddressController {
         }
     }
 
-    @GetMapping(value = "/manageAddress")
+    @GetMapping(value = "")
     public String manageAddress(Model model, Authentication auth) {
         UserDetailsDto userDetails = (UserDetailsDto) auth.getPrincipal();
         Long customerId = userDetails.getUserDto().getId();
 //        UserDto userDto = userService.getUserByUserName(userDetails.getUsername());
         List<CustomerAddressDto> customerAddressDtoList = customerAddressService.getAllAddressByCustomer(customerId);
+        if (customerAddressDtoList.isEmpty()) {
+            model.addAttribute("message", messageAccessor.getMessage(Consts.MSG_34_E));
+            model.addAttribute("isSuccess", false);
+        }
+
         model.addAttribute("address_list", customerAddressDtoList);
         return "customer/address/manageAddressPage";
     }
@@ -106,7 +113,7 @@ public class ManageAddressController {
 
         redirectAttributes.addFlashAttribute("message", result.getMessage());
         redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
-        return "redirect:/customer/address/manageAddress";
+        return "redirect:/customer/address";
     }
 
     @PostMapping(value = "/delete")
@@ -134,7 +141,7 @@ public class ManageAddressController {
 
         redirectAttributes.addFlashAttribute("message", result.getMessage());
         redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
-        return "redirect:/customer/address/manageAddress";
+        return "redirect:/customer/address";
     }
 
     private void initData(Model model) {

@@ -1,4 +1,4 @@
-package com.project.ecommerce.controller;
+package com.project.ecommerce.controller.customer;
 
 import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.dto.CustomerAddressDto;

@@ -26,7 +26,6 @@ public class Consts {
     public static final String REGEX_USERNAME = "^(?=.{8,20}$)[a-zA-Z0-9]+";
     public static final String REGEX_PASSWORD = "(?=.*?[a-z])(?=.*?[0-9]).{8,}$";
 
-
     public static final Integer IMG_ORDER_1 = 1;
     public static final Integer IMG_ORDER_2 = 2;
     public static final Integer IMG_ORDER_3 = 3;
@@ -64,7 +63,7 @@ public class Consts {
     public static final String MSG_31_E = "MSG_31_E"; //The shopping cart has the product is not available!
     public static final String MSG_32_E = "MSG_32_E"; //The shopping cart is empty!
     public static final String MSG_33_E = "MSG_33_E"; //Failed to update address!
-
+    public static final String MSG_34_E = "MSG_34_E"; //Address book is empty!
 
 //-----------------------------------------------------------------------------------------------
     public static final String MSG_01_I = "MSG_01_I"; //The product has been added to cart!

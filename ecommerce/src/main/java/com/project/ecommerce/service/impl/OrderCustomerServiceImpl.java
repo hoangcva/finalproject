@@ -228,6 +228,15 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
     @Override
     public Message cancelOrder(OrderForm orderForm) {
         Message result = new Message("", true);
+
+        String orderStatus = orderMapper.getOrderStatus(orderForm.getId());
+
+        if (!Consts.ORDER_STATUS_PROGRESSING.equals(orderStatus)) {
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_12_E, ""));
+            result.setSuccess(false);
+            return result;
+        }
+
         TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
         long newQuantity;
         long vendorId;

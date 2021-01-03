@@ -14,14 +14,14 @@
 				<div class="row mb-4">
 					<h3 class="text-lg-left mt-lg-2">Address Book</h3>
 					<a class="text-decoration-none btn btn-green ml-auto mr-5"
-					   th:href="@{/customer/address/add}">
+					   th:href="@{/customer/address/add}"
+						th:classappend="${#lists.size(address_list) >= 10} ? 'disabled':''">
 						<i class="fas fa-plus mr-1"></i>
 						<span>Add new address</span>
 					</a>
 				</div>
 				<div th:replace="fragments/template :: display-error-message"/>
-
-				<div class="row mb-2" th:each="address : ${address_list}" th:unless="${#lists.isEmpty(address_list)}">
+				<div class="row mb-2 p-2 border" th:each="address : ${address_list}" th:unless="${#lists.isEmpty(address_list)}">
 					<div class="col-lg-7">
 						<div class="container">
 							<div class="row">
@@ -64,7 +64,7 @@
 	</div>
 </main>
 <th:block th:include="/common/_footer"></th:block>
-<form method="get" th:action="@{/customer/address/manageAddress}" id="reload"></form>
+<form method="get" th:action="@{/customer/address}" id="reload"></form>
 </body>
 <script type="text/javascript" th:src="@{/js/customer/manageAddress.js}"></script>
 </html>

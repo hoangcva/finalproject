@@ -267,15 +267,18 @@ public class ProductController {
         List<CategoryForm> categoryForms = productService.getCategory();
         List<ProductForm> productFormList = productService.getAllProductMainPage(null, null, null);
         model.addAttribute("productFormList", productFormList);
-        List<ProductForm> productFormListTop10 = productService.getTop10NewestProduct(null, null, null);
-        model.addAttribute("productFormListTop10", productFormListTop10);
+//        List<ProductForm> productFormListTop10 = productService.getTop10NewestProduct(null, null, null);
+//        model.addAttribute("productFormListTop10", productFormListTop10);
         model.addAttribute("categories", categoryForms);
-
-        if (Consts.ROLE_VENDOR.equals(((UserDetailsDto) auth.getPrincipal()).getUserDto().getRole())) {
-            Long vendorId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
-            VendorForm vendorForm = vendorService.getInfo(vendorId);
-            model.addAttribute("vendorForm", vendorForm);
+        if (auth != null) {
+            UserDto userDto = ((UserDetailsDto) auth.getPrincipal()).getUserDto();
+            if (Consts.ROLE_VENDOR.equals(userDto.getRole())) {
+                Long vendorId = userDto.getId();
+                VendorForm vendorForm = vendorService.getInfo(vendorId);
+                model.addAttribute("vendorForm", vendorForm);
+            }
         }
+
         return "viewProductList";
     }
 
