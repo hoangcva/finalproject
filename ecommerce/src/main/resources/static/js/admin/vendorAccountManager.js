@@ -51,10 +51,10 @@ function activeAccount(vendorId, enable)
             // always: function () {
             //     $("#content").html(result.responseText);
             // }
-        }).done(function(result) {
-            $("#content").html(result.responseText);
-        }).fail(function(result) {
-            $("#content").html(result.responseText);
+        // }).done(function(result) {
+        //     $("#content").html(result.responseText);
+        // }).fail(function(result) {
+        //     $("#content").html(result.responseText);
         }).always(function(result) {
             $("#content").html(result.responseText);
         });

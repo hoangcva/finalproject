@@ -16,13 +16,14 @@
 					<h3 class="text-lg-left mt-lg-2"></h3>
 				</div>
 				<div th:replace="fragments/template :: display-error-message"/>
-				<table class="table table-bordered" id="dtBasicExample">
+				<table class="table table-striped table-bordered" id="dtBasicExample1" cellspacing="0" width="100%">
 					<thead>
 					<tr>
 						<th scope="col" th:text="No"></th>
-						<th scope="col" th:text="UserName"></th>
-						<th scope="col" th:text="FullName"></th>
+						<th scope="col" th:text="Username"></th>
+						<th scope="col" th:text="'Full name'"></th>
 						<th scope="col" th:text="Email"></th>
+						<th scope="col" th:text="'Created time'"></th>
 						<th scope="col" th:text="Role"></th>
 						<th scope="col" th:text="Action"></th>
 					</tr>
@@ -30,12 +31,15 @@
 					<tbody>
 					<tr th:each="user,iterationStatus : ${user_list}">
 						<td th:text="${iterationStatus.count}"></td>
-						<td th:unless="${user.role eq 'ROLE_ADMIN'}"><a
-								th:href="@{/admin/account/update(userName = ${user.userName})}"><span
-								th:text="${user.userName}"></span></a></td>
+						<td th:unless="${user.role eq 'ROLE_ADMIN'}">
+							<a th:href="@{/admin/account/update(userName = ${user.userName})}" class="text-primary font-weight-bold">
+								<span th:text="${user.userName}"></span>
+							</a>
+						</td>
 						<td th:if="${user.role eq 'ROLE_ADMIN'}"><span th:text="${user.userName}"></span></td>
 						<td><span th:text="${user.fullName}"></span></td>
 						<td><span th:text="${user.email}"></span></td>
+						<td><span th:text="${user.createdTime}"></span></td>
 						<td><span th:text="${user.role}"></span></td>
 						<td>
 							<a class="btn_delete btn btn-danger" role="button" href="#"

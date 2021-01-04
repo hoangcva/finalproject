@@ -3,7 +3,7 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:fragment="head_input(title)">
 	<meta charset="UTF-8">
-	<title>Title</title>
+	<title th:replace="${title}"></title>
 <!--	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
 <!--	<script type="text/javascript"-->
 <!--	        src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>-->
@@ -67,23 +67,21 @@
 	      th:href="@{/css/common/common.css}"/>
 	<link rel="stylesheet" type="text/css" href="../../static/css/common/bootstrap-rating.css"
 	      th:href="@{/css/common/bootstrap-rating.css}"/>
-
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
 	<!-- Bootstrap core CSS -->
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
-
 	<!-- MDBootstrap Datatables  -->
 	<link th:href="@{/css/mdb/css/addons/datatables2.min.css}" rel="stylesheet" type="text/css">
 <!--	<link th:href="@{/css/mdb/css/addons/datatables.min.css}" rel="stylesheet" type="text/css">-->
 	<!-- MDBootstrap Datatables  -->
 	<script type="text/javascript" th:src="@{/js/addons/datatables2.min.js}"></script>
-
 	<!-- MDBootstrap Rating  -->
 	<link th:href="@{/css/mdb/css/addons/rating.min.css}" rel="stylesheet" type="text/css">
 	<script type="text/javascript" th:src="@{/js/addons/rating.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/jquery-rating.js}"></script>
 </head>
+
 <body>
 
 <div th:fragment="customError">
@@ -559,8 +557,9 @@
 			<thead>
 			<tr>
 				<th scope="col" th:text="No"></th>
-				<th scope="col" th:text="UserName"></th>
-				<th scope="col" th:text="FullName"></th>
+				<th scope="col" th:text="Username"></th>
+				<th scope="col" th:text="'Full name'"></th>
+				<th scope="col" th:text="'Shop name'"></th>
 				<th scope="col" th:text="Email"></th>
 				<th scope="col" th:text="Status"></th>
 				<th scope="col" th:text="Action"></th>
@@ -569,8 +568,9 @@
 			<tbody>
 			<tr th:each="vendor,iterationStatus : ${vendorFormList}">
 				<td th:text="${iterationStatus.count}"></td>
-				<td><span th:text="${vendor.userName}"></span></td>
-				<td><a class="text-primary" th:href="@{/admin/account/update(userName = ${vendor.userName})}" th:text="${vendor.fullName}"></a></td>
+				<td><a class="text-primary" th:href="@{/admin/account/update(userName = ${vendor.userName})}" th:text="${vendor.userName}"></a></td>
+				<td><span th:text="${vendor.fullName}"></span></td>
+				<td><span th:text="${vendor.vendorName}"></span></td>
 				<td><span th:text="${vendor.email}"></span></td>
 				<td><span th:text="${vendor.enable eq true}?'Activated':'Deactivate'"></span></td>
 				<td>
@@ -585,7 +585,7 @@
 					   th:onclick="|javascript:activeAccount(${vendor.id}, true)|"
 					   th:if="${vendor.enable eq false}">
 						<i class="fas fa-user-check mr-1"></i>
-						Active
+						Activate
 					</a>
 					<a class="btn_delete btn btn-primary" type="button" href="#"
 					   th:id="'btn_active' + ${iterationStatus.count}"
@@ -609,13 +609,13 @@
 			<thead>
 			<tr>
 				<th scope="col" th:text="No"></th>
-				<th scope="col" th:text="UserName"></th>
-				<th scope="col" th:text="FullName"></th>
+				<th scope="col" th:text="Username"></th>
+				<th scope="col" th:text="'Full name'"></th>
 				<th scope="col" th:text="Email"></th>
 				<th scope="col" th:text="Phonenumber"></th>
 				<th scope="col" th:text="Created"></th>
-				<th scope="col" th:text="Updated"></th>
-				<th scope="col" th:text="Fee"></th>
+<!--				<th scope="col" th:text="Updated"></th>-->
+				<th scope="col" th:text="'Shipping Fee'"></th>
 				<th scope="col" th:text="Action"></th>
 			</tr>
 			</thead>
@@ -631,7 +631,7 @@
 				<td><span th:text="${transporter.email}"></span></td>
 				<td><span th:text="${transporter.phoneNumber}"></span></td>
 				<td><span th:text="${transporter.createdTime}"></span></td>
-				<td><span th:text="${transporter.updatedTime}"></span></td>
+<!--				<td><span th:text="${transporter.updatedTime}"></span></td>-->
 				<td><span class="money" th:text="${transporter.shippingFee}"></span></td>
 				<td>
 					<a class="btn_delete btn btn-danger" type="button" href="#"
@@ -941,11 +941,11 @@
 
 <div th:fragment="table-product-admin-custom">
 	<div th:replace="fragments/template :: display-error-message"/>
-	<table class="table table-bordered" th:fragment="table-product-admin" id="dtBasicExample">
+	<table class="table table-hover table-bordered" th:fragment="table-product-admin" id="dtBasicExample1" cellspacing="0" width="100%">>
 		<thead>
 		<tr>
 			<th scope="col" th:text="No"></th>
-			<th scope="col" class="col-lg-6" th:text="'Product name'"></th>
+			<th scope="col" th:text="'Product name'"></th>
 			<th scope="col" th:text="'Shop'"></th>
 			<th scope="col" th:text="'SKU'"></th>
 			<th scope="col" th:text="Quantity"></th>
@@ -956,7 +956,7 @@
 		<tbody>
 		<tr class="outer" th:each="product,iterationStatus : ${productFormList}">
 			<td th:text="${iterationStatus.count}"></td>
-			<td class="text-2-lines">
+			<td class="text-2-lines d-table-cell">
 				<a class="d-flex" th:href="@{/amdin/product/edit(productId = ${product.productId}, vendorId = ${product.vendorId})}">
 					<img class="img-thumbnail mr-2" style="height: 60px"
 					     th:src="@{'data:image/jpeg;base64,'+${product.productImageFormList[0].generateBase64Image()}}"/>
@@ -979,8 +979,8 @@
 				   th:id="'btn_active' + ${iterationStatus.count}"
 				   th:onclick="|javascript:deactivateProduct(${product.productId},${product.vendorId}, true)|"
 				   th:unless="${product.enable eq true}">
-					Unlock
 					<i class="fas fa-unlock mr-1"></i>
+					Unlock
 				</a>
 			</td>
 		</tr>
@@ -1072,6 +1072,11 @@
 <div th:fragment="order-table-custom">
 	<div th:fragment="order-table">
 		<div th:replace="fragments/template :: display-error-message"/>
+		<div class="row my-2 py-2">
+			<div class="col">
+				<p th:text="'Pending order: '"><span class="font-weight-bold" th:text="${numberOrder}"></span></p>
+			</div>
+		</div>
 		<table class="table table-bordered" id="dtBasicExample">
 			<thead class="text-lg-center">
 			<tr class="d-flex">

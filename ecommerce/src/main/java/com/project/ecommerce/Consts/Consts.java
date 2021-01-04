@@ -23,7 +23,7 @@ public class Consts {
     public static final String ORDER_STATUS_SUCCESS = "SUCCESS";
     public static final String ORDER_STATUS_CANCELED = "CANCELED";
     public static final String ORDER_STATUS_READY = "READY";
-    public static final String REGEX_USERNAME = "^(?=.{8,20}$)[a-zA-Z0-9]+";
+    public static final String REGEX_USERNAME = "^(?=.{6,20}$)[a-zA-Z0-9]+";
     public static final String REGEX_PASSWORD = "(?=.*?[a-z])(?=.*?[0-9]).{8,}$";
 
     public static final Integer IMG_ORDER_1 = 1;

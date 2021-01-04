@@ -1,4 +1,8 @@
 $(document).ready(function (){
+    $('#dtBasicExample1').DataTable({
+        "scrollX": true
+    });
+    $('.dataTables_length').addClass('bs-select');
     showSubCategory();
     $('input[type=radio][name=exampleRadios]').change(function() {
         var data;
@@ -68,10 +72,10 @@ function deactivateProduct(productId,vendorId, enable)
             error: function (result) {
                 $("#content").html(result.responseText);
             },
-        }).done(function (result) {
+        }).always(function (result) {
             $("#content").html(result.responseText);
         });
-        $('#reload').submit();
+        // $('#reload').submit();
     }
 }
 

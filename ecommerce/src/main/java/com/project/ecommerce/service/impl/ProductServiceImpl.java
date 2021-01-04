@@ -79,6 +79,8 @@ public class ProductServiceImpl implements IProductService {
                     productMapper.insertDetailCategory2Sub2(productForm);
                 } else if (subCategoryId == 3) {
                     productMapper.insertDetailCategory2Sub3(productForm);
+                } else {
+                    productMapper.insertDetailCategory2(productForm);
                 }
             } else if (categoryId == 3) {
                 productMapper.insertDetailCategory3(productForm);
@@ -143,6 +145,23 @@ public class ProductServiceImpl implements IProductService {
             if (productForm.getCreatedBy() == productForm.getVendorId()) {
                 productMapper.updateProduct(productForm);
                 doUploadImage(productForm);
+                int categoryId = productForm.getCategoryId();
+                int subCategoryId = productForm.getSubCategoryId();
+                if (categoryId == 1) {
+                    productMapper.updateDetailCategory1(productForm);
+                } else if (categoryId == 2) {
+                    if (subCategoryId == 1) {
+                        productMapper.updateDetailCategory2Sub1(productForm);
+                    } else if (subCategoryId == 2) {
+                        productMapper.updateDetailCategory2Sub2(productForm);
+                    } else if (subCategoryId == 3) {
+                        productMapper.updateDetailCategory2Sub3(productForm);
+                    } else {
+                        productMapper.updateDetailCategory2(productForm);
+                    }
+                } else if (categoryId == 3) {
+                    productMapper.updateDetailCategory3(productForm);
+                }
             }
             productMapper.updateVendorProduct(productForm);
             transactionManager.commit(txStatus);
@@ -330,7 +349,11 @@ public class ProductServiceImpl implements IProductService {
                 target.setVoltage(source.getVoltage());
                 target.setSize(source.getSize());
             } else {
-
+                target.setModel(source.getModel());
+                target.setVoltage(source.getVoltage());
+                target.setPower(source.getPower());
+                target.setSize(source.getSize());
+                target.setWeight(source.getWeight());
             }
         } else if (target.getCategoryId() == 3) {
             target.setAuthor(source.getAuthor());

@@ -77,7 +77,7 @@ public class VendorRegisterValidator implements Validator {
             int count = userMapper.findVendorExist(null,vendorForm.getEmail(), null, vendorId);
             if (count > 0) {
                 // Email đã được sử dụng bởi tài khoản khác.
-                errors.rejectValue("email", "Duplicate.VendorForm.email");
+                errors.rejectValue("email", "Duplicate.UserForm.email");
             }
         }
     }

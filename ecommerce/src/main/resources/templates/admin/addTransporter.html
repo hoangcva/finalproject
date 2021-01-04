@@ -34,7 +34,7 @@
 							<label for="password">Password</label>
 							<input class="form-control" id="password" type='password'
 							       placeholder="Enter password" th:field="*{password}"
-							       th:classappend="${(#fields.hasErrors('password')?'is-invalid':'')>
+							       th:classappend="${(#fields.hasErrors('password')?'is-invalid':'')}">
 							<label class="invalid-feedback" th:if="${#fields.hasErrors('password')}"
 							       th:errors="*{password}"></label>
 						</div>
@@ -42,7 +42,7 @@
 							<label for="confirmPassword">Confirm password</label>
 							<input class="form-control" id="confirmPassword" type='password'
 							       placeholder="Enter confirm password" th:field="*{confirmPassword}"
-							       th:classappend="${(#fields.hasErrors('confirmPassword')?'is-invalid':'')">
+							       th:classappend="${(#fields.hasErrors('confirmPassword')?'is-invalid':'')}">
 							<label class="invalid-feedback" th:if="${#fields.hasErrors('confirmPassword')}"
 							       th:errors="*{confirmPassword}"></label>
 						</div>

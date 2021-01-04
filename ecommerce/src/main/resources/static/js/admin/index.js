@@ -1,4 +1,7 @@
 $(document).ready(function(){
+    $('#dtBasicExample1').DataTable({
+        "scrollX": true
+    });
 });
 
 function deleteUser(userId) {

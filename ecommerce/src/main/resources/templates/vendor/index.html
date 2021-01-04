@@ -17,11 +17,6 @@
 				</div>
 				<div th:replace="fragments/template :: display-error-message"/>
 				<div class="row">
-					<h3 th:if="${vendorForm.enable eq false}" class="alert-danger text-center">
-						Vendor haven't been approved yet!
-					</h3>
-				</div>
-				<div class="row">
 					<div class="col-lg-3">
 						<p>Today income</p>
 						<p class="money" th:text="${vendorStatisticForm.todayIncome}"></p>

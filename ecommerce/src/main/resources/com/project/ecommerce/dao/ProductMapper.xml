@@ -107,7 +107,8 @@
         UPDATE vendor_product
         SET quantity = #{quantity},
             price = #{price}
-        WHERE productId = #{productId};
+        WHERE productId = #{productId}
+          AND vendorId = #{vendorId}
     </update>
 
     <select id="getAllProduct" parameterType="map" resultMap="ProductResultMap" fetchSize="200">
@@ -228,6 +229,34 @@
          #{color,jdbcType=VARCHAR});
     </insert>
 
+    <update id="updateDetailCategory1">
+        UPDATE category1_fashion_detail
+        SET size = #{size},
+            material = #{material},
+            color = #{color}
+        WHERE productId = #{productId}
+    </update>
+
+    <insert id="insertDetailCategory2" parameterType="com.project.ecommerce.form.ProductForm" useGeneratedKeys="true" keyColumn="id">
+        INSERT INTO category2_detail
+            (productId, model, size, voltage, weight)
+        VALUES
+        (#{productId,jdbcType=BIGINT},
+         #{model,jdbcType=VARCHAR},
+         #{size,jdbcType=VARCHAR},
+         #{voltage,jdbcType=VARCHAR},
+         #{weight,jdbcType=VARCHAR});
+    </insert>
+
+    <update id="updateDetailCategory2">
+        UPDATE category2_detail
+        SET model = #{model},
+            size = #{size},
+            voltage = #{voltage},
+            weight = #{weight}
+        WHERE productId = #{productId}
+    </update>
+
     <insert id="insertDetailCategory2Sub1" parameterType="com.project.ecommerce.form.ProductForm" useGeneratedKeys="true" keyColumn="id">
         INSERT INTO category2_sub1_tivi_detail
             (productid, model, type, framepersecond, weight, connectionports, size, voltage)
@@ -242,6 +271,18 @@
          #{voltage,jdbcType=VARCHAR});
     </insert>
 
+    <update id="updateDetailCategory2Sub1">
+        UPDATE category2_sub1_tivi_detail
+        SET model = #{model},
+            type = #{type},
+            framepersecond = #{framepersecond},
+            weight = #{weight},
+            connectionports = #{connectionports},
+            size = #{size},
+            voltage = #{voltage}
+        WHERE productId = #{productId}
+    </update>
+
     <insert id="insertDetailCategory2Sub2" parameterType="com.project.ecommerce.form.ProductForm" useGeneratedKeys="true" keyColumn="id">
         INSERT INTO category2_sub2_cooker_detail
         (productId, model, capacity, power, voltage)
@@ -252,6 +293,15 @@
          #{power,jdbcType=VARCHAR},
          #{voltage,jdbcType=VARCHAR});
     </insert>
+
+    <update id="updateDetailCategory2Sub2">
+        UPDATE category2_sub2_cooker_detail
+        SET model = #{model},
+            capacity = #{type},
+            power = #{framepersecond},
+            voltage = #{voltage}
+        WHERE productId = #{productId}
+    </update>
 
     <insert id="insertDetailCategory2Sub3" parameterType="com.project.ecommerce.form.ProductForm" useGeneratedKeys="true" keyColumn="id">
         INSERT INTO category2_sub3_fridge_detail
@@ -264,6 +314,15 @@
          #{voltage,jdbcType=VARCHAR});
     </insert>
 
+    <update id="updateDetailCategory2Sub3">
+        UPDATE category2_sub3_fridge_detail
+        SET model = #{model},
+            capacity = #{type},
+            size = #{size},
+            voltage = #{voltage}
+        WHERE productId = #{productId}
+    </update>
+
     <insert id="insertDetailCategory3" parameterType="com.project.ecommerce.form.ProductForm" useGeneratedKeys="true" keyColumn="id">
         INSERT INTO category3_book_detail
             (productId, author, releaseDate, numberOfPages, language, publisher)
@@ -275,6 +334,16 @@
          #{language,jdbcType=VARCHAR},
          #{publisher,jdbcType=VARCHAR});
     </insert>
+
+    <update id="updateDetailCategory3">
+        UPDATE category3_book_detail
+        SET author = #{author},
+            releaseDate = #{releaseDate},
+            numberOfPages = #{numberOfPages},
+            language = #{language},
+            publisher = #{publisher}
+        WHERE productId = #{productId}
+    </update>
 
     <select id="getProductDetailBaseOnCategory" resultMap="ProductResultMap" parameterType="com.project.ecommerce.form.ProductForm">
         <if test="categoryId == 1">
@@ -289,10 +358,15 @@
         <if test="categoryId == 2 and subCategoryId == 3">
             SELECT * FROM category2_sub3_fridge_detail
         </if>
+        <if test="categoryId == 2 and subCategoryId > 3">
+            SELECT * FROM category2_detail
+        </if>
         <if test="categoryId == 3">
             SELECT * FROM category3_book_detail
         </if>
-        WHERE productId = #{productId}
+        <where>
+            AND productId = #{productId}
+        </where>
     </select>
 
     <select id="getProductQuantity" resultType="long">

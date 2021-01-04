@@ -44,11 +44,19 @@ public interface ProductMapper {
 
     List<CountriesDto> getCountries();
 
-    boolean insertDetailCategory1(ProductForm productForm);
-    boolean insertDetailCategory2Sub1(ProductForm productForm);
-    boolean insertDetailCategory2Sub2(ProductForm productForm);
-    boolean insertDetailCategory2Sub3(ProductForm productForm);
-    boolean insertDetailCategory3(ProductForm productForm);
+    void insertDetailCategory1(ProductForm productForm);
+    void insertDetailCategory2(ProductForm productForm);
+    void insertDetailCategory2Sub1(ProductForm productForm);
+    void insertDetailCategory2Sub2(ProductForm productForm);
+    void insertDetailCategory2Sub3(ProductForm productForm);
+    void insertDetailCategory3(ProductForm productForm);
+
+    void updateDetailCategory1(ProductForm productForm);
+    void updateDetailCategory2(ProductForm productForm);
+    void updateDetailCategory2Sub1(ProductForm productForm);
+    void updateDetailCategory2Sub2(ProductForm productForm);
+    void updateDetailCategory2Sub3(ProductForm productForm);
+    void updateDetailCategory3(ProductForm productForm);
 
     ProductForm getProductDetailBaseOnCategory(ProductForm productForm);
 
