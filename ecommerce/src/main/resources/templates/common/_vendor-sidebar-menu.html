@@ -11,12 +11,12 @@
         </a>
 		<a id="add-product" th:href="@{/vendor/product/category}"
 		   class="list-group-item list-group-item-action list-group-item-light"
-		   th:classappend="${vendorForm.enable eq false}?'disabled':''">
+		   th:classappend="${vendorForm.enable eq false}?'disabled text-muted':''">
 			Add product
 		</a>
 		<a id="view-product-list" th:href="@{/vendor/product/view}"
 		   class="list-group-item list-group-item-action list-group-item-light"
-		   th:classappend="${vendorForm.enable eq false}?'disabled':''">
+		   th:classappend="${vendorForm.enable eq false}?'disabled text-muted':''">
 			My products
 		</a>
 		<a id="edit-profile" th:href="@{/vendor/info}"

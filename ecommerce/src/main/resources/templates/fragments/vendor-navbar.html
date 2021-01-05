@@ -15,7 +15,7 @@
 				<li class="sub-title text-uppercase">
 					<a class="menu-item pl-1 mt-2 w-100" id="add-product"
 					   th:href="@{/vendor/product/category}"
-					   th:classappend="${vendorForm.enable eq false}?'disabled':''">
+					   th:classappend="${vendorForm.enable eq false}?'disabled text-muted':''">
 						<i class="fas fa-plus mr-2" style="width: 1em"></i>
 						Add product
 					</a>
@@ -23,7 +23,7 @@
 				<li class="sub-title text-uppercase">
 					<a class="menu-item pl-1 mt-2 w-100"
 					   th:href="@{/vendor/product/view}"
-					   th:classappend="${vendorForm.enable eq false}?'disabled':''">
+					   th:classappend="${vendorForm.enable eq false}?'disabled text-muted':''">
 						<i class="fas fa-dice-d6 mr-2" style="width: 1em"></i>
 						My products
 					</a>
