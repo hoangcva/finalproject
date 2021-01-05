@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -44,7 +45,7 @@ public class ProductController {
 //    }
 
     @GetMapping(value = {"/", "/product/view/list"})
-    public String showAllProduct(Model model, Authentication auth) {
+    public String showAllProduct(Model model, Authentication auth, HttpSession session) {
         List<CategoryForm> categoryForms = productService.getCategory();
         List<ProductForm> productFormList = productService.getAllProductMainPage(null, null, null);
         model.addAttribute("productFormList", productFormList);
@@ -63,8 +64,7 @@ public class ProductController {
             if (Consts.ROLE_USER.equals(userDto.getRole())) {
                 Long customerId = userDto.getId();
                 int quantityTotal = cartService.getCart(customerId).getQuantityTotal();
-                model.addAttribute("quantityTotal", quantityTotal);
-
+                session.setAttribute("quantityTotal", quantityTotal);
             }
         }
 
