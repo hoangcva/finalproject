@@ -1,0 +1,71 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<!-- Navbar -->
+<nav th:fragment="category" class="navbar navbar-expand-lg white shadow-none">
+
+	<!-- Collapse button -->
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent2"
+	        aria-controls="navbarSupportedContent2" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+
+	<!-- Collapsible content -->
+	<div class="collapse navbar-collapse" id="navbarSupportedContent2">
+
+		<a class="navbar-brand text-uppercase p-2 material-tooltip-main" href="#"
+		   th:onclick="|javascript:loadSearchResultCategory(null,null)|">
+			<i class="fas fa-redo-alt" data-toggle="tooltip" data-placement="top"
+			   title="Refresh"></i>
+		</a>
+
+		<!-- Links -->
+		<ul class="navbar-nav mr-4">
+			<!-- Features -->
+			<li class="nav-item dropdown mega-dropdown active">
+				<a class="nav-link dropdown-toggle text-uppercase hoverable" id="navbarDropdownMenuLink2" data-toggle="dropdown"
+				   aria-haspopup="true" aria-expanded="false">Category
+					<span class="sr-only">(current)</span>
+				</a>
+				<div class="dropdown-menu mega-menu v-2 z-depth-1 white py-5 px-3 overflow-auto"
+				     aria-labelledby="navbarDropdownMenuLink2" style="width: max-content; max-width: 60vw; max-height: 60vh;">
+					<div class="row">
+						<div class="col-md-6 col-xl-auto sub-menu mb-xl-0 mb-4" th:each="category,iterationStatus : ${categories}">
+							<h6 class="sub-title text-uppercase font-weight-bold white-text">
+								<a th:onclick="|javascript:loadSearchResultCategory(${category.id},null)|"
+								   href="#" class="menu-item"
+								   th:text="${category.name}">
+								</a>
+							</h6>
+							<ul class="list-unstyled">
+								<li th:each="subCategory : ${category.subCategoryForms}">
+									<a th:onclick="|javascript:loadSearchResultCategory(${category.id},${subCategory.id})|"
+									   class="menu-item pl-0" href="#!">
+										<i class="fas fa-caret-right pl-1 pr-3"></i>
+										<span th:text="${subCategory.name}"></span>
+									</a>
+								</li>
+							</ul>
+						</div>
+
+					</div>
+				</div>
+			</li>
+		</ul>
+		<!-- Links -->
+		<div class="search form-inline pl-2 w-75">
+			<label for="keyword" text="Search product"></label>
+			<input class="form-control col-md-8 mr-2" type="text" id="keyword" th:name="keyword"
+			       placeholder="Enter product name/SKU" style="margin: 0.55em 0">
+			<button id="btn-search" type="submit" class="btn btn-primary"
+			        th:onclick="'loadSearchResult();'">
+				<i class="fas fa-search"></i>
+				search
+			</button>
+		</div>
+	</div>
+	<!-- Collapsible content -->
+</nav>
+<!-- Navbar -->
+
+</html>

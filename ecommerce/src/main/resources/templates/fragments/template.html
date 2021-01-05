@@ -101,9 +101,16 @@
 	<span id="over-quantity" class="hide d-none text-danger"
 	      th:text="'You can\'t buy more than ' + ${quantity} + ' products'"></span>
 	<div class="btn-group">
-		<div class="btn btn-minus mr-0" id="decrease-btn"><i class="fas fa-minus"></i></div>
+		<div class="btn btn-minus mr-0" id="decrease-btn"
+		     data-toggle="tooltip" data-placement="top"
+		     title="Decrease">
+			<i class="fas fa-minus"></i>
+		</div>
 		<input type="text" class="buy-quantity my-1" name="buy-quantity" th:value="${buyQuantity}">
-		<div class="btn btn-plus ml-0" id="increase-btn"><i class="fas fa-plus"></i></div>
+		<div class="btn btn-plus ml-0" id="increase-btn" data-toggle="tooltip" data-placement="top"
+		     title="Increase">
+			<i class="fas fa-plus"></i>
+		</div>
 	</div>
 	<div class="text-center mr-4">
 		<span th:text="'( ' + ${quantity} +' products left)'"></span>
@@ -188,9 +195,9 @@
 	</div>
 </div>
 
-<div th:fragment="table-product-grid-custom">
-	<div class="d-inline-flex flex-wrap" th:fragment="table-product-grid">
-		<div class="outer ml-1 mb-1" th:each="product,iterationStatus : ${productFormList}">
+<div th:fragment="table-product-grid-custom" class="px-5">
+	<div class="d-inline-flex flex-wrap px-4" th:fragment="table-product-grid">
+		<div class="outer ml-2 mb-3" th:each="product,iterationStatus : ${productFormList}">
 			<a class="product-thumbnail text-decoration-none"
 			   th:href="@{/product/view/detail(productId = ${product.productId}, vendorId = ${product.vendorId})}">
 				<div th:replace="fragments/productInfo :: view-product-list"></div>
@@ -553,7 +560,7 @@
 <div th:fragment="vendor-table-custom">
 	<div th:fragment="vendor-table">
 		<div th:replace="fragments/template :: display-error-message"/>
-		<table class="table table-bordered" th:if="${#lists.size(vendorFormList) > 0}" id="dtBasicExample">
+		<table class="table table-bordered table-hover" th:if="${#lists.size(vendorFormList) > 0}" id="dtBasicExample">
 			<thead>
 			<tr>
 				<th scope="col" th:text="No"></th>
@@ -605,7 +612,7 @@
 	<div th:replace="fragments/template :: display-error-message"/>
 	<div th:fragment="transporter-table">
 		<div th:replace="fragments/template :: display-error-message"/>
-		<table cellspacing="0" class="table table-bordered" th:if="${#lists.size(transporterFormList) > 0}" id="dtBasicExample">
+		<table cellspacing="0" class="table table-bordered table-hover" th:if="${#lists.size(transporterFormList) > 0}" id="dtBasicExample">
 			<thead>
 			<tr>
 				<th scope="col" th:text="No"></th>
@@ -1003,7 +1010,7 @@
 						</p>
 						<p>
 							Provided by
-							<a th:href="@{/customer/vendor-product/view(vendorId = ${product.vendorId})}">
+							<a th:href="@{/customer/product/vendor/view(vendorId = ${product.vendorId})}">
 								<strong th:text="${product.vendorName}"></strong>
 							</a>
 							<!--TODO: vendorPage-->
@@ -1077,7 +1084,7 @@
 				<p th:text="'Pending order: '"><span class="font-weight-bold" th:text="${numberOrder}"></span></p>
 			</div>
 		</div>
-		<table class="table table-bordered" id="dtBasicExample">
+		<table class="table table-bordered table-hover" id="dtBasicExample">
 			<thead class="text-lg-center">
 			<tr class="d-flex">
 				<th class="col-1" scope="col">#</th>

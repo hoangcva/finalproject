@@ -526,6 +526,21 @@ public class ProductServiceImpl implements IProductService {
         return productFormList;
     }
 
+    @Override
+    public List<ProductForm> getTop12BestSeller(Integer categoryId, Integer subCategoryId, String keyword) {
+        categoryId = Consts.DEFAULT_VALUE_0.equals(categoryId) ? null : categoryId;
+        subCategoryId = Consts.DEFAULT_VALUE_0.equals(subCategoryId) ? null : subCategoryId;
+        if(keyword == null || keyword.isEmpty()) {
+            keyword = null;
+        } else {
+            keyword = '%' + keyword + '%';
+        }
+
+        List<ProductForm> productFormList = productMapper.getTop12BestSeller(categoryId, subCategoryId, keyword);
+        productFormList = getProductCover(productFormList);
+        return productFormList;
+    }
+
     private List<ProductForm> getProductCover(List<ProductForm> productFormList) {
         for (ProductForm productForm : productFormList) {
             ProductImageForm productImageForm = getProductCover(productForm.getProductId());

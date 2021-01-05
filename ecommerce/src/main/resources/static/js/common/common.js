@@ -65,6 +65,10 @@ $(document).ready(function() {
     $('.spinner-btn').click(function() {
         $('.spinner-btn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Loading...').addClass('disabled');
     });
+
+    $('.material-tooltip-main').tooltip({
+        template: '<div class="tooltip md-tooltip"><div class="tooltip-arrow md-arrow"></div><div class="tooltip-inner md-inner"></div></div>'
+    });
 });
 
 function commafy(num) {

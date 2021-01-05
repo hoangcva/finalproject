@@ -16,6 +16,7 @@ function loadSearchResult()
 
         $.get("/product/view/list/search",data).done(function(fragment) { // get from controller
                 $("#content").html(fragment);
+                $(".top10").addClass("d-none");
         });
 }
 
@@ -28,5 +29,6 @@ function loadSearchResultCategory(categoryId, subCategoryId)
 
         $.get("/product/view/byCategory",data).done(function(fragment) { // get from controller
                 $("#content").html(fragment);
+                $(".top10").addClass("d-none");
         });
 }

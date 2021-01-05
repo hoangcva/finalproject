@@ -44,7 +44,7 @@ public class AdminServiceImpl implements IAdminService {
     private OrderMapper orderMapper;
     @Autowired
     private ProductMapper productMapper;
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Consts.TIME_FORMAT_MMddyyyyHHmmss);
 
     /**
      * Add sub-category

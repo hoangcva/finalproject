@@ -52,7 +52,7 @@
 					</div>
 				</div>
 				<div class="col-md-7 bg-light ">
-					<div class="row mt-4 text-2-lines" style="height: 5em"><h3 th:text="*{productName}"></h3></div>
+					<div class="row mt-4 text-2-lines" style="height: 5em"><h4 th:text="*{productName}"></h4></div>
 					<!--				<div class="row">-->
 					<div class="d-flex flex-column align-items-end w-75 col-sm-7 pb-3"
 					     style="position : absolute; bottom : 0; height: 70%">
@@ -76,25 +76,28 @@
 						<div class="d-lg-flex w-100" style="height: 4em">
 							<th:block th:if="${productForm.enable eq true}">
 								<th:block sec:authorize="isAuthenticated()">
-									<div class="ml-lg-auto mr-lg-2 py-4">
+									<div class="ml-lg-auto mr-lg-2 py-3" style="font-size: x-large">
 									<span id="favorite-add"
 									      th:classappend="${productForm.liked eq true} ? 'hide' : 'show-inline'"
 									      onclick="addProductToFavorite()">
-										<i class="far fa-heart"></i>
-									</span>
+											<i class="far fa-heart" data-toggle="tooltip" data-placement="top"
+											   title="Add to favorite"></i>
+										</span>
 										<span id="favorite-remove"
 										      th:classappend="${productForm.liked eq true} ? 'show-inline' : 'hide'"
 										      onclick="removeProductFromFavorite()">
-										<i class="fas fa-heart text-danger"></i>
-									</span>
+											<i class="fas fa-heart text-danger" data-toggle="tooltip" data-placement="top"
+											   title="Remove from favorite"></i>
+										</span>
 									</div>
-									<a class="btn btn-primary mx-2 py-3" id="btn-submit" role="button"
+									<a class="btn btn-primary ml-auto mr-0 py-3" id="btn-submit" role="button"
 									   th:if="${productForm.quantity > 0}" href="#"
-									   onclick="addProductToCart()" style="width: 250px; font-size: inherit">
+									   onclick="addProductToCart()" style="width: 250px; font-size: inherit"
+									   data-toggle="tooltip" data-placement="top" title="Add to cart">
 										<i class="fas fa-cart-plus"></i><span class="ml-2" th:text="Buy"></span>
 									</a>
 								</th:block>
-								<a th:href="@{/login}" class="btn btn-primary mx-2 py-3" id="btn-login"
+								<a th:href="@{/login}" class="btn btn-primary ml-auto mr-0 py-3" id="btn-login"
 								   style="width: 250px; font-size: inherit" sec:authorize="!isAuthenticated()" role="button"
 								   th:if="${productForm.quantity > 0}" href="#">
 									<i class="fas fa-cart-plus"></i><span class="ml-2" th:text="Buy"></span>
@@ -113,7 +116,7 @@
 					</div>
 					<div class="col-sm-5" style="position : absolute; right : 0; bottom: 0; height: 70%">
 						<div class="font-weight-bolder text-primary">
-							<a th:href="@{/customer/vendor-product/view(vendorId = ${vendorForm.vendorId})}"
+							<a th:href="@{/customer/product/vendor/view(vendorId = ${vendorForm.vendorId})}"
 							   th:text="${vendorForm.vendorName}"></a>
 						</div>
 						<div class="text-truncate" th:text="${vendorForm.description}"></div>

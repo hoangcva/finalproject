@@ -183,7 +183,7 @@
          #{content,jdbcType=BLOB},
          #{imageOrder,jdbcType=TINYINT});
     </insert>
-    
+
     <select id="getProductImage" fetchSize="200" resultType="com.project.ecommerce.dto.ProductImageDto">
         SELECT * FROM image
         WHERE productId = #{productId}
@@ -443,7 +443,7 @@
 #         INNER JOIN
 #         (SELECT productId, content FROM image WHERE imageOrder = 1) i ON i.productId = vp.productId
         ORDER BY RAND()
-        LIMIT 10
+        LIMIT 12
     </select>
 
     <update id="saveRating">
@@ -452,4 +452,23 @@
         WHERE productId = #{productId}
           AND vendorId = #{vendorId}
     </update>
+
+    <select id="getTop12BestSeller" resultMap="ProductResultMap" fetchSize="200">
+        SELECT *
+        FROM (SELECT productId, vendorId, SUM(buyQuantity)
+              FROM order_products
+              GROUP BY productId, vendorId
+              ORDER BY SUM(buyQuantity) DESC
+              LIMIT 12) op
+                 INNER JOIN
+             (SELECT MAX(rating) AS rating, Min(price) AS price, productId, vendorId
+              FROM vendor_product
+              WHERE quantity > 0
+                AND enable = TRUE
+              GROUP BY productId, vendorId
+              ORDER BY createdTime, updatedTime) vp ON vp.productId = op.productId and vp.vendorId = op.vendorId
+                 INNER JOIN
+             (SELECT id, productName, listPrice FROM product) p ON p.id = vp.productId
+        ORDER BY RAND()
+    </select>
 </mapper>

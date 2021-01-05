@@ -11,46 +11,12 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-lg-2">
-				<div class="list-group">
-					<!--    <div th:each="category,iterationStatus : ${categories}">-->
-					<div
-					     th:each="category,iterationStatus : ${categories}"
-					     th:id="'dropbtn'+${iterationStatus.count}">
-						<!--						<a th:href="@{/product/view/byCategory(categoryId = ${category.id}, subCategoryId = 0)}"-->
-						<!--						   th:text="${category.name}"></a>-->
-						<a th:onclick="|javascript:loadSearchResultCategory(${category.id},null)|"
-						   href="#"
-						   class="list-group-item border-0 list-group-item-action active"
-						   th:text="${category.name}"></a>
-						<!--						<script th:inline="javascript">-->
-						<!--                            /*<![CDATA[*/-->
-						<!--                            $('#dropbtn' + id).hover(function () {-->
-						<!--                                showSubCategoryMenu(/*[[${iterationStatus.count}]]*/'');-->
-						<!--                            })-->
-						<!--                            /*]]>*/-->
-
-
-						<!--                            /*<![CDATA[*/-->
-						<!--                            /*]]>*/-->
-						<!--						</script>-->
-						<div class="list-group">
-							<div
-							     th:classappend="'show-content'+${iterationStatus.count}"
-							     th:each="subCategory : ${category.subCategoryForms}">
-								<!--								<a th:href="@{/product/view/byCategory(categoryId = ${category.id}, subCategoryId = ${subCategory.id})}"-->
-								<!--								   th:text="${subCategory.name}"></a>-->
-								<a th:onclick="|javascript:loadSearchResultCategory(${category.id},${subCategory.id})|"
-								   href="#"
-								   class="list-group-item border-0 list-group-item-action text-primary"
-								   th:text="${subCategory.name}"></a>
-							</div>
-						</div>
-					</div>
-					<!--    </div>-->
-				</div>
 			</div>
 			<div class="col-lg-8">
-				<div th:replace="fragments/template :: search-bar-custom"></div>
+				<div th:replace="fragments/category :: category"></div>
+				<div th:replace="fragments/slide :: slide-top-10(title10 = 'Our Newest',product10 = ${productFormListTop10Newest})"></div>
+				<div th:replace="fragments/slide :: slide-top-10(title10 = 'Our Best Sellers',product10 = ${productFormListTop10BestSeller})"></div>
+<!--				<div th:replace="fragments/template :: search-bar-custom"></div>-->
 				<div id="content">
 					<div th:replace="fragments/template :: customError"></div>
 					<div th:replace="fragments/template :: table-product-grid-custom"></div>

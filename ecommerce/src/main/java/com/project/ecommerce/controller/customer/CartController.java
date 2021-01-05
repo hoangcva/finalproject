@@ -1,4 +1,4 @@
-package com.project.ecommerce.controller;
+package com.project.ecommerce.controller.customer;
 
 import com.project.ecommerce.dto.UserDetailsDto;
 import com.project.ecommerce.form.CartInfoForm;

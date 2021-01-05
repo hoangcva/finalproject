@@ -75,4 +75,8 @@ public interface ProductMapper {
                                             @Param("subCategoryId") Integer subCategoryId,
                                             @Param("keyword") String keyword);
 
+    List<ProductForm> getTop12BestSeller(@Param("categoryId") Integer categoryId,
+                                        @Param("subCategoryId") Integer subCategoryId,
+                                        @Param("keyword") String keyword);
+
 }

@@ -46,7 +46,7 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div th:replace="fragments/template :: display-error-message"/>
-					<table class="table table-bordered" id="dtBasicExample">
+					<table class="table table-bordered table-hover" id="dtBasicExample">
 						<thead>
 						<tr>
 							<th scope="col">#</th>
@@ -71,7 +71,7 @@
 										</p>
 										<p>
 											Provided by
-											<a class="text-primary" th:href="@{/admin/vendor-product/view(vendorId = ${product.productForm.vendorId})}">
+											<a class="text-primary" th:href="@{/admin/product/vendor/view(vendorId = ${product.productForm.vendorId})}">
 												<strong th:text="${product.productForm.vendorName}"></strong>
 											</a>
 											<!--TODO: vendorPage-->

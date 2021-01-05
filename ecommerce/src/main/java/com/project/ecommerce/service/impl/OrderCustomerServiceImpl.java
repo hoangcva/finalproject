@@ -43,7 +43,7 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
     private UserMapper userMapper;
     @Autowired
     private IProductService productService;
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Consts.TIME_FORMAT_MMddyyyyHHmmss);
 
     /**
      * @param orderForm

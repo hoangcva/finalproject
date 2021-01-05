@@ -234,7 +234,7 @@
 </div>
 
 
-<div th:fragment="view-product-list" class="view-product-list card inner">
+<div th:fragment="view-product-list" class="view-product-list card inner card-cascade narrower card-ecommerce">
 	<div class="card-img-top">
 		<img class="img-thumbnail border-0"
 		     th:src="@{'data:image/jpeg;base64,'+${product.productImageFormList[0].generateBase64Image()}}"
@@ -247,12 +247,32 @@
 		<p class="card-text text-break" th:text="${product.productName}">Product name</p>
 		<p class="card-text">
 			<span class="money price" th:text="${{product.price}}"></span>
-			<span class="money"
+			<span class=""
 			      th:text="*{(product.price - product.listPrice)*100/product.listPrice + '%'} "></span>
 			<span class="money list-price" th:text="${{product.listPrice}}">list price</span>
 		</p>
 	</div>
 </div>
+
+<!--<div th:fragment="view-product-list(product)" class="view-product-list card inner">-->
+<!--	<div class="card-img-top">-->
+<!--		<img class="img-thumbnail border-0"-->
+<!--		     th:src="@{'data:image/jpeg;base64,'+${product.productImageFormList[0].generateBase64Image()}}"-->
+<!--		     th:unless="${#lists.size(product.productImageFormList) eq 0} "/>-->
+<!--		<img class="img-thumbnail border-0" th:src="@{/images/no_product_image.jpg}"-->
+<!--		     src="../../static/images/no_product_image.jpg"-->
+<!--		     th:if="${#lists.size(product.productImageFormList) eq 0} "/>-->
+<!--	</div>-->
+<!--	<div class="card-body">-->
+<!--		<p class="card-text text-break" th:text="${product.productName}">Product name</p>-->
+<!--		<p class="card-text">-->
+<!--			<span class="money price" th:text="${{product.price}}"></span>-->
+<!--			<span class="money"-->
+<!--			      th:text="*{(product.price - product.listPrice)*100/product.listPrice + '%'} "></span>-->
+<!--			<span class="money list-price" th:text="${{product.listPrice}}">list price</span>-->
+<!--		</p>-->
+<!--	</div>-->
+<!--</div>-->
 
 
 </body>

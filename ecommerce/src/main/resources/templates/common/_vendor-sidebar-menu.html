@@ -9,7 +9,7 @@
         <a th:href="@{/vendor}" class="list-group-item list-group-item-action active">
 	        Vendor Page
         </a>
-		<a id="add-product" th:href="@{/vendor/show/category}"
+		<a id="add-product" th:href="@{/vendor/product/category}"
 		   class="list-group-item list-group-item-action list-group-item-light"
 		   th:classappend="${vendorForm.enable eq false}?'disabled':''">
 			Add product

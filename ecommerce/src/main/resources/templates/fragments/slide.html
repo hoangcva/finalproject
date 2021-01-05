@@ -1,0 +1,76 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<div th:fragment="slide-top-10" class="container mb-5 top10">
+
+	<!--Section: Content-->
+	<section class="dark-grey-text text-center">
+
+		<!-- Section heading -->
+		<h3 class="font-weight-bold mb-1 pb-2" th:text="${title10}">Our bestsellers</h3>
+		<!-- Section description -->
+<!--		<p class="grey-text w-responsive mx-auto mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit fugit,-->
+<!--			error amet numquam iure provident voluptate esse quasi nostrum quisquam eum porro a pariatur veniam.</p>-->
+
+		<!-- Carousel Wrapper -->
+		<div id="multi-item-example" class="carousel slide carousel-multi-item m-auto" data-ride="carousel" style="width:54rem">
+			<!-- Controls -->
+<!--			<div class="controls-top">-->
+<!--				<a class="btn-floating primary-color waves-effect waves-light" href="#multi-item-example"-->
+<!--				   data-slide="prev">-->
+<!--					<i class="fas fa-chevron-left"></i>-->
+<!--				</a>-->
+<!--				<a class="btn-floating primary-color waves-effect waves-light" href="#multi-item-example"-->
+<!--				   data-slide="next">-->
+<!--					<i class="fas fa-chevron-right"></i>-->
+<!--				</a>-->
+<!--			</div>-->
+			<!-- Controls -->
+			<!-- Indicators -->
+			<ol class="carousel-indicators mb-n3">
+				<li class="primary-color active" data-target="#multi-item-example" data-slide-to="0"></li>
+				<li class="primary-color" data-target="#multi-item-example" data-slide-to="1"></li>
+				<li class="primary-color" data-target="#multi-item-example" data-slide-to="2"></li>
+			</ol>
+			<!-- Indicators -->
+			<!-- Slides -->
+			<div class="carousel-inner" role="listbox">
+				<!-- First slide -->
+				<div class="carousel-item active">
+					<div class="col-md-3 mb-2 float-left" th:each="i: ${#numbers.sequence(0, 3)}">
+						<a class="product-thumbnail text-decoration-none" th:unless="${#lists.size(product10) <= i}"
+						   th:href="@{/product/view/detail(productId = ${product10[i].productId}, vendorId = ${product10[i].vendorId})}">
+							<div th:replace="fragments/productInfo :: view-product-list(product = ${product10[i]})"></div>
+						</a>
+					</div>
+				</div>
+				<!-- First slide -->
+				<!-- Second slide -->
+				<div class="carousel-item" th:if="${#lists.size(product10) > 4}">
+					<div class="col-md-3 mb-2 float-left" th:each="i: ${#numbers.sequence(4, 7)}">
+						<a class="product-thumbnail text-decoration-none" th:unless="${#lists.size(product10) <= i}"
+						   th:href="@{/product/view/detail(productId = ${product10[i].productId}, vendorId = ${product10[i].vendorId})}">
+							<div th:replace="fragments/productInfo :: view-product-list(product = ${product10[i]})"></div>
+						</a>
+					</div>
+				</div>
+				<!-- Second slide -->
+				<!--Third slide -->
+				<div class="carousel-item" th:if="${#lists.size(product10) > 8}">
+					<div class="col-md-3 mb-2 float-left" th:each="i: ${#numbers.sequence(8, 11)}">
+						<a class="product-thumbnail text-decoration-none" th:unless="${#lists.size(product10) <= i}"
+						   th:href="@{/product/view/detail(productId = ${product10[i].productId}, vendorId = ${product10[i].vendorId})}">
+							<div th:replace="fragments/productInfo :: view-product-list(product = ${product10[i]})"></div>
+						</a>
+					</div>
+				</div>
+				<!--Third slide -->
+			</div>
+			<!-- Slides -->
+		</div>
+		<!-- Carousel Wrapper -->
+	</section>
+	<!--Section: Content-->
+</div>
+
+</html>

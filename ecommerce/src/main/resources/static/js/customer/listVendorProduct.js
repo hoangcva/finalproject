@@ -10,7 +10,7 @@ function loadSearchResult()
         "vendorId" : vendorId
     }
 
-    $.get("/customer/vendor-product/view/search",data).done(function(fragment) { // get from controller
+    $.get("/customer/product/vendor/view/search",data).done(function(fragment) { // get from controller
         $("#content").html(fragment);
     });
 }

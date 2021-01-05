@@ -38,7 +38,7 @@ public class TransporterServiceImpl implements ITransporterService {
     private MessageAccessor messageAccessor;
     @Autowired
     private ProductMapper productMapper;
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Consts.TIME_FORMAT_MMddyyyyHHmmss);
 
     @Override
     public List<TransporterForm> getTransporterList() {

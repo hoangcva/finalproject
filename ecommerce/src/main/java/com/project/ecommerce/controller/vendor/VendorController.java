@@ -1,4 +1,4 @@
-package com.project.ecommerce.controller;
+package com.project.ecommerce.controller.vendor;
 
 import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.Validator.VendorRegisterValidator;
@@ -114,5 +114,11 @@ public class VendorController {
         VendorStatisticForm vendorStatisticForm = vendorService.statistic(vendorForm.getId());
         model.addAttribute("vendorStatisticForm", vendorStatisticForm);
         return "/vendor/index";
+    }
+
+    @GetMapping("/success")
+    public String success(Model model,
+                          @ModelAttribute("vendorForm") VendorForm vendorForm) {
+        return "/vendor/success";
     }
 }

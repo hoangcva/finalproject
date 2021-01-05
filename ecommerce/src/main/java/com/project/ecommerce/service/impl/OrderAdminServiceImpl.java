@@ -1,5 +1,6 @@
 package com.project.ecommerce.service.impl;
 
+import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.dao.CartMapper;
 import com.project.ecommerce.dao.OrderMapper;
 import com.project.ecommerce.dao.ProductMapper;
@@ -29,20 +30,10 @@ public class OrderAdminServiceImpl implements IOrderAdminService {
     @Autowired
     private ProductMapper productMapper;
     @Autowired
-    private ICartService cartService;
-    @Autowired
-    private ICustomerAddressService customerAddressService;
-    @Autowired
-    private DataSourceTransactionManager transactionManager;
-    @Autowired
-    private MessageAccessor messageAccessor;
-    @Autowired
-    private CartMapper cartMapper;
-    @Autowired
     private UserMapper userMapper;
     @Autowired
     private IProductService productService;
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Consts.TIME_FORMAT_MMddyyyyHHmmss);
 
     @Override
     public OrderForm getOrderDetail(Long orderId) {
