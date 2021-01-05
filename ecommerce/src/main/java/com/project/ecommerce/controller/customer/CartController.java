@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 
 @Controller
@@ -24,11 +25,18 @@ public class CartController {
     private ICartService cartService;
 
     @PostMapping(value = "/add-product")
-    public ResponseEntity<?> addProductToCart(@RequestBody CartLineInfoForm CartLineInfoForm, Authentication auth) {
+    public ResponseEntity<?> addProductToCart(@RequestBody CartLineInfoForm CartLineInfoForm,
+                                              HttpSession session,
+                                              Authentication auth) {
         Message result = cartService.addProductToCart(CartLineInfoForm, auth);
         HashMap<String, Object> message = new HashMap<>();
         message.put("msg", result.getMessage());
+        ;
         if (result.isSuccess()) {
+            Long customerId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
+            int quantityTotal = cartService.getCart(customerId).getQuantityTotal();
+            session.setAttribute("quantityTotal", quantityTotal);
+            message.put("quantityTotal", quantityTotal);
             return new ResponseEntity<>(message, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
@@ -46,11 +54,16 @@ public class CartController {
     }
 
     @PostMapping(value = "/update")
-    public ResponseEntity<?> updateCart(@RequestBody CartLineInfoForm CartLineInfoForm) {
+    public ResponseEntity<?> updateCart(@RequestBody CartLineInfoForm CartLineInfoForm,
+                                        HttpSession session,
+                                        Authentication auth) {
         Message result = cartService.updateQuantity(CartLineInfoForm);
         HashMap<String, Object> message = new HashMap<>();
         message.put("msg", result.getMessage());
         if (result.isSuccess()) {
+            Long customerId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
+            int quantityTotal = cartService.getCart(customerId).getQuantityTotal();
+            session.setAttribute("quantityTotal", quantityTotal);
             return new ResponseEntity<>(message, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
@@ -58,11 +71,16 @@ public class CartController {
     }
 
     @PostMapping(value = "/remove")
-    public ResponseEntity<?> removeProduct(@RequestBody CartLineInfoForm CartLineInfoForm) {
+    public ResponseEntity<?> removeProduct(@RequestBody CartLineInfoForm CartLineInfoForm,
+                                           HttpSession session,
+                                           Authentication auth) {
         Message result = cartService.removeProduct(CartLineInfoForm.getId());
         HashMap<String, Object> message = new HashMap<>();
         message.put("msg", result.getMessage());
         if (result.isSuccess()) {
+            Long customerId = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
+            int quantityTotal = cartService.getCart(customerId).getQuantityTotal();
+            session.setAttribute("quantityTotal", quantityTotal);
             return new ResponseEntity<>(message, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);

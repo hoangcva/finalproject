@@ -10,3 +10,9 @@
     /*font-size: inherit;*/
     display: inline;
 }
+
+.cart_counter {
+    position: relative;
+    top: -10px;
+    right: 10px;
+}

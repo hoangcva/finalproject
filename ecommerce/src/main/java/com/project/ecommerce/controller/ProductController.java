@@ -4,6 +4,7 @@ import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.Validator.VendorProductValidator;
 import com.project.ecommerce.dto.*;
 import com.project.ecommerce.form.*;
+import com.project.ecommerce.service.ICartService;
 import com.project.ecommerce.service.ICustomerService;
 import com.project.ecommerce.service.IProductService;
 import com.project.ecommerce.service.IVendorService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -29,6 +31,8 @@ public class ProductController {
     private IVendorService vendorService;
     @Autowired
     private ICustomerService customerService;
+    @Autowired
+    private ICartService cartService;
 
 //    @GetMapping(value = "/product/view/byCategory")
 //    public String showAllProduct(Model model, @ModelAttribute("categoryId") int categoryId, @ModelAttribute("subCategoryId") int subCategoryId) {
@@ -40,7 +44,7 @@ public class ProductController {
 //    }
 
     @GetMapping(value = {"/", "/product/view/list"})
-    public String showAllProduct(Model model, Authentication auth) {
+    public String showAllProduct(Model model, Authentication auth, HttpSession session) {
         List<CategoryForm> categoryForms = productService.getCategory();
         List<ProductForm> productFormList = productService.getAllProductMainPage(null, null, null);
         model.addAttribute("productFormList", productFormList);
@@ -55,6 +59,10 @@ public class ProductController {
                 Long vendorId = userDto.getId();
                 VendorForm vendorForm = vendorService.getInfo(vendorId);
                 model.addAttribute("vendorForm", vendorForm);
+            } else if (Consts.ROLE_USER.equals(userDto.getRole())) {
+                Long customerId = userDto.getId();
+                int quantityTotal = cartService.getCart(customerId).getQuantityTotal();
+                session.setAttribute("quantityTotal", quantityTotal);
             }
         }
 

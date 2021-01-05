@@ -56,6 +56,7 @@
 					<a class="nav-link" th:href="@{/customer/cart/view}">
 						Cart
 						<i class="fas fa-shopping-cart"></i>
+						<span th:text="${session.quantityTotal}" class="cart_counter badge badge-pill badge-warning">4</span>
 					</a>
 				</li>
 <!--				<li sec:authorize="hasRole('VENDOR')" class="nav-item">-->

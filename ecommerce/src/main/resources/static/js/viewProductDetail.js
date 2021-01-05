@@ -91,11 +91,12 @@ function addProductToCart() {
         data: JSON.stringify(dataRequest),
         success : function (result) {
             alert(result.msg);
-            alert(result.responseJSON.msg);
+            // alert(result.responseJSON.msg);
+            $('.cart_counter').text(result.quantityTotal);
         },
         error: function (result) {
             alert(result.msg);
-            alert(result.responseJSON.msg);
+            // alert(result.responseJSON.msg);
         },
     });
 }
