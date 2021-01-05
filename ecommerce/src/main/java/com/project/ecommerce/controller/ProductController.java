@@ -4,9 +4,11 @@ import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.Validator.ProductValidator;
 import com.project.ecommerce.dto.*;
 import com.project.ecommerce.form.*;
+import com.project.ecommerce.service.ICartService;
 import com.project.ecommerce.service.ICustomerService;
 import com.project.ecommerce.service.IProductService;
 import com.project.ecommerce.service.IVendorService;
+import com.project.ecommerce.service.impl.CartServiceImpl;
 import com.project.ecommerce.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -29,6 +31,8 @@ public class ProductController {
     private IVendorService vendorService;
     @Autowired
     private ICustomerService customerService;
+    @Autowired
+    private ICartService cartService;
 
 //    @GetMapping(value = "/product/view/byCategory")
 //    public String showAllProduct(Model model, @ModelAttribute("categoryId") int categoryId, @ModelAttribute("subCategoryId") int subCategoryId) {
@@ -55,6 +59,12 @@ public class ProductController {
                 Long vendorId = userDto.getId();
                 VendorForm vendorForm = vendorService.getInfo(vendorId);
                 model.addAttribute("vendorForm", vendorForm);
+            }
+            if (Consts.ROLE_USER.equals(userDto.getRole())) {
+                Long customerId = userDto.getId();
+                int quantityTotal = cartService.getCart(customerId).getQuantityTotal();
+                model.addAttribute("quantityTotal", quantityTotal);
+
             }
         }
 
