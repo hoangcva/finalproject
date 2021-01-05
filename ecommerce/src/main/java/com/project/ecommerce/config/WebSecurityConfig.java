@@ -62,7 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .formLogin()
                 .loginProcessingUrl("/j_spring_security_login")
                 .loginPage("/login")
-                .defaultSuccessUrl("/product/view/list")
+                .defaultSuccessUrl("/")
                 .failureUrl("/login?message=error")
                 .usernameParameter("username")
                 .passwordParameter("password")

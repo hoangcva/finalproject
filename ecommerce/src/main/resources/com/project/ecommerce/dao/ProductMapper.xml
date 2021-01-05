@@ -472,4 +472,9 @@
              (SELECT id, productName, listPrice FROM product) p ON p.id = vp.productId
         ORDER BY RAND()
     </select>
+
+    <select id="getEditProductAdmin" resultMap="ProductResultMap" fetchSize="200">
+        SELECT * FROM product
+        WHERE id = #{productId}
+    </select>
 </mapper>

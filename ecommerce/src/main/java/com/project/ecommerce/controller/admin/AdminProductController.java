@@ -1,13 +1,12 @@
 package com.project.ecommerce.controller.admin;
 
+import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.Validator.AdminProductValidator;
 import com.project.ecommerce.dto.CategoryDto;
 import com.project.ecommerce.dto.CountriesDto;
 import com.project.ecommerce.dto.SubCategoryDto;
 import com.project.ecommerce.dto.UserDetailsDto;
-import com.project.ecommerce.form.AdminProductForm;
-import com.project.ecommerce.form.ProductForm;
-import com.project.ecommerce.form.VendorProductForm;
+import com.project.ecommerce.form.*;
 import com.project.ecommerce.service.IProductService;
 import com.project.ecommerce.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +45,10 @@ public class AdminProductController {
         }
     }
 
+    @GetMapping("/success")
+    public String success() {
+        return "/admin/success";
+    }
 
     @PostMapping(value = "/activate")
     public String activateProductAdmin(Model model,
@@ -181,9 +184,64 @@ public class AdminProductController {
             return "admin/addProductDetail";
         }
         Long id = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
-        Message result = productService.addProductAdmin(productForm, id);
+        Message result = productService.addProduct(productForm, id);
         redirectAttributes.addFlashAttribute("message", result.getMessage());
         redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
         return "redirect:/admin/success";
+    }
+
+    @GetMapping(value = "/edit")
+    public String getEditProduct(@ModelAttribute("productId") Long productId,
+                                 @ModelAttribute("vendorId") Long vendorId,
+                                 Model model) {
+        List<CategoryDto> categoryDtoList = productService.getAllCategory();
+        List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
+        ProductForm productForm = productService.getVendorProduct(productId, vendorId);
+
+        String categoryName = categoryDtoList.stream()
+                .filter(category -> productForm.getCategoryId().equals(category.getId()))
+                .findAny()
+                .map(category -> category.getName())
+                .orElse("");
+        String subCategoryName = subCategoryDtoList.stream()
+                .filter(subCategory -> productForm.getSubCategoryId().equals(subCategory.getId()))
+                .findAny()
+                .map(subCategory -> subCategory.getName())
+                .orElse("");
+
+        List<CountriesDto> countriesDtoList = productService.getCountries();
+        model.addAttribute("productForm", productForm);
+        model.addAttribute("categories", categoryDtoList);
+        model.addAttribute("countriesDtoList", countriesDtoList);
+        model.addAttribute("subCategories", subCategoryDtoList);
+        model.addAttribute("categoryName", categoryName);
+        model.addAttribute("subCategoryName", subCategoryName);
+
+        return "admin/editProduct";
+    }
+
+    @PostMapping(value = "/edit")
+    public String editProduct(@ModelAttribute("productForm") @Validated ProductForm productForm,
+                              BindingResult bindingResult,
+                              Model model,
+                              final RedirectAttributes redirectAttributes) {
+        productForm.setSubmitted(true);
+        if (bindingResult.hasErrors()) {
+            List<ProductImageForm> productImageFormList = productService.getProductImage(productForm.getProductId());
+            productForm.setProductImageFormList(productImageFormList);
+            List<CategoryDto> categoryDtoList = productService.getAllCategory();
+            List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
+            List<CountriesDto> countriesDtoList = productService.getCountries();
+            model.addAttribute("countriesDtoList", countriesDtoList);
+            model.addAttribute("categories", categoryDtoList);
+            model.addAttribute("subCategories", subCategoryDtoList);
+            model.addAttribute("categoryName", productForm.getCategoryName());
+            model.addAttribute("subCategoryName", productForm.getSubCategoryName());
+            return "admin/editProduct";
+        }
+        Message result = productService.updateProductAdmin(productForm);
+        redirectAttributes.addFlashAttribute("message", result.getMessage());
+        redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
+        return "redirect:/admin/product/view/list";
     }
 }

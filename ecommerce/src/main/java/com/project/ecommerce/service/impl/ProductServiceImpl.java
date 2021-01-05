@@ -175,6 +175,41 @@ public class ProductServiceImpl implements IProductService {
         return result;
     }
 
+    @Override
+    public Message updateProductAdmin(ProductForm productForm) {
+        Message result = new Message("", true);
+        TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        try {
+            productMapper.updateProduct(productForm);
+            doUploadImage(productForm);
+            int categoryId = productForm.getCategoryId();
+            int subCategoryId = productForm.getSubCategoryId();
+            if (categoryId == 1) {
+                productMapper.updateDetailCategory1(productForm);
+            } else if (categoryId == 2) {
+                if (subCategoryId == 1) {
+                    productMapper.updateDetailCategory2Sub1(productForm);
+                } else if (subCategoryId == 2) {
+                    productMapper.updateDetailCategory2Sub2(productForm);
+                } else if (subCategoryId == 3) {
+                    productMapper.updateDetailCategory2Sub3(productForm);
+                } else {
+                    productMapper.updateDetailCategory2(productForm);
+                }
+            } else if (categoryId == 3) {
+                productMapper.updateDetailCategory3(productForm);
+            }
+            transactionManager.commit(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_25_I));
+        } catch (Exception ex) {
+            transactionManager.rollback(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_25_E));
+            result.setSuccess(Consts.RESULT_FALSE);
+        }
+
+        return result;
+    }
+
     /**
      * @param productId
      */
@@ -205,8 +240,12 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public ProductForm getVendorProduct(Long productId, Long vendorId) {
         ProductForm productForm = productMapper.getVendorProduct(productId, vendorId);
-        ProductForm productDetail = productMapper.getProductDetailBaseOnCategory(productForm);
-        productForm = setDetail(productDetail, productForm);
+        //todo
+        Integer categoryId = productForm.getCategoryId();
+        if (categoryId == 1 || categoryId == 2 || categoryId == 3) {
+            ProductForm productDetail = productMapper.getProductDetailBaseOnCategory(productForm);
+            productForm = setDetail(productDetail, productForm);
+        }
         List<ProductImageForm> productImageFormList = getProductImage(productForm.getProductId());
         productForm.setProductImageFormList(productImageFormList);
         return productForm;
@@ -316,8 +355,11 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public ProductForm getProductDetailExtend(Long productId) {
         ProductForm productForm = productMapper.getProductDetailExtend(productId);
-        ProductForm productDetail = productMapper.getProductDetailBaseOnCategory(productForm);
-        productForm = setDetail(productDetail, productForm);
+        Integer categoryId = productForm.getCategoryId();
+        if (categoryId == 1 || categoryId == 2 || categoryId == 3) {
+            ProductForm productDetail = productMapper.getProductDetailBaseOnCategory(productForm);
+            productForm = setDetail(productDetail, productForm);
+        }
         List<ProductImageForm> productImageFormList = getProductImage(productForm.getProductId());
         productForm.setProductImageFormList(productImageFormList);
         return productForm ;
@@ -560,6 +602,13 @@ public class ProductServiceImpl implements IProductService {
             productMapper.insertProduct(productDto);
 
             productForm.setProductId(productDto.getId());
+            VendorProductDto vendorProductDto = new VendorProductDto( userId,
+                    productDto.getId(),
+                    Long.valueOf(0),
+                    Long.valueOf(0),
+                    productForm.getRating());
+            productMapper.insertVendorProduct(vendorProductDto);
+
             int categoryId = productForm.getCategoryId();
             int subCategoryId = productForm.getSubCategoryId();
             //insert product detail
@@ -588,6 +637,20 @@ public class ProductServiceImpl implements IProductService {
             result.setSuccess(Consts.RESULT_FALSE);
         }
         return result;
+    }
+
+    @Override
+    public ProductForm getEditProductAdmin(Long productId, Long vendorId) {
+        ProductForm productForm = productMapper.getVendorProduct(productId, vendorId);
+        //todo
+        Integer categoryId = productForm.getCategoryId();
+        if (categoryId == 1 || categoryId == 2 || categoryId == 3) {
+            ProductForm productDetail = productMapper.getProductDetailBaseOnCategory(productForm);
+            productForm = setDetail(productDetail, productForm);
+        }
+        List<ProductImageForm> productImageFormList = getProductImage(productForm.getProductId());
+        productForm.setProductImageFormList(productImageFormList);
+        return productForm;
     }
 
     private List<ProductForm> getProductCover(List<ProductForm> productFormList) {

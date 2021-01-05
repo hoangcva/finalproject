@@ -8,16 +8,16 @@
 <main>
 	<div class="container-fluid">
 		<div class="row">
-			<th:block th:include="/common/_vendor-sidebar-menu"></th:block>
+			<th:block th:include="/common/_admin-sidebar-menu"></th:block>
 			<div class="col-lg-8">
 				<div class="row mb-4">
 					<h3 class="text-lg-left mt-lg-2">Edit Product</h3>
 				</div>
 				<div th:replace="fragments/template :: display-error-message"/>
-				<form th:action="@{/vendor/product/edit}" th:object="${productForm}" th:method="POST" id="save-product-form"
+				<form th:action="@{/admin/product/edit}" th:object="${productForm}" th:method="POST" id="save-product-form"
 				      enctype="multipart/form-data">
 					<div class="container">
-						<div th:replace="fragments/template :: detail-product-input"></div>
+						<div th:replace="fragments/template :: admin-detail-product-input"></div>
 						<hr class="my-4">
 						<div th:replace="fragments/template :: edit-product-image"></div>
 						<input type="hidden" name="vendorId" th:field="*{vendorId}">

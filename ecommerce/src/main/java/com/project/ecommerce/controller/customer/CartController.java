@@ -37,9 +37,8 @@ public class CartController {
 
     @RequestMapping(value = "/view")
     public String viewCart(Authentication auth, Model model) {
-        CartInfoForm cartInfoForm = new CartInfoForm();
         UserDetailsDto userDetails = (UserDetailsDto) auth.getPrincipal();
-        cartInfoForm = cartService.getCart(userDetails.getUserDto().getId());
+        CartInfoForm cartInfoForm = cartService.getCart(userDetails.getUserDto().getId());
         model.addAttribute("cartInfoForm", cartInfoForm);
         model.addAttribute("message", cartInfoForm.getResult().getMessage());
         model.addAttribute("isSuccess", cartInfoForm.getResult().isSuccess());

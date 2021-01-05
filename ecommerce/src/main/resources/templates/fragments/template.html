@@ -773,7 +773,7 @@
 	<hr class="my-4">
 	<div class="extra-content container">
 		<div class="form-row">
-			<div class="form-group col-4">
+			<div class="form-group col-3">
 				<label for="SKU">SKU:</label>
 				<input class="form-control" type="text" id="SKU" name="SKU"
 				       placeholder="Enter SKU" th:field="*{SKU}"
@@ -1201,7 +1201,7 @@
 
 <div th:fragment="table-product-admin-custom">
 	<div th:replace="fragments/template :: display-error-message"/>
-	<table class="table table-hover table-bordered" th:fragment="table-product-admin" id="dtBasicExample1" cellspacing="0" width="100%">>
+	<table class="table table-hover table-bordered" th:fragment="table-product-admin" id="dtBasicExample1" cellspacing="0" width="100%">
 		<thead>
 		<tr>
 			<th scope="col" th:text="No"></th>
@@ -1217,7 +1217,7 @@
 		<tr class="outer" th:each="product,iterationStatus : ${productFormList}">
 			<td th:text="${iterationStatus.count}"></td>
 			<td class="text-2-lines d-table-cell">
-				<a class="d-flex" th:href="@{/amdin/product/edit(productId = ${product.productId}, vendorId = ${product.vendorId})}">
+				<a class="d-flex" th:href="@{/admin/product/edit(productId = ${product.productId}, vendorId = ${product.vendorId})}">
 					<img class="img-thumbnail mr-2" style="height: 60px"
 					     th:src="@{'data:image/jpeg;base64,'+${product.productImageFormList[0].generateBase64Image()}}"/>
 					<div th:text="${product.productName}"></div>
@@ -1392,7 +1392,7 @@
 					<img class="img-thumbnail border-0" id="thumbnail1" alt="Product image preview">
 				</div>
 				<span>Image 1</span>
-				<img class="delete-btn-img" id="delete-btn-img1" th:src="@{/images/trash.png}">
+				<img class="delete-btn-img float-right" id="delete-btn-img1" th:src="@{/images/trash.png}">
 			</div>
 			<div class="img-manager">
 				<div class="add-img-box">
@@ -1400,7 +1400,7 @@
 					<input class="input-image" id="imageFile2" th:field="*{uploadImage2.uploadFile}"
 					       type="file"
 					       accept="image/png, image/jpeg"/>
-					<img class="img-thumbnail border-0" id="thumbnail2" alt="Product image preview">
+					<img class="img-thumbnail border-0 float-right" id="thumbnail2" alt="Product image preview">
 				</div>
 				<span>Image 2</span>
 				<img class="delete-btn-img" id="delete-btn-img2" th:src="@{/images/trash.png}">
@@ -1411,10 +1411,66 @@
 					<input class="input-image" id="imageFile3" th:field="*{uploadImage3.uploadFile}"
 					       type="file"
 					       accept="image/png, image/jpeg"/>
-					<img class="img-thumbnail border-0" id="thumbnail3" alt="Product image preview">
+					<img class="img-thumbnail border-0 float-right" id="thumbnail3" alt="Product image preview">
 				</div>
 				<span>Image 3</span>
 				<img class="delete-btn-img" id="delete-btn-img3" th:src="@{/images/trash.png}">
+			</div>
+		</div>
+	</div>
+</div>
+
+<div th:fragment="edit-product-image">
+	<div class="image-content container d-inline-flex flex-wrap flex-row">
+		<label for="img-manager-section">Add images:</label>
+		<div id="img-manager-section" class="d-flex flex-row justify-content-around">
+			<div class="img-manager">
+				<div class="add-img-box">
+					<img class="previous-img img-thumbnail" id="previous-img-1"
+					     th:src="@{'data:image/jpeg;base64,'+${productForm.productImageFormList[0].generateBase64Image()}}"
+					     th:unless="${#lists.size(productForm.productImageFormList) eq 0}"/>
+					<img class="add-img-btn" id="add-img-btn1" th:src="@{/images/add-image.png}"
+					     th:classappend="${(#lists.size(productForm.productImageFormList) eq 0) ? '':'hide'}">
+					<input class="input-image" id="imageFile1" th:field="*{uploadImage1.uploadFile}"
+					       type="file" accept="image/png, image/jpeg"/>
+					<img class="img-thumbnail border-0 hide" id="thumbnail1" alt="Product image preview">
+					<input type="hidden" id="delete1" name="delete1" th:value="*{uploadImage1.delete}">
+				</div>
+				<span>Image 1</span>
+				<img class="delete-btn-img" id="delete-btn-img1" th:src="@{/images/trash.png}"
+				     th:classappend="${(#lists.size(productForm.productImageFormList) eq 0) ? 'hide':''}">
+			</div>
+			<div class="img-manager">
+				<div class="add-img-box">
+					<img class="previous-img img-thumbnail" id="previous-img-2"
+					     th:src="@{'data:image/jpeg;base64,'+${productForm.productImageFormList[1].generateBase64Image()}}"
+					     th:unless="${#lists.size(productForm.productImageFormList) < 2}"/>
+					<img class="add-img-btn" id="add-img-btn2" th:src="@{/images/add-image.png}"
+					     th:classappend="${(#lists.size(productForm.productImageFormList) < 2) ? '':'hide'}">
+					<input class="input-image" id="imageFile2" th:field="*{uploadImage2.uploadFile}" type="file"
+					       accept="image/png, image/jpeg"/>
+					<img class="img-thumbnail border-0 hide" id="thumbnail2" alt="Product image preview">
+					<input type="hidden" id="delete2" name="delete2" th:value="*{delete2}">
+				</div>
+				<span>Image 2</span>
+				<img class="delete-btn-img" id="delete-btn-img2" th:src="@{/images/trash.png}"
+				     th:classappend="${(#lists.size(productForm.productImageFormList) < 2) ? 'hide':''}">
+			</div>
+			<div class="img-manager">
+				<div class="add-img-box">
+					<img class="previous-img img-thumbnail" id="previous-img-3"
+					     th:src="@{'data:image/jpeg;base64,'+${productForm.productImageFormList[2].generateBase64Image()}}"
+					     th:unless="${#lists.size(productForm.productImageFormList) < 3}">
+					<img class="add-img-btn" id="add-img-btn3" th:src="@{/images/add-image.png}"
+					     th:classappend="${(#lists.size(productForm.productImageFormList) < 3) ? '':'hide'}">
+					<input class="input-image" id="imageFile3" th:field="*{uploadImage3.uploadFile}" type="file"
+					       accept="image/png, image/jpeg"/>
+					<img class="img-thumbnail border-0 hide" id="thumbnail3" alt="Product image preview">
+					<input type="hidden" id="delete3" name="delete3" th:field="*{uploadImage1.delete}">
+				</div>
+				<span>Image 3</span>
+				<img class="delete-btn-img" id="delete-btn-img3" th:src="@{/images/trash.png}"
+				     th:classappend="${(#lists.size(productForm.productImageFormList) < 3) ? 'hide':''}">
 			</div>
 		</div>
 	</div>

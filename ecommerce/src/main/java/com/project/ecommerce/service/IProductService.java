@@ -19,6 +19,7 @@ public interface IProductService {
     List<CategoryDto> getAllCategory();
     List<SubCategoryDto> getALLSubCategory();
     Message updateProduct(ProductForm productForm);
+    Message updateProductAdmin(ProductForm productForm);
     void deleteProduct(Long productId);
     List<ProductForm> getAllProductByVendorId(Long vendorId);
     ProductForm getVendorProduct(Long productId, Long vendorId);
@@ -45,4 +46,6 @@ public interface IProductService {
     List<ProductForm> getTop10NewestProduct(Integer categoryId, Integer subCategoryId, String keyword);
     List<ProductForm> getTop12BestSeller(Integer categoryId, Integer subCategoryId, String keyword);
     Message addProductAdmin(ProductForm productForm, Long userId);
+
+    ProductForm getEditProductAdmin(Long productId, Long vendorId);
 }
