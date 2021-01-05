@@ -57,7 +57,7 @@ public class CustomerAddressServiceImpl implements ICustomerAddressService {
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_33_E));
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
         }
 
         return result;
@@ -84,7 +84,7 @@ public class CustomerAddressServiceImpl implements ICustomerAddressService {
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_30_E));
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
         }
         return result;
     }

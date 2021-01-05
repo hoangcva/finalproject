@@ -1,7 +1,10 @@
 package com.project.ecommerce.controller.admin;
 
+import com.project.ecommerce.Validator.AdminProductValidator;
 import com.project.ecommerce.dto.CategoryDto;
+import com.project.ecommerce.dto.CountriesDto;
 import com.project.ecommerce.dto.SubCategoryDto;
+import com.project.ecommerce.dto.UserDetailsDto;
 import com.project.ecommerce.form.AdminProductForm;
 import com.project.ecommerce.form.ProductForm;
 import com.project.ecommerce.form.VendorProductForm;
@@ -12,7 +15,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -22,6 +29,23 @@ import java.util.List;
 public class AdminProductController {
     @Autowired
     private IProductService productService;
+    @Autowired
+    private AdminProductValidator adminProductValidator;
+
+    // Set a form validator
+    @InitBinder
+    protected void initBinder(WebDataBinder dataBinder) {
+        Object target = dataBinder.getTarget();
+        if (target == null) {
+            return;
+        }
+
+        System.out.println("Target = " + target);
+        if (target.getClass() == ProductForm.class) {
+            dataBinder.setValidator(adminProductValidator);
+        }
+    }
+
 
     @PostMapping(value = "/activate")
     public String activateProductAdmin(Model model,
@@ -106,5 +130,60 @@ public class AdminProductController {
         model.addAttribute("productFormList", productFormList);
 //        model.addAttribute("vendorId", vendorId);
         return "admin/listVendorProduct";
+    }
+
+    @GetMapping(value = "/category")
+    public String showCategory(Model model) {
+        // load danh sach category
+        List<CategoryDto> categoryDtoList = productService.getAllCategory();
+        // load danh sach sub-category
+        List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
+        ProductForm productForm = new ProductForm();
+        model.addAttribute("productForm", productForm);
+        model.addAttribute("categories", categoryDtoList);
+        model.addAttribute("subCategories", subCategoryDtoList);
+//        session.setAttribute("categoryDtoList", categoryDtoList);
+//        session.setAttribute("subCategoryDtoList", subCategoryDtoList);
+        return "admin/addProduct";
+    }
+
+    @GetMapping(value = "/add/detail")
+    public String showDetail(@ModelAttribute("productForm") ProductForm productForm,
+                             Model model,
+                             Authentication auth) {
+        CategoryDto categoryDto = productService.findCategory(productForm.getCategoryId());
+        SubCategoryDto subCategoryDto = productService.findSubCategory(productForm.getSubCategoryId());
+
+        String categoryName = categoryDto.getName();
+        String subCategoryName = subCategoryDto.getName();
+
+        List<CountriesDto> countriesDtoList = productService.getCountries();
+
+        model.addAttribute("categoryName", categoryName);
+        model.addAttribute("subCategoryName", subCategoryName);
+        model.addAttribute("productForm", productForm);
+        model.addAttribute("countriesDtoList", countriesDtoList);
+        return "admin/addProductDetail";
+    }
+
+    @PostMapping(value = "/add/detail")
+    public String addProduct(@ModelAttribute("productForm") @Validated ProductForm productForm,
+                             BindingResult bindingResult,
+                             Model model,
+                             final RedirectAttributes redirectAttributes,
+                             Authentication auth) {
+        productForm.setSubmitted(true);
+        if (bindingResult.hasErrors()) {
+            List<CountriesDto> countriesDtoList = productService.getCountries();
+            model.addAttribute("countriesDtoList", countriesDtoList);
+            model.addAttribute("categoryName", productForm.getCategoryName());
+            model.addAttribute("subCategoryName", productForm.getSubCategoryName());
+            return "admin/addProductDetail";
+        }
+        Long id = ((UserDetailsDto) auth.getPrincipal()).getUserDto().getId();
+        Message result = productService.addProductAdmin(productForm, id);
+        redirectAttributes.addFlashAttribute("message", result.getMessage());
+        redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
+        return "redirect:/admin/success";
     }
 }

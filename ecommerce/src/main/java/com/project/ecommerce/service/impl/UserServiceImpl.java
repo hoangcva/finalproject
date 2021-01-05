@@ -75,7 +75,7 @@ public class UserServiceImpl implements IUserService {
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_29_E));
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
         }
         return result;
     }
@@ -98,7 +98,7 @@ public class UserServiceImpl implements IUserService {
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_24_E));
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
         }
         return  result;
     }
@@ -124,7 +124,7 @@ public class UserServiceImpl implements IUserService {
             } else {
                 transactionManager.rollback(txStatus);
                 result.setMessage(messageAccessor.getMessage(Consts.MSG_20_E));
-                result.setSuccess(false);
+                result.setSuccess(Consts.RESULT_FALSE);
                 return result;
             }
             transactionManager.commit(txStatus);
@@ -132,7 +132,7 @@ public class UserServiceImpl implements IUserService {
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_20_E));
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
         }
         return result;
     }
@@ -171,7 +171,7 @@ public class UserServiceImpl implements IUserService {
             } else {
                 result.setMessage(messageAccessor.getMessage(Consts.MSG_19_E, vendorDto.getUserName()));
             }
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
         }
         return result;
     }
@@ -191,7 +191,7 @@ public class UserServiceImpl implements IUserService {
             result.setMessage(messageAccessor.getMessage(Consts.MSG_21_I));
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_21_E));
         }
         return result;

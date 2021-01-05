@@ -1,7 +1,7 @@
 package com.project.ecommerce.controller;
 
 import com.project.ecommerce.Consts.Consts;
-import com.project.ecommerce.Validator.ProductValidator;
+import com.project.ecommerce.Validator.VendorProductValidator;
 import com.project.ecommerce.dto.*;
 import com.project.ecommerce.form.*;
 import com.project.ecommerce.service.ICustomerService;
@@ -24,7 +24,7 @@ public class ProductController {
     @Autowired
     private IProductService productService;
     @Autowired
-    private ProductValidator productValidator;
+    private VendorProductValidator vendorProductValidator;
     @Autowired
     private IVendorService vendorService;
     @Autowired

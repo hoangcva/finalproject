@@ -13,7 +13,7 @@
 			<div class="col-lg-8">
 				<div class="row mb-4">
 					<h3 class="text-lg-left mt-lg-2">Address Book</h3>
-					<a class="text-decoration-none btn btn-green ml-auto mr-5"
+					<a class="text-decoration-none btn btn-green ml-auto mr-5 spinner-btn"
 					   th:href="@{/customer/address/add}"
 						th:classappend="${#lists.size(address_list) >= 10} ? 'disabled':''">
 						<i class="fas fa-plus mr-1"></i>
@@ -64,6 +64,7 @@
 	</div>
 </main>
 <th:block th:include="/common/_footer"></th:block>
+<div th:replace="fragments/template::overlay"></div>
 <form method="get" th:action="@{/customer/address}" id="reload"></form>
 </body>
 <script type="text/javascript" th:src="@{/js/customer/manageAddress.js}"></script>

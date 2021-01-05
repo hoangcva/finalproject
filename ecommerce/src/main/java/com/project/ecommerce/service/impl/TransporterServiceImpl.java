@@ -89,7 +89,7 @@ public class TransporterServiceImpl implements ITransporterService {
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_13_E, ""));
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
         }
         return result;
     }

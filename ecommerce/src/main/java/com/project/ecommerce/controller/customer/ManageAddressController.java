@@ -94,7 +94,7 @@ public class ManageAddressController {
         return customerAddressService.getWardList(provinceId, districtId);
     }
 
-    @PostMapping(value = "/addAddress")
+    @PostMapping(value = "/add")
     public String createAddress(Model model,
                                 @ModelAttribute("address_form") @Validated CustomerAddressForm customerAddressForm,
                                 BindingResult bindingResult,
@@ -127,9 +127,9 @@ public class ManageAddressController {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    @PostMapping(value = "updateAddress")
+    @PostMapping(value = "/update")
     public String updateAddress(Model model,
-                                @ModelAttribute("user_form") @Validated CustomerAddressForm customerAddressForm,
+                                @ModelAttribute("address_form") @Validated CustomerAddressForm customerAddressForm,
                                 BindingResult bindingResult,
                                 final RedirectAttributes redirectAttributes) {
         // Validate result

@@ -400,7 +400,8 @@
             </if>
             <if test="keyword != null">
                 AND (productName LIKE #{keyword}
-                    OR SKU LIKE #{keyword})
+                    OR SKU LIKE #{keyword}
+                    OR brand LIKE #{keyword})
             </if>
         </where>
         ) p ON p.id = vp.productId
@@ -436,7 +437,7 @@
             </if>
             <if test="keyword != null">
                 AND (productName LIKE #{keyword}
-                OR SKU LIKE #{keyword})
+                    OR SKU LIKE #{keyword})
             </if>
         </where>
         ) p ON p.id = vp.productId

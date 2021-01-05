@@ -45,7 +45,7 @@ public class VendorController {
         Message result = new Message("", true);
         if (!vendorForm.getEnable()) {
             result.setMessage(messageAccessor.getMessage(Consts.MSG_17_E));
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
             model.addAttribute("isSuccess", result.isSuccess());
             model.addAttribute("message", result.getMessage());
         }
@@ -80,7 +80,7 @@ public class VendorController {
         if (!vendorForm.getEnable()) {
             Message result = new Message();
             result.setMessage(messageAccessor.getMessage(Consts.MSG_17_E));
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
             model.addAttribute("isSuccess", result.isSuccess());
             model.addAttribute("message", result.getMessage());
         }

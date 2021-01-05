@@ -65,7 +65,7 @@ public class AdminServiceImpl implements IAdminService {
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_06_E, ""));
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
         }
         return result;
     }
@@ -90,7 +90,7 @@ public class AdminServiceImpl implements IAdminService {
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_10_E, ""));
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
         }
         return result;
     }
@@ -115,7 +115,7 @@ public class AdminServiceImpl implements IAdminService {
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_11_E, ""));
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
         }
         return result;
     }
@@ -175,7 +175,7 @@ public class AdminServiceImpl implements IAdminService {
             } else if (Consts.ORDER_STATUS_READY.equals(orderStatus)) {
                 result.setMessage(messageAccessor.getMessage(Consts.MSG_13_E, ""));
             }
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
         }
         return result;
     }

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/template :: head_input(~{::title})"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="../fragments">
+	<title>Add product</title>
+</head>
+<body>
+<th:block th:include="/common/_header"></th:block>
+<main>
+	<div class="container-fluid">
+		<div class="row">
+			<th:block th:include="/common/_admin-sidebar-menu"></th:block>
+			<div class="col-lg-8">
+				<div class="row mb-4">
+					<h3 class="text-lg-left mt-lg-2">Add product</h3>
+				</div>
+				<div th:replace="fragments/template :: display-error-message"/>
+				<form th:action="@{/admin/product/add/detail}" th:object="${productForm}" th:method="GET">
+					<div th:replace="fragments/template :: category-select-fragment"></div>
+					<button th:type="submit" th:text="Continue" class="btn btn-primary spinner-btn"></button>
+				</form>
+			</div>
+			<div class="col-lg-2"></div>
+		</div>
+	</div>
+</main>
+<th:block th:include="/common/_footer"></th:block>
+<script type="text/javascript" th:src="@{/js/admin/addProduct.js}"></script>
+</body>
+</html>

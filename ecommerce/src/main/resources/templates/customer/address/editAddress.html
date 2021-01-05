@@ -15,7 +15,7 @@
 					<h3 class="text-lg-left mt-lg-2">Edit Address</h3>
 				</div>
 				<div th:replace="fragments/template :: display-error-message"/>
-				<form name="edit" th:object="${address_form}" th:action="@{/customer/address/updateAddress}"
+				<form name="edit" th:object="${address_form}" th:action="@{/customer/address/update}"
 				      method="post">
 					<div class="form-row">
 						<div class="form-group col-4">
@@ -27,7 +27,7 @@
 							<td th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></td>
 						</div>
 						<div class="form-group col-4">
-							<label for="phoneNumber">Phone number</label>
+							<label for="phoneNumber">Phone number *</label>
 							<input class="form-control" id="phoneNumber" th:field="*{phoneNumber}" type='text'
 							       placeholder="Enter phonenumber"
 							       th:classappend="${(#fields.hasErrors('phoneNumber')?'is-invalid':'')
@@ -50,6 +50,9 @@
 							       th:if="${#fields.hasErrors('provinceId')}" th:errors="*{provinceId}">
 							</label>
 						</div>
+
+					</div>
+					<div class="form-row">
 						<div class="custom-select-div2 form-group col-4">
 							<label for="district-select">District</label>
 							<select class="form-control" id="district-select" th:field="*{districtId}">
@@ -82,11 +85,11 @@
 					</div>
 					<hr class="my-2">
 					<div class="form-row">
-						<div class="form-group w-75">
+						<div class="form-group col-md-8">
 							<label for="addressDetail">Detail *</label>
 							<p th:classappend="${(#fields.hasErrors('addressDetail')?'border border-danger':'')
 	                               + (!#fields.hasErrors('addressDetail') and address_form.isSubmitted() ? 'border border-success':'')}">
-							<textarea type="text" class="form-control" id="addressDetail"
+							<textarea type="text" class="form-control " id="addressDetail"
 							          th:field="*{addressDetail}" placeholder="Enter detail">
 							</textarea>
 							</p>

@@ -61,7 +61,7 @@ public class CustomerServiceImpl implements ICustomerService {
                 transactionManager.rollback(txStatus);
                 message.append(messageAccessor.getMessage(Consts.MSG_14_E,
                         orderDetailDto.getProductName() == null ? "": orderDetailDto.getProductName()));
-                result.setSuccess(false);
+                result.setSuccess(Consts.RESULT_FALSE);
             }
         }
         result.setMessage(message.toString());
@@ -90,7 +90,7 @@ public class CustomerServiceImpl implements ICustomerService {
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_14_E, ""));
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
         }
         return result;
     }
@@ -110,7 +110,7 @@ public class CustomerServiceImpl implements ICustomerService {
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_15_E, ""));
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
         }
         return result;
     }
@@ -140,7 +140,7 @@ public class CustomerServiceImpl implements ICustomerService {
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_22_E, ""));
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
         }
         return result;
     }
@@ -163,7 +163,7 @@ public class CustomerServiceImpl implements ICustomerService {
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_23_E, ""));
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
         }
         return result;
     }
@@ -180,7 +180,7 @@ public class CustomerServiceImpl implements ICustomerService {
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_23_E, ""));
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
         }
         return result;
     }

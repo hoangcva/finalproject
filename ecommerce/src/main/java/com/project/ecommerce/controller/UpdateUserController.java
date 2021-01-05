@@ -15,6 +15,7 @@ import com.project.ecommerce.form.VendorForm;
 import com.project.ecommerce.service.IUserService;
 import com.project.ecommerce.service.IVendorService;
 import com.project.ecommerce.util.Message;
+import com.project.ecommerce.util.MessageAccessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -44,6 +45,8 @@ public class UpdateUserController {
     private IVendorService vendorService;
     @Autowired
     private VendorRegisterValidator vendorRegisterValidator;
+    @Autowired
+    private MessageAccessor messageAccessor;
 
     @RequestMapping(value = "/user/update", method = RequestMethod.GET)
     public String init(Model model, HttpSession session, Authentication auth) {
@@ -74,7 +77,7 @@ public class UpdateUserController {
             dataBinder.setValidator(validator);
         } else if(target.getClass() == PasswordForm.class) {
             dataBinder.setValidator(passwordValidator);
-        } else         if(target.getClass() == VendorForm.class) {
+        } else if(target.getClass() == VendorForm.class) {
             dataBinder.setValidator(vendorRegisterValidator);
         }
     }
@@ -114,6 +117,17 @@ public class UpdateUserController {
         passwordForm.setUserName(userName);
         passwordForm.setUserId(userId);
         model.addAttribute("passwordForm", passwordForm);
+        if (Consts.ROLE_VENDOR.equals(user.getUserDto().getRole())) {
+            vendorForm = vendorService.getInfo(userId);
+            model.addAttribute("vendorForm", vendorForm);
+            if (Boolean.FALSE.equals(vendorForm.getEnable())) {
+                Message result = new Message();
+                result.setMessage(messageAccessor.getMessage(Consts.MSG_17_E));
+                result.setSuccess(Consts.RESULT_FALSE);
+                model.addAttribute("isSuccess", result.isSuccess());
+                model.addAttribute("message", result.getMessage());
+            }
+        }
         return "changePassword";
     }
 

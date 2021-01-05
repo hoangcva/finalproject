@@ -1,7 +1,7 @@
 package com.project.ecommerce.controller.vendor;
 
 import com.project.ecommerce.Consts.Consts;
-import com.project.ecommerce.Validator.ProductValidator;
+import com.project.ecommerce.Validator.VendorProductValidator;
 import com.project.ecommerce.dto.CategoryDto;
 import com.project.ecommerce.dto.CountriesDto;
 import com.project.ecommerce.dto.SubCategoryDto;
@@ -33,7 +33,7 @@ public class VendorProductController {
     @Autowired
     private IProductService productService;
     @Autowired
-    private ProductValidator productValidator;
+    private VendorProductValidator vendorProductValidator;
 
     // Set a form validator
     @InitBinder
@@ -45,7 +45,7 @@ public class VendorProductController {
 
         System.out.println("Target = " + target);
         if (target.getClass() == ProductForm.class) {
-            dataBinder.setValidator(productValidator);
+            dataBinder.setValidator(vendorProductValidator);
         }
     }
 
@@ -68,7 +68,8 @@ public class VendorProductController {
     public String showDetail(@ModelAttribute("productForm") ProductForm productForm,
                              @ModelAttribute("vendorForm") VendorForm vendorForm,
                              Model model,
-                             HttpServletRequest request) {
+                             HttpServletRequest request,
+                             Authentication auth) {
 //        List<CategoryDto> categoryDtoList = (List<CategoryDto>) request.getSession().getAttribute("categoryDtoList");
 //        List<SubCategoryDto> subCategoryDtoList = (List<SubCategoryDto>) request.getSession().getAttribute("subCategoryDtoList");
 
@@ -95,6 +96,9 @@ public class VendorProductController {
         model.addAttribute("subCategoryName", subCategoryName);
         model.addAttribute("productForm", productForm);
         model.addAttribute("countriesDtoList", countriesDtoList);
+        if (Consts.ROLE_ADMIN.equals(((UserDetailsDto) auth.getPrincipal()).getUserDto().getRole())) {
+            return "admin/addProductDetail";
+        }
         return "vendor/addProductDetail";
     }
 

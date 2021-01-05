@@ -97,7 +97,7 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
 
             if (newQuantity < 0) {
                 result.setMessage(messageAccessor.getMessage(Consts.MSG_05_E, ""));
-                result.setSuccess(false);
+                result.setSuccess(Consts.RESULT_FALSE);
                 return result;
             }
             productForm.setQuantity(newQuantity);
@@ -121,7 +121,7 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
                 if (newQuantity == -1) {
                     transactionManager.rollback(txStatus);
                     result.setMessage(messageAccessor.getMessage(Consts.MSG_04_E, ""));
-                    result.setSuccess(false);
+                    result.setSuccess(Consts.RESULT_FALSE);
                     return result;
                 }
                 productMapper.updateProductQuantity(orderDetailDto.getProductId(),
@@ -133,7 +133,7 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
             if (!result.isSuccess()) {
                 transactionManager.rollback(txStatus);
                 result.setMessage(messageAccessor.getMessage(Consts.MSG_04_E, ""));
-                result.setSuccess(false);
+                result.setSuccess(Consts.RESULT_FALSE);
                 return result;
             }
             //commit
@@ -142,7 +142,7 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_04_E, ""));
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
         }
         return result;
     }
@@ -233,7 +233,7 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
 
         if (!Consts.ORDER_STATUS_PROGRESSING.equals(orderStatus)) {
             result.setMessage(messageAccessor.getMessage(Consts.MSG_12_E, ""));
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
             return result;
         }
 
@@ -265,7 +265,7 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_12_E, ""));
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
         }
         return result;
     }
@@ -286,7 +286,7 @@ public class OrderCustomerServiceImpl implements IOrderCustomerService {
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_16_E, ""));
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
         }
         return result;
     }

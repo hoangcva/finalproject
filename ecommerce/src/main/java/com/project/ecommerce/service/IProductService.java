@@ -44,4 +44,5 @@ public interface IProductService {
     List<ProductForm> getAllProductMainPage(Integer categoryId, Integer subCategoryId, String keyword);
     List<ProductForm> getTop10NewestProduct(Integer categoryId, Integer subCategoryId, String keyword);
     List<ProductForm> getTop12BestSeller(Integer categoryId, Integer subCategoryId, String keyword);
+    Message addProductAdmin(ProductForm productForm, Long userId);
 }

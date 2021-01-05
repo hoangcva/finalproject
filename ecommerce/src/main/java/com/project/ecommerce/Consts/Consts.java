@@ -16,6 +16,9 @@ public class Consts {
     public static final String ACTION_UPDATE = "update";
     public static final String ACTION_ADDEXTEND = "extend";
     public static final String ACTION_UPDATEEXTEND = "extend";
+    public static final Boolean RESULT_FALSE = false;
+    public static final Boolean RESULT_TRUE = true;
+
 
     public static final String ORDER_STATUS_PENDING = "PENDING";
     public static final String ORDER_STATUS_PROGRESSING = "PROGRESSING";

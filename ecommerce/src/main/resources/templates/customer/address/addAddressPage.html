@@ -15,7 +15,7 @@
 					<h3 class="text-lg-left mt-lg-2">Create Address</h3>
 				</div>
 				<div th:replace="fragments/template :: display-error-message"/>
-				<form name="create" th:object="${address_form}" th:action="@{/customer/address/addAddress}"
+				<form name="create" th:object="${address_form}" th:action="@{/customer/address/add}"
 				      method="post">
 					<div class="form-row">
 						<div class="form-group col-4">

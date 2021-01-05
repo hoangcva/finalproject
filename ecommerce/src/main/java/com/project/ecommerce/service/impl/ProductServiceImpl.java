@@ -91,7 +91,7 @@ public class ProductServiceImpl implements IProductService {
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_07_E));
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
         }
         return result;
     }
@@ -112,7 +112,7 @@ public class ProductServiceImpl implements IProductService {
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_07_E));
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
         }
         return result;
     }
@@ -169,7 +169,7 @@ public class ProductServiceImpl implements IProductService {
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
             result.setMessage(messageAccessor.getMessage(Consts.MSG_25_E));
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
         }
 
         return result;
@@ -448,7 +448,7 @@ public class ProductServiceImpl implements IProductService {
             } else {
                 result.setMessage(messageAccessor.getMessage(Consts.MSG_27_E));
             }
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
         }
         return result;
     }
@@ -476,7 +476,7 @@ public class ProductServiceImpl implements IProductService {
             } else {
                 result.setMessage(messageAccessor.getMessage(Consts.MSG_27_E));
             }
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
         }
         return result;
     }
@@ -491,7 +491,7 @@ public class ProductServiceImpl implements IProductService {
             transactionManager.commit(txStatus);
         } catch (Exception ex) {
             transactionManager.rollback(txStatus);
-            result.setSuccess(false);
+            result.setSuccess(Consts.RESULT_FALSE);
         }
         return result;
     }
@@ -539,6 +539,55 @@ public class ProductServiceImpl implements IProductService {
         List<ProductForm> productFormList = productMapper.getTop12BestSeller(categoryId, subCategoryId, keyword);
         productFormList = getProductCover(productFormList);
         return productFormList;
+    }
+
+    @Override
+    public Message addProductAdmin(ProductForm productForm, Long userId) {
+        Message result = new Message("", true);
+        TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        try {
+            //insert product
+            ProductDto productDto = new ProductDto( null,
+                    productForm.getProductName(),
+                    productForm.getDescription(),
+                    productForm.getCategoryId(),
+                    productForm.getSubCategoryId(),
+                    productForm.getBrand(),
+                    productForm.getSKU(),
+                    productForm.getOrigin(),
+                    userId,
+                    productForm.getListPrice());
+            productMapper.insertProduct(productDto);
+
+            productForm.setProductId(productDto.getId());
+            int categoryId = productForm.getCategoryId();
+            int subCategoryId = productForm.getSubCategoryId();
+            //insert product detail
+            if (categoryId == 1) {
+                productMapper.insertDetailCategory1(productForm);
+            } else if (categoryId == 2) {
+                if (subCategoryId == 1) {
+                    productMapper.insertDetailCategory2Sub1(productForm);
+                } else if (subCategoryId == 2) {
+                    productMapper.insertDetailCategory2Sub2(productForm);
+                } else if (subCategoryId == 3) {
+                    productMapper.insertDetailCategory2Sub3(productForm);
+                } else {
+                    productMapper.insertDetailCategory2(productForm);
+                }
+            } else if (categoryId == 3) {
+                productMapper.insertDetailCategory3(productForm);
+            }
+            //insert image
+            doUploadImage(productForm);
+            transactionManager.commit(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_07_I));
+        } catch (Exception ex) {
+            transactionManager.rollback(txStatus);
+            result.setMessage(messageAccessor.getMessage(Consts.MSG_07_E));
+            result.setSuccess(Consts.RESULT_FALSE);
+        }
+        return result;
     }
 
     private List<ProductForm> getProductCover(List<ProductForm> productFormList) {

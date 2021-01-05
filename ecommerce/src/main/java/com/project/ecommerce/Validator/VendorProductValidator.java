@@ -9,7 +9,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 @Component
-public class ProductValidator implements Validator {
+public class VendorProductValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
         return clazz == ProductForm.class;
