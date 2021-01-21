@@ -109,12 +109,12 @@ public class VendorController {
 //        }
 //        return "redirect:/vendor/info";
 //    }
-    @GetMapping(value = {"/statistic"})
-    public String statistic(Model model, @ModelAttribute("vendorForm") VendorForm vendorForm){
-        VendorStatisticForm vendorStatisticForm = vendorService.statistic(vendorForm.getId());
-        model.addAttribute("vendorStatisticForm", vendorStatisticForm);
-        return "/vendor/index";
-    }
+//    @GetMapping(value = {"/statistic"})
+//    public String statistic(Model model, @ModelAttribute("vendorForm") VendorForm vendorForm){
+//        VendorStatisticForm vendorStatisticForm = vendorService.statistic(vendorForm.getId());
+//        model.addAttribute("vendorStatisticForm", vendorStatisticForm);
+//        return "/vendor/index";
+//    }
 
     @GetMapping("/success")
     public String success(Model model,

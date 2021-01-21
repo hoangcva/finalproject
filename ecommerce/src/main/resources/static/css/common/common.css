@@ -189,12 +189,19 @@ body {
 }
 
 footer {
+    margin-top: auto;
+    margin-bottom: 0;
     width: 100%;
-    position: fixed;
+    /*position: fixed;*/
+}
+footer .container {
+    background-color: inherit;
 }
 
 main {
-    padding: 3rem 0;
+    padding-top: 2.4em;
+    /*padding-bottom: 13.5em;*/
+    padding-bottom: 2.4em;
     margin-top: 3rem;
     /*height: 100%;*/
 }
