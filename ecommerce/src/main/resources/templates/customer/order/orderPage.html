@@ -82,8 +82,11 @@
 									      th:text="${defaultAddress.addressDetail}+', '+${defaultAddress.ward}+', '+${defaultAddress.district}+', '+${defaultAddress.province}"></span>
 									<input type="hidden" th:name="addressId" th:id="addressId"
 									       th:value="${defaultAddress.id}">
-									<div><a th:href="@{/customer/address/change}" th:text="Change"
-									        role="button" class="btn  green darken-3 text-light"></a>
+									<div>
+<!--										<a th:href="@{/customer/address/change}" th:text="Change"-->
+<!--									        role="button" class="btn  green darken-3 text-light"></a>-->
+										<a th:href="@{/customer/address}" th:text="Change"
+										   role="button" class="btn  green darken-3 text-light"></a>
 									</div>
 								</div>
 								<div class="content clearfix" th:if="${defaultAddress eq null}">
