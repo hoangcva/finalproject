@@ -121,7 +121,7 @@
             ( SELECT v.vendorId, v.quantity, v.rating, v.price, v.productId, v.createdTime, v.updatedTime, v.enable
               FROM vendor_product v
               WHERE quantity > 0
-              ORDER BY rating DESC, price ASC
+              ORDER BY createdTime ASC, rating DESC, price ASC
             ) vp ON p.id = vp.productId
         INNER JOIN
             (SELECT vi.vendorName, vi.vendorId as vid FROM vendor_info vi) vi
