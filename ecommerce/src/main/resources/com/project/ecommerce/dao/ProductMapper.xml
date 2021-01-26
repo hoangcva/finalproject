@@ -477,4 +477,33 @@
         SELECT * FROM product
         WHERE id = #{productId}
     </select>
+
+    <select id="countDeactivateProduct" resultType="int">
+        SELECt COUNT(*) FROM vendor_product vp
+            LEFT JOIN product p
+                on p.id = vp.vendorId
+        <where>
+            <if test="categoryId != null">
+                AND categoryId = #{categoryId}
+            </if>
+            <if test="subCategoryId != null">
+                AND subCategoryId = #{subCategoryId}
+            </if>
+            AND enable = 0;
+        </where>
+    </select>
+
+    <select id="countProduct" resultType="int">
+        SELECt COUNT(*) FROM vendor_product vp
+            LEFT JOIN product p
+                on p.id = vp.vendorId
+        <where>
+            <if test="categoryId != null">
+                AND categoryId = #{categoryId}
+            </if>
+            <if test="subCategoryId != null">
+                AND subCategoryId = #{subCategoryId}
+            </if>
+        </where>
+    </select>
 </mapper>

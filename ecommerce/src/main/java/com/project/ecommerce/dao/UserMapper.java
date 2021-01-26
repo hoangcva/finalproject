@@ -40,4 +40,8 @@ public interface UserMapper {
     TransporterDto getTransporterInfo(@Param("transporterId") Long transporterId);
     void updateTransporterInfo(TransporterDto transporterDto);
     boolean deleteTransporter(@Param("transporterId") Long transporterId);
+    int countCustomer();
+    int countVendor();
+    int countDeactivateVendor();
+    int countShipper();
 }

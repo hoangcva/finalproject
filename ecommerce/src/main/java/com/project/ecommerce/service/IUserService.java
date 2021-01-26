@@ -23,4 +23,8 @@ public interface IUserService extends UserDetailsService {
     List<VendorForm> getVendorList(@Nullable Boolean enable);
     Message activeVendor(Long vendorId, Boolean enable);
     Message changePassword(PasswordForm passwordForm, Authentication auth);
+    int countCustomer();
+    int countVendor();
+    int countDeactivateVendor();
+    int countShipper();
 }

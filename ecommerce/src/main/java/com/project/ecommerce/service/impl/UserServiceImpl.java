@@ -196,4 +196,28 @@ public class UserServiceImpl implements IUserService {
         }
         return result;
     }
+
+    @Override
+    public int countCustomer() {
+        int count = userMapper.countCustomer();
+        return count;
+    }
+
+    @Override
+    public int countVendor() {
+        int count = userMapper.countVendor();
+        return count;
+    }
+
+    @Override
+    public int countDeactivateVendor() {
+        int count = userMapper.countDeactivateVendor();
+        return count;
+    }
+
+    @Override
+    public int countShipper() {
+        int count = userMapper.countShipper();
+        return count;
+    }
 }

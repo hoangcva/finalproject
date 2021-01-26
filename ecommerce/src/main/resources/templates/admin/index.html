@@ -13,9 +13,20 @@
 			<th:block th:include="/common/_admin-sidebar-menu"></th:block>
 			<div class="col-lg-8">
 				<div class="row mb-4">
-					<h3 class="text-lg-left mt-lg-2"></h3>
+					<h3 class="text-lg-left mt-lg-2">Account Manager</h3>
 				</div>
 				<div th:replace="fragments/template :: display-error-message"/>
+				<div class="row mb-2">
+					<div class="col-3">
+						<p><span th:text="'Customer(s): ' + ${countCustomer}"></span></p>
+					</div>
+					<div class="col-3">
+						<p><span th:text="'Vendor(s): ' + ${countVendor}"></span></p>
+					</div>
+					<div class="col-3">
+						<p><span th:text="'Transporter(s): ' + ${countShipper}"></span></p>
+					</div>
+				</div>
 				<table class="table table-striped table-bordered table-hover" id="dtBasicExample1" cellspacing="0" width="100%">
 					<thead>
 					<tr>

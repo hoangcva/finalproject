@@ -653,6 +653,17 @@ public class ProductServiceImpl implements IProductService {
         return productForm;
     }
 
+    @Override
+    public int countDeactivateProduct(Integer categoryId,Integer subCategoryId) {
+        int count = productMapper.countDeactivateProduct(categoryId, subCategoryId);
+        return count;
+    }
+
+    public int countProduct(Integer categoryId, Integer subCategoryId) {
+        int count = productMapper.countProduct(categoryId, subCategoryId);
+        return count;
+    }
+
     private List<ProductForm> getProductCover(List<ProductForm> productFormList) {
         for (ProductForm productForm : productFormList) {
             ProductImageForm productImageForm = getProductCover(productForm.getProductId());

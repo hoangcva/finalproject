@@ -72,7 +72,13 @@ public class AdminController {
     @GetMapping
     public String index(Model model) {
         List<UserDto> userDtoList = userService.getAllUser();
+        int countCustomer = userService.countCustomer();
+        int countVendor = userService.countVendor();
         model.addAttribute("user_list", userDtoList);
+        model.addAttribute("countCustomer", countCustomer);
+        model.addAttribute("countVendor", countVendor);
+        int countShipper = userService.countShipper();
+        model.addAttribute("countShipper", countShipper);
         return "/admin/index";
     }
 
@@ -112,6 +118,11 @@ public class AdminController {
             vendorFormList = userService.getVendorList(Consts.ACCOUNT_STATUS_ACTIVATE);
         }
         model.addAttribute("vendorFormList", vendorFormList);
+
+        int countVendor = userService.countVendor();
+        model.addAttribute("countVendor", countVendor);
+        int countDeactivateVendor = userService.countDeactivateVendor();
+        model.addAttribute("countDeactivateVendor", countDeactivateVendor);
 
         if (type == null) {
             return "/admin/account/vendorAccountManager";
@@ -236,8 +247,6 @@ public class AdminController {
         redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
         return "redirect:/admin";
     }
-
-
 
     @GetMapping("/account/transporter/edit")
     public String editTransporter(Model model,

@@ -48,4 +48,6 @@ public interface IProductService {
     Message addProductAdmin(ProductForm productForm, Long userId);
 
     ProductForm getEditProductAdmin(Long productId, Long vendorId);
+    int countDeactivateProduct(Integer categoryId, Integer subCategoryId);
+    int countProduct(Integer categoryId, Integer subCategoryId);
 }

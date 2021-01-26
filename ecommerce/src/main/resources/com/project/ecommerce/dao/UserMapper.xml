@@ -211,5 +211,25 @@
         SET password = #{password}
         WHERE id = #{id}
     </update>
+
+    <select id="countCustomer" resultType="int">
+        SELECT count(*) FROM users
+        WHERE role = 'ROLE_USER'
+    </select>
+
+    <select id="countVendor" resultType="int">
+        SELECT count(*) FROM users
+        WHERE role = 'ROLE_VENDOR'
+    </select>
+
+    <select id="countDeactivateVendor" resultType="int">
+        SELECT count(*) FROM vendor_info
+        WHERE enable = 0
+    </select>
+
+    <select id="countShipper" resultType="int">
+        SELECT count(*) FROM users
+        WHERE role = 'ROLE_SHIPPER'
+    </select>
 </mapper>
 

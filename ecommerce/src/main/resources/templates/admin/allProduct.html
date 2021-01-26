@@ -13,6 +13,14 @@
 				<div class="row mb-4">
 					<h3 class="text-lg-left mt-lg-2">Product Manager</h3>
 				</div>
+				<div class="row mb-2">
+					<div class="col-3">
+						<p>Product(s): <span id="countProduct" th:text="${countProduct}"></span></p>
+					</div>
+					<div class="col-3">
+						<p>Deactivate Product(s): <span id="countDeactivateProduct" th:text="${countDeactivateProduct}"></span></p>
+					</div>
+				</div>
 <!--				<div th:replace="fragments/template :: display-error-message"/>-->
 				<div th:replace="fragments/template :: category-select-fragment"></div>
 				<div th:replace="fragments/template :: search-bar-custom"></div>

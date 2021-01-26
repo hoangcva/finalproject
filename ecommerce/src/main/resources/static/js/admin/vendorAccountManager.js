@@ -13,6 +13,8 @@ $(document).ready(function (){
 
         $.get("/admin/account/vendor",data).done(function(fragment) {
             $("#content").html(fragment);
+            $('#dtBasicExample').DataTable();
+            $('.dataTables_length').addClass('bs-select');
         });
     });
 })
@@ -57,6 +59,8 @@ function activeAccount(vendorId, enable)
         //     $("#content").html(result.responseText);
         }).always(function(result) {
             $("#content").html(result.responseText);
+            $('#dtBasicExample').DataTable();
+            $('.dataTables_length').addClass('bs-select');
         });
     } else {
 
@@ -83,6 +87,8 @@ function deleteUser(userId) {
             },
         }).always(function (result) {
             $("#content").html(result.responseText);
+            $('#dtBasicExample').DataTable();
+            $('.dataTables_length').addClass('bs-select');
         });
     } else {
 

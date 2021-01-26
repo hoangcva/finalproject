@@ -5,6 +5,7 @@ import com.project.ecommerce.form.ProductForm;
 import com.project.ecommerce.form.VendorProductForm;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -79,5 +80,10 @@ public interface ProductMapper {
     List<ProductForm> getTop12BestSeller(@Param("categoryId") Integer categoryId,
                                         @Param("subCategoryId") Integer subCategoryId,
                                         @Param("keyword") String keyword);
+
+    int countDeactivateProduct(@Param("categoryId") @Nullable Integer categoryId,
+                               @Param("subCategoryId") @Nullable Integer subCategoryId);
+    int countProduct(@Param("categoryId") @Nullable Integer categoryId,
+                     @Param("subCategoryId") @Nullable Integer subCategoryId);
 
 }

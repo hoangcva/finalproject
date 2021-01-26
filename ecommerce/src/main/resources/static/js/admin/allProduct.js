@@ -6,18 +6,38 @@ $(document).ready(function (){
     showSubCategory();
     $('input[type=radio][name=exampleRadios]').change(function() {
         var data;
+        var categoryId = $("#category-select option:selected").val();
+        var subCategoryId = $("#sub-category-select option:selected").val();
+        var keyword = $('#keyword').val();
         if (this.value == 'all') {
-            data = { 'radioType':'all'}
+            data = {
+                "keyword" : keyword,
+                "categoryId" : categoryId,
+                "subCategoryId" : subCategoryId,
+                "radioType" : 'all'
+            }
         }
         else if (this.value == 'deactivated') {
-            data = { 'radioType':'deactivated'}
+             data = {
+                "keyword" : keyword,
+                "categoryId" : categoryId,
+                "subCategoryId" : subCategoryId,
+                "radioType" : 'deactivated'
+            }
         }
         else if (this.value == 'active') {
-            data = { 'radioType':'active'}
+             data = {
+                "keyword" : keyword,
+                "categoryId" : categoryId,
+                "subCategoryId" : subCategoryId,
+                "radioType" : 'active'
+            }
         };
 
         $.get("/admin/product/view/list/search",data).done(function(fragment) {
             $("#content").html(fragment);
+            $('#dtBasicExample1').DataTable();
+            $('.dataTables_length').addClass('bs-select');
         });
     });
 })
@@ -37,7 +57,13 @@ function loadSearchResult()
     }
 
     $.get("/admin/product/view/list/search",data).done(function(fragment) { // get from controller
+        var countDeactivateProduct = '${countDeactivateProduct}';
+        var countProduct = '${countProduct}';
+        $("#countProduct").val(countProduct);
+        $("#countDeactivateProduct").val(countDeactivateProduct);
         $("#content").html(fragment);
+        $('#dtBasicExample1').DataTable();
+        $('.dataTables_length').addClass('bs-select');
     });
 }
 
@@ -56,7 +82,6 @@ function deactivateProduct(productId,vendorId, enable)
         "categoryId" : categoryId,
         "subCategoryId" : subCategoryId,
         "keyword" : keyword
-
     };
     if (result) {
         $.ajax({
@@ -74,6 +99,8 @@ function deactivateProduct(productId,vendorId, enable)
             },
         }).always(function (result) {
             $("#content").html(result.responseText);
+            $('#dtBasicExample1').DataTable();
+            $('.dataTables_length').addClass('bs-select');
         });
         // $('#reload').submit();
     }

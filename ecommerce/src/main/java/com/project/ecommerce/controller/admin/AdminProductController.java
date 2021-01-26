@@ -98,6 +98,11 @@ public class AdminProductController {
         }
 
         modelMap.addAttribute("productFormList", productFormList);
+        int countDeactivateProduct = productService.countDeactivateProduct(categoryId, subCategoryId);
+        model.addAttribute("countDeactivateProduct", countDeactivateProduct);
+        int countProduct = productService.countProduct(categoryId, subCategoryId);
+        model.addAttribute("countProduct", countProduct);
+
         return "/fragments/template :: table-product-admin";
     }
 
@@ -106,18 +111,27 @@ public class AdminProductController {
         List<ProductForm> productFormList = productService.getProducts(null, null, null, null, null);
         List<CategoryDto> categoryDtoList = productService.getAllCategory();
         List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
+
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setId(0);
         categoryDto.setName("All");
         categoryDtoList.add(0, categoryDto);
+
         SubCategoryDto subCategoryDto = new SubCategoryDto();
         subCategoryDto.setCategoryId(0);
         subCategoryDto.setId(0);
         subCategoryDto.setName("ALL");
         subCategoryDtoList.add(0, subCategoryDto);
+
         ProductForm productForm = new ProductForm();
         productForm.setCategoryId(0);
         productForm.setSubCategoryId(0);
+
+        int countDeactivateProduct = productService.countDeactivateProduct(null, null);
+        model.addAttribute("countDeactivateProduct", countDeactivateProduct);
+        int countProduct = productService.countProduct(null, null);
+        model.addAttribute("countProduct", countProduct);
+
         model.addAttribute("productFormList", productFormList);
         model.addAttribute("categories", categoryDtoList);
         model.addAttribute("subCategories", subCategoryDtoList);
