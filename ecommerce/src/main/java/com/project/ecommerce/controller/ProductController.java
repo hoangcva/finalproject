@@ -65,8 +65,8 @@ public class ProductController {
                 int quantityTotal = cartService.getCart(customerId).getQuantityTotal();
                 session.setAttribute("quantityTotal", quantityTotal);
             } else if (Consts.ROLE_ADMIN.equals(userDto.getRole())) {
-                Long countOrder = adminService.getNumberOrderBasedOnStatus(Consts.ORDER_STATUS_PROGRESSING, null, null);
-                session.setAttribute("countOrder", countOrder);
+                Long countProgressingOrder = adminService.getNumberOrderBasedOnStatus(Consts.ORDER_STATUS_PROGRESSING, null, null);
+                session.setAttribute("countProgressingOrder", countProgressingOrder);
             } else if (Consts.ROLE_SHIPPER.equals(userDto.getRole())) {
                 Long transporterId = userDto.getId();
                 Long countReadyOrder = transporterService.getNumberOrderBasedOnStatus(Consts.ORDER_STATUS_READY, transporterId, null);
