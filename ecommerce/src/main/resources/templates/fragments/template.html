@@ -866,7 +866,7 @@
 	<div th:replace="fragments/template :: display-error-message"/>
 	<div th:fragment="transporter-table">
 		<div th:replace="fragments/template :: display-error-message"/>
-		<table cellspacing="0" class="table table-bordered table-hover" th:if="${#lists.size(transporterFormList) > 0}" id="dtBasicExample"  cellspacing="0" width="100%">
+		<table class="table table-bordered table-hover" th:if="${#lists.size(transporterFormList) > 0}" id="dtBasicExample"  cellspacing="0" width="100%">
 			<thead>
 			<tr>
 				<th scope="col" th:text="No"></th>
