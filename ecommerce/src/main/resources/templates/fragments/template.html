@@ -210,7 +210,7 @@
 <div th:fragment="table-vendor-product-custom">
 	<!--    TODO same table for admin-->
 	<div th:replace="fragments/template :: display-error-message"/>
-	<table class="table table-bordered dataTable" th:fragment="table-vendor-product" id="dtBasicExample">
+	<table class="table table-bordered dataTable" th:fragment="table-vendor-product" id="dtBasicExample" cellspacing="0" width="100%">
 		<thead>
 		<tr>
 			<th scope="col" th:text="No"></th>
@@ -814,7 +814,7 @@
 <div th:fragment="vendor-table-custom">
 	<div th:fragment="vendor-table">
 		<div th:replace="fragments/template :: display-error-message"/>
-		<table class="table table-bordered table-hover" th:if="${#lists.size(vendorFormList) > 0}" id="dtBasicExample">
+		<table class="table table-bordered table-hover" th:if="${#lists.size(vendorFormList) > 0}" id="dtBasicExample" cellspacing="0" width="100%">
 			<thead>
 			<tr>
 				<th scope="col" th:text="No"></th>
@@ -866,7 +866,7 @@
 	<div th:replace="fragments/template :: display-error-message"/>
 	<div th:fragment="transporter-table">
 		<div th:replace="fragments/template :: display-error-message"/>
-		<table cellspacing="0" class="table table-bordered table-hover" th:if="${#lists.size(transporterFormList) > 0}" id="dtBasicExample">
+		<table cellspacing="0" class="table table-bordered table-hover" th:if="${#lists.size(transporterFormList) > 0}" id="dtBasicExample"  cellspacing="0" width="100%">
 			<thead>
 			<tr>
 				<th scope="col" th:text="No"></th>
@@ -1341,7 +1341,7 @@
 				<p>Pending orders: <span class="font-weight-bold" th:text="${countProgressingOrder}"></span></p>
 			</div>
 		</div>
-		<table class="table table-bordered table-hover" id="dtBasicExample">
+		<table class="table table-bordered table-hover" id="dtBasicExample" cellspacing="0" width="100%">
 			<thead class="text-lg-center">
 			<tr class="d-flex">
 				<th class="col-1" scope="col">#</th>
