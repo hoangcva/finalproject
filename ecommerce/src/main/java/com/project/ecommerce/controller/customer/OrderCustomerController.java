@@ -3,6 +3,7 @@ package com.project.ecommerce.controller.customer;
 import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.dto.CustomerAddressDto;
 import com.project.ecommerce.dto.UserDetailsDto;
+import com.project.ecommerce.dto.UserDto;
 import com.project.ecommerce.form.*;
 import com.project.ecommerce.service.*;
 import com.project.ecommerce.util.Message;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 
@@ -61,10 +63,15 @@ public class OrderCustomerController {
     public String createOrder(@ModelAttribute("orderForm") OrderForm orderForm,
                               Authentication auth,
                               Model model,
-                              final RedirectAttributes redirectAttributes) {
+                              final RedirectAttributes redirectAttributes,
+                              HttpSession session) {
         Message result = orderCustomerService.createOrder(orderForm, auth);
         redirectAttributes.addFlashAttribute("message", result.getMessage());
         redirectAttributes.addFlashAttribute("isSuccess", result.isSuccess());
+        UserDto userDto = ((UserDetailsDto) auth.getPrincipal()).getUserDto();
+        Long customerId = userDto.getId();
+        int quantityTotal = cartService.getCart(customerId).getQuantityTotal();
+        session.setAttribute("quantityTotal", quantityTotal);
         return "redirect:/customer/order/success";
     }
 

@@ -11,4 +11,5 @@ public interface ITransporterService {
     TransporterForm getTransporterInfo(Long transporterId);
     List<OrderForm> getOrderList(String orderStatus, Long transporterId);
     Message updateOrderStatus(OrderForm orderForm);
+    Long getNumberOrderBasedOnStatus(String orderStatus, Long transporterId, Long customerId);
 }

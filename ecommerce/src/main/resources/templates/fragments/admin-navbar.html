@@ -2,7 +2,7 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <div th:fragment="admin-navbar" class="dropdown-menu mega-menu v-1 z-depth-1 white py-2 px-3"
-     aria-labelledby="navbarDropdownMenuLink1" style="width: 16em">
+     aria-labelledby="navbarDropdownMenuLink1" style="width: 18em">
 	<div class="row">
 		<div class="col-md-12 sub-menu mb-xl-0 mb-5">
 			<ul class="list-unstyled">
@@ -34,6 +34,7 @@
 					<a class="menu-item pl-1 mt-2 w-100" th:href="@{/admin/orders}">
 						<i class="fas fa-glass-cheers mr-2" style="width: 1em"></i>
 						Show all orders
+						<span th:if="${session.countProgressingOrder} > 0" th:text="${session.countProgressingOrder}" class="badge badge-pill badge-danger">4</span>
 					</a>
 				</li>
 				<li class="sub-title text-uppercase">

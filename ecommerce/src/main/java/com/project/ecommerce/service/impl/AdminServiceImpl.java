@@ -185,4 +185,15 @@ public class AdminServiceImpl implements IAdminService {
         Long numberOrder = orderMapper.getNumberOrderBasedOnStatus(orderStatus, transporterId, customerId);
         return numberOrder;
     }
+
+    @Override
+    public int countOrder() {
+        return 0;
+    }
+
+    @Override
+    public int countProgressingOrder() {
+        int count = orderMapper.countProgressingOrder();
+        return count;
+    }
 }

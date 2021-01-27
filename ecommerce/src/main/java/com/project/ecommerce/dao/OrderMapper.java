@@ -29,4 +29,6 @@ public interface OrderMapper {
                                      @Param("transporterId") Long transporterId,
                                      @Param("customerId") Long customerId);
     String getOrderStatus(@Param("orderId") Long orderId);
+    int countOrder();
+    int countProgressingOrder();
 }

@@ -7,6 +7,7 @@ import com.project.ecommerce.dto.CountriesDto;
 import com.project.ecommerce.dto.SubCategoryDto;
 import com.project.ecommerce.dto.UserDetailsDto;
 import com.project.ecommerce.form.*;
+import com.project.ecommerce.service.IAdminService;
 import com.project.ecommerce.service.IProductService;
 import com.project.ecommerce.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -30,6 +32,8 @@ public class AdminProductController {
     private IProductService productService;
     @Autowired
     private AdminProductValidator adminProductValidator;
+    @Autowired
+    private IAdminService adminService;
 
     // Set a form validator
     @InitBinder
@@ -107,7 +111,7 @@ public class AdminProductController {
     }
 
     @GetMapping(value = "/view/list")
-    public String showAllProductAdmin(Model model) {
+    public String showAllProductAdmin(Model model, HttpSession session) {
         List<ProductForm> productFormList = productService.getProducts(null, null, null, null, null);
         List<CategoryDto> categoryDtoList = productService.getAllCategory();
         List<SubCategoryDto> subCategoryDtoList = productService.getALLSubCategory();
@@ -136,6 +140,8 @@ public class AdminProductController {
         model.addAttribute("categories", categoryDtoList);
         model.addAttribute("subCategories", subCategoryDtoList);
         model.addAttribute("productForm", productForm);
+        Long countProgressingOrder = adminService.getNumberOrderBasedOnStatus(Consts.ORDER_STATUS_PROGRESSING, null, null);
+        session.setAttribute("countProgressingOrder", countProgressingOrder);
         return "/admin/allProduct";
     }
 

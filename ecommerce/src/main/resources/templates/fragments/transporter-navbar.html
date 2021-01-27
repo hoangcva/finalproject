@@ -10,6 +10,9 @@
 					<a class="menu-item pl-1 mt-2 w-100 active" th:href="@{/transporter/orders}">
 						<i class="fas fa-file-invoice-dollar mr-2" style="width: 1em"></i>
 						Show all orders
+						<span th:if="${session.countReadyOrder} > 0"
+						      th:text="${session.countReadyOrder}"
+						      class="badge badge-pill badge-danger">4</span>
 					</a>
 				</li>
 				<li class="sub-title text-uppercase">

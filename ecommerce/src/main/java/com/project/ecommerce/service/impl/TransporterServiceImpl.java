@@ -93,4 +93,10 @@ public class TransporterServiceImpl implements ITransporterService {
         }
         return result;
     }
+
+    @Override
+    public Long getNumberOrderBasedOnStatus(String orderStatus, Long transporterId, Long customerId) {
+        Long numberOrder = orderMapper.getNumberOrderBasedOnStatus(orderStatus, transporterId, customerId);
+        return numberOrder;
+    }
 }

@@ -4,10 +4,7 @@ import com.project.ecommerce.Consts.Consts;
 import com.project.ecommerce.Validator.VendorProductValidator;
 import com.project.ecommerce.dto.*;
 import com.project.ecommerce.form.*;
-import com.project.ecommerce.service.ICartService;
-import com.project.ecommerce.service.ICustomerService;
-import com.project.ecommerce.service.IProductService;
-import com.project.ecommerce.service.IVendorService;
+import com.project.ecommerce.service.*;
 import com.project.ecommerce.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -33,6 +30,10 @@ public class ProductController {
     private ICustomerService customerService;
     @Autowired
     private ICartService cartService;
+    @Autowired
+    private IAdminService adminService;
+    @Autowired
+    private ITransporterService transporterService;
 
 //    @GetMapping(value = "/product/view/byCategory")
 //    public String showAllProduct(Model model, @ModelAttribute("categoryId") int categoryId, @ModelAttribute("subCategoryId") int subCategoryId) {
@@ -63,6 +64,13 @@ public class ProductController {
                 Long customerId = userDto.getId();
                 int quantityTotal = cartService.getCart(customerId).getQuantityTotal();
                 session.setAttribute("quantityTotal", quantityTotal);
+            } else if (Consts.ROLE_ADMIN.equals(userDto.getRole())) {
+                Long countOrder = adminService.getNumberOrderBasedOnStatus(Consts.ORDER_STATUS_PROGRESSING, null, null);
+                session.setAttribute("countOrder", countOrder);
+            } else if (Consts.ROLE_SHIPPER.equals(userDto.getRole())) {
+                Long transporterId = userDto.getId();
+                Long countReadyOrder = transporterService.getNumberOrderBasedOnStatus(Consts.ORDER_STATUS_READY, transporterId, null);
+                session.setAttribute("countReadyOrder", countReadyOrder);
             }
         }
 

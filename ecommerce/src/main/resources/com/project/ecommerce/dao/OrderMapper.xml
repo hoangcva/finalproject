@@ -137,4 +137,13 @@
         SELECT order_status FROM orders
         WHERE id = #{orderId}
     </select>
+
+    <select id="countOrder" resultType="int">
+        SELECT COUNT(*) FROM orders
+    </select>
+
+    <select id="countProgressingOrder" resultType="int">
+        SELECT COUNT(*) FROM orders
+        WHERE order_status = 'PROGRESSING'
+    </select>
 </mapper>

@@ -70,7 +70,7 @@ public class AdminController {
     }
 
     @GetMapping
-    public String index(Model model) {
+    public String index(Model model, HttpSession session) {
         List<UserDto> userDtoList = userService.getAllUser();
         int countCustomer = userService.countCustomer();
         int countVendor = userService.countVendor();
@@ -79,6 +79,8 @@ public class AdminController {
         model.addAttribute("countVendor", countVendor);
         int countShipper = userService.countShipper();
         model.addAttribute("countShipper", countShipper);
+        Long countOrder = adminService.getNumberOrderBasedOnStatus(Consts.ORDER_STATUS_PROGRESSING, null, null);
+        session.setAttribute("countOrder", countOrder);
         return "/admin/index";
     }
 
@@ -100,15 +102,18 @@ public class AdminController {
 //    }
 
     @GetMapping("/account/transporter")
-    public String transporterAccountManager(Model model) {
+    public String transporterAccountManager(Model model, HttpSession session) {
         List<TransporterForm> transporterFormList = transporterService.getTransporterList();
         model.addAttribute("transporterFormList", transporterFormList);
+        Long countProgressingOrder = adminService.getNumberOrderBasedOnStatus(Consts.ORDER_STATUS_PROGRESSING, null, null);
+        session.setAttribute("countProgressingOrder", countProgressingOrder);
         return "/admin/account/transporterAccountManager";
     }
 
     @GetMapping("/account/vendor")
     public String vendorAccountManager(Model model,
-                                       @RequestParam(value = "type", required = false) String type) {
+                                       @RequestParam(value = "type", required = false) String type,
+                                       HttpSession session) {
         List<VendorForm> vendorFormList = new ArrayList<>();
         if ("all".equals(type) || type == null) {
             vendorFormList = userService.getVendorList(null);
@@ -123,6 +128,8 @@ public class AdminController {
         model.addAttribute("countVendor", countVendor);
         int countDeactivateVendor = userService.countDeactivateVendor();
         model.addAttribute("countDeactivateVendor", countDeactivateVendor);
+        Long countProgressingOrder = adminService.getNumberOrderBasedOnStatus(Consts.ORDER_STATUS_PROGRESSING, null, null);
+        session.setAttribute("countProgressingOrder", countProgressingOrder);
 
         if (type == null) {
             return "/admin/account/vendorAccountManager";

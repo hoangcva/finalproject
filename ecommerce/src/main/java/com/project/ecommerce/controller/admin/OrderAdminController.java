@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -31,10 +32,13 @@ public class OrderAdminController {
     private ITransporterService transporterService;
 
     @GetMapping()
-    public String viewOrderHistory(Model model, Authentication auth){
+    public String viewOrderHistory(Model model, Authentication auth, HttpSession session){
         List<OrderForm> orderFormList = adminService.getOrderList(null);
-        Long numberOrder = adminService.getNumberOrderBasedOnStatus(Consts.ORDER_STATUS_PROGRESSING, null, null);
-        model.addAttribute("numberOrder", numberOrder);
+        Long countProgressingOrder = adminService.getNumberOrderBasedOnStatus(Consts.ORDER_STATUS_PROGRESSING, null, null);
+        model.addAttribute("countProgressingOrder", countProgressingOrder);
+        session.setAttribute("countProgressingOrder", countProgressingOrder);
+        Long countOrder = adminService.getNumberOrderBasedOnStatus(null, null, null);
+        model.addAttribute("countOrder", countOrder);
         model.addAttribute("orderFormList", orderFormList);
         model.addAttribute("orderForm", new OrderForm());
         return "/admin/order/history";
@@ -46,7 +50,8 @@ public class OrderAdminController {
                                     @RequestParam("orderStatus") String orderStatus,
 //            @ModelAttribute("orderForm") OrderForm orderForm,
                                     Model model,
-                                    final RedirectAttributes redirectAttributes) {
+                                    final RedirectAttributes redirectAttributes,
+                                    HttpSession session) {
         OrderForm orderForm = new OrderForm();
         orderForm.setId(id);
         orderForm.setOrderDspId(orderDspId);
@@ -66,6 +71,11 @@ public class OrderAdminController {
 //        return "redirect:/admin/orders";
         List<OrderForm> orderFormList = adminService.getOrderList(null);
         model.addAttribute("orderFormList", orderFormList);
+        Long countProgressingOrder = adminService.getNumberOrderBasedOnStatus(Consts.ORDER_STATUS_PROGRESSING, null, null);
+        session.setAttribute("countProgressingOrder", countProgressingOrder);
+        model.addAttribute("countProgressingOrder", countProgressingOrder);
+        Long countOrder = adminService.getNumberOrderBasedOnStatus(null, null, null);
+        model.addAttribute("countOrder", countOrder);
         return "/fragments/template :: order-table";
     }
 

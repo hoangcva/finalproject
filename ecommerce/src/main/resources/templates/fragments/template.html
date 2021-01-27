@@ -1334,8 +1334,11 @@
 	<div th:fragment="order-table">
 		<div th:replace="fragments/template :: display-error-message"/>
 		<div class="row my-2 py-2">
-			<div class="col">
-				<p th:text="'Pending order: '"><span class="font-weight-bold" th:text="${numberOrder}"></span></p>
+			<div class="col-3">
+				<p>Total orders: <span th:text="${countOrder}"></span></p>
+			</div>
+			<div class="col-3">
+				<p>Pending orders: <span class="font-weight-bold" th:text="${countProgressingOrder}"></span></p>
 			</div>
 		</div>
 		<table class="table table-bordered table-hover" id="dtBasicExample">

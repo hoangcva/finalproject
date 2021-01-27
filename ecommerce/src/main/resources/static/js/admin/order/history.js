@@ -19,5 +19,7 @@ function updateOrder(id, orderDspId, orderStatus) {
         // },
     }).always(function (result) {
         $("#content").html(result.responseText);
+        $('#dtBasicExample').DataTable();
+        $('.dataTables_length').addClass('bs-select');
     });
 }

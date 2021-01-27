@@ -8,7 +8,8 @@
 <main>
 	<div class="container-fluid">
 		<div class="row">
-			<th:block th:include="/common/_customer-sidebar-menu"></th:block>
+			<div class="col-lg-2"></div>
+<!--			<th:block th:include="/common/_customer-sidebar-menu"></th:block>-->
 			<div class="col-lg-8">
 				<div class="row mb-4">
 					<h3 class="text-lg-left mt-lg-2">Make Order</h3>
@@ -30,14 +31,14 @@
 													Cash
 												</label>
 											</div>
-											<div class="form-check">
-												<input class="form-check-input" type="radio" name="exampleRadios"
-												       id="exampleRadios2" value="option2">
-												<span class="icon"></span>
-												<label class="form-check-label" for="exampleRadios2">
-													ATM
-												</label>
-											</div>
+<!--											<div class="form-check">-->
+<!--												<input class="form-check-input" type="radio" name="exampleRadios"-->
+<!--												       id="exampleRadios2" value="option2">-->
+<!--												<span class="icon"></span>-->
+<!--												<label class="form-check-label" for="exampleRadios2">-->
+<!--													ATM-->
+<!--												</label>-->
+<!--											</div>-->
 										</div>
 									</div>
 									<hr class="my-2">
@@ -51,7 +52,9 @@
 												<span class="icon"></span>
 												<label class="form-check-label" for="transporterId"
 												       th:text="${transporter.fullName}"></label>
-												<span th:text="'(Shipping fee: ' + ${transporter.shippingFee} + 'đ)'"></span>
+												<span th:text="'(Shipping fee: '"></span>
+												<span class="money" th:text="${transporter.shippingFee}"></span>
+												<span th:text="')'"></span>
 												<input type="hidden" th:id="'shippingFeeValue'+${transporter.id}"
 												       th:value="${transporter.shippingFee}">
 											</div>

@@ -16,4 +16,6 @@ public interface IAdminService {
     List<OrderForm> getOrderList(String orderStatus);
     Message updateOrderStatus(OrderForm orderForm);
     Long getNumberOrderBasedOnStatus(String orderStatus,Long transporterId,Long customerId);
+    int countOrder();
+    int countProgressingOrder();
 }
