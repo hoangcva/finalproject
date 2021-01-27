@@ -53,7 +53,9 @@ $(document).ready(function() {
             $(this).removeClass('shadow-lg');
         });
 
-    $('#dtBasicExample').DataTable();
+    $('#dtBasicExample').DataTable({
+        "scrollX": true
+    });
     $('.dataTables_length').addClass('bs-select');
 
     $('#rateMe1').mdbRate();
